@@ -1,0 +1,18 @@
+{
+  "events": [
+    { "t": 0.1, "type": "tap", "key": "mark-tool-rectangle" },
+    { "t": 0.4, "type": "drag", "x": 72, "y": 90, "dx": 100, "dy": 115, "dur": 0.2 },
+    { "t": 0.8, "type": "tap", "key": "mark-tool-ellipse" },
+    { "t": 1.0, "type": "tap", "key": "mark-color-3" },
+    { "t": 1.2, "type": "drag", "x": 505, "y": 560, "dx": 120, "dy": 85, "dur": 0.2 },
+    { "t": 1.6, "type": "tap", "key": "mark-tool-arrow" },
+    { "t": 1.8, "type": "tap", "key": "mark-color-4" },
+    { "t": 2.0, "type": "drag", "x": 440, "y": 400, "dx": 55, "dy": -70, "dur": 0.2 },
+    { "t": 2.4, "type": "tap", "key": "mark-tool-text" },
+    { "t": 2.6, "type": "tap", "x": 400, "y": 415 },
+    { "t": 2.8, "type": "type", "text": "命宫", "every": 0.04 },
+    { "t": 3.0, "type": "key", "name": "Enter" },
+    { "t": 3.3, "type": "tap", "key": "mark-tool-select" },
+    { "t": 3.5, "type": "move", "x": 20, "y": 20 }
+  ]
+}

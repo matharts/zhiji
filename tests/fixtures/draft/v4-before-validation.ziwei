@@ -1,0 +1,85 @@
+{
+  "version": 4,
+  "input": {
+    "female": true,
+    "stem": 0,
+    "branch": null,
+    "ziwei": null,
+    "month": null,
+    "hour": null,
+    "main": null,
+    "decade": null,
+    "yearly": null,
+    "show_location_stars": true
+  },
+  "display": {
+    "laiyin": true,
+    "stem": false,
+    "branch": true,
+    "palace": true,
+    "yearly": true,
+    "birth": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "self_transform": [
+      true,
+      true,
+      true,
+      true
+    ]
+  },
+  "palette": {
+    "colors": [
+      [
+        34,
+        139,
+        34
+      ],
+      [
+        128,
+        0,
+        128
+      ],
+      [
+        15,
+        120,
+        230
+      ],
+      [
+        248,
+        68,
+        55
+      ]
+    ],
+    "opacity": [
+      255,
+      255,
+      255,
+      255
+    ]
+  },
+  "flying": null,
+  "marks": [
+    {
+      "ink": "Red",
+      "weight": "Medium",
+      "stroke_width": 2.5,
+      "kind": {
+        "Rectangle": [
+          [
+            198.32129,
+            198.0
+          ],
+          [
+            297.0,
+            264.0
+          ]
+        ]
+      }
+    }
+  ],
+  "visible": true
+}

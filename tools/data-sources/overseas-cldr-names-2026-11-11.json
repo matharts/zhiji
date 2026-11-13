@@ -1,0 +1,36 @@
+{
+  "source": "Unicode CLDR 48.2 zh timezone exemplarCity",
+  "sourceUrl": "https://github.com/unicode-org/cldr-json/blob/48.2.0/cldr-json/cldr-dates-full/main/zh/timeZoneNames.json",
+  "license": "Unicode License v3",
+  "matching": "English city equals timezone exemplar name, timezone equals stored zone, catalog place name unique",
+  "places": [
+    {
+      "id": "7828758",
+      "english": "Saipan",
+      "country": "MP",
+      "oldName": "Saipan",
+      "longitude": 145.7545,
+      "name": "塞班",
+      "zone": "Pacific/Saipan"
+    },
+    {
+      "id": "2110257",
+      "english": "Tarawa",
+      "country": "KI",
+      "oldName": "Tarawa",
+      "longitude": 172.97696,
+      "name": "塔拉瓦",
+      "zone": "Pacific/Tarawa"
+    },
+    {
+      "id": "3994469",
+      "english": "Ojinaga",
+      "country": "MX",
+      "oldName": "Ojinaga",
+      "longitude": -104.54487,
+      "name": "奥希纳加",
+      "zone": "America/Ojinaga"
+    }
+  ],
+  "sourceSha256": "fb5b919f2468832636c2be991aa97a6ddb2f3ac481eb9cdba03e7f8e93dbb7dd"
+}

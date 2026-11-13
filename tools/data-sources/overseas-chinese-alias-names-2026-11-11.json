@@ -1,0 +1,96 @@
+{
+  "source": "Wikidata Gazetteer Chinese aliases",
+  "sourceUrl": "https://huggingface.co/datasets/yuiseki/wikidata-gazetteer/tree/ef7674b5b00f2af07e792332b1d2d9f8ffccdff1",
+  "license": "CC0-1.0",
+  "matching": "Unique Chinese alias; English name, country, <=2km, unique item and settlement type; infrastructure excluded",
+  "places": [
+    {
+      "id": "osm:node:1308680844",
+      "oldName": "Labuan",
+      "english": "Labuan",
+      "country": "ID",
+      "longitude": 105.8253806,
+      "latitude": -6.3756536,
+      "name": "歷完",
+      "sourceId": "Q24881908",
+      "sourceCountry": "Q252",
+      "sourceLatitude": -6.378333,
+      "sourceLongitude": 105.83,
+      "distanceKm": 0.59,
+      "instanceOf": [
+        "Q515"
+      ]
+    },
+    {
+      "id": "osm:node:158870741",
+      "oldName": "Kingsbridge",
+      "english": "Kingsbridge",
+      "country": "US",
+      "longitude": -73.9045978,
+      "latitude": 40.8788854,
+      "name": "金斯布里奇",
+      "sourceId": "Q6413127",
+      "sourceCountry": "Q30",
+      "sourceLatitude": 40.8787,
+      "sourceLongitude": -73.9051,
+      "distanceKm": 0.047,
+      "instanceOf": [
+        "Q123705"
+      ]
+    },
+    {
+      "id": "4899911",
+      "oldName": "Lincoln Park",
+      "english": "Lincoln Park",
+      "country": "US",
+      "longitude": -87.64783,
+      "latitude": 41.9217,
+      "name": "林肯公园",
+      "sourceId": "Q1795453",
+      "sourceCountry": "Q30",
+      "sourceLatitude": 41.9275,
+      "sourceLongitude": -87.655556,
+      "distanceKm": 0.906,
+      "instanceOf": [
+        "Q860582",
+        "Q123705"
+      ]
+    },
+    {
+      "id": "1639094",
+      "oldName": "Kuningan",
+      "english": "Kuningan",
+      "country": "ID",
+      "longitude": 108.48306,
+      "latitude": -6.97583,
+      "name": "庫寧甘",
+      "sourceId": "Q879867",
+      "sourceCountry": "Q252",
+      "sourceLatitude": -6.983333,
+      "sourceLongitude": 108.483333,
+      "distanceKm": 0.833,
+      "instanceOf": [
+        "Q3700011",
+        "Q3147563"
+      ]
+    },
+    {
+      "id": "6138610",
+      "oldName": "Saint-Laurent",
+      "english": "Saint-Laurent",
+      "country": "CA",
+      "longitude": -73.66585,
+      "latitude": 45.50008,
+      "name": "聖羅倫斯",
+      "sourceId": "Q2117999",
+      "sourceCountry": "Q16",
+      "sourceLatitude": 45.517,
+      "sourceLongitude": -73.667,
+      "distanceKm": 1.88,
+      "instanceOf": [
+        "Q578521",
+        "Q27676416"
+      ]
+    }
+  ]
+}

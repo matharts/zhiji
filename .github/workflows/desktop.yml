@@ -1,0 +1,117 @@
+name: Desktop
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-15, macos-15-intel, windows-2022, ubuntu-24.04]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Linux development libraries
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libxkbcommon-dev libwayland-dev libssl-dev pkg-config patchelf squashfs-tools desktop-file-utils xdg-utils libx11-xcb1 libxcursor1 libxi6 libxrandr2
+      - uses: jdx/mise-action@v5
+      - name: Verify embedded resources
+        run: mise exec -- node tools/verify.mjs resources
+      - name: Check font tooling
+        run: mise exec -- node --test tests/font_tools.test.mjs
+      - name: Check updater release metadata
+        run: mise exec -- node --test tests/updates.test.mjs
+      - name: Check architecture and verification guards
+        run: mise exec -- node --test tests/architecture.test.mjs tests/verify.test.mjs
+      - name: Check formatting
+        if: runner.os == 'macOS' && matrix.os == 'macos-15'
+        run: mise exec -- cargo fmt --all -- --check
+      - name: Run Clippy
+        if: runner.os == 'macOS' && matrix.os == 'macos-15'
+        run: mise exec -- cargo clippy --locked --workspace --all-targets --all-features -- -D warnings
+      - name: Run tests
+        run: mise exec -- cargo test --locked --workspace --all-targets --all-features
+      - name: Check release scene configuration
+        run: mise exec -- cargo test --locked -p zhiji --test scene_configuration
+      - name: Build release binary
+        run: mise exec -- cargo build --locked --release -p zhiji
+      - name: Package macOS app
+        if: runner.os == 'macOS'
+        run: |
+          mise exec -- cargo packager --release --formats app
+          codesign --verify --deep --strict 'target/release/知几.app'
+          ditto -c -k --keepParent 'target/release/知几.app' target/release/zhiji-macos.zip
+      - name: Package Windows installer
+        if: runner.os == 'Windows'
+        run: mise exec -- cargo packager --release --formats nsis
+      - name: Package Linux apps
+        if: runner.os == 'Linux'
+        env:
+          APPIMAGE_EXTRACT_AND_RUN: 1
+        run: mise exec -- cargo packager --release --formats appimage,deb
+      - name: Sign update package and manifest
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          CARGO_PACKAGER_SIGN_PRIVATE_KEY: ${{ secrets.CARGO_PACKAGER_SIGN_PRIVATE_KEY }}
+          CARGO_PACKAGER_SIGN_PRIVATE_KEY_PASSWORD: ${{ secrets.CARGO_PACKAGER_SIGN_PRIVATE_KEY_PASSWORD }}
+        run: mise exec -- node tools/updates.mjs prepare
+      - name: Verify signed artifacts with the updater client
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: mise exec -- node tools/verify.mjs updates
+      - name: Upload desktop package
+        uses: actions/upload-artifact@v4
+        with:
+          name: desktop-${{ matrix.os }}
+          path: |
+            target/release/zhiji-macos.zip
+            target/release/*-setup.exe
+            target/release/*.deb
+            target/release/*.AppImage
+            target/updates/*
+          if-no-files-found: error
+
+  visual-regression:
+    # This runner and software Vulkan path are also reproducible without a display server.
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install rendering and development libraries
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libxkbcommon-dev libwayland-dev libssl-dev pkg-config libvulkan1 mesa-vulkan-drivers xvfb xauth dbus-x11 libatspi2.0-dev libglib2.0-bin at-spi2-core libx11-6 libx11-xcb1 libxcursor1 libxi6 libxkbcommon-x11-0
+      - uses: jdx/mise-action@v5
+      - name: Check GPU rendering and visual regression
+        shell: bash
+        run: |
+          export XDG_RUNTIME_DIR="$RUNNER_TEMP/zhiji-runtime"
+          mkdir -p "$XDG_RUNTIME_DIR"
+          chmod 700 "$XDG_RUNTIME_DIR"
+          for driver in /usr/share/vulkan/icd.d/lvp*.json; do
+            test -f "$driver" || exit 1
+            export VK_ICD_FILENAMES="$driver"
+            break
+          done
+          mise exec -- node tools/verify.mjs gpu
+      - name: Check native Linux accessibility
+        shell: bash
+        run: |
+          export XDG_RUNTIME_DIR="$RUNNER_TEMP/zhiji-runtime"
+          export XDG_CURRENT_DESKTOP=GNOME
+          export WINIT_UNIX_BACKEND=x11
+          for driver in /usr/share/vulkan/icd.d/lvp*.json; do
+            test -f "$driver" || exit 1
+            export VK_ICD_FILENAMES="$driver"
+            break
+          done
+          mise exec -- cargo build --locked -p zhiji
+          cc -std=c11 -D_POSIX_C_SOURCE=200809L -Wall -Wextra -Werror tests/linux_accessibility.c $(pkg-config --cflags --libs atspi-2 gobject-2.0) -o "$RUNNER_TEMP/ziwei-linux-accessibility"
+          xvfb-run -a -s '-screen 0 1440x900x24' dbus-run-session -- "$RUNNER_TEMP/ziwei-linux-accessibility" target/debug/zhiji

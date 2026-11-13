@@ -1,0 +1,150 @@
+[package]
+name = "zhiji"
+version = "0.1.0"
+edition.workspace = true
+authors = ["lzm0x219"]
+description = "知几（Zhiji）——紫微斗数排盘与研习桌面应用"
+license = "MIT"
+
+[features]
+# Opt-in native-window measurement; ordinary builds retain the normal lifecycle.
+perf-probe = []
+# Opt-in fixtures for headless visual regression; never enabled for releases.
+visual-test = []
+
+[package.metadata.packager]
+product-name = "知几"
+identifier = "com.matharts.zhiji"
+icons = [
+    "assets/icons/app.icns",
+    "assets/icons/app.ico",
+    "assets/icons/app.png",
+]
+resources = [
+    { src = "packaging/updates/public-key.txt", target = "updater/public-key.txt" },
+    { src = "packaging/windows/LICENSE-cargo-packager-MIT.txt", target = "licenses/updater/LICENSE-MIT.txt" },
+    { src = "LICENSE", target = "licenses/LICENSE" },
+    { src = "assets/fonts/OFL*.txt", target = "licenses/fonts" },
+    { src = "assets/fonts/LICENSE-*.txt", target = "licenses/fonts" },
+    { src = "assets/fonts/README.md", target = "licenses/fonts/README.md" },
+    { src = "assets/icons/README.md", target = "licenses/icons/README.md" },
+    { src = "assets/data/README.md", target = "licenses/data/README.md" },
+    { src = "assets/data/LICENSE-*.txt", target = "licenses/data" },
+]
+
+[package.metadata.packager.macos]
+# Local bundles are ad-hoc signed; distribution needs a Developer ID and notarization.
+signing-identity = "-"
+info-plist-path = "assets/macos/Info.plist"
+
+[package.metadata.packager.nsis]
+template = "packaging/windows/installer.nsi"
+
+[package.metadata.packager.deb]
+package-name = "zhiji"
+section = "utils"
+desktop-template = "packaging/linux/zhiji.desktop"
+# The CI package is built on Ubuntu 24.04; graphics and window libraries are
+# loaded dynamically, so they are not discoverable from ELF dependencies alone.
+depends = [
+    "libc6 (>= 2.39)",
+    "libegl1",
+    "libvulkan1",
+    "libwayland-client0",
+    "libwayland-cursor0",
+    "libwayland-egl1",
+    "libx11-6",
+    "libx11-xcb1",
+    "libxcb1",
+    "libxcursor1",
+    "libxi6",
+    "libxkbcommon0",
+    "libxkbcommon-x11-0",
+    "mesa-vulkan-drivers | vulkan-icd",
+    "xdg-desktop-portal",
+    "xdg-desktop-portal-gtk | xdg-desktop-portal-kde",
+    "shared-mime-info",
+    "desktop-file-utils",
+    "zenity",
+    "xdg-utils",
+]
+
+[package.metadata.packager.deb.files]
+"packaging/linux/zhiji.xml" = "/usr/share/mime/packages/zhiji.xml"
+
+[package.metadata.packager.appimage]
+libs = [
+    "libxkbcommon.so.0",
+    "libwayland-client.so.0",
+    "libwayland-cursor.so.0",
+    "libwayland-egl.so.1",
+    "libX11-xcb.so.1",
+    "libXcursor.so.1",
+    "libXi.so.6",
+    "libXrandr.so.2",
+]
+bins = ["/usr/bin/xdg-open"]
+
+[dependencies]
+fs2 = "0.4.3"
+getrandom = "0.3.4"
+blake3 = "1.8"
+zhiji_core = { path = "crates/zhiji_core" }
+zhiji_ui = { path = "crates/zhiji_ui" }
+zhiji_calendar = { path = "crates/zhiji_calendar" }
+rune = { git = "https://github.com/anomalyco/rune", rev = "d03349e25189ce1edc8c26ada6bf6d4aac72c826", default-features = false, features = ["accessibility", "svg", "native-file-dialog"] }
+# Enable CJK-aware segmentation for Rune's Parley dependency.
+parley = { version = "0.12", default-features = false, features = ["complex-scripts"] }
+png = "0.18"
+tempfile = "3"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+rmp-serde = "1.3.1"
+cargo-packager-updater = "0.2.3"
+base64 = "0.22"
+minisign-verify = "0.2"
+semver = "1.0"
+ureq = { version = "2.12.1", default-features = false, features = ["tls", "proxy-from-env"] }
+
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"
+
+[target.'cfg(target_os = "macos")'.dependencies.flate2]
+version = "1"
+
+[target.'cfg(target_os = "macos")'.dependencies.tar]
+version = "0.4"
+
+[target.'cfg(target_os = "macos")'.dependencies.plist]
+version = "1"
+
+[target.'cfg(windows)'.dependencies]
+raw-window-handle = "0.6"
+windows-sys = { version = "0.61", features = ["Win32_Foundation", "Win32_System_LibraryLoader", "Win32_System_SystemInformation", "Win32_UI_WindowsAndMessaging", "Win32_UI_Shell"] }
+
+# Reuse Rune's AppKit bindings to localize standard menus without replacing responder routing.
+[target.'cfg(target_os = "macos")'.dependencies]
+raw-window-handle = "0.6"
+objc2 = "0.5.2"
+objc2-foundation = { version = "0.2.2", features = ["NSString", "NSThread", "NSAppleEventDescriptor", "NSAppleEventManager", "NSNotification", "NSURL"] }
+objc2-app-kit = { version = "0.2.2", features = ["NSApplication", "NSMenu", "NSMenuItem", "NSResponder", "NSWindow", "NSView"] }
+
+[build-dependencies]
+embed-resource = "3.0.12"
+
+[dev-dependencies]
+minisign = "0.7"
+
+[workspace]
+members = [".", "crates/zhiji_core", "crates/zhiji_ui", "crates/zhiji_calendar"]
+resolver = "3"
+
+[workspace.package]
+edition = "2024"
+
+[profile.dev.package."*"]
+debug = false
+
+[[test]]
+name = "visual_regression"
+required-features = ["visual-test"]

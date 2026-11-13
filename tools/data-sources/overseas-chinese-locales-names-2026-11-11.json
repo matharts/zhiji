@@ -1,0 +1,127 @@
+{
+  "source": "Wikidata Gazetteer Chinese regional labels",
+  "sourceUrl": "https://huggingface.co/datasets/yuiseki/wikidata-gazetteer/tree/ef7674b5b00f2af07e792332b1d2d9f8ffccdff1",
+  "license": "CC0-1.0",
+  "matching": "Chinese regional label; normalized non-Chinese language label or alias, country, <=2km, unique QID and settlement type",
+  "places": [
+    {
+      "id": "671382",
+      "oldName": "Pantelimon",
+      "english": "Pantelimon",
+      "country": "RO",
+      "longitude": 26.2,
+      "latitude": 44.45,
+      "name": "潘泰利蒙",
+      "sourceId": "Q169135",
+      "sourceCountry": "Q218",
+      "sourceLatitude": 44.452778,
+      "sourceLongitude": 26.203611,
+      "distanceKm": 0.421,
+      "instanceOf": [
+        "Q16858213"
+      ]
+    },
+    {
+      "id": "294577",
+      "oldName": "Karmi’el",
+      "english": "Karmi’el",
+      "country": "IL",
+      "longitude": 35.29768,
+      "latitude": 32.90951,
+      "name": "卡爾米埃勒",
+      "sourceId": "Q152418",
+      "sourceCountry": "Q801",
+      "sourceLatitude": 32.9,
+      "sourceLongitude": 35.283333,
+      "distanceKm": 1.703,
+      "instanceOf": [
+        "Q515"
+      ]
+    },
+    {
+      "id": "3109481",
+      "oldName": "Santurtzi",
+      "english": "Santurtzi",
+      "country": "ES",
+      "longitude": -3.03248,
+      "latitude": 43.32842,
+      "name": "桑圖爾塞",
+      "sourceId": "Q917886",
+      "sourceCountry": "Q29",
+      "sourceLatitude": 43.330278,
+      "sourceLongitude": -3.031389,
+      "distanceKm": 0.224,
+      "instanceOf": [
+        "Q2074737"
+      ]
+    },
+    {
+      "id": "2739868",
+      "oldName": "Espinho",
+      "english": "Espinho",
+      "country": "PT",
+      "longitude": -8.64125,
+      "latitude": 41.00763,
+      "name": "埃斯皮紐",
+      "sourceId": "Q2257213",
+      "sourceCountry": "Q45",
+      "sourceLatitude": 41.00757,
+      "sourceLongitude": -8.6416,
+      "distanceKm": 0.03,
+      "instanceOf": [
+        "Q1131296"
+      ]
+    },
+    {
+      "id": "3515463",
+      "oldName": "Tláhuac",
+      "english": "Tláhuac",
+      "country": "MX",
+      "longitude": -99.00507,
+      "latitude": 19.28689,
+      "name": "特拉瓦克",
+      "sourceId": "Q408181",
+      "sourceCountry": "Q96",
+      "sourceLatitude": 19.27436,
+      "sourceLongitude": -99.00278,
+      "distanceKm": 1.411,
+      "instanceOf": [
+        "Q2734310"
+      ]
+    },
+    {
+      "id": "osm:node:245764623",
+      "oldName": "Faridpur",
+      "english": "Faridpur",
+      "country": "IN",
+      "longitude": 79.5375964,
+      "latitude": 28.2083265,
+      "name": "法里德普爾",
+      "sourceId": "Q9303717",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 28.2086,
+      "sourceLongitude": 79.5381,
+      "distanceKm": 0.058,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "1264520",
+      "oldName": "Madurāntakam",
+      "english": "Madurāntakam",
+      "country": "IN",
+      "longitude": 79.88485,
+      "latitude": 12.51167,
+      "name": "馬杜蘭塔卡姆",
+      "sourceId": "Q2242785",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 12.5101,
+      "sourceLongitude": 79.8849,
+      "distanceKm": 0.174,
+      "instanceOf": [
+        "Q3957"
+      ]
+    }
+  ]
+}

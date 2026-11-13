@@ -1,0 +1,36 @@
+{
+  "description": "Corrections for city labels that accidentally referred to nearby transport or market facilities.",
+  "places": [
+    {
+      "id": "wd:Q210654",
+      "oldName": "乌布市场",
+      "english": "Ubud",
+      "country": "ID",
+      "longitude": 115.262,
+      "name": "乌布",
+      "source": "Wikidata Q210654 zh-cn and zh labels",
+      "note": "Avoid incorrect zh-hans label for the market."
+    },
+    {
+      "id": "wd:Q2181642",
+      "oldName": "林梦机场",
+      "english": "Limbang",
+      "country": "MY",
+      "longitude": 115.006667,
+      "name": "林梦",
+      "source": "Wikidata Q2181642 zh label",
+      "note": "Avoid incorrect zh-hans label for the airport."
+    },
+    {
+      "id": "3144631",
+      "oldName": "奈斯頓站",
+      "english": "Nesttun",
+      "country": "NO",
+      "longitude": 5.35317,
+      "name": "Nesttun",
+      "source": "original catalog English name",
+      "note": "Remove station label; no verified Chinese locality name available.",
+      "nameLanguage": "original"
+    }
+  ]
+}

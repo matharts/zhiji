@@ -1,0 +1,237 @@
+{
+  "source": "國家教育研究院《外國地名譯名》 via Wikidata aliases",
+  "sourceUrl": "https://data.gov.tw/dataset/15211",
+  "license": "Open Government Data License 1.0; Wikidata CC0",
+  "matching": "Unique target via Wikidata and original name; NAER name is contained in place English name, same country, coordinates <=2km",
+  "places": [
+    {
+      "id": "osm:node:2828702483",
+      "oldName": "Ciudad de Armería",
+      "english": "Ciudad de Armería",
+      "country": "MX",
+      "longitude": -103.966116,
+      "latitude": 18.93869,
+      "name": "亞美里亞",
+      "source": "NAER via Wikidata alias",
+      "sourceName": "armeria",
+      "sourceId": "Q5124173",
+      "sourceCountry": "Q96",
+      "sourceLatitude": 18.933333,
+      "sourceLongitude": -103.966667,
+      "distanceKm": 0.597,
+      "instanceOf": [
+        "Q515",
+        "Q20202352"
+      ]
+    },
+    {
+      "id": "osm:node:1601416427",
+      "oldName": "Cadereyta Jiménez",
+      "english": "Cadereyta Jiménez",
+      "country": "MX",
+      "longitude": -100.0012458,
+      "latitude": 25.5876993,
+      "name": "卡德雷塔",
+      "source": "NAER via Wikidata alias",
+      "sourceName": "cadereyta",
+      "sourceId": "Q27797571",
+      "sourceCountry": "Q96",
+      "sourceLatitude": 25.583333,
+      "sourceLongitude": -99.983333,
+      "distanceKm": 1.858,
+      "instanceOf": [
+        "Q20202352"
+      ]
+    },
+    {
+      "id": "3531598",
+      "oldName": "Capulhuac de Mirafuentes",
+      "english": "Capulhuac de Mirafuentes",
+      "country": "MX",
+      "longitude": -99.46467,
+      "latitude": 19.19312,
+      "name": "卡普魯亞克",
+      "source": "NAER via Wikidata alias",
+      "sourceName": "capulhuac",
+      "sourceId": "Q20275232",
+      "sourceCountry": "Q96",
+      "sourceLatitude": 19.183333,
+      "sourceLongitude": -99.466667,
+      "distanceKm": 1.106,
+      "instanceOf": [
+        "Q20202352"
+      ]
+    },
+    {
+      "id": "osm:node:354744151",
+      "oldName": "Santa Ana Chiautempan",
+      "english": "Santa Ana Chiautempan",
+      "country": "MX",
+      "longitude": -98.1925,
+      "latitude": 19.313889,
+      "name": "喬田潘",
+      "source": "NAER via Wikidata alias",
+      "sourceName": "chiautempan",
+      "sourceId": "Q2605356",
+      "sourceCountry": "Q96",
+      "sourceLatitude": 19.316667,
+      "sourceLongitude": -98.183333,
+      "distanceKm": 1.009,
+      "instanceOf": [
+        "Q20202352"
+      ]
+    },
+    {
+      "id": "3530617",
+      "oldName": "Cintalapa de Figueroa",
+      "english": "Cintalapa de Figueroa",
+      "country": "MX",
+      "longitude": -93.71814,
+      "latitude": 16.68393,
+      "name": "辛塔拉帕",
+      "source": "NAER via Wikidata alias",
+      "sourceName": "cintalapa",
+      "sourceId": "Q2005039",
+      "sourceCountry": "Q96",
+      "sourceLatitude": 16.683333,
+      "sourceLongitude": -93.716667,
+      "distanceKm": 0.17,
+      "instanceOf": [
+        "Q20202352"
+      ]
+    },
+    {
+      "id": "3996626",
+      "oldName": "Maravatío de Ocampo",
+      "english": "Maravatío de Ocampo",
+      "country": "MX",
+      "longitude": -100.44192,
+      "latitude": 19.8919,
+      "name": "馬拉瓦提歐",
+      "source": "NAER via Wikidata alias",
+      "sourceName": "maravatio",
+      "sourceId": "Q20250866",
+      "sourceCountry": "Q96",
+      "sourceLatitude": 19.9,
+      "sourceLongitude": -100.45,
+      "distanceKm": 1.233,
+      "instanceOf": [
+        "Q20202352"
+      ]
+    },
+    {
+      "id": "osm:node:3206723363",
+      "oldName": "Nochistlán de Mejía",
+      "english": "Nochistlán de Mejía",
+      "country": "MX",
+      "longitude": -102.8468061,
+      "latitude": 21.3640239,
+      "name": "諾奇斯特蘭",
+      "source": "NAER via Wikidata alias",
+      "sourceName": "nochistlan",
+      "sourceId": "Q10977548",
+      "sourceCountry": "Q96",
+      "sourceLatitude": 21.366667,
+      "sourceLongitude": -102.85,
+      "distanceKm": 0.442,
+      "instanceOf": [
+        "Q20202352"
+      ]
+    },
+    {
+      "id": "3522232",
+      "oldName": "Ozumba de Alzate",
+      "english": "Ozumba de Alzate",
+      "country": "MX",
+      "longitude": -98.79516,
+      "latitude": 19.03689,
+      "name": "奧松巴",
+      "source": "NAER via Wikidata alias",
+      "sourceName": "ozumba",
+      "sourceId": "Q20239466",
+      "sourceCountry": "Q96",
+      "sourceLatitude": 19.05,
+      "sourceLongitude": -98.8,
+      "distanceKm": 1.541,
+      "instanceOf": [
+        "Q20202352"
+      ]
+    },
+    {
+      "id": "osm:node:3620559251",
+      "oldName": "Purépero de Echáiz",
+      "english": "Purépero de Echáiz",
+      "country": "MX",
+      "longitude": -102.0070524,
+      "latitude": 19.9105449,
+      "name": "普雷佩羅",
+      "source": "NAER via Wikidata alias",
+      "sourceName": "purepero",
+      "sourceId": "Q9064894",
+      "sourceCountry": "Q96",
+      "sourceLatitude": 19.916667,
+      "sourceLongitude": -102.016667,
+      "distanceKm": 1.212,
+      "instanceOf": [
+        "Q20202352"
+      ]
+    },
+    {
+      "id": "osm:node:1923745870",
+      "oldName": "Tacámbaro de Codallos",
+      "english": "Tacámbaro de Codallos",
+      "country": "MX",
+      "longitude": -101.4585063,
+      "latitude": 19.2356879,
+      "name": "塔坎巴羅",
+      "source": "NAER via Wikidata alias",
+      "sourceName": "tacambaro",
+      "sourceId": "Q20285962",
+      "sourceCountry": "Q96",
+      "sourceLatitude": 19.233333,
+      "sourceLongitude": -101.45,
+      "distanceKm": 0.929,
+      "instanceOf": [
+        "Q20202352"
+      ]
+    },
+    {
+      "id": "osm:node:1955212645",
+      "oldName": "Tangancícuaro de Arista",
+      "english": "Tangancícuaro de Arista",
+      "country": "MX",
+      "longitude": -102.2056764,
+      "latitude": 19.8867225,
+      "name": "坦干西夸羅",
+      "source": "NAER via Wikidata alias",
+      "sourceName": "tangancicuaro",
+      "sourceId": "Q20286295",
+      "sourceCountry": "Q96",
+      "sourceLatitude": 19.883333,
+      "sourceLongitude": -102.2,
+      "distanceKm": 0.702,
+      "instanceOf": [
+        "Q20202352"
+      ]
+    },
+    {
+      "id": "3982121",
+      "oldName": "Tejupilco de Hidalgo",
+      "english": "Tejupilco de Hidalgo",
+      "country": "MX",
+      "longitude": -100.15266,
+      "latitude": 18.90577,
+      "name": "特胡皮爾科",
+      "source": "NAER via Wikidata alias",
+      "sourceName": "tejupilco",
+      "sourceId": "Q3300342",
+      "sourceCountry": "Q96",
+      "sourceLatitude": 18.9,
+      "sourceLongitude": -100.15,
+      "distanceKm": 0.699,
+      "instanceOf": [
+        "Q20202352"
+      ]
+    }
+  ]
+}

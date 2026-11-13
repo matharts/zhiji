@@ -1,0 +1,17 @@
+[tools]
+rust = "1.99.1"
+node = "26.13.0"
+pnpm = "12.18.0"
+"cargo:cargo-packager" = "0.11.8"
+
+[tasks."desktop:build"]
+description = "使用编译缓存构建桌面应用"
+tools = { sccache = "0.19.0" }
+env = { RUSTC_WRAPPER = "sccache", SCCACHE_ALLOW_INCREMENTAL = "1" }
+run = "cargo build --locked -p zhiji"
+
+[tasks."desktop:run"]
+description = "使用编译缓存运行桌面应用"
+tools = { sccache = "0.19.0" }
+env = { RUSTC_WRAPPER = "sccache", SCCACHE_ALLOW_INCREMENTAL = "1" }
+run = "cargo run --locked -p zhiji --"

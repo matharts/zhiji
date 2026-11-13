@@ -1,0 +1,11 @@
+{
+  "events": [
+    { "t": 0.1, "type": "tap", "key": "show-stem" },
+    { "t": 0.2, "type": "tap", "key": "show-palace" },
+    { "t": 0.3, "type": "tap", "key": "birth-1" },
+    { "t": 0.4, "type": "tap", "key": "self-1" },
+    { "t": 0.5, "type": "move", "x": 20, "y": 20 },
+    { "t": 0.9, "type": "tap", "key": "show-palace" },
+    { "t": 1.0, "type": "move", "x": 20, "y": 20 }
+  ]
+}

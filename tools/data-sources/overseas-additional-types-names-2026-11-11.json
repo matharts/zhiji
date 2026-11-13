@@ -1,0 +1,1296 @@
+{
+  "source": "Wikidata Gazetteer",
+  "sourceUrl": "https://huggingface.co/datasets/yuiseki/wikidata-gazetteer/tree/ef7674b5b00f2af07e792332b1d2d9f8ffccdff1",
+  "license": "CC0-1.0",
+  "matching": "normalized English label or alias, country, <=5km, unique QID and accepted settlement/administrative type, excludes facilities",
+  "places": [
+    {
+      "id": "3981984",
+      "oldName": "Tepatitlán de Morelos",
+      "english": "Tepatitlán de Morelos",
+      "country": "MX",
+      "longitude": -102.76347,
+      "latitude": 20.81692,
+      "name": "特帕蒂特兰",
+      "sourceId": "Q971699",
+      "sourceCountry": "Q96",
+      "sourceLatitude": 20.816667,
+      "sourceLongitude": -102.716667,
+      "distanceKm": 4.856,
+      "instanceOf": [
+        "Q1952852"
+      ]
+    },
+    {
+      "id": "osm:node:158896243",
+      "oldName": "Sayreville",
+      "english": "Sayreville",
+      "country": "US",
+      "longitude": -74.3618499,
+      "latitude": 40.4635362,
+      "name": "塞尔维尔",
+      "sourceId": "Q1013228",
+      "sourceCountry": "Q30",
+      "sourceLatitude": 40.4625,
+      "sourceLongitude": -74.325,
+      "distanceKm": 3.114,
+      "instanceOf": [
+        "Q2911266"
+      ]
+    },
+    {
+      "id": "627751",
+      "oldName": "Kalinkovichi",
+      "english": "Kalinkovichi",
+      "country": "BY",
+      "longitude": 29.3257,
+      "latitude": 52.1323,
+      "name": "卡林科维奇",
+      "sourceId": "Q937344",
+      "sourceCountry": "Q184",
+      "sourceLatitude": 52.133333,
+      "sourceLongitude": 29.333333,
+      "distanceKm": 0.533,
+      "instanceOf": [
+        "Q79324274"
+      ]
+    },
+    {
+      "id": "3466489",
+      "oldName": "Ceilândia",
+      "english": "Ceilândia",
+      "country": "BR",
+      "longitude": -48.13096,
+      "latitude": -15.8091,
+      "name": "斯兰迪亚",
+      "sourceId": "Q1002818",
+      "sourceCountry": "Q155",
+      "sourceLatitude": -15.819167,
+      "sourceLongitude": -48.108333,
+      "distanceKm": 2.662,
+      "instanceOf": [
+        "Q1158712"
+      ]
+    },
+    {
+      "id": "1516788",
+      "oldName": "Zhangatas",
+      "english": "Zhangatas",
+      "country": "KZ",
+      "longitude": 69.73209,
+      "latitude": 43.56274,
+      "name": "扎纳塔斯",
+      "sourceId": "Q1046268",
+      "sourceCountry": "Q232",
+      "sourceLatitude": 43.566667,
+      "sourceLongitude": 69.75,
+      "distanceKm": 1.505,
+      "instanceOf": [
+        "Q130108094"
+      ]
+    },
+    {
+      "id": "osm:node:1218500952",
+      "oldName": "Pampanito",
+      "english": "Pampanito",
+      "country": "VE",
+      "longitude": -70.4942948,
+      "latitude": 9.4118509,
+      "name": "潘帕尼托市",
+      "sourceId": "Q2596580",
+      "sourceCountry": "Q717",
+      "sourceLatitude": 9.411389,
+      "sourceLongitude": -70.495833,
+      "distanceKm": 0.176,
+      "instanceOf": [
+        "Q3327920"
+      ]
+    },
+    {
+      "id": "12434388",
+      "oldName": "Cruzeiro",
+      "english": "Cruzeiro",
+      "country": "BR",
+      "longitude": -47.93711,
+      "latitude": -15.7907,
+      "name": "克鲁赛罗",
+      "sourceId": "Q3698803",
+      "sourceCountry": "Q155",
+      "sourceLatitude": -15.790833,
+      "sourceLongitude": -47.937222,
+      "distanceKm": 0.019,
+      "instanceOf": [
+        "Q1158712"
+      ]
+    },
+    {
+      "id": "1610538",
+      "oldName": "Kabin Buri",
+      "english": "Kabin Buri",
+      "country": "TH",
+      "longitude": 101.71739,
+      "latitude": 13.95133,
+      "name": "甲民武里",
+      "sourceId": "Q475560",
+      "sourceCountry": "Q869",
+      "sourceLatitude": 13.946667,
+      "sourceLongitude": 101.713333,
+      "distanceKm": 0.677,
+      "instanceOf": [
+        "Q475061"
+      ]
+    },
+    {
+      "id": "624034",
+      "oldName": "Osipovichi",
+      "english": "Osipovichi",
+      "country": "BY",
+      "longitude": 28.62872,
+      "latitude": 53.30588,
+      "name": "奥西波维奇",
+      "sourceId": "Q742161",
+      "sourceCountry": "Q184",
+      "sourceLatitude": 53.3,
+      "sourceLongitude": 28.633333,
+      "distanceKm": 0.721,
+      "instanceOf": [
+        "Q79324274"
+      ]
+    },
+    {
+      "id": "3523760",
+      "oldName": "Magdalena Contreras",
+      "english": "Magdalena Contreras",
+      "country": "MX",
+      "longitude": -99.21118,
+      "latitude": 19.33212,
+      "name": "马格达莱纳·孔特雷拉斯",
+      "sourceId": "Q780038",
+      "sourceCountry": "Q96",
+      "sourceLatitude": 19.333333,
+      "sourceLongitude": -99.213889,
+      "distanceKm": 0.314,
+      "instanceOf": [
+        "Q2734310"
+      ]
+    },
+    {
+      "id": "osm:node:158876356",
+      "oldName": "Tinton Falls",
+      "english": "Tinton Falls",
+      "country": "US",
+      "longitude": -74.0927967,
+      "latitude": 40.2890734,
+      "name": "丁顿福尔斯",
+      "sourceId": "Q1085364",
+      "sourceCountry": "Q30",
+      "sourceLatitude": 40.2667,
+      "sourceLongitude": -74.0987,
+      "distanceKm": 2.533,
+      "instanceOf": [
+        "Q2911266"
+      ]
+    },
+    {
+      "id": "13450916",
+      "oldName": "Recanto das Emas",
+      "english": "Recanto das Emas",
+      "country": "BR",
+      "longitude": -48.06447,
+      "latitude": -15.90864,
+      "name": "日参多",
+      "sourceId": "Q3421820",
+      "sourceCountry": "Q155",
+      "sourceLatitude": -15.908056,
+      "sourceLongitude": -48.073056,
+      "distanceKm": 0.919,
+      "instanceOf": [
+        "Q1158712"
+      ]
+    },
+    {
+      "id": "12432973",
+      "oldName": "Santa Maria",
+      "english": "Santa Maria",
+      "country": "BR",
+      "longitude": -48.02929,
+      "latitude": -16.03095,
+      "name": "撒玛利亚",
+      "sourceId": "Q3949105",
+      "sourceCountry": "Q155",
+      "sourceLatitude": -16.015278,
+      "sourceLongitude": -48.013056,
+      "distanceKm": 2.455,
+      "instanceOf": [
+        "Q1158712"
+      ]
+    },
+    {
+      "id": "osm:node:866601087",
+      "oldName": "Ambovombe",
+      "english": "Ambovombe",
+      "country": "MG",
+      "longitude": 46.0877489,
+      "latitude": -25.178398,
+      "name": "安布文貝",
+      "sourceId": "Q458507",
+      "sourceCountry": "Q1019",
+      "sourceLatitude": -25.176944,
+      "sourceLongitude": 46.086944,
+      "distanceKm": 0.181,
+      "instanceOf": [
+        "Q3192808"
+      ]
+    },
+    {
+      "id": "1608239",
+      "oldName": "Nong Khae",
+      "english": "Nong Khae",
+      "country": "TH",
+      "longitude": 100.86693,
+      "latitude": 14.34046,
+      "name": "农开",
+      "sourceId": "Q476260",
+      "sourceCountry": "Q869",
+      "sourceLatitude": 14.339167,
+      "sourceLongitude": 100.861667,
+      "distanceKm": 0.584,
+      "instanceOf": [
+        "Q475061"
+      ]
+    },
+    {
+      "id": "osm:node:1837300463",
+      "oldName": "Newport Beach",
+      "english": "Newport Beach",
+      "country": "US",
+      "longitude": -117.9294401,
+      "latitude": 33.6170092,
+      "name": "纽波特比奇",
+      "sourceId": "Q268873",
+      "sourceCountry": "Q30",
+      "sourceLatitude": 33.616667,
+      "sourceLongitude": -117.8975,
+      "distanceKm": 2.953,
+      "instanceOf": [
+        "Q13218357",
+        "Q13218391"
+      ]
+    },
+    {
+      "id": "1842016",
+      "oldName": "Kunwi",
+      "english": "Kunwi",
+      "country": "KR",
+      "longitude": 128.57278,
+      "latitude": 36.23472,
+      "name": "军威邑",
+      "sourceId": "Q12585995",
+      "sourceCountry": "Q884",
+      "sourceLatitude": 36.23392,
+      "sourceLongitude": 128.572,
+      "distanceKm": 0.113,
+      "instanceOf": [
+        "Q24024848"
+      ]
+    },
+    {
+      "id": "1925936",
+      "oldName": "Naesŏ",
+      "english": "Naesŏ",
+      "country": "KR",
+      "longitude": 128.52,
+      "latitude": 35.24972,
+      "name": "內西邑",
+      "sourceId": "Q12590183",
+      "sourceCountry": "Q884",
+      "sourceLatitude": 35.236,
+      "sourceLongitude": 128.506,
+      "distanceKm": 1.982,
+      "instanceOf": [
+        "Q24024848"
+      ]
+    },
+    {
+      "id": "1846371",
+      "oldName": "Jangseong",
+      "english": "Jangseong",
+      "country": "KR",
+      "longitude": 126.78444,
+      "latitude": 35.29778,
+      "name": "長城邑",
+      "sourceId": "Q12614535",
+      "sourceCountry": "Q884",
+      "sourceLatitude": 35.3,
+      "sourceLongitude": 126.81667,
+      "distanceKm": 2.93,
+      "instanceOf": [
+        "Q24024848"
+      ]
+    },
+    {
+      "id": "1846544",
+      "oldName": "Jangheung",
+      "english": "Jangheung",
+      "country": "KR",
+      "longitude": 126.90694,
+      "latitude": 34.68164,
+      "name": "長興邑",
+      "sourceId": "Q12614817",
+      "sourceCountry": "Q884",
+      "sourceLatitude": 34.67665,
+      "sourceLongitude": 126.90477,
+      "distanceKm": 0.588,
+      "instanceOf": [
+        "Q24024848"
+      ]
+    },
+    {
+      "id": "6903078",
+      "oldName": "Changnyeong",
+      "english": "Changnyeong",
+      "country": "KR",
+      "longitude": 128.49506,
+      "latitude": 35.54145,
+      "name": "昌寧邑",
+      "sourceId": "Q12618610",
+      "sourceCountry": "Q884",
+      "sourceLatitude": 35.544414,
+      "sourceLongitude": 128.492181,
+      "distanceKm": 0.419,
+      "instanceOf": [
+        "Q24024848"
+      ]
+    },
+    {
+      "id": "1832798",
+      "oldName": "Yecheon",
+      "english": "Yecheon",
+      "country": "KR",
+      "longitude": 128.45514,
+      "latitude": 36.6574,
+      "name": "醴泉邑",
+      "sourceId": "Q16180684",
+      "sourceCountry": "Q884",
+      "sourceLatitude": 36.65403,
+      "sourceLongitude": 128.45243,
+      "distanceKm": 0.445,
+      "instanceOf": [
+        "Q24024848"
+      ]
+    },
+    {
+      "id": "1064258",
+      "oldName": "Ikalamavony",
+      "english": "Ikalamavony",
+      "country": "MG",
+      "longitude": 46.58333,
+      "latitude": -21.15,
+      "name": "伊卡拉馬武尼",
+      "sourceId": "Q3148385",
+      "sourceCountry": "Q1019",
+      "sourceLatitude": -21.168,
+      "sourceLongitude": 46.6,
+      "distanceKm": 2.64,
+      "instanceOf": [
+        "Q3192808"
+      ]
+    },
+    {
+      "id": "3461936",
+      "oldName": "Guará",
+      "english": "Guará",
+      "country": "BR",
+      "longitude": -47.97202,
+      "latitude": -15.80976,
+      "name": "瓜拉",
+      "sourceId": "Q3778442",
+      "sourceCountry": "Q155",
+      "sourceLatitude": -15.825556,
+      "sourceLongitude": -47.98,
+      "distanceKm": 1.95,
+      "instanceOf": [
+        "Q1158712"
+      ]
+    },
+    {
+      "id": "3526681",
+      "oldName": "Ixtapan de la Sal",
+      "english": "Ixtapan de la Sal",
+      "country": "MX",
+      "longitude": -99.67555,
+      "latitude": 18.84462,
+      "name": "伊斯塔潘德拉萨尔",
+      "sourceId": "Q2018330",
+      "sourceCountry": "Q96",
+      "sourceLatitude": 18.844167,
+      "sourceLongitude": -99.675278,
+      "distanceKm": 0.058,
+      "instanceOf": [
+        "Q1952852"
+      ]
+    },
+    {
+      "id": "3827414",
+      "oldName": "Huixquilucan",
+      "english": "Huixquilucan",
+      "country": "MX",
+      "longitude": -99.35016,
+      "latitude": 19.35985,
+      "name": "维斯基卢坎",
+      "sourceId": "Q2271761",
+      "sourceCountry": "Q96",
+      "sourceLatitude": 19.35,
+      "sourceLongitude": -99.35,
+      "distanceKm": 1.093,
+      "instanceOf": [
+        "Q1952852"
+      ]
+    },
+    {
+      "id": "13450915",
+      "oldName": "São Sebastião",
+      "english": "São Sebastião",
+      "country": "BR",
+      "longitude": -47.77613,
+      "latitude": -15.90287,
+      "name": "圣塞瓦斯蒂安",
+      "sourceId": "Q3979258",
+      "sourceCountry": "Q155",
+      "sourceLatitude": -15.900556,
+      "sourceLongitude": -47.779444,
+      "distanceKm": 0.437,
+      "instanceOf": [
+        "Q1158712"
+      ]
+    },
+    {
+      "id": "osm:node:245745800",
+      "oldName": "Islampur",
+      "english": "Islampur",
+      "country": "IN",
+      "longitude": 88.1860517,
+      "latitude": 26.2563651,
+      "name": "伊斯兰普尔",
+      "sourceId": "Q1753900",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 26.27,
+      "sourceLongitude": 88.2,
+      "distanceKm": 2.054,
+      "instanceOf": [
+        "Q18918041"
+      ]
+    },
+    {
+      "id": "7184841",
+      "oldName": "Gramercy Park",
+      "english": "Gramercy Park",
+      "country": "US",
+      "longitude": -73.98611,
+      "latitude": 40.7375,
+      "name": "葛莱美西公园",
+      "sourceId": "Q1191972",
+      "sourceCountry": "Q30",
+      "sourceLatitude": 40.737778,
+      "sourceLongitude": -73.986111,
+      "distanceKm": 0.031,
+      "instanceOf": [
+        "Q61297932"
+      ]
+    },
+    {
+      "id": "4138321",
+      "oldName": "Dupont Circle",
+      "english": "Dupont Circle",
+      "country": "US",
+      "longitude": -77.04414,
+      "latitude": 38.90844,
+      "name": "杜邦圆环",
+      "sourceId": "Q1266597",
+      "sourceCountry": "Q30",
+      "sourceLatitude": 38.909639,
+      "sourceLongitude": -77.043444,
+      "distanceKm": 0.146,
+      "instanceOf": [
+        "Q1529",
+        "Q12063697",
+        "Q22746",
+        "Q748198",
+        "Q174782"
+      ]
+    },
+    {
+      "id": "1270598",
+      "oldName": "Guskhara",
+      "english": "Guskhara",
+      "country": "IN",
+      "longitude": 87.73484,
+      "latitude": 23.49276,
+      "name": "古斯卡拉",
+      "sourceId": "Q1706592",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 23.492778,
+      "sourceLongitude": 87.734722,
+      "distanceKm": 0.012,
+      "instanceOf": [
+        "Q18918041"
+      ]
+    },
+    {
+      "id": "2763423",
+      "oldName": "Traun",
+      "english": "Traun",
+      "country": "AT",
+      "longitude": 14.23833,
+      "latitude": 48.22086,
+      "name": "特劳恩",
+      "sourceId": "Q260176",
+      "sourceCountry": "Q40",
+      "sourceLatitude": 48.221667,
+      "sourceLongitude": 14.239722,
+      "distanceKm": 0.136,
+      "instanceOf": [
+        "Q667509",
+        "Q13539802"
+      ]
+    },
+    {
+      "id": "osm:node:3246296492",
+      "oldName": "San Rafael de Onoto",
+      "english": "San Rafael de Onoto",
+      "country": "VE",
+      "longitude": -68.9731766,
+      "latitude": 9.6743677,
+      "name": "聖拉菲爾德奧諾托市",
+      "sourceId": "Q583005",
+      "sourceCountry": "Q717",
+      "sourceLatitude": 9.675278,
+      "sourceLongitude": -68.972778,
+      "distanceKm": 0.11,
+      "instanceOf": [
+        "Q3327920"
+      ]
+    },
+    {
+      "id": "1886598",
+      "oldName": "Yŏnmu",
+      "english": "Yŏnmu",
+      "country": "KR",
+      "longitude": 127.1,
+      "latitude": 36.12944,
+      "name": "錬武邑",
+      "sourceId": "Q12607085",
+      "sourceCountry": "Q884",
+      "sourceLatitude": 36.10687,
+      "sourceLongitude": 127.1025,
+      "distanceKm": 2.515,
+      "instanceOf": [
+        "Q24024848"
+      ]
+    },
+    {
+      "id": "1842518",
+      "oldName": "Goseong",
+      "english": "Goseong",
+      "country": "KR",
+      "longitude": 128.32361,
+      "latitude": 34.97631,
+      "name": "固城邑",
+      "sourceId": "Q16184414",
+      "sourceCountry": "Q884",
+      "sourceLatitude": 34.97666,
+      "sourceLongitude": 128.31687,
+      "distanceKm": 0.614,
+      "instanceOf": [
+        "Q24024848"
+      ]
+    },
+    {
+      "id": "3437905",
+      "oldName": "Doctor Juan Eulogio Estigarribia",
+      "english": "Doctor Juan Eulogio Estigarribia",
+      "country": "PY",
+      "longitude": -55.70457,
+      "latitude": -25.37184,
+      "name": "胡安歐洛希奧埃斯蒂加里維亞",
+      "sourceId": "Q2406918",
+      "sourceCountry": "Q733",
+      "sourceLatitude": -25.373258,
+      "sourceLongitude": -55.704241,
+      "distanceKm": 0.161,
+      "instanceOf": [
+        "Q917092"
+      ]
+    },
+    {
+      "id": "1842800",
+      "oldName": "Koesan",
+      "english": "Koesan",
+      "country": "KR",
+      "longitude": 127.79472,
+      "latitude": 36.81083,
+      "name": "槐山邑",
+      "sourceId": "Q16161801",
+      "sourceCountry": "Q884",
+      "sourceLatitude": 36.82378,
+      "sourceLongitude": 127.80447,
+      "distanceKm": 1.678,
+      "instanceOf": [
+        "Q24024848"
+      ]
+    },
+    {
+      "id": "3622547",
+      "oldName": "Paraíso",
+      "english": "Paraíso",
+      "country": "CR",
+      "longitude": -83.86655,
+      "latitude": 9.83847,
+      "name": "帕賴索",
+      "sourceId": "Q1579868",
+      "sourceCountry": "Q800",
+      "sourceLatitude": 9.843232,
+      "sourceLongitude": -83.846314,
+      "distanceKm": 2.275,
+      "instanceOf": [
+        "Q2292572"
+      ]
+    },
+    {
+      "id": "osm:node:333676775",
+      "oldName": "Yby Yaú",
+      "english": "Yby Yaú",
+      "country": "PY",
+      "longitude": -56.5447268,
+      "latitude": -22.9664133,
+      "name": "伊維堯",
+      "sourceId": "Q1996327",
+      "sourceCountry": "Q733",
+      "sourceLatitude": -22.9631,
+      "sourceLongitude": -56.5358,
+      "distanceKm": 0.984,
+      "instanceOf": [
+        "Q917092"
+      ]
+    },
+    {
+      "id": "1264301",
+      "oldName": "Maināguri",
+      "english": "Maināguri",
+      "country": "IN",
+      "longitude": 88.8204,
+      "latitude": 26.56263,
+      "name": "迈纳古里",
+      "sourceId": "Q587516",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 26.57,
+      "sourceLongitude": 88.82,
+      "distanceKm": 0.819,
+      "instanceOf": [
+        "Q18918041"
+      ]
+    },
+    {
+      "id": "1053507",
+      "oldName": "Vondrozo",
+      "english": "Vondrozo",
+      "country": "MG",
+      "longitude": 47.28333,
+      "latitude": -22.81667,
+      "name": "翁德魯祖",
+      "sourceId": "Q610203",
+      "sourceCountry": "Q1019",
+      "sourceLatitude": -22.82,
+      "sourceLongitude": 47.32,
+      "distanceKm": 3.77,
+      "instanceOf": [
+        "Q3192808"
+      ]
+    },
+    {
+      "id": "1846095",
+      "oldName": "Chinch'ŏn",
+      "english": "Chinch'ŏn",
+      "country": "KR",
+      "longitude": 127.44333,
+      "latitude": 36.85667,
+      "name": "鎮川邑",
+      "sourceId": "Q12618378",
+      "sourceCountry": "Q884",
+      "sourceLatitude": 36.84496,
+      "sourceLongitude": 127.41201,
+      "distanceKm": 3.07,
+      "instanceOf": [
+        "Q24024848"
+      ]
+    },
+    {
+      "id": "1925943",
+      "oldName": "Hwawŏn",
+      "english": "Hwawŏn",
+      "country": "KR",
+      "longitude": 128.50083,
+      "latitude": 35.80167,
+      "name": "花園邑",
+      "sourceId": "Q12625666",
+      "sourceCountry": "Q884",
+      "sourceLatitude": 35.78348,
+      "sourceLongitude": 128.51092,
+      "distanceKm": 2.214,
+      "instanceOf": [
+        "Q24024848"
+      ]
+    },
+    {
+      "id": "2470088",
+      "oldName": "Jendouba",
+      "english": "Jendouba",
+      "country": "TN",
+      "longitude": 8.78024,
+      "latitude": 36.50114,
+      "name": "坚杜拜",
+      "sourceId": "Q27064",
+      "sourceCountry": "Q948",
+      "sourceLatitude": 36.501111,
+      "sourceLongitude": 8.780278,
+      "distanceKm": 0.005,
+      "instanceOf": [
+        "Q41067667"
+      ]
+    },
+    {
+      "id": "3515794",
+      "oldName": "Tequixquiac",
+      "english": "Tequixquiac",
+      "country": "MX",
+      "longitude": -99.14472,
+      "latitude": 19.90944,
+      "name": "特基斯基阿克",
+      "sourceId": "Q34828",
+      "sourceCountry": "Q96",
+      "sourceLatitude": 19.891667,
+      "sourceLongitude": -99.141667,
+      "distanceKm": 1.998,
+      "instanceOf": [
+        "Q1952852"
+      ]
+    },
+    {
+      "id": "1842859",
+      "oldName": "Koch'ang",
+      "english": "Koch'ang",
+      "country": "KR",
+      "longitude": 126.7,
+      "latitude": 35.43333,
+      "name": "高敞邑",
+      "sourceId": "Q12584447",
+      "sourceCountry": "Q884",
+      "sourceLatitude": 35.42899,
+      "sourceLongitude": 126.70349,
+      "distanceKm": 0.576,
+      "instanceOf": [
+        "Q24024848"
+      ]
+    },
+    {
+      "id": "11674727",
+      "oldName": "Boseong",
+      "english": "Boseong",
+      "country": "KR",
+      "longitude": 127.07996,
+      "latitude": 34.77148,
+      "name": "寶城邑",
+      "sourceId": "Q12598392",
+      "sourceCountry": "Q884",
+      "sourceLatitude": 34.74781,
+      "sourceLongitude": 127.06914,
+      "distanceKm": 2.806,
+      "instanceOf": [
+        "Q24024848"
+      ]
+    },
+    {
+      "id": "1832566",
+      "oldName": "Yeongdong",
+      "english": "Yeongdong",
+      "country": "KR",
+      "longitude": 127.77639,
+      "latitude": 36.175,
+      "name": "永同邑",
+      "sourceId": "Q12607341",
+      "sourceCountry": "Q884",
+      "sourceLatitude": 36.1792,
+      "sourceLongitude": 127.80894,
+      "distanceKm": 2.954,
+      "instanceOf": [
+        "Q24024848"
+      ]
+    },
+    {
+      "id": "609123",
+      "oldName": "Qulsary",
+      "english": "Qulsary",
+      "country": "KZ",
+      "longitude": 54.01978,
+      "latitude": 46.95307,
+      "name": "庫利薩雷",
+      "sourceId": "Q1268163",
+      "sourceCountry": "Q232",
+      "sourceLatitude": 46.963056,
+      "sourceLongitude": 54.013333,
+      "distanceKm": 1.211,
+      "instanceOf": [
+        "Q702492",
+        "Q130108094"
+      ]
+    },
+    {
+      "id": "osm:node:1390312459",
+      "oldName": "San Miguel el Alto",
+      "english": "San Miguel el Alto",
+      "country": "MX",
+      "longitude": -102.4045943,
+      "latitude": 21.0288209,
+      "name": "上圣米格爾",
+      "sourceId": "Q1658586",
+      "sourceCountry": "Q96",
+      "sourceLatitude": 21,
+      "sourceLongitude": -102.383333,
+      "distanceKm": 3.884,
+      "instanceOf": [
+        "Q1952852"
+      ]
+    },
+    {
+      "id": "osm:node:1837332934",
+      "oldName": "Chino Hills",
+      "english": "Chino Hills",
+      "country": "US",
+      "longitude": -117.760056,
+      "latitude": 33.9926803,
+      "name": "奇诺岗",
+      "sourceId": "Q852721",
+      "sourceCountry": "Q30",
+      "sourceLatitude": 33.97,
+      "sourceLongitude": -117.75,
+      "distanceKm": 2.682,
+      "instanceOf": [
+        "Q13218357"
+      ]
+    },
+    {
+      "id": "618815",
+      "oldName": "Žytkavičy",
+      "english": "Žytkavičy",
+      "country": "BY",
+      "longitude": 27.8561,
+      "latitude": 52.2168,
+      "name": "日特科维奇",
+      "sourceId": "Q955564",
+      "sourceCountry": "Q184",
+      "sourceLatitude": 52.217094,
+      "sourceLongitude": 27.8547,
+      "distanceKm": 0.101,
+      "instanceOf": [
+        "Q79324274",
+        "Q91733160"
+      ]
+    },
+    {
+      "id": "621074",
+      "oldName": "Svetlogorsk",
+      "english": "Svetlogorsk",
+      "country": "BY",
+      "longitude": 29.7389,
+      "latitude": 52.6329,
+      "name": "斯韦特洛戈尔斯克斯韦",
+      "sourceId": "Q955359",
+      "sourceCountry": "Q184",
+      "sourceLatitude": 52.633333,
+      "sourceLongitude": 29.733333,
+      "distanceKm": 0.378,
+      "instanceOf": [
+        "Q79324274",
+        "Q91733160"
+      ]
+    },
+    {
+      "id": "627811",
+      "oldName": "Ivanovo",
+      "english": "Ivanovo",
+      "country": "BY",
+      "longitude": 25.53198,
+      "latitude": 52.14724,
+      "name": "伊萬諾沃",
+      "sourceId": "Q956207",
+      "sourceCountry": "Q184",
+      "sourceLatitude": 52.147222,
+      "sourceLongitude": 25.533889,
+      "distanceKm": 0.13,
+      "instanceOf": [
+        "Q79324274",
+        "Q91733160"
+      ]
+    },
+    {
+      "id": "2469386",
+      "oldName": "Medjez el Bab",
+      "english": "Medjez el Bab",
+      "country": "TN",
+      "longitude": 9.61231,
+      "latitude": 36.64964,
+      "name": "迈贾兹巴卜",
+      "sourceId": "Q1153895",
+      "sourceCountry": "Q948",
+      "sourceLatitude": 36.643611,
+      "sourceLongitude": 9.604167,
+      "distanceKm": 0.987,
+      "instanceOf": [
+        "Q41067667",
+        "Q3148864"
+      ]
+    },
+    {
+      "id": "3523202",
+      "oldName": "Milpa Alta",
+      "english": "Milpa Alta",
+      "country": "MX",
+      "longitude": -99.02317,
+      "latitude": 19.19251,
+      "name": "米爾帕阿爾塔",
+      "sourceId": "Q936087",
+      "sourceCountry": "Q96",
+      "sourceLatitude": 19.19405,
+      "sourceLongitude": -99.02149,
+      "distanceKm": 0.245,
+      "instanceOf": [
+        "Q2734310"
+      ]
+    },
+    {
+      "id": "3436728",
+      "oldName": "Villa Elisa",
+      "english": "Villa Elisa",
+      "country": "PY",
+      "longitude": -57.59274,
+      "latitude": -25.3676,
+      "name": "埃利薩鎮",
+      "sourceId": "Q952896",
+      "sourceCountry": "Q733",
+      "sourceLatitude": -25.37,
+      "sourceLongitude": -57.62,
+      "distanceKm": 2.747,
+      "instanceOf": [
+        "Q917092"
+      ]
+    },
+    {
+      "id": "13132712",
+      "oldName": "Ettadhamen",
+      "english": "Ettadhamen",
+      "country": "TN",
+      "longitude": 10.10995,
+      "latitude": 36.83246,
+      "name": "埃塔達門",
+      "sourceId": "Q11921125",
+      "sourceCountry": "Q948",
+      "sourceLatitude": 36.838,
+      "sourceLongitude": 10.1,
+      "distanceKm": 1.077,
+      "instanceOf": [
+        "Q41067667",
+        "Q3148864"
+      ]
+    },
+    {
+      "id": "6332419",
+      "oldName": "Manhattan Valley",
+      "english": "Manhattan Valley",
+      "country": "US",
+      "longitude": -73.965,
+      "latitude": 40.79389,
+      "name": "曼哈頓峽谷",
+      "sourceId": "Q1670850",
+      "sourceCountry": "Q30",
+      "sourceLatitude": 40.799167,
+      "sourceLongitude": -73.962778,
+      "distanceKm": 0.615,
+      "instanceOf": [
+        "Q61297932"
+      ]
+    },
+    {
+      "id": "3827408",
+      "oldName": "Miguel Hidalgo",
+      "english": "Miguel Hidalgo",
+      "country": "MX",
+      "longitude": -99.20024,
+      "latitude": 19.43411,
+      "name": "米格尔-伊达尔戈",
+      "sourceId": "Q1832732",
+      "sourceCountry": "Q96",
+      "sourceLatitude": 19.406667,
+      "sourceLongitude": -99.191111,
+      "distanceKm": 3.193,
+      "instanceOf": [
+        "Q2734310"
+      ]
+    },
+    {
+      "id": "3515887",
+      "oldName": "Tepeji del Río de Ocampo",
+      "english": "Tepeji del Río de Ocampo",
+      "country": "MX",
+      "longitude": -99.34229,
+      "latitude": 19.90546,
+      "name": "特佩希",
+      "sourceId": "Q2450298",
+      "sourceCountry": "Q96",
+      "sourceLatitude": 19.905278,
+      "sourceLongitude": -99.341667,
+      "distanceKm": 0.068,
+      "instanceOf": [
+        "Q1952852"
+      ]
+    },
+    {
+      "id": "1839011",
+      "oldName": "Beolgyo",
+      "english": "Beolgyo",
+      "country": "KR",
+      "longitude": 127.34052,
+      "latitude": 34.84897,
+      "name": "筏橋邑",
+      "sourceId": "Q12597992",
+      "sourceCountry": "Q884",
+      "sourceLatitude": 34.86667,
+      "sourceLongitude": 127.33333,
+      "distanceKm": 2.071,
+      "instanceOf": [
+        "Q24024848"
+      ]
+    },
+    {
+      "id": "1838722",
+      "oldName": "Buan",
+      "english": "Buan",
+      "country": "KR",
+      "longitude": 126.73194,
+      "latitude": 35.72806,
+      "name": "扶安邑",
+      "sourceId": "Q12598915",
+      "sourceCountry": "Q884",
+      "sourceLatitude": 35.70559,
+      "sourceLongitude": 126.74418,
+      "distanceKm": 2.727,
+      "instanceOf": [
+        "Q24024848"
+      ]
+    },
+    {
+      "id": "1838508",
+      "oldName": "Buyeo",
+      "english": "Buyeo",
+      "country": "KR",
+      "longitude": 126.90906,
+      "latitude": 36.27472,
+      "name": "扶餘邑",
+      "sourceId": "Q12598943",
+      "sourceCountry": "Q884",
+      "sourceLatitude": 36.27538,
+      "sourceLongitude": 126.91239,
+      "distanceKm": 0.307,
+      "instanceOf": [
+        "Q24024848"
+      ]
+    },
+    {
+      "id": "1896953",
+      "oldName": "Pubal",
+      "english": "Pubal",
+      "country": "KR",
+      "longitude": 127.50778,
+      "latitude": 37.29167,
+      "name": "夫鉢邑",
+      "sourceId": "Q12598711",
+      "sourceCountry": "Q884",
+      "sourceLatitude": 37.27026,
+      "sourceLongitude": 127.5061,
+      "distanceKm": 2.381,
+      "instanceOf": [
+        "Q24024848"
+      ]
+    },
+    {
+      "id": "1839873",
+      "oldName": "Okcheon",
+      "english": "Okcheon",
+      "country": "KR",
+      "longitude": 127.568,
+      "latitude": 36.3012,
+      "name": "沃川邑",
+      "sourceId": "Q16183941",
+      "sourceCountry": "Q884",
+      "sourceLatitude": 36.30738,
+      "sourceLongitude": 127.574906,
+      "distanceKm": 0.923,
+      "instanceOf": [
+        "Q24024848"
+      ]
+    },
+    {
+      "id": "12432979",
+      "oldName": "Samambaia",
+      "english": "Samambaia",
+      "country": "BR",
+      "longitude": -48.10428,
+      "latitude": -15.88231,
+      "name": "雷坎托·达斯·阿马斯",
+      "sourceId": "Q778250",
+      "sourceCountry": "Q155",
+      "sourceLatitude": -15.876111,
+      "sourceLongitude": -48.088611,
+      "distanceKm": 1.809,
+      "instanceOf": [
+        "Q1158712"
+      ]
+    },
+    {
+      "id": "osm:node:438863976",
+      "oldName": "Cunduacán",
+      "english": "Cunduacán",
+      "country": "MX",
+      "longitude": -93.173675,
+      "latitude": 18.066059,
+      "name": "昆杜阿坎",
+      "sourceId": "Q966750",
+      "sourceCountry": "Q96",
+      "sourceLatitude": 18.083333,
+      "sourceLongitude": -93.216667,
+      "distanceKm": 4.925,
+      "instanceOf": [
+        "Q1952852"
+      ]
+    },
+    {
+      "id": "1608462",
+      "oldName": "Nam Som",
+      "english": "Nam Som",
+      "country": "TH",
+      "longitude": 102.18947,
+      "latitude": 17.77036,
+      "name": "南马",
+      "sourceId": "Q476194",
+      "sourceCountry": "Q869",
+      "sourceLatitude": 17.770556,
+      "sourceLongitude": 102.189722,
+      "distanceKm": 0.034,
+      "instanceOf": [
+        "Q475061"
+      ]
+    },
+    {
+      "id": "1842966",
+      "oldName": "Gijang",
+      "english": "Gijang",
+      "country": "KR",
+      "longitude": 129.21389,
+      "latitude": 35.24417,
+      "name": "机张邑",
+      "sourceId": "Q6783462",
+      "sourceCountry": "Q884",
+      "sourceLatitude": 35.22219,
+      "sourceLongitude": 129.20766,
+      "distanceKm": 2.504,
+      "instanceOf": [
+        "Q24024848"
+      ]
+    },
+    {
+      "id": "osm:node:654103943",
+      "oldName": "Memari",
+      "english": "Memari",
+      "country": "IN",
+      "longitude": 88.0966249,
+      "latitude": 23.1777293,
+      "name": "梅马里",
+      "sourceId": "Q2563886",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 23.2,
+      "sourceLongitude": 88.12,
+      "distanceKm": 3.435,
+      "instanceOf": [
+        "Q18918041"
+      ]
+    },
+    {
+      "id": "osm:node:448081513",
+      "oldName": "Acajete",
+      "english": "Acajete",
+      "country": "MX",
+      "longitude": -97.950204,
+      "latitude": 19.1038597,
+      "name": "阿卡赫特",
+      "sourceId": "Q2984107",
+      "sourceCountry": "Q96",
+      "sourceLatitude": 19.106291,
+      "sourceLongitude": -97.952408,
+      "distanceKm": 0.355,
+      "instanceOf": [
+        "Q1952852"
+      ]
+    },
+    {
+      "id": "13526900",
+      "oldName": "Southwest Waterfront",
+      "english": "Southwest Waterfront",
+      "country": "US",
+      "longitude": -77.01758,
+      "latitude": 38.87934,
+      "name": "西南水岸",
+      "sourceId": "Q7571378",
+      "sourceCountry": "Q30",
+      "sourceLatitude": 38.8812,
+      "sourceLongitude": -77.0164,
+      "distanceKm": 0.23,
+      "instanceOf": [
+        "Q12063697"
+      ]
+    },
+    {
+      "id": "osm:node:484263504",
+      "oldName": "Sadao",
+      "english": "Sadao",
+      "country": "TH",
+      "longitude": 100.4213368,
+      "latitude": 6.6364252,
+      "name": "沙道",
+      "sourceId": "Q133861",
+      "sourceCountry": "Q869",
+      "sourceLatitude": 6.638611,
+      "sourceLongitude": 100.423889,
+      "distanceKm": 0.372,
+      "instanceOf": [
+        "Q475061"
+      ]
+    },
+    {
+      "id": "osm:node:826109863",
+      "oldName": "Saalfelden am Steinernen Meer",
+      "english": "Saalfelden am Steinernen Meer",
+      "country": "AT",
+      "longitude": 12.8481048,
+      "latitude": 47.4266166,
+      "name": "石海山麓萨尔费尔登",
+      "sourceId": "Q183228",
+      "sourceCountry": "Q40",
+      "sourceLatitude": 47.426944,
+      "sourceLongitude": 12.848333,
+      "distanceKm": 0.04,
+      "instanceOf": [
+        "Q667509",
+        "Q13539802"
+      ]
+    }
+  ]
+}

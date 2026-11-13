@@ -1,0 +1,37 @@
+{
+  "source": "Geoapify OSM locality extracts",
+  "sourceUrl": "https://www.geoapify.com/data-share/localities/readme.html",
+  "license": "ODbL 1.0",
+  "archiveSha256": {
+    "GN": "d2636d859bae5e94fcf18ed6f23e9c6007aecea87adcb9541653ce47acd6b176",
+    "CD": "7e9f9ecac491952f2dc2d793a8b16b101b121cad6e6cab7a9a5487d81fdd9d76"
+  },
+  "places": [
+    {
+      "id": "2420562",
+      "oldName": "Gueckedou",
+      "english": "Gueckedou",
+      "country": "GN",
+      "longitude": -10.1336,
+      "latitude": 8.56744,
+      "name": "盖凯杜",
+      "sourceId": "node/1864868794",
+      "sourceLatitude": 8.561649,
+      "sourceLongitude": -10.132821,
+      "distanceKm": 0.648
+    },
+    {
+      "id": "2311127",
+      "oldName": "Tshela",
+      "english": "Tshela",
+      "country": "CD",
+      "longitude": 12.9484,
+      "latitude": -4.99707,
+      "name": "切拉",
+      "sourceId": "node/1168656433",
+      "sourceLatitude": -4.98985,
+      "sourceLongitude": 12.93935,
+      "distanceKm": 1.282
+    }
+  ]
+}

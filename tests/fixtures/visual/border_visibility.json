@@ -1,0 +1,8 @@
+{
+  "events": [
+    { "t": 0.1, "type": "tap", "key": "show-stem" },
+    { "t": 0.3, "type": "tap", "key": "show-stem" },
+    { "t": 0.5, "type": "tap", "key": "show-palace" },
+    { "t": 0.7, "type": "tap", "key": "show-stem" }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "source": "Wikidata Gazetteer",
+  "sourceUrl": "https://huggingface.co/datasets/yuiseki/wikidata-gazetteer/tree/ef7674b5b00f2af07e792332b1d2d9f8ffccdff1",
+  "license": "CC0-1.0",
+  "matching": "non-Chinese normalized source name or alias, existing Chinese alias, matching country and <=2km coordinates, unique item and settlement type; ambiguous facility or administrative names excluded",
+  "places": [
+    {
+      "id": "5110161",
+      "oldName": "Brighton Beach",
+      "english": "Brighton Beach",
+      "country": "US",
+      "longitude": -73.95958,
+      "latitude": 40.57788,
+      "name": "布里顿海滩",
+      "sourceId": "Q915813",
+      "sourceCountry": "Q30",
+      "sourceLatitude": 40.5776,
+      "sourceLongitude": -73.9616,
+      "distanceKm": 0.173,
+      "instanceOf": [
+        "Q123705"
+      ]
+    },
+    {
+      "id": "1699833",
+      "oldName": "Mercedes",
+      "english": "Mercedes",
+      "country": "PH",
+      "longitude": 123.0109,
+      "latitude": 14.1093,
+      "name": "梅塞德斯",
+      "sourceId": "Q356734",
+      "sourceCountry": "Q928",
+      "sourceLatitude": 14.1093,
+      "sourceLongitude": 123.0109,
+      "distanceKm": 0,
+      "instanceOf": [
+        "Q24764"
+      ]
+    },
+    {
+      "id": "5399438",
+      "oldName": "Studio City",
+      "english": "Studio City",
+      "country": "US",
+      "longitude": -118.39647,
+      "latitude": 34.14862,
+      "name": "斯蒂迪奧城",
+      "sourceId": "Q3143067",
+      "sourceCountry": "Q30",
+      "sourceLatitude": 34.143611,
+      "sourceLongitude": -118.395278,
+      "distanceKm": 0.567,
+      "instanceOf": [
+        "Q52154375"
+      ]
+    },
+    {
+      "id": "1155139",
+      "oldName": "Ban Pong",
+      "english": "Ban Pong",
+      "country": "TH",
+      "longitude": 99.87739,
+      "latitude": 13.81629,
+      "name": "萬磅",
+      "sourceId": "Q475169",
+      "sourceCountry": "Q869",
+      "sourceLatitude": 13.813333,
+      "sourceLongitude": 99.871667,
+      "distanceKm": 0.699,
+      "instanceOf": [
+        "Q475061"
+      ]
+    },
+    {
+      "id": "1153386",
+      "oldName": "Hang Dong",
+      "english": "Hang Dong",
+      "country": "TH",
+      "longitude": 98.91939,
+      "latitude": 18.68703,
+      "name": "杭东",
+      "sourceId": "Q475509",
+      "sourceCountry": "Q869",
+      "sourceLatitude": 18.686944,
+      "sourceLongitude": 98.918889,
+      "distanceKm": 0.054,
+      "instanceOf": [
+        "Q475061",
+        "Q6519277",
+        "Q475061"
+      ]
+    },
+    {
+      "id": "5134449",
+      "oldName": "Rossville",
+      "english": "Rossville",
+      "country": "US",
+      "longitude": -74.21019,
+      "latitude": 40.54929,
+      "name": "羅斯威爾",
+      "sourceId": "Q7369935",
+      "sourceCountry": "Q30",
+      "sourceLatitude": 40.550833,
+      "sourceLongitude": -74.204444,
+      "distanceKm": 0.514,
+      "instanceOf": [
+        "Q486972"
+      ]
+    }
+  ]
+}

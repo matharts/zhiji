@@ -1,0 +1,16 @@
+[
+  {
+    "id": "osm:node:1983415496",
+    "oldId": "2207268",
+    "english": "Maroochydore",
+    "name": "马卢奇郡",
+    "reason": "Chinese label names former shire"
+  },
+  {
+    "id": "osm:node:551367193",
+    "oldId": "1849837",
+    "english": "Toyonaka",
+    "name": "丰中市 / 豐中市",
+    "reason": "multiple labels in one field"
+  }
+]

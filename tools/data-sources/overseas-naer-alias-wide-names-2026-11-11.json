@@ -1,0 +1,46 @@
+{
+  "source": "國家教育研究院《外國地名譯名》 via Wikidata aliases",
+  "sourceUrl": "https://data.gov.tw/dataset/15211",
+  "license": "Open Government Data License 1.0; Wikidata CC0",
+  "matching": "Unique target via Wikidata and original name; NAER name is contained in place English name, same country, coordinates <=5km",
+  "places": [
+    {
+      "id": "osm:node:1951569714",
+      "oldName": "Huetamo de Núñez",
+      "english": "Huetamo de Núñez",
+      "country": "MX",
+      "longitude": -100.8959774,
+      "latitude": 18.625329,
+      "name": "威塔摩",
+      "source": "NAER via Wikidata alias",
+      "sourceName": "huetamo",
+      "sourceId": "Q20239039",
+      "sourceCountry": "Q96",
+      "sourceLatitude": 18.583333,
+      "sourceLongitude": -100.883333,
+      "distanceKm": 4.848,
+      "instanceOf": [
+        "Q20202352"
+      ]
+    },
+    {
+      "id": "osm:node:448081501",
+      "oldName": "Xicotepec de Juárez",
+      "english": "Xicotepec de Juárez",
+      "country": "MX",
+      "longitude": -97.9606968,
+      "latitude": 20.2767053,
+      "name": "希科提佩克",
+      "source": "NAER via Wikidata alias",
+      "sourceName": "xicotepec",
+      "sourceId": "Q20232831",
+      "sourceCountry": "Q96",
+      "sourceLatitude": 20.3,
+      "sourceLongitude": -97.966667,
+      "distanceKm": 2.659,
+      "instanceOf": [
+        "Q20202352"
+      ]
+    }
+  ]
+}

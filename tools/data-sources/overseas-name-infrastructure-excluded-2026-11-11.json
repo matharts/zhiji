@@ -1,0 +1,364 @@
+[
+  {
+    "id": "6138791",
+    "oldName": "Saint-Michel",
+    "english": "Saint-Michel",
+    "country": "CA",
+    "longitude": -73.62168,
+    "latitude": 45.56758,
+    "name": "聖米歇爾站",
+    "source": "wikidata",
+    "sourceId": "Q176603",
+    "sourceCountry": "Q16",
+    "sourceLatitude": 45.559722,
+    "sourceLongitude": -73.6,
+    "language": "zh",
+    "distanceKm": 1.897,
+    "instanceOf": [
+      "Q928830",
+      "Q22808403"
+    ]
+  },
+  {
+    "id": "518879",
+    "oldName": "Novogireyevo",
+    "english": "Novogireyevo",
+    "country": "RU",
+    "longitude": 37.81834,
+    "latitude": 55.75455,
+    "name": "新吉列耶沃站",
+    "source": "wikidata",
+    "sourceId": "Q662318",
+    "sourceCountry": "Q159",
+    "sourceLatitude": 55.751667,
+    "sourceLongitude": 37.817222,
+    "language": "zh",
+    "distanceKm": 0.328,
+    "instanceOf": [
+      "Q928830",
+      "Q22808403"
+    ]
+  },
+  {
+    "id": "576432",
+    "oldName": "Bibirevo",
+    "english": "Bibirevo",
+    "country": "RU",
+    "longitude": 37.6,
+    "latitude": 55.88333,
+    "name": "比比列沃站",
+    "source": "wikidata",
+    "sourceId": "Q1187471",
+    "sourceCountry": "Q159",
+    "sourceLatitude": 55.884167,
+    "sourceLongitude": 37.603056,
+    "language": "zh",
+    "distanceKm": 0.212,
+    "instanceOf": [
+      "Q928830",
+      "Q22808403"
+    ]
+  },
+  {
+    "id": "513896",
+    "oldName": "Otradnoye",
+    "english": "Otradnoye",
+    "country": "RU",
+    "longitude": 37.6,
+    "latitude": 55.86667,
+    "name": "奥特拉德诺耶站",
+    "source": "wikidata",
+    "sourceId": "Q669787",
+    "sourceCountry": "Q159",
+    "sourceLatitude": 55.863056,
+    "sourceLongitude": 37.604722,
+    "language": "zh",
+    "distanceKm": 0.497,
+    "instanceOf": [
+      "Q928830",
+      "Q22808403"
+    ]
+  },
+  {
+    "id": "485630",
+    "oldName": "Sviblovo",
+    "english": "Sviblovo",
+    "country": "RU",
+    "longitude": 37.63333,
+    "latitude": 55.85,
+    "name": "斯維布洛沃站",
+    "source": "wikidata",
+    "sourceId": "Q577065",
+    "sourceCountry": "Q159",
+    "sourceLatitude": 55.855278,
+    "sourceLongitude": 37.652778,
+    "language": "zh",
+    "distanceKm": 1.346,
+    "instanceOf": [
+      "Q928830",
+      "Q22808403"
+    ]
+  },
+  {
+    "id": "491280",
+    "oldName": "Sokol",
+    "english": "Sokol",
+    "country": "RU",
+    "longitude": 37.51667,
+    "latitude": 55.8,
+    "name": "隼鳥站",
+    "source": "wikidata",
+    "sourceId": "Q376831",
+    "sourceCountry": "Q159",
+    "sourceLatitude": 55.805629,
+    "sourceLongitude": 37.515137,
+    "language": "zh",
+    "distanceKm": 0.632,
+    "instanceOf": [
+      "Q928830",
+      "Q22808403",
+      "Q2319498"
+    ]
+  },
+  {
+    "id": "567311",
+    "oldName": "Dachnoye",
+    "english": "Dachnoye",
+    "country": "RU",
+    "longitude": 30.25583,
+    "latitude": 59.84167,
+    "name": "達奇諾耶站",
+    "source": "wikidata",
+    "sourceId": "Q3020311",
+    "sourceCountry": "Q159",
+    "sourceLatitude": 59.855361,
+    "sourceLongitude": 30.270347,
+    "language": "zh",
+    "distanceKm": 1.722,
+    "instanceOf": [
+      "Q928830",
+      "Q22808404"
+    ]
+  },
+  {
+    "id": "osm:node:158808525",
+    "oldName": "Great Kills",
+    "english": "Great Kills",
+    "country": "US",
+    "longitude": -74.1515318,
+    "latitude": 40.5542718,
+    "name": "格雷特凯留斯车站",
+    "source": "wikidata",
+    "sourceId": "Q5599393",
+    "sourceCountry": "Q30",
+    "sourceLatitude": 40.5513,
+    "sourceLongitude": -74.1513,
+    "language": "zh",
+    "distanceKm": 0.33,
+    "instanceOf": [
+      "Q928830",
+      "Q22808404"
+    ]
+  },
+  {
+    "id": "4560179",
+    "oldName": "Overbrook",
+    "english": "Overbrook",
+    "country": "US",
+    "longitude": -75.24324,
+    "latitude": 39.98928,
+    "name": "奥弗布鲁克站",
+    "source": "wikidata",
+    "sourceId": "Q7113566",
+    "sourceCountry": "Q30",
+    "sourceLatitude": 39.9899,
+    "sourceLongitude": -75.2499,
+    "language": "zh",
+    "distanceKm": 0.571,
+    "instanceOf": [
+      "Q55488"
+    ]
+  },
+  {
+    "id": "580222",
+    "oldName": "Avtovo",
+    "english": "Avtovo",
+    "country": "RU",
+    "longitude": 30.26583,
+    "latitude": 59.87167,
+    "name": "阿夫托沃站",
+    "source": "wikidata",
+    "sourceId": "Q2016654",
+    "sourceCountry": "Q159",
+    "sourceLatitude": 59.867325,
+    "sourceLongitude": 30.261353,
+    "language": "zh",
+    "distanceKm": 0.543,
+    "instanceOf": [
+      "Q928830",
+      "Q22808403",
+      "Q2319498"
+    ]
+  },
+  {
+    "id": "7521912",
+    "oldName": "Consolação",
+    "english": "Consolação",
+    "country": "BR",
+    "longitude": -46.65735,
+    "latitude": -23.55242,
+    "name": "孔索拉桑站",
+    "source": "wikidata",
+    "sourceId": "Q2994646",
+    "sourceCountry": "Q155",
+    "sourceLatitude": -23.557516,
+    "sourceLongitude": -46.66091,
+    "language": "zh",
+    "distanceKm": 0.672,
+    "instanceOf": [
+      "Q928830",
+      "Q22808403"
+    ]
+  },
+  {
+    "id": "532535",
+    "oldName": "Lyublino",
+    "english": "Lyublino",
+    "country": "RU",
+    "longitude": 37.76005,
+    "latitude": 55.67738,
+    "name": "柳布林諾站",
+    "source": "wikidata",
+    "sourceId": "Q2551405",
+    "sourceCountry": "Q159",
+    "sourceLatitude": 55.675556,
+    "sourceLongitude": 37.761667,
+    "language": "zh",
+    "distanceKm": 0.226,
+    "instanceOf": [
+      "Q928830",
+      "Q22808403"
+    ]
+  },
+  {
+    "id": "5110161",
+    "oldName": "Brighton Beach",
+    "english": "Brighton Beach",
+    "country": "US",
+    "longitude": -73.95958,
+    "latitude": 40.57788,
+    "name": "布萊頓海灘車站",
+    "source": "wikidata",
+    "sourceId": "Q2615482",
+    "sourceCountry": "Q30",
+    "sourceLatitude": 40.5776,
+    "sourceLongitude": -73.9616,
+    "language": "zh",
+    "distanceKm": 0.173,
+    "instanceOf": [
+      "Q928830",
+      "Q22808404",
+      "Q11670533",
+      "Q20202072"
+    ]
+  },
+  {
+    "id": "3445968",
+    "oldName": "Tucuruvi",
+    "english": "Tucuruvi",
+    "country": "BR",
+    "longitude": -46.60609,
+    "latitude": -23.47544,
+    "name": "圖庫魯維站",
+    "source": "wikidata",
+    "sourceId": "Q3309828",
+    "sourceCountry": "Q155",
+    "sourceLatitude": -23.480065,
+    "sourceLongitude": -46.603226,
+    "language": "zh",
+    "distanceKm": 0.59,
+    "instanceOf": [
+      "Q928830",
+      "Q22808403"
+    ]
+  },
+  {
+    "id": "osm:node:158809359",
+    "oldName": "Woodside",
+    "english": "Woodside",
+    "country": "US",
+    "longitude": -73.9054145,
+    "latitude": 40.7453798,
+    "name": "伍德賽德車站",
+    "source": "wikidata",
+    "sourceId": "Q8033321",
+    "sourceCountry": "Q30",
+    "sourceLatitude": 40.746072,
+    "sourceLongitude": -73.903201,
+    "language": "zh",
+    "distanceKm": 0.201,
+    "instanceOf": [
+      "Q55488",
+      "Q55484"
+    ]
+  },
+  {
+    "id": "osm:node:158807229",
+    "oldName": "Parkchester",
+    "english": "Parkchester",
+    "country": "US",
+    "longitude": -73.8598266,
+    "latitude": 40.8382766,
+    "name": "帕克徹斯特車站",
+    "source": "wikidata",
+    "sourceId": "Q526848",
+    "sourceCountry": "Q30",
+    "sourceLatitude": 40.8329,
+    "sourceLongitude": -73.8628,
+    "language": "zh",
+    "distanceKm": 0.647,
+    "instanceOf": [
+      "Q928830",
+      "Q11670533"
+    ]
+  },
+  {
+    "id": "500019",
+    "oldName": "Rybatskoye",
+    "english": "Rybatskoye",
+    "country": "RU",
+    "longitude": 30.49873,
+    "latitude": 59.8393,
+    "name": "里巴茨科耶站",
+    "source": "wikidata",
+    "sourceId": "Q2536740",
+    "sourceCountry": "Q159",
+    "sourceLatitude": 59.830878,
+    "sourceLongitude": 30.500117,
+    "language": "zh",
+    "distanceKm": 0.938,
+    "instanceOf": [
+      "Q928830",
+      "Q22808403"
+    ]
+  },
+  {
+    "id": "5123344",
+    "oldName": "Kew Gardens",
+    "english": "Kew Gardens",
+    "country": "US",
+    "longitude": -73.83097,
+    "latitude": 40.71427,
+    "name": "邱园站",
+    "source": "wikidata",
+    "sourceId": "Q6397893",
+    "sourceCountry": "Q30",
+    "sourceLatitude": 40.7096,
+    "sourceLongitude": -73.8307,
+    "language": "zh-hans",
+    "distanceKm": 0.519,
+    "instanceOf": [
+      "Q55488"
+    ]
+  }
+]

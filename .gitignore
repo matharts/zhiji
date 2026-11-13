@@ -1,0 +1,10 @@
+/target/
+/output/
+
+# Local tool state and browser snapshots
+/.playwright-cli/
+/.serena/
+/.unlazy/
+
+# macOS metadata
+.DS_Store

@@ -1,0 +1,9 @@
+{
+  "events": [
+    {"t": 0.1, "type": "tap", "key": "stem-0"},
+    {"t": 0.2, "type": "tap", "key": "branch-0"},
+    {"t": 0.3, "type": "tap", "key": "ziwei-4"},
+    {"t": 0.4, "type": "tap", "key": "month-0"},
+    {"t": 0.5, "type": "tap", "key": "hour-0"}
+  ]
+}

@@ -1,0 +1,5523 @@
+{
+  "source": "Wikidata Gazetteer",
+  "sourceUrl": "https://huggingface.co/datasets/yuiseki/wikidata-gazetteer/tree/ef7674b5b00f2af07e792332b1d2d9f8ffccdff1",
+  "license": "CC0-1.0",
+  "matching": "normalized English alias, country, point distance <=2km, unique QID and accepted settlement/administrative type",
+  "places": [
+    {
+      "id": "7619709",
+      "oldName": "Taman Permas Jaya",
+      "english": "Taman Permas Jaya",
+      "country": "MY",
+      "longitude": 103.8198,
+      "latitude": 1.511,
+      "name": "百万镇",
+      "sourceId": "Q7169303",
+      "sourceCountry": "Q833",
+      "sourceLatitude": 1.498417,
+      "sourceLongitude": 103.819444,
+      "distanceKm": 1.397,
+      "instanceOf": [
+        "Q188509",
+        "Q56061"
+      ]
+    },
+    {
+      "id": "1262740",
+      "oldName": "Morsi",
+      "english": "Morsi",
+      "country": "IN",
+      "longitude": 78.01258,
+      "latitude": 21.3403,
+      "name": "莫尔斯希",
+      "sourceId": "Q2546870",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 21.3392,
+      "sourceLongitude": 78.0131,
+      "distanceKm": 0.133,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "1253944",
+      "oldName": "Udumalaippettai",
+      "english": "Udumalaippettai",
+      "country": "IN",
+      "longitude": 77.24779,
+      "latitude": 10.58806,
+      "name": "乌杜马莱佩泰",
+      "sourceId": "Q2548014",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 10.58,
+      "sourceLongitude": 77.24,
+      "distanceKm": 1.234,
+      "instanceOf": [
+        "Q3957"
+      ]
+    },
+    {
+      "id": "osm:node:667666022",
+      "oldName": "Aconibe",
+      "english": "Aconibe",
+      "country": "GQ",
+      "longitude": 10.944439,
+      "latitude": 1.294916,
+      "name": "阿科尼贝",
+      "sourceId": "Q2549481",
+      "sourceCountry": "Q983",
+      "sourceLatitude": 1.3,
+      "sourceLongitude": 10.933333,
+      "distanceKm": 1.356,
+      "instanceOf": [
+        "Q515"
+      ]
+    },
+    {
+      "id": "1259222",
+      "oldName": "Punjai Puliyampatti",
+      "english": "Punjai Puliyampatti",
+      "country": "IN",
+      "longitude": 77.16671,
+      "latitude": 11.35163,
+      "name": "蓬贾伊普利亚姆帕蒂",
+      "sourceId": "Q2716706",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 11.35,
+      "sourceLongitude": 77.168,
+      "distanceKm": 0.229,
+      "instanceOf": [
+        "Q3957"
+      ]
+    },
+    {
+      "id": "1262591",
+      "oldName": "Mukher",
+      "english": "Mukher",
+      "country": "IN",
+      "longitude": 77.36795,
+      "latitude": 18.70636,
+      "name": "穆凯德",
+      "sourceId": "Q2725579",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 18.707,
+      "sourceLongitude": 77.368,
+      "distanceKm": 0.071,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "2495524",
+      "oldName": "Guerara",
+      "english": "Guerara",
+      "country": "DZ",
+      "longitude": 4.49949,
+      "latitude": 32.79211,
+      "name": "蓋拉拉",
+      "sourceId": "Q3049902",
+      "sourceCountry": "Q262",
+      "sourceLatitude": 32.790278,
+      "sourceLongitude": 4.492222,
+      "distanceKm": 0.708,
+      "instanceOf": [
+        "Q2989398"
+      ]
+    },
+    {
+      "id": "1260674",
+      "oldName": "Palmaner",
+      "english": "Palmaner",
+      "country": "IN",
+      "longitude": 78.74725,
+      "latitude": 13.2,
+      "name": "帕拉曼纳",
+      "sourceId": "Q3429934",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 13.2,
+      "sourceLongitude": 78.75,
+      "distanceKm": 0.297,
+      "instanceOf": [
+        "Q58339518"
+      ]
+    },
+    {
+      "id": "13353582",
+      "oldName": "Vazhakkala",
+      "english": "Vazhakkala",
+      "country": "IN",
+      "longitude": 76.32633,
+      "latitude": 10.01239,
+      "name": "瓦扎克卡拉",
+      "sourceId": "Q4009048",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 10.015161,
+      "sourceLongitude": 76.329422,
+      "distanceKm": 0.457,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "1168412",
+      "oldName": "Pano Aqil",
+      "english": "Pano Aqil",
+      "country": "PK",
+      "longitude": 69.11111,
+      "latitude": 27.85619,
+      "name": "帕诺阿基尔",
+      "sourceId": "Q7131436",
+      "sourceCountry": "Q843",
+      "sourceLatitude": 27.866667,
+      "sourceLongitude": 69.116667,
+      "distanceKm": 1.284,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "1571725",
+      "oldName": "Thị Trấn Nước Hai",
+      "english": "Thị Trấn Nước Hai",
+      "country": "VN",
+      "longitude": 106.15216,
+      "latitude": 22.73738,
+      "name": "渃𠄩市镇",
+      "sourceId": "Q10802086",
+      "sourceCountry": "Q881",
+      "sourceLatitude": 22.741389,
+      "sourceLongitude": 106.146667,
+      "distanceKm": 0.717,
+      "instanceOf": [
+        "Q1070942"
+      ]
+    },
+    {
+      "id": "1590900",
+      "oldName": "Thị Trấn Thuận Châu",
+      "english": "Thị Trấn Thuận Châu",
+      "country": "VN",
+      "longitude": 103.69,
+      "latitude": 21.43849,
+      "name": "顺州市镇",
+      "sourceId": "Q10825426",
+      "sourceCountry": "Q881",
+      "sourceLatitude": 21.428611,
+      "sourceLongitude": 103.679167,
+      "distanceKm": 1.567,
+      "instanceOf": [
+        "Q1070942"
+      ]
+    },
+    {
+      "id": "3658192",
+      "oldName": "Eloy Alfaro",
+      "english": "Eloy Alfaro",
+      "country": "EC",
+      "longitude": -79.83987,
+      "latitude": -2.16919,
+      "name": "杜兰",
+      "sourceId": "Q1120810",
+      "sourceCountry": "Q736",
+      "sourceLatitude": -2.173333,
+      "sourceLongitude": -79.831111,
+      "distanceKm": 1.075,
+      "instanceOf": [
+        "Q515"
+      ]
+    },
+    {
+      "id": "osm:node:566196808",
+      "oldName": "Deogarh",
+      "english": "Deogarh",
+      "country": "IN",
+      "longitude": 84.7301184,
+      "latitude": 21.5370786,
+      "name": "德巴加尔",
+      "sourceId": "Q1193197",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 21.53,
+      "sourceLongitude": 84.73,
+      "distanceKm": 0.786,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "osm:node:2486377075",
+      "oldName": "Tando Adam",
+      "english": "Tando Adam",
+      "country": "PK",
+      "longitude": 68.6578079,
+      "latitude": 25.7620954,
+      "name": "坦杜阿當",
+      "sourceId": "Q1249952",
+      "sourceCountry": "Q843",
+      "sourceLatitude": 25.76374,
+      "sourceLongitude": 68.66098,
+      "distanceKm": 0.366,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "osm:node:245751454",
+      "oldName": "Dhaulpur",
+      "english": "Dhaulpur",
+      "country": "IN",
+      "longitude": 77.896749,
+      "latitude": 26.7010642,
+      "name": "托尔布尔",
+      "sourceId": "Q1264412",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 26.7,
+      "sourceLongitude": 77.9,
+      "distanceKm": 0.343,
+      "instanceOf": [
+        "Q515"
+      ]
+    },
+    {
+      "id": "172374",
+      "oldName": "Al-Tabqa",
+      "english": "Al-Tabqa",
+      "country": "SY",
+      "longitude": 38.54828,
+      "latitude": 35.83758,
+      "name": "穆赫塔尔",
+      "sourceId": "Q1822804",
+      "sourceCountry": "Q858",
+      "sourceLatitude": 35.834444,
+      "sourceLongitude": 38.546389,
+      "distanceKm": 0.387,
+      "instanceOf": [
+        "Q515",
+        "Q16127605"
+      ]
+    },
+    {
+      "id": "1020340",
+      "oldName": "Belfast",
+      "english": "Belfast",
+      "country": "ZA",
+      "longitude": 30.03504,
+      "latitude": -25.68991,
+      "name": "貝爾法斯特",
+      "sourceId": "Q301107",
+      "sourceCountry": "Q258",
+      "sourceLatitude": -25.68935,
+      "sourceLongitude": 30.031667,
+      "distanceKm": 0.343,
+      "instanceOf": [
+        "Q3957"
+      ]
+    },
+    {
+      "id": "2392164",
+      "oldName": "Péhonko",
+      "english": "Péhonko",
+      "country": "BJ",
+      "longitude": 2.00192,
+      "latitude": 10.22746,
+      "name": "佩洪科",
+      "sourceId": "Q371196",
+      "sourceCountry": "Q962",
+      "sourceLatitude": 10.228333,
+      "sourceLongitude": 2.001944,
+      "distanceKm": 0.097,
+      "instanceOf": [
+        "Q1780506",
+        "Q486972"
+      ]
+    },
+    {
+      "id": "1257219",
+      "oldName": "Sarauli",
+      "english": "Sarauli",
+      "country": "IN",
+      "longitude": 79.09177,
+      "latitude": 28.49404,
+      "name": "西劳利",
+      "sourceId": "Q567954",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 28.493056,
+      "sourceLongitude": 79.085278,
+      "distanceKm": 0.643,
+      "instanceOf": [
+        "Q2322432",
+        "Q486972"
+      ]
+    },
+    {
+      "id": "3842881",
+      "oldName": "Nueve de Julio",
+      "english": "Nueve de Julio",
+      "country": "AR",
+      "longitude": -60.88463,
+      "latitude": -35.44394,
+      "name": "七月九日城",
+      "sourceId": "Q579199",
+      "sourceCountry": "Q414",
+      "sourceLatitude": -35.45,
+      "sourceLongitude": -60.883333,
+      "distanceKm": 0.683,
+      "instanceOf": [
+        "Q5770918"
+      ]
+    },
+    {
+      "id": "2549356",
+      "oldName": "Arfoud",
+      "english": "Arfoud",
+      "country": "MA",
+      "longitude": -4.23258,
+      "latitude": 31.4353,
+      "name": "厄夫",
+      "sourceId": "Q648987",
+      "sourceCountry": "Q1028",
+      "sourceLatitude": 31.436111,
+      "sourceLongitude": -4.232778,
+      "distanceKm": 0.092,
+      "instanceOf": [
+        "Q3327862"
+      ]
+    },
+    {
+      "id": "1272243",
+      "oldName": "Dam Dam",
+      "english": "Dam Dam",
+      "country": "IN",
+      "longitude": 88.42286,
+      "latitude": 22.63341,
+      "name": "杜姆杜姆",
+      "sourceId": "Q649955",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 22.62,
+      "sourceLongitude": 88.42,
+      "distanceKm": 1.517,
+      "instanceOf": [
+        "Q18918041",
+        "Q1549591",
+        "Q486972"
+      ]
+    },
+    {
+      "id": "1256421",
+      "oldName": "Shrīrangapattana",
+      "english": "Shrīrangapattana",
+      "country": "IN",
+      "longitude": 76.68439,
+      "latitude": 12.42264,
+      "name": "什里伦格伯德讷",
+      "sourceId": "Q653988",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 12.418056,
+      "sourceLongitude": 76.694722,
+      "distanceKm": 1.23,
+      "instanceOf": [
+        "Q486972",
+        "Q16861595"
+      ]
+    },
+    {
+      "id": "4407010",
+      "oldName": "Saint Joseph",
+      "english": "Saint Joseph",
+      "country": "US",
+      "longitude": -94.84663,
+      "latitude": 39.76861,
+      "name": "圣约瑟夫",
+      "sourceId": "Q745120",
+      "sourceCountry": "Q30",
+      "sourceLatitude": 39.768611,
+      "sourceLongitude": -94.846639,
+      "distanceKm": 0.001,
+      "instanceOf": [
+        "Q1093829",
+        "Q62049"
+      ]
+    },
+    {
+      "id": "3397941",
+      "oldName": "Itapagé",
+      "english": "Itapagé",
+      "country": "BR",
+      "longitude": -39.58611,
+      "latitude": -3.68667,
+      "name": "伊塔帕热",
+      "sourceId": "Q2021022",
+      "sourceCountry": "Q155",
+      "sourceLatitude": -3.686944,
+      "sourceLongitude": -39.585833,
+      "distanceKm": 0.043,
+      "instanceOf": [
+        "Q3184121"
+      ]
+    },
+    {
+      "id": "1267091",
+      "oldName": "Khambhāliya",
+      "english": "Khambhāliya",
+      "country": "IN",
+      "longitude": 69.65031,
+      "latitude": 22.20685,
+      "name": "肯帕利亚",
+      "sourceId": "Q2120093",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 22.2,
+      "sourceLongitude": 69.65,
+      "distanceKm": 0.761,
+      "instanceOf": [
+        "Q3957"
+      ]
+    },
+    {
+      "id": "585225",
+      "oldName": "Hacıqabul",
+      "english": "Hacıqabul",
+      "country": "AZ",
+      "longitude": 48.94286,
+      "latitude": 40.03874,
+      "name": "卡齊穆罕默德",
+      "sourceId": "Q2191437",
+      "sourceCountry": "Q227",
+      "sourceLatitude": 40.0375,
+      "sourceLongitude": 48.935,
+      "distanceKm": 0.682,
+      "instanceOf": [
+        "Q515"
+      ]
+    },
+    {
+      "id": "3667773",
+      "oldName": "Suárez",
+      "english": "Suárez",
+      "country": "CO",
+      "longitude": -76.69644,
+      "latitude": 2.95395,
+      "name": "蘇亞雷斯",
+      "sourceId": "Q2203425",
+      "sourceCountry": "Q739",
+      "sourceLatitude": 2.954167,
+      "sourceLongitude": -76.693611,
+      "distanceKm": 0.315,
+      "instanceOf": [
+        "Q2555896"
+      ]
+    },
+    {
+      "id": "1266031",
+      "oldName": "Kotamangalam",
+      "english": "Kotamangalam",
+      "country": "IN",
+      "longitude": 76.62843,
+      "latitude": 10.06435,
+      "name": "科塔曼嘎兰姆",
+      "sourceId": "Q2244227",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 10.08,
+      "sourceLongitude": 76.62,
+      "distanceKm": 1.966,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "2542826",
+      "oldName": "Mediouna",
+      "english": "Mediouna",
+      "country": "MA",
+      "longitude": -7.51995,
+      "latitude": 33.45161,
+      "name": "梅久那",
+      "sourceId": "Q2254188",
+      "sourceCountry": "Q1028",
+      "sourceLatitude": 33.455556,
+      "sourceLongitude": -7.520833,
+      "distanceKm": 0.446,
+      "instanceOf": [
+        "Q3327862"
+      ]
+    },
+    {
+      "id": "1255714",
+      "oldName": "Sopur",
+      "english": "Sopur",
+      "country": "IN",
+      "longitude": 74.47228,
+      "latitude": 34.28671,
+      "name": "索波雷",
+      "sourceId": "Q2321929",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 34.286389,
+      "sourceLongitude": 74.462778,
+      "distanceKm": 0.872,
+      "instanceOf": [
+        "Q3957",
+        "Q1549591"
+      ]
+    },
+    {
+      "id": "3601787",
+      "oldName": "San Pedro de Copán",
+      "english": "San Pedro de Copán",
+      "country": "HN",
+      "longitude": -88.86667,
+      "latitude": 14.61667,
+      "name": "聖佩德羅德科潘",
+      "sourceId": "Q2392555",
+      "sourceCountry": "Q783",
+      "sourceLatitude": 14.611319,
+      "sourceLongitude": -88.862481,
+      "distanceKm": 0.745,
+      "instanceOf": [
+        "Q2602693"
+      ]
+    },
+    {
+      "id": "3815453",
+      "oldName": "Villa Vicente Guerrero",
+      "english": "Villa Vicente Guerrero",
+      "country": "MX",
+      "longitude": -98.16572,
+      "latitude": 19.12123,
+      "name": "圣巴勃罗德尔蒙特",
+      "sourceId": "Q2474056",
+      "sourceCountry": "Q96",
+      "sourceLatitude": 19.119738,
+      "sourceLongitude": -98.170416,
+      "distanceKm": 0.52,
+      "instanceOf": [
+        "Q515",
+        "Q20202352"
+      ]
+    },
+    {
+      "id": "osm:node:4719477603",
+      "oldName": "Dabwali",
+      "english": "Dabwali",
+      "country": "IN",
+      "longitude": 74.7372809,
+      "latitude": 29.9486566,
+      "name": "马恩迪达布瓦利",
+      "sourceId": "Q2558283",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 29.947656,
+      "sourceLongitude": 74.732233,
+      "distanceKm": 0.498,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "osm:node:245630135",
+      "oldName": "Pamuru",
+      "english": "Pamuru",
+      "country": "IN",
+      "longitude": 79.4138,
+      "latitude": 15.0944,
+      "name": "帕穆尔",
+      "sourceId": "Q2563502",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 15.094444,
+      "sourceLongitude": 79.413889,
+      "distanceKm": 0.011,
+      "instanceOf": [
+        "Q16830604"
+      ]
+    },
+    {
+      "id": "2638776",
+      "oldName": "Saint Ives",
+      "english": "Saint Ives",
+      "country": "GB",
+      "longitude": -0.07656,
+      "latitude": 52.33251,
+      "name": "圣艾芙",
+      "sourceId": "Q2569095",
+      "sourceCountry": "Q145",
+      "sourceLatitude": 52.335,
+      "sourceLongitude": -0.0837,
+      "distanceKm": 0.558,
+      "instanceOf": [
+        "Q1115575",
+        "Q18511725"
+      ]
+    },
+    {
+      "id": "1569901",
+      "oldName": "Phú Thọ",
+      "english": "Phú Thọ",
+      "country": "VN",
+      "longitude": 105.22221,
+      "latitude": 21.39963,
+      "name": "富壽市社",
+      "sourceId": "Q2662189",
+      "sourceCountry": "Q881",
+      "sourceLatitude": 21.400205,
+      "sourceLongitude": 105.222523,
+      "distanceKm": 0.072,
+      "instanceOf": [
+        "Q2112349"
+      ]
+    },
+    {
+      "id": "1269581",
+      "oldName": "Jagatsinghapur",
+      "english": "Jagatsinghapur",
+      "country": "IN",
+      "longitude": 86.17112,
+      "latitude": 20.2557,
+      "name": "贾加特辛格阿普尔",
+      "sourceId": "Q2670444",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 20.266667,
+      "sourceLongitude": 86.166667,
+      "distanceKm": 1.303,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "osm:node:352755148",
+      "oldName": "Tômbua",
+      "english": "Tômbua",
+      "country": "AO",
+      "longitude": 11.8540055,
+      "latitude": -15.8020583,
+      "name": "通布阿",
+      "sourceId": "Q2944558",
+      "sourceCountry": "Q916",
+      "sourceLatitude": -15.8,
+      "sourceLongitude": 11.85,
+      "distanceKm": 0.485,
+      "instanceOf": [
+        "Q515"
+      ]
+    },
+    {
+      "id": "92430",
+      "oldName": "Al-Hamdaniya",
+      "english": "Al-Hamdaniya",
+      "country": "IQ",
+      "longitude": 43.37758,
+      "latitude": 36.27093,
+      "name": "加拉格什",
+      "sourceId": "Q2995584",
+      "sourceCountry": "Q796",
+      "sourceLatitude": 36.270833,
+      "sourceLongitude": 43.3775,
+      "distanceKm": 0.013,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "3628060",
+      "oldName": "Colón",
+      "english": "Colón",
+      "country": "VE",
+      "longitude": -72.26053,
+      "latitude": 8.03125,
+      "name": "科隆",
+      "sourceId": "Q3072164",
+      "sourceCountry": "Q717",
+      "sourceLatitude": 8.037778,
+      "sourceLongitude": -72.251944,
+      "distanceKm": 1.19,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "1881919",
+      "oldName": "Bishan New Town",
+      "english": "Bishan New Town",
+      "country": "SG",
+      "longitude": 103.84875,
+      "latitude": 1.3504,
+      "name": "碧山",
+      "sourceId": "Q3249777",
+      "sourceCountry": "Q334",
+      "sourceLatitude": 1.35083,
+      "sourceLongitude": 103.851,
+      "distanceKm": 0.254,
+      "instanceOf": [
+        "Q104527265",
+        "Q3957"
+      ]
+    },
+    {
+      "id": "osm:node:283675722",
+      "oldName": "Mizan Teferi",
+      "english": "Mizan Teferi",
+      "country": "ET",
+      "longitude": 35.5868945,
+      "latitude": 6.9952914,
+      "name": "米赞特费里",
+      "sourceId": "Q3317332",
+      "sourceCountry": "Q115",
+      "sourceLatitude": 7,
+      "sourceLongitude": 35.583333,
+      "distanceKm": 0.654,
+      "instanceOf": [
+        "Q515",
+        "Q690840"
+      ]
+    },
+    {
+      "id": "osm:node:330861062",
+      "oldName": "Saki",
+      "english": "Saki",
+      "country": "NG",
+      "longitude": 3.397191,
+      "latitude": 8.6742435,
+      "name": "沙基",
+      "sourceId": "Q3500788",
+      "sourceCountry": "Q1033",
+      "sourceLatitude": 8.666667,
+      "sourceLongitude": 3.4,
+      "distanceKm": 0.896,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "osm:node:5469362547",
+      "oldName": "Camucuio",
+      "english": "Camucuio",
+      "country": "AO",
+      "longitude": 13.2423353,
+      "latitude": -14.1145199,
+      "name": "卡馬奎奧",
+      "sourceId": "Q3651110",
+      "sourceCountry": "Q916",
+      "sourceLatitude": -14.114269,
+      "sourceLongitude": 13.241272,
+      "distanceKm": 0.118,
+      "instanceOf": [
+        "Q378508"
+      ]
+    },
+    {
+      "id": "957178",
+      "oldName": "Schoemansdal",
+      "english": "Schoemansdal",
+      "country": "ZA",
+      "longitude": 31.51025,
+      "latitude": -25.70866,
+      "name": "卡馬察莫",
+      "sourceId": "Q5179207",
+      "sourceCountry": "Q258",
+      "sourceLatitude": -25.703,
+      "sourceLongitude": 31.506,
+      "distanceKm": 0.759,
+      "instanceOf": [
+        "Q3957"
+      ]
+    },
+    {
+      "id": "1177073",
+      "oldName": "Harunabad",
+      "english": "Harunabad",
+      "country": "PK",
+      "longitude": 73.13802,
+      "latitude": 29.61206,
+      "name": "哈鲁纳巴德",
+      "sourceId": "Q5662968",
+      "sourceCountry": "Q843",
+      "sourceLatitude": 29.61,
+      "sourceLongitude": 73.136111,
+      "distanceKm": 0.294,
+      "instanceOf": [
+        "Q3957"
+      ]
+    },
+    {
+      "id": "2338385",
+      "oldName": "Ijero-Ekiti",
+      "english": "Ijero-Ekiti",
+      "country": "NG",
+      "longitude": 5.06716,
+      "latitude": 7.81514,
+      "name": "伊杰罗埃基蒂",
+      "sourceId": "Q5995177",
+      "sourceCountry": "Q1033",
+      "sourceLatitude": 7.81667,
+      "sourceLongitude": 5.08333,
+      "distanceKm": 1.786,
+      "instanceOf": [
+        "Q1639634"
+      ]
+    },
+    {
+      "id": "470252",
+      "oldName": "Vyshniy Volochëk",
+      "english": "Vyshniy Volochëk",
+      "country": "RU",
+      "longitude": 34.56854,
+      "latitude": 57.5888,
+      "name": "上沃洛乔克",
+      "sourceId": "Q134181",
+      "sourceCountry": "Q159",
+      "sourceLatitude": 57.59125,
+      "sourceLongitude": 34.56453,
+      "distanceKm": 0.362,
+      "instanceOf": [
+        "Q192287",
+        "Q7930989"
+      ]
+    },
+    {
+      "id": "2638864",
+      "oldName": "Saint Andrews",
+      "english": "Saint Andrews",
+      "country": "GB",
+      "longitude": -2.79902,
+      "latitude": 56.33871,
+      "name": "圣安德鲁斯",
+      "sourceId": "Q207736",
+      "sourceCountry": "Q145",
+      "sourceLatitude": 56.338889,
+      "sourceLongitude": -2.798889,
+      "distanceKm": 0.021,
+      "instanceOf": [
+        "Q3957",
+        "Q2928458",
+        "Q7543008"
+      ]
+    },
+    {
+      "id": "8358544",
+      "oldName": "Zográfos",
+      "english": "Zográfos",
+      "country": "GR",
+      "longitude": 23.76911,
+      "latitude": 37.97574,
+      "name": "佐格拉富",
+      "sourceId": "Q218375",
+      "sourceCountry": "Q41",
+      "sourceLatitude": 37.976222,
+      "sourceLongitude": 23.763778,
+      "distanceKm": 0.47,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "1253352",
+      "oldName": "Vattalkundu",
+      "english": "Vattalkundu",
+      "country": "IN",
+      "longitude": 77.75883,
+      "latitude": 10.16069,
+      "name": "巴特拉贡杜",
+      "sourceId": "Q298596",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 10.1655,
+      "sourceLongitude": 77.7594,
+      "distanceKm": 0.538,
+      "instanceOf": [
+        "Q3957"
+      ]
+    },
+    {
+      "id": "283506",
+      "oldName": "Janīn",
+      "english": "Janīn",
+      "country": "PS",
+      "longitude": 35.30086,
+      "latitude": 32.45943,
+      "name": "杰宁",
+      "sourceId": "Q374748",
+      "sourceCountry": "Q219060",
+      "sourceLatitude": 32.461111,
+      "sourceLongitude": 35.3,
+      "distanceKm": 0.203,
+      "instanceOf": [
+        "Q515",
+        "Q136721998"
+      ]
+    },
+    {
+      "id": "1512473",
+      "oldName": "Urganch",
+      "english": "Urganch",
+      "country": "UZ",
+      "longitude": 60.63143,
+      "latitude": 41.55177,
+      "name": "乌尔根奇",
+      "sourceId": "Q472925",
+      "sourceCountry": "Q265",
+      "sourceLatitude": 41.5345,
+      "sourceLongitude": 60.6249,
+      "distanceKm": 1.992,
+      "instanceOf": [
+        "Q515",
+        "Q1549591"
+      ]
+    },
+    {
+      "id": "2844437",
+      "oldName": "Rotenburg",
+      "english": "Rotenburg",
+      "country": "DE",
+      "longitude": 9.4036,
+      "latitude": 53.11032,
+      "name": "维默河畔罗滕堡",
+      "sourceId": "Q498560",
+      "sourceCountry": "Q183",
+      "sourceLatitude": 53.111389,
+      "sourceLongitude": 9.410833,
+      "distanceKm": 0.496,
+      "instanceOf": [
+        "Q42744322",
+        "Q134626",
+        "Q133997300"
+      ]
+    },
+    {
+      "id": "1584023",
+      "oldName": "Thị Trấn Đầm Hà",
+      "english": "Thị Trấn Đầm Hà",
+      "country": "VN",
+      "longitude": 107.59722,
+      "latitude": 21.35314,
+      "name": "潭河市镇",
+      "sourceId": "Q10841386",
+      "sourceCountry": "Q881",
+      "sourceLatitude": 21.351389,
+      "sourceLongitude": 107.595833,
+      "distanceKm": 0.242,
+      "instanceOf": [
+        "Q1070942"
+      ]
+    },
+    {
+      "id": "656913",
+      "oldName": "Hyvinge",
+      "english": "Hyvinge",
+      "country": "FI",
+      "longitude": 24.86667,
+      "latitude": 60.63333,
+      "name": "许温凯",
+      "sourceId": "Q207753",
+      "sourceCountry": "Q33",
+      "sourceLatitude": 60.630556,
+      "sourceLongitude": 24.859722,
+      "distanceKm": 0.488,
+      "instanceOf": [
+        "Q3957",
+        "Q856076",
+        "Q515"
+      ]
+    },
+    {
+      "id": "1704021",
+      "oldName": "Maganoy",
+      "english": "Maganoy",
+      "country": "PH",
+      "longitude": 124.44167,
+      "latitude": 6.86472,
+      "name": "沙里夫阿瓜克",
+      "sourceId": "Q212766",
+      "sourceCountry": "Q928",
+      "sourceLatitude": 6.864722,
+      "sourceLongitude": 124.441667,
+      "distanceKm": 0,
+      "instanceOf": [
+        "Q24764"
+      ]
+    },
+    {
+      "id": "172082",
+      "oldName": "I‘zāz",
+      "english": "I‘zāz",
+      "country": "SY",
+      "longitude": 37.04661,
+      "latitude": 36.58742,
+      "name": "阿扎茲",
+      "sourceId": "Q277674",
+      "sourceCountry": "Q858",
+      "sourceLatitude": 36.586111,
+      "sourceLongitude": 37.044722,
+      "distanceKm": 0.222,
+      "instanceOf": [
+        "Q18466176",
+        "Q16127605",
+        "Q515"
+      ]
+    },
+    {
+      "id": "354775",
+      "oldName": "Kafr ad Dawwār",
+      "english": "Kafr ad Dawwār",
+      "country": "EG",
+      "longitude": 30.12969,
+      "latitude": 31.13379,
+      "name": "道瓦尔",
+      "sourceId": "Q335769",
+      "sourceCountry": "Q79",
+      "sourceLatitude": 31.133889,
+      "sourceLongitude": 30.129722,
+      "distanceKm": 0.011,
+      "instanceOf": [
+        "Q515",
+        "Q1549591"
+      ]
+    },
+    {
+      "id": "358108",
+      "oldName": "Disūq",
+      "english": "Disūq",
+      "country": "EG",
+      "longitude": 30.64784,
+      "latitude": 31.13259,
+      "name": "迪斯沃克",
+      "sourceId": "Q395863",
+      "sourceCountry": "Q79",
+      "sourceLatitude": 31.1325,
+      "sourceLongitude": 30.647778,
+      "distanceKm": 0.012,
+      "instanceOf": [
+        "Q515",
+        "Q1549591"
+      ]
+    },
+    {
+      "id": "70225",
+      "oldName": "Taiz",
+      "english": "Taiz",
+      "country": "YE",
+      "longitude": 44.02091,
+      "latitude": 13.57952,
+      "name": "塔伊兹",
+      "sourceId": "Q466216",
+      "sourceCountry": "Q805",
+      "sourceLatitude": 13.578889,
+      "sourceLongitude": 44.021944,
+      "distanceKm": 0.132,
+      "instanceOf": [
+        "Q388330",
+        "Q1549591"
+      ]
+    },
+    {
+      "id": "1513604",
+      "oldName": "Xiva",
+      "english": "Xiva",
+      "country": "UZ",
+      "longitude": 60.36408,
+      "latitude": 41.38555,
+      "name": "希瓦",
+      "sourceId": "Q486195",
+      "sourceCountry": "Q265",
+      "sourceLatitude": 41.381389,
+      "sourceLongitude": 60.361111,
+      "distanceKm": 0.524,
+      "instanceOf": [
+        "Q515"
+      ]
+    },
+    {
+      "id": "3526674",
+      "oldName": "Ixtepec",
+      "english": "Ixtepec",
+      "country": "MX",
+      "longitude": -95.10375,
+      "latitude": 16.56052,
+      "name": "伊斯德柏克",
+      "sourceId": "Q528875",
+      "sourceCountry": "Q96",
+      "sourceLatitude": 16.562778,
+      "sourceLongitude": -95.1,
+      "distanceKm": 0.471,
+      "instanceOf": [
+        "Q20202352"
+      ]
+    },
+    {
+      "id": "428219",
+      "oldName": "Karusi",
+      "english": "Karusi",
+      "country": "BI",
+      "longitude": 30.16278,
+      "latitude": -3.10139,
+      "name": "卡鲁齐",
+      "sourceId": "Q684152",
+      "sourceCountry": "Q967",
+      "sourceLatitude": -3.1,
+      "sourceLongitude": 30.166667,
+      "distanceKm": 0.458,
+      "instanceOf": [
+        "Q486972",
+        "Q3957",
+        "Q956214"
+      ]
+    },
+    {
+      "id": "1276870",
+      "oldName": "Barpāli",
+      "english": "Barpāli",
+      "country": "IN",
+      "longitude": 83.58721,
+      "latitude": 21.19005,
+      "name": "巴拉帕利",
+      "sourceId": "Q712508",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 21.2,
+      "sourceLongitude": 83.5833,
+      "distanceKm": 1.176,
+      "instanceOf": [
+        "Q3957"
+      ]
+    },
+    {
+      "id": "osm:node:7150918787",
+      "oldName": "Basudebpur",
+      "english": "Basudebpur",
+      "country": "IN",
+      "longitude": 86.7389917,
+      "latitude": 21.1245769,
+      "name": "巴苏德布普尔",
+      "sourceId": "Q712632",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 21.14,
+      "sourceLongitude": 86.74,
+      "distanceKm": 1.715,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "343370",
+      "oldName": "Āsela",
+      "english": "Āsela",
+      "country": "ET",
+      "longitude": 39.13333,
+      "latitude": 7.95,
+      "name": "阿塞拉",
+      "sourceId": "Q740236",
+      "sourceCountry": "Q115",
+      "sourceLatitude": 7.95,
+      "sourceLongitude": 39.116667,
+      "distanceKm": 1.832,
+      "instanceOf": [
+        "Q515",
+        "Q1549591",
+        "Q690840"
+      ]
+    },
+    {
+      "id": "136280",
+      "oldName": "Bandar-e Deyr",
+      "english": "Bandar-e Deyr",
+      "country": "IR",
+      "longitude": 51.9378,
+      "latitude": 27.8399,
+      "name": "代耶尔港",
+      "sourceId": "Q862479",
+      "sourceCountry": "Q794",
+      "sourceLatitude": 27.84,
+      "sourceLongitude": 51.937778,
+      "distanceKm": 0.011,
+      "instanceOf": [
+        "Q56557504"
+      ]
+    },
+    {
+      "id": "359576",
+      "oldName": "Awsīm",
+      "english": "Awsīm",
+      "country": "EG",
+      "longitude": 31.13571,
+      "latitude": 30.12303,
+      "name": "莱托波利斯",
+      "sourceId": "Q1013648",
+      "sourceCountry": "Q79",
+      "sourceLatitude": 30.122222,
+      "sourceLongitude": 31.133333,
+      "distanceKm": 0.245,
+      "instanceOf": [
+        "Q15661340"
+      ]
+    },
+    {
+      "id": "3449502",
+      "oldName": "Santo Antônio do Leverger",
+      "english": "Santo Antônio do Leverger",
+      "country": "BR",
+      "longitude": -56.07667,
+      "latitude": -15.86556,
+      "name": "圣安东尼奥-杜莱韦热",
+      "sourceId": "Q962587",
+      "sourceCountry": "Q155",
+      "sourceLatitude": -15.865833,
+      "sourceLongitude": -56.076944,
+      "distanceKm": 0.042,
+      "instanceOf": [
+        "Q3184121"
+      ]
+    },
+    {
+      "id": "63571",
+      "oldName": "Buurhakaba",
+      "english": "Buurhakaba",
+      "country": "SO",
+      "longitude": 44.07805,
+      "latitude": 2.80257,
+      "name": "布尔哈卡巴",
+      "sourceId": "Q1018270",
+      "sourceCountry": "Q1045",
+      "sourceLatitude": 2.8,
+      "sourceLongitude": 44.083333,
+      "distanceKm": 0.651,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "608359",
+      "oldName": "Shalqar",
+      "english": "Shalqar",
+      "country": "KZ",
+      "longitude": 59.61926,
+      "latitude": 47.83154,
+      "name": "沙尔卡尔",
+      "sourceId": "Q2374447",
+      "sourceCountry": "Q232",
+      "sourceLatitude": 47.833333,
+      "sourceLongitude": 59.6,
+      "distanceKm": 1.449,
+      "instanceOf": [
+        "Q7930989",
+        "Q130108094"
+      ]
+    },
+    {
+      "id": "1584242",
+      "oldName": "Thị Trấn Đại Từ",
+      "english": "Thị Trấn Đại Từ",
+      "country": "VN",
+      "longitude": 105.63766,
+      "latitude": 21.63384,
+      "name": "雄山市镇",
+      "sourceId": "Q2523344",
+      "sourceCountry": "Q881",
+      "sourceLatitude": 21.633333,
+      "sourceLongitude": 105.65,
+      "distanceKm": 1.274,
+      "instanceOf": [
+        "Q1070942"
+      ]
+    },
+    {
+      "id": "1263120",
+      "oldName": "Merta",
+      "english": "Merta",
+      "country": "IN",
+      "longitude": 74.03414,
+      "latitude": 26.64859,
+      "name": "梅尔特城",
+      "sourceId": "Q2544240",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 26.65,
+      "sourceLongitude": 74.0333,
+      "distanceKm": 0.177,
+      "instanceOf": [
+        "Q515"
+      ]
+    },
+    {
+      "id": "1262794",
+      "oldName": "Moram",
+      "english": "Moram",
+      "country": "IN",
+      "longitude": 76.47077,
+      "latitude": 17.78812,
+      "name": "穆鲁姆",
+      "sourceId": "Q2546781",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 17.788056,
+      "sourceLongitude": 76.470833,
+      "distanceKm": 0.01,
+      "instanceOf": [
+        "Q486972",
+        "Q6958514"
+      ]
+    },
+    {
+      "id": "1259630",
+      "oldName": "Pinjaur",
+      "english": "Pinjaur",
+      "country": "IN",
+      "longitude": 76.91822,
+      "latitude": 30.79873,
+      "name": "皮恩乔雷",
+      "sourceId": "Q2557889",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 30.7972,
+      "sourceLongitude": 76.9172,
+      "distanceKm": 0.196,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "1167718",
+      "oldName": "Pūnch",
+      "english": "Pūnch",
+      "country": "IN",
+      "longitude": 74.09254,
+      "latitude": 33.77033,
+      "name": "本杰",
+      "sourceId": "Q2575156",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 33.766667,
+      "sourceLongitude": 74.1,
+      "distanceKm": 0.799,
+      "instanceOf": [
+        "Q3957"
+      ]
+    },
+    {
+      "id": "337853",
+      "oldName": "Felege Neway",
+      "english": "Felege Neway",
+      "country": "ET",
+      "longitude": 36.88333,
+      "latitude": 6.3,
+      "name": "紹拉",
+      "sourceId": "Q3474658",
+      "sourceCountry": "Q115",
+      "sourceLatitude": 6.3,
+      "sourceLongitude": 36.883333,
+      "distanceKm": 0,
+      "instanceOf": [
+        "Q515",
+        "Q690840"
+      ]
+    },
+    {
+      "id": "osm:node:282299313",
+      "oldName": "Shujaabad",
+      "english": "Shujaabad",
+      "country": "PK",
+      "longitude": 71.2931695,
+      "latitude": 29.8809972,
+      "name": "舒贾巴德",
+      "sourceId": "Q7504795",
+      "sourceCountry": "Q843",
+      "sourceLatitude": 29.880278,
+      "sourceLongitude": 71.295,
+      "distanceKm": 0.193,
+      "instanceOf": [
+        "Q515"
+      ]
+    },
+    {
+      "id": "163811",
+      "oldName": "Tādif",
+      "english": "Tādif",
+      "country": "SY",
+      "longitude": 37.5309,
+      "latitude": 36.34814,
+      "name": "塔德夫",
+      "sourceId": "Q7694134",
+      "sourceCountry": "Q858",
+      "sourceLatitude": 36.348038,
+      "sourceLongitude": 37.529984,
+      "distanceKm": 0.083,
+      "instanceOf": [
+        "Q532",
+        "Q16127605"
+      ]
+    },
+    {
+      "id": "1573844",
+      "oldName": "Thị Trấn Na Dương",
+      "english": "Thị Trấn Na Dương",
+      "country": "VN",
+      "longitude": 106.95552,
+      "latitude": 21.7025,
+      "name": "那阳市镇",
+      "sourceId": "Q10796936",
+      "sourceCountry": "Q881",
+      "sourceLatitude": 21.691944,
+      "sourceLongitude": 106.966667,
+      "distanceKm": 1.642,
+      "instanceOf": [
+        "Q1070942"
+      ]
+    },
+    {
+      "id": "1270627",
+      "oldName": "Gurmatkāl",
+      "english": "Gurmatkāl",
+      "country": "IN",
+      "longitude": 77.39088,
+      "latitude": 16.86773,
+      "name": "古尔马特卡尔",
+      "sourceId": "Q1706530",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 16.8664,
+      "sourceLongitude": 77.3908,
+      "distanceKm": 0.148,
+      "instanceOf": [
+        "Q3957",
+        "Q2322432"
+      ]
+    },
+    {
+      "id": "1701947",
+      "oldName": "Mandaue City",
+      "english": "Mandaue City",
+      "country": "PH",
+      "longitude": 123.92222,
+      "latitude": 10.32361,
+      "name": "曼达韦市",
+      "sourceId": "Q1889017",
+      "sourceCountry": "Q928",
+      "sourceLatitude": 10.333333,
+      "sourceLongitude": 123.933333,
+      "distanceKm": 1.624,
+      "instanceOf": [
+        "Q29946056"
+      ]
+    },
+    {
+      "id": "3983058",
+      "oldName": "Silao de la Victoria",
+      "english": "Silao de la Victoria",
+      "country": "MX",
+      "longitude": -101.42696,
+      "latitude": 20.94361,
+      "name": "锡劳",
+      "sourceId": "Q1962063",
+      "sourceCountry": "Q96",
+      "sourceLatitude": 20.943611,
+      "sourceLongitude": -101.426667,
+      "distanceKm": 0.03,
+      "instanceOf": [
+        "Q20202352"
+      ]
+    },
+    {
+      "id": "1767021",
+      "oldName": "Kampong Masjid Tanah",
+      "english": "Kampong Masjid Tanah",
+      "country": "MY",
+      "longitude": 102.11667,
+      "latitude": 2.35,
+      "name": "马日丹那",
+      "sourceId": "Q1981796",
+      "sourceCountry": "Q833",
+      "sourceLatitude": 2.35,
+      "sourceLongitude": 102.116667,
+      "distanceKm": 0,
+      "instanceOf": [
+        "Q486972",
+        "Q32815"
+      ]
+    },
+    {
+      "id": "3386567",
+      "oldName": "São João dos Inhamuns",
+      "english": "São João dos Inhamuns",
+      "country": "BR",
+      "longitude": -40.28333,
+      "latitude": -6,
+      "name": "陶阿",
+      "sourceId": "Q2021015",
+      "sourceCountry": "Q155",
+      "sourceLatitude": -6.002778,
+      "sourceLongitude": -40.292778,
+      "distanceKm": 1.088,
+      "instanceOf": [
+        "Q3184121"
+      ]
+    },
+    {
+      "id": "osm:node:990676409",
+      "oldName": "West Saint Paul",
+      "english": "West Saint Paul",
+      "country": "US",
+      "longitude": -93.0802073,
+      "latitude": 44.9101545,
+      "name": "西聖保羅",
+      "sourceId": "Q2036838",
+      "sourceCountry": "Q30",
+      "sourceLatitude": 44.9075,
+      "sourceLongitude": -93.0875,
+      "distanceKm": 0.645,
+      "instanceOf": [
+        "Q1093829"
+      ]
+    },
+    {
+      "id": "3493174",
+      "oldName": "San Fernando de Monte Cristi",
+      "english": "San Fernando de Monte Cristi",
+      "country": "DO",
+      "longitude": -71.64604,
+      "latitude": 19.84799,
+      "name": "蒙特克里斯蒂",
+      "sourceId": "Q2130701",
+      "sourceCountry": "Q786",
+      "sourceLatitude": 19.85,
+      "sourceLongitude": -71.65,
+      "distanceKm": 0.47,
+      "instanceOf": [
+        "Q6005581"
+      ]
+    },
+    {
+      "id": "1253880",
+      "oldName": "Uluberiya",
+      "english": "Uluberiya",
+      "country": "IN",
+      "longitude": 88.09898,
+      "latitude": 22.4756,
+      "name": "乌卢贝里亚",
+      "sourceId": "Q2318927",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 22.47,
+      "sourceLongitude": 88.11,
+      "distanceKm": 1.29,
+      "instanceOf": [
+        "Q18918041",
+        "Q1549591"
+      ]
+    },
+    {
+      "id": "1255254",
+      "oldName": "Tadpatri",
+      "english": "Tadpatri",
+      "country": "IN",
+      "longitude": 78.01031,
+      "latitude": 14.90832,
+      "name": "塔德帕特里",
+      "sourceId": "Q2336339",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 14.909722,
+      "sourceLongitude": 78.008333,
+      "distanceKm": 0.263,
+      "instanceOf": [
+        "Q58339518"
+      ]
+    },
+    {
+      "id": "1831133",
+      "oldName": "Kampong Speu",
+      "english": "Kampong Speu",
+      "country": "KH",
+      "longitude": 104.52085,
+      "latitude": 11.45332,
+      "name": "磅士卑",
+      "sourceId": "Q2344811",
+      "sourceCountry": "Q424",
+      "sourceLatitude": 11.45,
+      "sourceLongitude": 104.533333,
+      "distanceKm": 1.407,
+      "instanceOf": [
+        "Q515"
+      ]
+    },
+    {
+      "id": "osm:node:245588380",
+      "oldName": "Vellalur",
+      "english": "Vellalur",
+      "country": "IN",
+      "longitude": 77.0290732,
+      "latitude": 10.9799326,
+      "name": "韦拉卢尔",
+      "sourceId": "Q2540943",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 10.967222,
+      "sourceLongitude": 77.027778,
+      "distanceKm": 1.418,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "2849156",
+      "oldName": "Reichenbach/Vogtland",
+      "english": "Reichenbach/Vogtland",
+      "country": "DE",
+      "longitude": 12.30344,
+      "latitude": 50.62279,
+      "name": "福格特兰地区赖兴巴赫",
+      "sourceId": "Q46849",
+      "sourceCountry": "Q183",
+      "sourceLatitude": 50.616667,
+      "sourceLongitude": 12.3,
+      "distanceKm": 0.722,
+      "instanceOf": [
+        "Q448801",
+        "Q42744322"
+      ]
+    },
+    {
+      "id": "1721906",
+      "oldName": "Cabanatuan City",
+      "english": "Cabanatuan City",
+      "country": "PH",
+      "longitude": 120.96648,
+      "latitude": 15.48586,
+      "name": "甲万那端",
+      "sourceId": "Q55595",
+      "sourceCountry": "Q928",
+      "sourceLatitude": 15.490833,
+      "sourceLongitude": 120.967778,
+      "distanceKm": 0.569,
+      "instanceOf": [
+        "Q106078286",
+        "Q1549591"
+      ]
+    },
+    {
+      "id": "1704703",
+      "oldName": "Mabalacat City",
+      "english": "Mabalacat City",
+      "country": "PH",
+      "longitude": 120.57117,
+      "latitude": 15.22303,
+      "name": "马巴拉卡特市",
+      "sourceId": "Q55737",
+      "sourceCountry": "Q928",
+      "sourceLatitude": 15.216667,
+      "sourceLongitude": 120.583333,
+      "distanceKm": 1.482,
+      "instanceOf": [
+        "Q106078286",
+        "Q1549591",
+        "Q620509"
+      ]
+    },
+    {
+      "id": "707308",
+      "oldName": "Izmayil",
+      "english": "Izmayil",
+      "country": "UA",
+      "longitude": 28.83751,
+      "latitude": 45.35058,
+      "name": "伊兹梅尔",
+      "sourceId": "Q147739",
+      "sourceCountry": "Q212",
+      "sourceLatitude": 45.341778,
+      "sourceLongitude": 28.834556,
+      "distanceKm": 1.004,
+      "instanceOf": [
+        "Q12131624",
+        "Q2264924",
+        "Q902814"
+      ]
+    },
+    {
+      "id": "osm:node:1133936650",
+      "oldName": "Qiryat Bialik",
+      "english": "Qiryat Bialik",
+      "country": "IL",
+      "longitude": 35.0844915,
+      "latitude": 32.8285812,
+      "name": "比亚利克村",
+      "sourceId": "Q152374",
+      "sourceCountry": "Q801",
+      "sourceLatitude": 32.833056,
+      "sourceLongitude": 35.066389,
+      "distanceKm": 1.76,
+      "instanceOf": [
+        "Q515",
+        "Q3505887",
+        "Q138019182"
+      ]
+    },
+    {
+      "id": "osm:node:278477073",
+      "oldName": "Yoqneam Illit",
+      "english": "Yoqneam Illit",
+      "country": "IL",
+      "longitude": 35.0943545,
+      "latitude": 32.6480601,
+      "name": "上约克内阿姆",
+      "sourceId": "Q167582",
+      "sourceCountry": "Q801",
+      "sourceLatitude": 32.659444,
+      "sourceLongitude": 35.11,
+      "distanceKm": 1.933,
+      "instanceOf": [
+        "Q515"
+      ]
+    },
+    {
+      "id": "293286",
+      "oldName": "Umm el Faḥm",
+      "english": "Umm el Faḥm",
+      "country": "IL",
+      "longitude": 35.15397,
+      "latitude": 32.51758,
+      "name": "乌姆费赫姆",
+      "sourceId": "Q168245",
+      "sourceCountry": "Q801",
+      "sourceLatitude": 32.515833,
+      "sourceLongitude": 35.1525,
+      "distanceKm": 0.238,
+      "instanceOf": [
+        "Q515",
+        "Q3505887"
+      ]
+    },
+    {
+      "id": "630468",
+      "oldName": "Bobruysk",
+      "english": "Bobruysk",
+      "country": "BY",
+      "longitude": 29.20548,
+      "latitude": 53.14676,
+      "name": "博布鲁伊斯克",
+      "sourceId": "Q207294",
+      "sourceCountry": "Q184",
+      "sourceLatitude": 53.15,
+      "sourceLongitude": 29.233333,
+      "distanceKm": 1.889,
+      "instanceOf": [
+        "Q79323854",
+        "Q1549591"
+      ]
+    },
+    {
+      "id": "1696899",
+      "oldName": "Ozamiz City",
+      "english": "Ozamiz City",
+      "country": "PH",
+      "longitude": 123.8405,
+      "latitude": 8.1481,
+      "name": "奥三棉示",
+      "sourceId": "Q263837",
+      "sourceCountry": "Q928",
+      "sourceLatitude": 8.15,
+      "sourceLongitude": 123.85,
+      "distanceKm": 1.065,
+      "instanceOf": [
+        "Q106078286",
+        "Q1549591"
+      ]
+    },
+    {
+      "id": "463082",
+      "oldName": "Zhigulëvsk",
+      "english": "Zhigulëvsk",
+      "country": "RU",
+      "longitude": 49.51055,
+      "latitude": 53.40332,
+      "name": "日古尔约夫斯克",
+      "sourceId": "Q136310",
+      "sourceCountry": "Q159",
+      "sourceLatitude": 53.4,
+      "sourceLongitude": 49.5,
+      "distanceKm": 0.789,
+      "instanceOf": [
+        "Q7930989",
+        "Q106389302"
+      ]
+    },
+    {
+      "id": "857690",
+      "oldName": "Moskovskiy",
+      "english": "Moskovskiy",
+      "country": "RU",
+      "longitude": 37.3552,
+      "latitude": 55.5991,
+      "name": "莫斯科夫斯基",
+      "sourceId": "Q159261",
+      "sourceCountry": "Q159",
+      "sourceLatitude": 55.59911,
+      "sourceLongitude": 37.35495,
+      "distanceKm": 0.016,
+      "instanceOf": [
+        "Q192287",
+        "Q7930989",
+        "Q486972"
+      ]
+    },
+    {
+      "id": "2212771",
+      "oldName": "Şabrātah",
+      "english": "Şabrātah",
+      "country": "LY",
+      "longitude": 12.48845,
+      "latitude": 32.79335,
+      "name": "塞卜拉泰",
+      "sourceId": "Q192918",
+      "sourceCountry": "Q1016",
+      "sourceLatitude": 32.79335,
+      "sourceLongitude": 12.48845,
+      "distanceKm": 0,
+      "instanceOf": [
+        "Q515",
+        "Q16124843",
+        "Q1549591",
+        "Q15661340"
+      ]
+    },
+    {
+      "id": "9881926",
+      "oldName": "Eppan",
+      "english": "Eppan",
+      "country": "IT",
+      "longitude": 11.25695,
+      "latitude": 46.45853,
+      "name": "阿皮亚诺-苏拉斯特拉达-德尔维诺",
+      "sourceId": "Q252343",
+      "sourceCountry": "Q38",
+      "sourceLatitude": 46.455333,
+      "sourceLongitude": 11.259049,
+      "distanceKm": 0.389,
+      "instanceOf": [
+        "Q747074"
+      ]
+    },
+    {
+      "id": "2220139",
+      "oldName": "Al ‘Azīzīyah",
+      "english": "Al ‘Azīzīyah",
+      "country": "LY",
+      "longitude": 13.0175,
+      "latitude": 32.53194,
+      "name": "阿齐济耶",
+      "sourceId": "Q312307",
+      "sourceCountry": "Q1016",
+      "sourceLatitude": 32.530833,
+      "sourceLongitude": 13.021111,
+      "distanceKm": 0.36,
+      "instanceOf": [
+        "Q3957",
+        "Q16124843"
+      ]
+    },
+    {
+      "id": "osm:node:140482585",
+      "oldName": "Brake (Unterweser)",
+      "english": "Brake (Unterweser)",
+      "country": "DE",
+      "longitude": 8.4806296,
+      "latitude": 53.3256109,
+      "name": "下威悉河畔布拉克",
+      "sourceId": "Q501639",
+      "sourceCountry": "Q183",
+      "sourceLatitude": 53.333333,
+      "sourceLongitude": 8.483333,
+      "distanceKm": 0.876,
+      "instanceOf": [
+        "Q42744322",
+        "Q134626",
+        "Q133997300"
+      ]
+    },
+    {
+      "id": "2867770",
+      "oldName": "Müllheim",
+      "english": "Müllheim",
+      "country": "DE",
+      "longitude": 7.63035,
+      "latitude": 47.8082,
+      "name": "马克格雷夫勒兰地区米尔海姆",
+      "sourceId": "Q505468",
+      "sourceCountry": "Q183",
+      "sourceLatitude": 47.808333,
+      "sourceLongitude": 7.630833,
+      "distanceKm": 0.039,
+      "instanceOf": [
+        "Q1401585",
+        "Q2556234",
+        "Q42744322"
+      ]
+    },
+    {
+      "id": "1264588",
+      "oldName": "Madgaon",
+      "english": "Madgaon",
+      "country": "IN",
+      "longitude": 73.95786,
+      "latitude": 15.27501,
+      "name": "马高",
+      "sourceId": "Q515117",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 15.271944,
+      "sourceLongitude": 73.958333,
+      "distanceKm": 0.344,
+      "instanceOf": [
+        "Q515"
+      ]
+    },
+    {
+      "id": "osm:node:1324460185",
+      "oldName": "Balneário Piçarras",
+      "english": "Balneário Piçarras",
+      "country": "BR",
+      "longitude": -48.6716667,
+      "latitude": -26.7638889,
+      "name": "巴内阿里约皮萨拉斯",
+      "sourceId": "Q285815",
+      "sourceCountry": "Q155",
+      "sourceLatitude": -26.75,
+      "sourceLongitude": -48.666667,
+      "distanceKm": 1.619,
+      "instanceOf": [
+        "Q3184121"
+      ]
+    },
+    {
+      "id": "3642497",
+      "oldName": "Lecherías",
+      "english": "Lecherías",
+      "country": "VE",
+      "longitude": -64.69207,
+      "latitude": 10.19167,
+      "name": "萊切里亞",
+      "sourceId": "Q592609",
+      "sourceCountry": "Q717",
+      "sourceLatitude": 10.1889,
+      "sourceLongitude": -64.6951,
+      "distanceKm": 0.452,
+      "instanceOf": [
+        "Q515"
+      ]
+    },
+    {
+      "id": "1512501",
+      "oldName": "Uchqŭrghon Shahri",
+      "english": "Uchqŭrghon Shahri",
+      "country": "UZ",
+      "longitude": 72.07915,
+      "latitude": 41.11371,
+      "name": "乌奇库尔干",
+      "sourceId": "Q609406",
+      "sourceCountry": "Q265",
+      "sourceLatitude": 41.113611,
+      "sourceLongitude": 72.079167,
+      "distanceKm": 0.011,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "osm:node:246178282",
+      "oldName": "Ohangaron",
+      "english": "Ohangaron",
+      "country": "UZ",
+      "longitude": 69.6400706,
+      "latitude": 40.905354,
+      "name": "阿汉加兰",
+      "sourceId": "Q769537",
+      "sourceCountry": "Q265",
+      "sourceLatitude": 40.913889,
+      "sourceLongitude": 69.633889,
+      "distanceKm": 1.08,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "2150660",
+      "oldName": "Saint Kilda",
+      "english": "Saint Kilda",
+      "country": "AU",
+      "longitude": 144.98099,
+      "latitude": -37.8676,
+      "name": "圣基尔达",
+      "sourceId": "Q823531",
+      "sourceCountry": "Q408",
+      "sourceLatitude": -37.864,
+      "sourceLongitude": 144.982,
+      "distanceKm": 0.409,
+      "instanceOf": [
+        "Q188509",
+        "Q45242174",
+        "Q748198"
+      ]
+    },
+    {
+      "id": "1275814",
+      "oldName": "Bhudgaon",
+      "english": "Bhudgaon",
+      "country": "IN",
+      "longitude": 74.59954,
+      "latitude": 16.90742,
+      "name": "布德加奥恩",
+      "sourceId": "Q862083",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 16.9,
+      "sourceLongitude": 74.6,
+      "distanceKm": 0.825,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "1507636",
+      "oldName": "Chunskiy",
+      "english": "Chunskiy",
+      "country": "RU",
+      "longitude": 99.63563,
+      "latitude": 56.09188,
+      "name": "春斯基",
+      "sourceId": "Q909079",
+      "sourceCountry": "Q159",
+      "sourceLatitude": 56.083333,
+      "sourceLongitude": 99.633333,
+      "distanceKm": 0.959,
+      "instanceOf": [
+        "Q20019082",
+        "Q486972"
+      ]
+    },
+    {
+      "id": "osm:node:1254019707",
+      "oldName": "Saint Louis Park",
+      "english": "Saint Louis Park",
+      "country": "US",
+      "longitude": -93.3569023,
+      "latitude": 44.9475726,
+      "name": "圣路易斯公园",
+      "sourceId": "Q988741",
+      "sourceCountry": "Q30",
+      "sourceLatitude": 44.9486,
+      "sourceLongitude": -93.364875,
+      "distanceKm": 0.637,
+      "instanceOf": [
+        "Q1093829"
+      ]
+    },
+    {
+      "id": "502540",
+      "oldName": "Rayevskiy",
+      "english": "Rayevskiy",
+      "country": "RU",
+      "longitude": 54.93378,
+      "latitude": 54.06398,
+      "name": "拉耶夫斯基",
+      "sourceId": "Q1018495",
+      "sourceCountry": "Q159",
+      "sourceLatitude": 54.065833,
+      "sourceLongitude": 54.946667,
+      "distanceKm": 0.864,
+      "instanceOf": [
+        "Q532",
+        "Q192287"
+      ]
+    },
+    {
+      "id": "1631733",
+      "oldName": "Pelabuhanratu",
+      "english": "Pelabuhanratu",
+      "country": "ID",
+      "longitude": 106.55139,
+      "latitude": -6.9875,
+      "name": "帕拉布汉拉图",
+      "sourceId": "Q1154707",
+      "sourceCountry": "Q252",
+      "sourceLatitude": -6.983333,
+      "sourceLongitude": 106.55,
+      "distanceKm": 0.487,
+      "instanceOf": [
+        "Q3700011",
+        "Q3147563"
+      ]
+    },
+    {
+      "id": "7911309",
+      "oldName": "Väståboland",
+      "english": "Väståboland",
+      "country": "FI",
+      "longitude": 22.3004,
+      "latitude": 60.29972,
+      "name": "帕爾加斯",
+      "sourceId": "Q1010550",
+      "sourceCountry": "Q33",
+      "sourceLatitude": 60.3,
+      "sourceLongitude": 22.3,
+      "distanceKm": 0.038,
+      "instanceOf": [
+        "Q856076",
+        "Q515",
+        "Q3957"
+      ]
+    },
+    {
+      "id": "400769",
+      "oldName": "Laascaanood",
+      "english": "Laascaanood",
+      "country": "SO",
+      "longitude": 47.35971,
+      "latitude": 8.47738,
+      "name": "拉斯阿诺德",
+      "sourceId": "Q1017223",
+      "sourceCountry": "Q1045",
+      "sourceLatitude": 8.475556,
+      "sourceLongitude": 47.358333,
+      "distanceKm": 0.253,
+      "instanceOf": [
+        "Q486972",
+        "Q117473172",
+        "Q117473207"
+      ]
+    },
+    {
+      "id": "1162813",
+      "oldName": "Vihari",
+      "english": "Vihari",
+      "country": "PK",
+      "longitude": 72.3556,
+      "latitude": 30.0445,
+      "name": "维哈里",
+      "sourceId": "Q1251249",
+      "sourceCountry": "Q843",
+      "sourceLatitude": 30.041944,
+      "sourceLongitude": 72.352778,
+      "distanceKm": 0.392,
+      "instanceOf": [
+        "Q515"
+      ]
+    },
+    {
+      "id": "2562055",
+      "oldName": "Skhirate",
+      "english": "Skhirate",
+      "country": "MA",
+      "longitude": -7.03171,
+      "latitude": 33.8527,
+      "name": "斯基拉特",
+      "sourceId": "Q1333077",
+      "sourceCountry": "Q1028",
+      "sourceLatitude": 33.85,
+      "sourceLongitude": -7.03,
+      "distanceKm": 0.339,
+      "instanceOf": [
+        "Q515",
+        "Q3327862",
+        "Q12357832"
+      ]
+    },
+    {
+      "id": "2649997",
+      "oldName": "Enfield Town",
+      "english": "Enfield Town",
+      "country": "GB",
+      "longitude": -0.08497,
+      "latitude": 51.65147,
+      "name": "恩菲爾德鎮",
+      "sourceId": "Q544939",
+      "sourceCountry": "Q145",
+      "sourceLatitude": 51.652222,
+      "sourceLongitude": -0.080833,
+      "distanceKm": 0.297,
+      "instanceOf": [
+        "Q3957",
+        "Q2755753",
+        "Q18511725"
+      ]
+    },
+    {
+      "id": "osm:node:151916299",
+      "oldName": "East Saint Louis",
+      "english": "East Saint Louis",
+      "country": "US",
+      "longitude": -90.159707,
+      "latitude": 38.6268666,
+      "name": "东圣路易斯",
+      "sourceId": "Q577891",
+      "sourceCountry": "Q30",
+      "sourceLatitude": 38.625,
+      "sourceLongitude": -90.1575,
+      "distanceKm": 0.282,
+      "instanceOf": [
+        "Q1093829"
+      ]
+    },
+    {
+      "id": "osm:node:6017173751",
+      "oldName": "Bandar-e Mahshahr",
+      "english": "Bandar-e Mahshahr",
+      "country": "IR",
+      "longitude": 49.1997454,
+      "latitude": 30.5577268,
+      "name": "马赫沙赫尔港",
+      "sourceId": "Q605244",
+      "sourceCountry": "Q794",
+      "sourceLatitude": 30.556667,
+      "sourceLongitude": 49.188611,
+      "distanceKm": 1.071,
+      "instanceOf": [
+        "Q56557504"
+      ]
+    },
+    {
+      "id": "osm:node:245731609",
+      "oldName": "Barhiya",
+      "english": "Barhiya",
+      "country": "IN",
+      "longitude": 86.0201258,
+      "latitude": 25.2861994,
+      "name": "巴拉希耶",
+      "sourceId": "Q638709",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 25.2833,
+      "sourceLongitude": 86.0333,
+      "distanceKm": 1.361,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "2891832",
+      "oldName": "Kelkheim",
+      "english": "Kelkheim",
+      "country": "DE",
+      "longitude": 8.4502,
+      "latitude": 50.13703,
+      "name": "陶努斯山区凯尔克海姆",
+      "sourceId": "Q639667",
+      "sourceCountry": "Q183",
+      "sourceLatitude": 50.137986,
+      "sourceLongitude": 8.4525,
+      "distanceKm": 0.195,
+      "instanceOf": [
+        "Q42744322"
+      ]
+    },
+    {
+      "id": "2318123",
+      "oldName": "Yenagoa",
+      "english": "Yenagoa",
+      "country": "NG",
+      "longitude": 6.26764,
+      "latitude": 4.92675,
+      "name": "耶诺亚",
+      "sourceId": "Q648749",
+      "sourceCountry": "Q1033",
+      "sourceLatitude": 4.925,
+      "sourceLongitude": 6.263889,
+      "distanceKm": 0.458,
+      "instanceOf": [
+        "Q1639634",
+        "Q515"
+      ]
+    },
+    {
+      "id": "2032814",
+      "oldName": "Arvayheer",
+      "english": "Arvayheer",
+      "country": "MN",
+      "longitude": 102.775,
+      "latitude": 46.26389,
+      "name": "阿尔拜赫雷",
+      "sourceId": "Q717684",
+      "sourceCountry": "Q711",
+      "sourceLatitude": 46.268889,
+      "sourceLongitude": 102.7575,
+      "distanceKm": 1.453,
+      "instanceOf": [
+        "Q515"
+      ]
+    },
+    {
+      "id": "1125444",
+      "oldName": "Shibirghān",
+      "english": "Shibirghān",
+      "country": "AF",
+      "longitude": 65.7529,
+      "latitude": 36.66757,
+      "name": "希比尔甘",
+      "sourceId": "Q838954",
+      "sourceCountry": "Q889",
+      "sourceLatitude": 36.665,
+      "sourceLongitude": 65.752,
+      "distanceKm": 0.296,
+      "instanceOf": [
+        "Q515",
+        "Q1549591"
+      ]
+    },
+    {
+      "id": "osm:node:6374634580",
+      "oldName": "Chharra",
+      "english": "Chharra",
+      "country": "IN",
+      "longitude": 78.4015703,
+      "latitude": 27.9248815,
+      "name": "恰拉拉法特普尔",
+      "sourceId": "Q885492",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 27.933333,
+      "sourceLongitude": 78.416667,
+      "distanceKm": 1.753,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "osm:node:21430932",
+      "oldName": "Blaydon on Tyne",
+      "english": "Blaydon on Tyne",
+      "country": "GB",
+      "longitude": -1.7115301,
+      "latitude": 54.9646163,
+      "name": "布雷登",
+      "sourceId": "Q933113",
+      "sourceCountry": "Q145",
+      "sourceLatitude": 54.963,
+      "sourceLongitude": -1.7187,
+      "distanceKm": 0.491,
+      "instanceOf": [
+        "Q3957",
+        "Q7897276"
+      ]
+    },
+    {
+      "id": "12156849",
+      "oldName": "Lansing-Westgate",
+      "english": "Lansing-Westgate",
+      "country": "CA",
+      "longitude": -79.42475,
+      "latitude": 43.75427,
+      "name": "蘭盛",
+      "sourceId": "Q6487427",
+      "sourceCountry": "Q16",
+      "sourceLatitude": 43.757,
+      "sourceLongitude": -79.417,
+      "distanceKm": 0.691,
+      "instanceOf": [
+        "Q123705"
+      ]
+    },
+    {
+      "id": "1565969",
+      "oldName": "Thị Trấn Thất Khê",
+      "english": "Thị Trấn Thất Khê",
+      "country": "VN",
+      "longitude": 106.47359,
+      "latitude": 22.25525,
+      "name": "七溪市镇",
+      "sourceId": "Q10826350",
+      "sourceCountry": "Q881",
+      "sourceLatitude": 22.2562,
+      "sourceLongitude": 106.476,
+      "distanceKm": 0.269,
+      "instanceOf": [
+        "Q1070942"
+      ]
+    },
+    {
+      "id": "1256422",
+      "oldName": "Shrīrāmpur",
+      "english": "Shrīrāmpur",
+      "country": "IN",
+      "longitude": 88.34222,
+      "latitude": 22.75278,
+      "name": "塞兰坡",
+      "sourceId": "Q1815367",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 22.75,
+      "sourceLongitude": 88.34,
+      "distanceKm": 0.383,
+      "instanceOf": [
+        "Q18918041",
+        "Q1549591"
+      ]
+    },
+    {
+      "id": "3396769",
+      "oldName": "Lagoa do Itaenga",
+      "english": "Lagoa do Itaenga",
+      "country": "BR",
+      "longitude": -35.29028,
+      "latitude": -7.93611,
+      "name": "拉戈阿-杜伊塔恩加",
+      "sourceId": "Q1887813",
+      "sourceCountry": "Q155",
+      "sourceLatitude": -7.935833,
+      "sourceLongitude": -35.29,
+      "distanceKm": 0.044,
+      "instanceOf": [
+        "Q3184121"
+      ]
+    },
+    {
+      "id": "3718962",
+      "oldName": "Tigwav",
+      "english": "Tigwav",
+      "country": "HT",
+      "longitude": -72.86521,
+      "latitude": 18.43117,
+      "name": "小戈阿沃",
+      "sourceId": "Q2009853",
+      "sourceCountry": "Q790",
+      "sourceLatitude": 18.431389,
+      "sourceLongitude": -72.866944,
+      "distanceKm": 0.184,
+      "instanceOf": [
+        "Q515",
+        "Q3685462"
+      ]
+    },
+    {
+      "id": "1268823",
+      "oldName": "Jora",
+      "english": "Jora",
+      "country": "IN",
+      "longitude": 77.8092,
+      "latitude": 26.34209,
+      "name": "乔乌拉",
+      "sourceId": "Q2314343",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 26.344444,
+      "sourceLongitude": 77.811389,
+      "distanceKm": 0.34,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "3724337",
+      "oldName": "Grangwav",
+      "english": "Grangwav",
+      "country": "HT",
+      "longitude": -72.76995,
+      "latitude": 18.4259,
+      "name": "大戈阿沃",
+      "sourceId": "Q2536972",
+      "sourceCountry": "Q790",
+      "sourceLatitude": 18.433333,
+      "sourceLongitude": -72.766667,
+      "distanceKm": 0.895,
+      "instanceOf": [
+        "Q3685462"
+      ]
+    },
+    {
+      "id": "osm:node:12730608165",
+      "oldName": "Dogbo",
+      "english": "Dogbo",
+      "country": "BJ",
+      "longitude": 1.7771966,
+      "latitude": 6.7984927,
+      "name": "多格博-托塔",
+      "sourceId": "Q2566827",
+      "sourceCountry": "Q962",
+      "sourceLatitude": 6.8,
+      "sourceLongitude": 1.783333,
+      "distanceKm": 0.697,
+      "instanceOf": [
+        "Q1780506",
+        "Q515"
+      ]
+    },
+    {
+      "id": "1015969",
+      "oldName": "Winnie Mandela",
+      "english": "Winnie Mandela",
+      "country": "ZA",
+      "longitude": 26.4581,
+      "latitude": -28.70025,
+      "name": "布萊德弗特",
+      "sourceId": "Q2805770",
+      "sourceCountry": "Q258",
+      "sourceLatitude": -28.7,
+      "sourceLongitude": 26.466667,
+      "distanceKm": 0.835,
+      "instanceOf": [
+        "Q3957"
+      ]
+    },
+    {
+      "id": "3648507",
+      "oldName": "Barrancas",
+      "english": "Barrancas",
+      "country": "VE",
+      "longitude": -62.19656,
+      "latitude": 8.6989,
+      "name": "巴蘭卡斯德爾奧里諾科",
+      "sourceId": "Q2885485",
+      "sourceCountry": "Q717",
+      "sourceLatitude": 8.701372,
+      "sourceLongitude": -62.199239,
+      "distanceKm": 0.402,
+      "instanceOf": [
+        "Q515"
+      ]
+    },
+    {
+      "id": "1880177",
+      "oldName": "Tiong Bahru Estate",
+      "english": "Tiong Bahru Estate",
+      "country": "SG",
+      "longitude": 103.83278,
+      "latitude": 1.28333,
+      "name": "中巴鲁",
+      "sourceId": "Q7808727",
+      "sourceCountry": "Q334",
+      "sourceLatitude": 1.2861,
+      "sourceLongitude": 103.8294,
+      "distanceKm": 0.485,
+      "instanceOf": [
+        "Q50513",
+        "Q12104567"
+      ]
+    },
+    {
+      "id": "585915",
+      "oldName": "Khirdalan",
+      "english": "Khirdalan",
+      "country": "AZ",
+      "longitude": 49.75502,
+      "latitude": 40.44808,
+      "name": "黑尔达兰",
+      "sourceId": "Q642109",
+      "sourceCountry": "Q227",
+      "sourceLatitude": 40.448611,
+      "sourceLongitude": 49.756389,
+      "distanceKm": 0.13,
+      "instanceOf": [
+        "Q515"
+      ]
+    },
+    {
+      "id": "1277085",
+      "oldName": "Bāramūla",
+      "english": "Bāramūla",
+      "country": "IN",
+      "longitude": 74.34285,
+      "latitude": 34.209,
+      "name": "巴拉穆拉",
+      "sourceId": "Q712644",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 34.208889,
+      "sourceLongitude": 74.342778,
+      "distanceKm": 0.014,
+      "instanceOf": [
+        "Q515",
+        "Q486972"
+      ]
+    },
+    {
+      "id": "689584",
+      "oldName": "Vilnyansk",
+      "english": "Vilnyansk",
+      "country": "UA",
+      "longitude": 35.44034,
+      "latitude": 47.94768,
+      "name": "维利尼扬斯克",
+      "sourceId": "Q713225",
+      "sourceCountry": "Q212",
+      "sourceLatitude": 47.944548,
+      "sourceLongitude": 35.433134,
+      "distanceKm": 0.639,
+      "instanceOf": [
+        "Q12131624"
+      ]
+    },
+    {
+      "id": "2447416",
+      "oldName": "Ayorou",
+      "english": "Ayorou",
+      "country": "NE",
+      "longitude": 0.91739,
+      "latitude": 14.73075,
+      "name": "阿約魯",
+      "sourceId": "Q793407",
+      "sourceCountry": "Q1032",
+      "sourceLatitude": 14.7346,
+      "sourceLongitude": 0.9201,
+      "distanceKm": 0.517,
+      "instanceOf": [
+        "Q605291",
+        "Q3957"
+      ]
+    },
+    {
+      "id": "13156739",
+      "oldName": "Minamiarupusu",
+      "english": "Minamiarupusu",
+      "country": "JP",
+      "longitude": 138.46473,
+      "latitude": 35.60855,
+      "name": "南阿尔卑斯市",
+      "sourceId": "Q824000",
+      "sourceCountry": "Q17",
+      "sourceLatitude": 35.608306,
+      "sourceLongitude": 138.465028,
+      "distanceKm": 0.038,
+      "instanceOf": [
+        "Q494721"
+      ]
+    },
+    {
+      "id": "119369",
+      "oldName": "Qīdar",
+      "english": "Qīdar",
+      "country": "IR",
+      "longitude": 48.59111,
+      "latitude": 36.11472,
+      "name": "盖达尔",
+      "sourceId": "Q861898",
+      "sourceCountry": "Q794",
+      "sourceLatitude": 36.114722,
+      "sourceLongitude": 48.591111,
+      "distanceKm": 0,
+      "instanceOf": [
+        "Q56557504"
+      ]
+    },
+    {
+      "id": "250258",
+      "oldName": "As Salţ",
+      "english": "As Salţ",
+      "country": "JO",
+      "longitude": 35.72722,
+      "latitude": 32.03917,
+      "name": "薩爾特",
+      "sourceId": "Q867586",
+      "sourceCountry": "Q810",
+      "sourceLatitude": 32.039167,
+      "sourceLongitude": 35.727222,
+      "distanceKm": 0,
+      "instanceOf": [
+        "Q515",
+        "Q839954"
+      ]
+    },
+    {
+      "id": "2031517",
+      "oldName": "Dzuunmod",
+      "english": "Dzuunmod",
+      "country": "MN",
+      "longitude": 106.95278,
+      "latitude": 47.70694,
+      "name": "宗莫德",
+      "sourceId": "Q917690",
+      "sourceCountry": "Q711",
+      "sourceLatitude": 47.706944,
+      "sourceLongitude": 106.952778,
+      "distanceKm": 0,
+      "instanceOf": [
+        "Q515"
+      ]
+    },
+    {
+      "id": "4018762",
+      "oldName": "Ciudad de Allende",
+      "english": "Ciudad de Allende",
+      "country": "MX",
+      "longitude": -100.01928,
+      "latitude": 25.28123,
+      "name": "阿连德城",
+      "sourceId": "Q20134540",
+      "sourceCountry": "Q96",
+      "sourceLatitude": 25.2792,
+      "sourceLongitude": -100.0197,
+      "distanceKm": 0.229,
+      "instanceOf": [
+        "Q20202352"
+      ]
+    },
+    {
+      "id": "osm:node:2852729159",
+      "oldName": "Kalmeshwar",
+      "english": "Kalmeshwar",
+      "country": "IN",
+      "longitude": 78.9081689,
+      "latitude": 21.2374393,
+      "name": "卡拉梅斯赫瓦尔",
+      "sourceId": "Q2317479",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 21.232103,
+      "sourceLongitude": 78.917961,
+      "distanceKm": 1.174,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "7302815",
+      "oldName": "Bandar Labuan",
+      "english": "Bandar Labuan",
+      "country": "MY",
+      "longitude": 115.25371,
+      "latitude": 5.28319,
+      "name": "纳闽镇",
+      "sourceId": "Q2363616",
+      "sourceCountry": "Q833",
+      "sourceLatitude": 5.280278,
+      "sourceLongitude": 115.2475,
+      "distanceKm": 0.759,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "90353",
+      "oldName": "Tallkayf",
+      "english": "Tallkayf",
+      "country": "IQ",
+      "longitude": 43.12114,
+      "latitude": 36.49118,
+      "name": "特勒科普",
+      "sourceId": "Q2418956",
+      "sourceCountry": "Q796",
+      "sourceLatitude": 36.490833,
+      "sourceLongitude": 43.12,
+      "distanceKm": 0.109,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "1562176",
+      "oldName": "Trảng Bom",
+      "english": "Trảng Bom",
+      "country": "VN",
+      "longitude": 107.00589,
+      "latitude": 10.95358,
+      "name": "壮奔市镇",
+      "sourceId": "Q2475554",
+      "sourceCountry": "Q881",
+      "sourceLatitude": 10.961944,
+      "sourceLongitude": 106.999167,
+      "distanceKm": 1.183,
+      "instanceOf": [
+        "Q687188"
+      ]
+    },
+    {
+      "id": "1261415",
+      "oldName": "Nihtaur",
+      "english": "Nihtaur",
+      "country": "IN",
+      "longitude": 78.38724,
+      "latitude": 29.32416,
+      "name": "内赫陶尔",
+      "sourceId": "Q2542663",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 29.33,
+      "sourceLongitude": 78.38,
+      "distanceKm": 0.955,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "1259158",
+      "oldName": "Purushottampur",
+      "english": "Purushottampur",
+      "country": "IN",
+      "longitude": 84.88514,
+      "latitude": 19.52024,
+      "name": "普鲁索塔姆普尔",
+      "sourceId": "Q2546752",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 19.53,
+      "sourceLongitude": 84.88,
+      "distanceKm": 1.209,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "1260618",
+      "oldName": "Pāmpur",
+      "english": "Pāmpur",
+      "country": "IN",
+      "longitude": 74.91895,
+      "latitude": 34.01515,
+      "name": "帕姆波雷",
+      "sourceId": "Q2558539",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 34.02,
+      "sourceLongitude": 74.93,
+      "distanceKm": 1.15,
+      "instanceOf": [
+        "Q3957"
+      ]
+    },
+    {
+      "id": "325779",
+      "oldName": "Yirga Ch’efē",
+      "english": "Yirga Ch’efē",
+      "country": "ET",
+      "longitude": 38.2,
+      "latitude": 6.16667,
+      "name": "耶加雪菲",
+      "sourceId": "Q2600425",
+      "sourceCountry": "Q115",
+      "sourceLatitude": 6.158134,
+      "sourceLongitude": 38.203239,
+      "distanceKm": 1.013,
+      "instanceOf": [
+        "Q515",
+        "Q690840"
+      ]
+    },
+    {
+      "id": "osm:node:2747628460",
+      "oldName": "Sattenapalle",
+      "english": "Sattenapalle",
+      "country": "IN",
+      "longitude": 80.1489341,
+      "latitude": 16.3925393,
+      "name": "萨特泰纳帕尔莱",
+      "sourceId": "Q3445011",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 16.396167,
+      "sourceLongitude": 80.149678,
+      "distanceKm": 0.41,
+      "instanceOf": [
+        "Q58339518"
+      ]
+    },
+    {
+      "id": "1246924",
+      "oldName": "Eravur Town",
+      "english": "Eravur Town",
+      "country": "LK",
+      "longitude": 81.6038,
+      "latitude": 7.7782,
+      "name": "尔雅瓦",
+      "sourceId": "Q3533116",
+      "sourceCountry": "Q854",
+      "sourceLatitude": 7.766667,
+      "sourceLongitude": 81.6,
+      "distanceKm": 1.347,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "osm:node:6302336458",
+      "oldName": "Tiruppuvanam",
+      "english": "Tiruppuvanam",
+      "country": "IN",
+      "longitude": 78.2554704,
+      "latitude": 9.8278532,
+      "name": "蒂鲁普瓦纳姆",
+      "sourceId": "Q3535783",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 9.82556,
+      "sourceLongitude": 78.25792,
+      "distanceKm": 0.37,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "285778",
+      "oldName": "Al Manqaf",
+      "english": "Al Manqaf",
+      "country": "KW",
+      "longitude": 48.13278,
+      "latitude": 29.09611,
+      "name": "曼加夫",
+      "sourceId": "Q4116005",
+      "sourceCountry": "Q817",
+      "sourceLatitude": 29.10389,
+      "sourceLongitude": 48.12278,
+      "distanceKm": 1.299,
+      "instanceOf": [
+        "Q188509",
+        "Q486972"
+      ]
+    },
+    {
+      "id": "1265451",
+      "oldName": "Kushālnagar",
+      "english": "Kushālnagar",
+      "country": "IN",
+      "longitude": 75.95904,
+      "latitude": 12.45795,
+      "name": "库斯哈尔纳加尔",
+      "sourceId": "Q254885",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 12.467,
+      "sourceLongitude": 75.967,
+      "distanceKm": 1.324,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "173230",
+      "oldName": "‘Āmūdā",
+      "english": "‘Āmūdā",
+      "country": "SY",
+      "longitude": 40.93,
+      "latitude": 37.10417,
+      "name": "阿穆達",
+      "sourceId": "Q481427",
+      "sourceCountry": "Q858",
+      "sourceLatitude": 37.104167,
+      "sourceLongitude": 40.93,
+      "distanceKm": 0,
+      "instanceOf": [
+        "Q515",
+        "Q532",
+        "Q16127605"
+      ]
+    },
+    {
+      "id": "osm:node:2682349594",
+      "oldName": "Pandaria",
+      "english": "Pandaria",
+      "country": "IN",
+      "longitude": 81.4105925,
+      "latitude": 22.219976,
+      "name": "潘达里亚",
+      "sourceId": "Q520157",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 22.23,
+      "sourceLongitude": 81.42,
+      "distanceKm": 1.474,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "2555882",
+      "oldName": "Beni Enzar",
+      "english": "Beni Enzar",
+      "country": "MA",
+      "longitude": -2.93,
+      "latitude": 35.26,
+      "name": "貝尼-安薩爾",
+      "sourceId": "Q537462",
+      "sourceCountry": "Q1028",
+      "sourceLatitude": 35.259687,
+      "sourceLongitude": -2.933644,
+      "distanceKm": 0.332,
+      "instanceOf": [
+        "Q515",
+        "Q3327862"
+      ]
+    },
+    {
+      "id": "379416",
+      "oldName": "Al Ḩawātah",
+      "english": "Al Ḩawātah",
+      "country": "SD",
+      "longitude": 34.63333,
+      "latitude": 13.41667,
+      "name": "诶哈瓦台",
+      "sourceId": "Q11684818",
+      "sourceCountry": "Q1049",
+      "sourceLatitude": 13.416667,
+      "sourceLongitude": 34.633333,
+      "distanceKm": 0,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "2303611",
+      "oldName": "Esim",
+      "english": "Esim",
+      "country": "GH",
+      "longitude": -2.24181,
+      "latitude": 4.86641,
+      "name": "阿克西姆",
+      "sourceId": "Q792509",
+      "sourceCountry": "Q117",
+      "sourceLatitude": 4.866667,
+      "sourceLongitude": -2.241389,
+      "distanceKm": 0.055,
+      "instanceOf": [
+        "Q7930989",
+        "Q1306755",
+        "Q486972"
+      ]
+    },
+    {
+      "id": "10958491",
+      "oldName": "Bni Bouayach",
+      "english": "Bni Bouayach",
+      "country": "MA",
+      "longitude": -3.84028,
+      "latitude": 35.10506,
+      "name": "贝尼布亚什",
+      "sourceId": "Q817272",
+      "sourceCountry": "Q1028",
+      "sourceLatitude": 35.102236,
+      "sourceLongitude": -3.841024,
+      "distanceKm": 0.321,
+      "instanceOf": [
+        "Q3327862"
+      ]
+    },
+    {
+      "id": "138989",
+      "oldName": "Charām",
+      "english": "Charām",
+      "country": "IR",
+      "longitude": 50.74522,
+      "latitude": 30.75561,
+      "name": "查拉姆",
+      "sourceId": "Q888941",
+      "sourceCountry": "Q794",
+      "sourceLatitude": 30.753333,
+      "sourceLongitude": 50.743611,
+      "distanceKm": 0.296,
+      "instanceOf": [
+        "Q56557504"
+      ]
+    },
+    {
+      "id": "637067",
+      "oldName": "Sibbo",
+      "english": "Sibbo",
+      "country": "FI",
+      "longitude": 25.26906,
+      "latitude": 60.37752,
+      "name": "锡博",
+      "sourceId": "Q986320",
+      "sourceCountry": "Q33",
+      "sourceLatitude": 60.376944,
+      "sourceLongitude": 25.261944,
+      "distanceKm": 0.396,
+      "instanceOf": [
+        "Q856076"
+      ]
+    },
+    {
+      "id": "osm:node:151942759",
+      "oldName": "South Saint Paul",
+      "english": "South Saint Paul",
+      "country": "US",
+      "longitude": -93.0372808,
+      "latitude": 44.8906694,
+      "name": "南圣保罗",
+      "sourceId": "Q1003641",
+      "sourceCountry": "Q30",
+      "sourceLatitude": 44.891944,
+      "sourceLongitude": -93.036111,
+      "distanceKm": 0.169,
+      "instanceOf": [
+        "Q1093829"
+      ]
+    },
+    {
+      "id": "2031533",
+      "oldName": "Dzüünharaa",
+      "english": "Dzüünharaa",
+      "country": "MN",
+      "longitude": 106.45786,
+      "latitude": 48.85229,
+      "name": "宗哈拉",
+      "sourceId": "Q1028289",
+      "sourceCountry": "Q711",
+      "sourceLatitude": 48.852972,
+      "sourceLongitude": 106.459361,
+      "distanceKm": 0.133,
+      "instanceOf": [
+        "Q515"
+      ]
+    },
+    {
+      "id": "2546128",
+      "oldName": "Imi-n-Tanout",
+      "english": "Imi-n-Tanout",
+      "country": "MA",
+      "longitude": -8.84728,
+      "latitude": 31.17213,
+      "name": "伊明塔努特",
+      "sourceId": "Q1169798",
+      "sourceCountry": "Q1028",
+      "sourceLatitude": 31.177,
+      "sourceLongitude": -8.850444,
+      "distanceKm": 0.618,
+      "instanceOf": [
+        "Q3327862"
+      ]
+    },
+    {
+      "id": "1273272",
+      "oldName": "Denkanikota",
+      "english": "Denkanikota",
+      "country": "IN",
+      "longitude": 77.78887,
+      "latitude": 12.5301,
+      "name": "登卡尼科泰",
+      "sourceId": "Q1190831",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 12.526667,
+      "sourceLongitude": 77.792778,
+      "distanceKm": 0.57,
+      "instanceOf": [
+        "Q3957"
+      ]
+    },
+    {
+      "id": "351356",
+      "oldName": "Naqādah",
+      "english": "Naqādah",
+      "country": "EG",
+      "longitude": 32.72392,
+      "latitude": 25.90107,
+      "name": "奈加代",
+      "sourceId": "Q959859",
+      "sourceCountry": "Q79",
+      "sourceLatitude": 25.901667,
+      "sourceLongitude": 32.724167,
+      "distanceKm": 0.071,
+      "instanceOf": [
+        "Q3957",
+        "Q839954",
+        "Q515"
+      ]
+    },
+    {
+      "id": "3651297",
+      "oldName": "Santo Domingo de los Colorados",
+      "english": "Santo Domingo de los Colorados",
+      "country": "EC",
+      "longitude": -79.17628,
+      "latitude": -0.25368,
+      "name": "圣多明各-德洛斯科罗拉多斯",
+      "sourceId": "Q1015654",
+      "sourceCountry": "Q736",
+      "sourceLatitude": -0.254167,
+      "sourceLongitude": -79.171944,
+      "distanceKm": 0.484,
+      "instanceOf": [
+        "Q63208468"
+      ]
+    },
+    {
+      "id": "osm:node:245715021",
+      "oldName": "Ramgarh",
+      "english": "Ramgarh",
+      "country": "IN",
+      "longitude": 85.5215878,
+      "latitude": 23.6303213,
+      "name": "蘭伽",
+      "sourceId": "Q1026876",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 23.63018,
+      "sourceLongitude": 85.51926,
+      "distanceKm": 0.237,
+      "instanceOf": [
+        "Q57178953"
+      ]
+    },
+    {
+      "id": "3113157",
+      "oldName": "Porriño",
+      "english": "Porriño",
+      "country": "ES",
+      "longitude": -8.6198,
+      "latitude": 42.16156,
+      "name": "波里尼奥",
+      "sourceId": "Q1616392",
+      "sourceCountry": "Q29",
+      "sourceLatitude": 42.161869,
+      "sourceLongitude": -8.62019,
+      "distanceKm": 0.047,
+      "instanceOf": [
+        "Q2276925"
+      ]
+    },
+    {
+      "id": "osm:node:1282062667",
+      "oldName": "Garhmuktesar",
+      "english": "Garhmuktesar",
+      "country": "IN",
+      "longitude": 78.0903205,
+      "latitude": 28.7883909,
+      "name": "加尔赫穆克泰斯赫瓦尔",
+      "sourceId": "Q1654883",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 28.8,
+      "sourceLongitude": 78.1,
+      "distanceKm": 1.596,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "3395880",
+      "oldName": "Major Isidoro",
+      "english": "Major Isidoro",
+      "country": "BR",
+      "longitude": -36.985,
+      "latitude": -9.53222,
+      "name": "伊西多鲁少校镇",
+      "sourceId": "Q1808271",
+      "sourceCountry": "Q155",
+      "sourceLatitude": -9.531944,
+      "sourceLongitude": -36.985,
+      "distanceKm": 0.031,
+      "instanceOf": [
+        "Q3184121"
+      ]
+    },
+    {
+      "id": "3518407",
+      "oldName": "San Martin Texmelucan de Labastida",
+      "english": "San Martin Texmelucan de Labastida",
+      "country": "MX",
+      "longitude": -98.43885,
+      "latitude": 19.28431,
+      "name": "圣马丁特斯梅卢坎",
+      "sourceId": "Q1962265",
+      "sourceCountry": "Q96",
+      "sourceLatitude": 19.284444,
+      "sourceLongitude": -98.438889,
+      "distanceKm": 0.015,
+      "instanceOf": [
+        "Q20202352"
+      ]
+    },
+    {
+      "id": "4004885",
+      "oldName": "Heróica Zitácuaro",
+      "english": "Heróica Zitácuaro",
+      "country": "MX",
+      "longitude": -100.35639,
+      "latitude": 19.43657,
+      "name": "锡塔夸罗",
+      "sourceId": "Q1962272",
+      "sourceCountry": "Q96",
+      "sourceLatitude": 19.436111,
+      "sourceLongitude": -100.357222,
+      "distanceKm": 0.101,
+      "instanceOf": [
+        "Q20202352"
+      ]
+    },
+    {
+      "id": "10303650",
+      "oldName": "Simele",
+      "english": "Simele",
+      "country": "IQ",
+      "longitude": 42.8501,
+      "latitude": 36.85833,
+      "name": "西米勒",
+      "sourceId": "Q1724848",
+      "sourceCountry": "Q796",
+      "sourceLatitude": 36.857778,
+      "sourceLongitude": 42.846389,
+      "distanceKm": 0.335,
+      "instanceOf": [
+        "Q3957"
+      ]
+    },
+    {
+      "id": "8858105",
+      "oldName": "Manuel Ojinaga",
+      "english": "Manuel Ojinaga",
+      "country": "MX",
+      "longitude": -104.41639,
+      "latitude": 29.56444,
+      "name": "奥希纳加",
+      "sourceId": "Q1971351",
+      "sourceCountry": "Q96",
+      "sourceLatitude": 29.5481,
+      "sourceLongitude": -104.4153,
+      "distanceKm": 1.817,
+      "instanceOf": [
+        "Q20202352"
+      ]
+    },
+    {
+      "id": "255377",
+      "oldName": "Petroúpolis",
+      "english": "Petroúpolis",
+      "country": "GR",
+      "longitude": 23.68494,
+      "latitude": 38.04187,
+      "name": "佩特鲁波利",
+      "sourceId": "Q1997297",
+      "sourceCountry": "Q41",
+      "sourceLatitude": 38.033333,
+      "sourceLongitude": 23.683333,
+      "distanceKm": 0.958,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "1262578",
+      "oldName": "Muktsar",
+      "english": "Muktsar",
+      "country": "IN",
+      "longitude": 74.5166,
+      "latitude": 30.47426,
+      "name": "穆克特萨尔",
+      "sourceId": "Q2087676",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 30.475,
+      "sourceLongitude": 74.515,
+      "distanceKm": 0.174,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "1273109",
+      "oldName": "Devarkonda",
+      "english": "Devarkonda",
+      "country": "IN",
+      "longitude": 78.92073,
+      "latitude": 16.69186,
+      "name": "德瓦拉科恩达",
+      "sourceId": "Q1254798",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 16.7,
+      "sourceLongitude": 78.9333,
+      "distanceKm": 1.613,
+      "instanceOf": [
+        "Q16830604"
+      ]
+    },
+    {
+      "id": "osm:node:3196025298",
+      "oldName": "Dondaicha",
+      "english": "Dondaicha",
+      "country": "IN",
+      "longitude": 74.5611974,
+      "latitude": 21.3256248,
+      "name": "东代恰-瓦尔瓦德",
+      "sourceId": "Q1264572",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 21.3333,
+      "sourceLongitude": 74.5667,
+      "distanceKm": 1.024,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "335288",
+      "oldName": "Hāgere Hiywet",
+      "english": "Hāgere Hiywet",
+      "country": "ET",
+      "longitude": 37.85,
+      "latitude": 8.98333,
+      "name": "安波",
+      "sourceId": "Q1266796",
+      "sourceCountry": "Q115",
+      "sourceLatitude": 8.983333,
+      "sourceLongitude": 37.85,
+      "distanceKm": 0,
+      "instanceOf": [
+        "Q515",
+        "Q690840"
+      ]
+    },
+    {
+      "id": "osm:node:245763956",
+      "oldName": "Sri Dungargarh",
+      "english": "Sri Dungargarh",
+      "country": "IN",
+      "longitude": 74.0113994,
+      "latitude": 28.0928483,
+      "name": "东格阿尔加尔",
+      "sourceId": "Q1525583",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 28.08,
+      "sourceLongitude": 74.02,
+      "distanceKm": 1.656,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "1271250",
+      "oldName": "Ghoti Budrukh",
+      "english": "Ghoti Budrukh",
+      "country": "IN",
+      "longitude": 73.62821,
+      "latitude": 19.71641,
+      "name": "戈蒂布德鲁克",
+      "sourceId": "Q1706839",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 19.7167,
+      "sourceLongitude": 73.6333,
+      "distanceKm": 0.533,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "osm:node:660559722",
+      "oldName": "Ghatkesar",
+      "english": "Ghatkesar",
+      "country": "IN",
+      "longitude": 78.6843022,
+      "latitude": 17.4510837,
+      "name": "加特凯塞尔",
+      "sourceId": "Q1707290",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 17.4494,
+      "sourceLongitude": 78.6853,
+      "distanceKm": 0.215,
+      "instanceOf": [
+        "Q16830604"
+      ]
+    },
+    {
+      "id": "4026082",
+      "oldName": "Ciudad Lázaro Cárdenas",
+      "english": "Ciudad Lázaro Cárdenas",
+      "country": "MX",
+      "longitude": -102.19887,
+      "latitude": 17.96256,
+      "name": "拉萨罗卡德纳斯",
+      "sourceId": "Q1785340",
+      "sourceCountry": "Q96",
+      "sourceLatitude": 17.956111,
+      "sourceLongitude": -102.192222,
+      "distanceKm": 1.003,
+      "instanceOf": [
+        "Q20202352"
+      ]
+    },
+    {
+      "id": "5322571",
+      "oldName": "Agua Caliente",
+      "english": "Agua Caliente",
+      "country": "US",
+      "longitude": -122.48804,
+      "latitude": 38.32408,
+      "name": "費特斯溫泉-阿瓜卡利恩特",
+      "sourceId": "Q1816945",
+      "sourceCountry": "Q30",
+      "sourceLatitude": 38.321944,
+      "sourceLongitude": -122.486111,
+      "distanceKm": 0.291,
+      "instanceOf": [
+        "Q498162"
+      ]
+    },
+    {
+      "id": "1264793",
+      "oldName": "Lonavla",
+      "english": "Lonavla",
+      "country": "IN",
+      "longitude": 73.40575,
+      "latitude": 18.75275,
+      "name": "洛纳瓦拉",
+      "sourceId": "Q1929511",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 18.748061,
+      "sourceLongitude": 73.407219,
+      "distanceKm": 0.543,
+      "instanceOf": [
+        "Q2393184"
+      ]
+    },
+    {
+      "id": "13157031",
+      "oldName": "Sarigam INA",
+      "english": "Sarigam INA",
+      "country": "IN",
+      "longitude": 72.85029,
+      "latitude": 20.28845,
+      "name": "萨里加姆",
+      "sourceId": "Q1935435",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 20.278011,
+      "sourceLongitude": 72.841711,
+      "distanceKm": 1.463,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "osm:node:3003663609",
+      "oldName": "Khekra",
+      "english": "Khekra",
+      "country": "IN",
+      "longitude": 77.2839973,
+      "latitude": 28.865577,
+      "name": "凯卡达",
+      "sourceId": "Q2232961",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 28.8644,
+      "sourceLongitude": 77.2795,
+      "distanceKm": 0.456,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "1263285",
+      "oldName": "Māvelikara",
+      "english": "Māvelikara",
+      "country": "IN",
+      "longitude": 76.55642,
+      "latitude": 9.25929,
+      "name": "马韦利克卡拉",
+      "sourceId": "Q2283384",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 9.267,
+      "sourceLongitude": 76.55,
+      "distanceKm": 1.108,
+      "instanceOf": [
+        "Q3957"
+      ]
+    },
+    {
+      "id": "1260225",
+      "oldName": "Parūr",
+      "english": "Parūr",
+      "country": "IN",
+      "longitude": 76.23,
+      "latitude": 10.1477,
+      "name": "北帕拉福尔",
+      "sourceId": "Q3595582",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 10.15,
+      "sourceLongitude": 76.23,
+      "distanceKm": 0.255,
+      "instanceOf": [
+        "Q3957"
+      ]
+    },
+    {
+      "id": "708901",
+      "oldName": "Haysyn",
+      "english": "Haysyn",
+      "country": "UA",
+      "longitude": 29.37917,
+      "latitude": 48.81294,
+      "name": "海辛",
+      "sourceId": "Q574553",
+      "sourceCountry": "Q212",
+      "sourceLatitude": 48.809444,
+      "sourceLongitude": 29.390556,
+      "distanceKm": 0.918,
+      "instanceOf": [
+        "Q12131624",
+        "Q12131640"
+      ]
+    },
+    {
+      "id": "1720402",
+      "oldName": "Calbayog City",
+      "english": "Calbayog City",
+      "country": "PH",
+      "longitude": 124.5962,
+      "latitude": 12.0668,
+      "name": "甲描育",
+      "sourceId": "Q577336",
+      "sourceCountry": "Q928",
+      "sourceLatitude": 12.066944,
+      "sourceLongitude": 124.594722,
+      "distanceKm": 0.161,
+      "instanceOf": [
+        "Q106078286",
+        "Q1549591"
+      ]
+    },
+    {
+      "id": "osm:node:7167364461",
+      "oldName": "Basni",
+      "english": "Basni",
+      "country": "IN",
+      "longitude": 73.6450267,
+      "latitude": 27.1711814,
+      "name": "巴斯尼贝利马",
+      "sourceId": "Q712619",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 27.17,
+      "sourceLongitude": 73.65,
+      "distanceKm": 0.508,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "osm:node:245717603",
+      "oldName": "Basoda",
+      "english": "Basoda",
+      "country": "IN",
+      "longitude": 77.941471,
+      "latitude": 23.8480899,
+      "name": "甘尼巴索达",
+      "sourceId": "Q714617",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 23.85,
+      "sourceLongitude": 77.93,
+      "distanceKm": 1.184,
+      "instanceOf": [
+        "Q515"
+      ]
+    },
+    {
+      "id": "1264457",
+      "oldName": "Mahālingpur",
+      "english": "Mahālingpur",
+      "country": "IN",
+      "longitude": 75.10873,
+      "latitude": 16.3888,
+      "name": "马哈林格普尔",
+      "sourceId": "Q63254836",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 16.38,
+      "sourceLongitude": 75.12,
+      "distanceKm": 1.547,
+      "instanceOf": [
+        "Q56436498"
+      ]
+    },
+    {
+      "id": "1564589",
+      "oldName": "Thị Trấn Tiên Yên",
+      "english": "Thị Trấn Tiên Yên",
+      "country": "VN",
+      "longitude": 107.40533,
+      "latitude": 21.33133,
+      "name": "先安市镇",
+      "sourceId": "Q10827238",
+      "sourceCountry": "Q881",
+      "sourceLatitude": 21.331944,
+      "sourceLongitude": 107.39,
+      "distanceKm": 1.587,
+      "instanceOf": [
+        "Q1070942"
+      ]
+    },
+    {
+      "id": "1563704",
+      "oldName": "Thị Trấn Trùng Khánh",
+      "english": "Thị Trấn Trùng Khánh",
+      "country": "VN",
+      "longitude": 106.52496,
+      "latitude": 22.83514,
+      "name": "重庆市镇",
+      "sourceId": "Q10828641",
+      "sourceCountry": "Q881",
+      "sourceLatitude": 22.825667,
+      "sourceLongitude": 106.522666,
+      "distanceKm": 1.077,
+      "instanceOf": [
+        "Q1070942"
+      ]
+    },
+    {
+      "id": "7799998",
+      "oldName": "El Shorouk",
+      "english": "El Shorouk",
+      "country": "EG",
+      "longitude": 31.61556,
+      "latitude": 30.13806,
+      "name": "舒鲁克",
+      "sourceId": "Q12188944",
+      "sourceCountry": "Q79",
+      "sourceLatitude": 30.1448,
+      "sourceLongitude": 31.6296,
+      "distanceKm": 1.541,
+      "instanceOf": [
+        "Q515",
+        "Q1074523",
+        "Q691960"
+      ]
+    },
+    {
+      "id": "2941501",
+      "oldName": "Burg bei Magdeburg",
+      "english": "Burg bei Magdeburg",
+      "country": "DE",
+      "longitude": 11.85493,
+      "latitude": 52.27152,
+      "name": "布尔格",
+      "sourceId": "Q525632",
+      "sourceCountry": "Q183",
+      "sourceLatitude": 52.2725,
+      "sourceLongitude": 11.855,
+      "distanceKm": 0.109,
+      "instanceOf": [
+        "Q42744322",
+        "Q134626",
+        "Q15303838"
+      ]
+    },
+    {
+      "id": "1278454",
+      "oldName": "Arni",
+      "english": "Arni",
+      "country": "IN",
+      "longitude": 79.28529,
+      "latitude": 12.66771,
+      "name": "阿拉尼",
+      "sourceId": "Q581497",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 12.67,
+      "sourceLongitude": 79.28,
+      "distanceKm": 0.627,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "2639436",
+      "oldName": "Rhosllannerchrugog",
+      "english": "Rhosllannerchrugog",
+      "country": "GB",
+      "longitude": -3.05814,
+      "latitude": 53.00974,
+      "name": "罗斯兰纳彻鲁格",
+      "sourceId": "Q616452",
+      "sourceCountry": "Q145",
+      "sourceLatitude": 53.01115,
+      "sourceLongitude": -3.052211,
+      "distanceKm": 0.426,
+      "instanceOf": [
+        "Q532",
+        "Q2630741"
+      ]
+    },
+    {
+      "id": "127014",
+      "oldName": "Khūrmūj",
+      "english": "Khūrmūj",
+      "country": "IR",
+      "longitude": 51.38,
+      "latitude": 28.6543,
+      "name": "霍尔穆季",
+      "sourceId": "Q720039",
+      "sourceCountry": "Q794",
+      "sourceLatitude": 28.654167,
+      "sourceLongitude": 51.38,
+      "distanceKm": 0.015,
+      "instanceOf": [
+        "Q56557504"
+      ]
+    },
+    {
+      "id": "134217",
+      "oldName": "Bandar-e Genāveh",
+      "english": "Bandar-e Genāveh",
+      "country": "IR",
+      "longitude": 50.517,
+      "latitude": 29.5791,
+      "name": "加纳韦",
+      "sourceId": "Q720298",
+      "sourceCountry": "Q794",
+      "sourceLatitude": 29.584722,
+      "sourceLongitude": 50.516944,
+      "distanceKm": 0.624,
+      "instanceOf": [
+        "Q56557504"
+      ]
+    },
+    {
+      "id": "291696",
+      "oldName": "Khawr Fakkān",
+      "english": "Khawr Fakkān",
+      "country": "AE",
+      "longitude": 56.34199,
+      "latitude": 25.33132,
+      "name": "豪尔费坎港",
+      "sourceId": "Q764279",
+      "sourceCountry": "Q878",
+      "sourceLatitude": 25.339167,
+      "sourceLongitude": 56.356111,
+      "distanceKm": 1.663,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "12718663",
+      "oldName": "Bejaâd",
+      "english": "Bejaâd",
+      "country": "MA",
+      "longitude": -6.39231,
+      "latitude": 32.77133,
+      "name": "布贾德",
+      "sourceId": "Q895029",
+      "sourceCountry": "Q1028",
+      "sourceLatitude": 32.76,
+      "sourceLongitude": -6.4,
+      "distanceKm": 1.448,
+      "instanceOf": [
+        "Q515",
+        "Q3327862"
+      ]
+    },
+    {
+      "id": "1323815",
+      "oldName": "Hpākān",
+      "english": "Hpākān",
+      "country": "MM",
+      "longitude": 96.31482,
+      "latitude": 25.6138,
+      "name": "帕敢",
+      "sourceId": "Q15226232",
+      "sourceCountry": "Q836",
+      "sourceLatitude": 25.612778,
+      "sourceLongitude": 96.311389,
+      "distanceKm": 0.362,
+      "instanceOf": [
+        "Q486972",
+        "Q134587884"
+      ]
+    },
+    {
+      "id": "1301804",
+      "oldName": "Panglong",
+      "english": "Panglong",
+      "country": "MM",
+      "longitude": 98.31264,
+      "latitude": 24.10051,
+      "name": "勐古",
+      "sourceId": "Q18390960",
+      "sourceCountry": "Q836",
+      "sourceLatitude": 24.1,
+      "sourceLongitude": 98.3,
+      "distanceKm": 1.282,
+      "instanceOf": [
+        "Q486972",
+        "Q134587884"
+      ]
+    },
+    {
+      "id": "6094835",
+      "oldName": "Ottawa South",
+      "english": "Ottawa South",
+      "country": "CA",
+      "longitude": -75.68725,
+      "latitude": 45.3921,
+      "name": "舊渥太華南",
+      "sourceId": "Q4333437",
+      "sourceCountry": "Q16",
+      "sourceLatitude": 45.391667,
+      "sourceLongitude": -75.683333,
+      "distanceKm": 0.309,
+      "instanceOf": [
+        "Q123705"
+      ]
+    },
+    {
+      "id": "1272829",
+      "oldName": "Dhārni",
+      "english": "Dhārni",
+      "country": "IN",
+      "longitude": 76.88972,
+      "latitude": 21.55333,
+      "name": "达尔尼",
+      "sourceId": "Q5269387",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 21.55,
+      "sourceLongitude": 76.883333,
+      "distanceKm": 0.756,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "osm:node:249600570",
+      "oldName": "El Empalme",
+      "english": "El Empalme",
+      "country": "EC",
+      "longitude": -79.6386715,
+      "latitude": -1.0427954,
+      "name": "埃爾恩帕爾梅",
+      "sourceId": "Q5351224",
+      "sourceCountry": "Q736",
+      "sourceLatitude": -1.043889,
+      "sourceLongitude": -79.638333,
+      "distanceKm": 0.127,
+      "instanceOf": [
+        "Q515"
+      ]
+    },
+    {
+      "id": "1842485",
+      "oldName": "Goyang-si",
+      "english": "Goyang-si",
+      "country": "KR",
+      "longitude": 126.835,
+      "latitude": 37.65639,
+      "name": "高阳市",
+      "sourceId": "Q42061",
+      "sourceCountry": "Q884",
+      "sourceLatitude": 37.656389,
+      "sourceLongitude": 126.835,
+      "distanceKm": 0,
+      "instanceOf": [
+        "Q29045252",
+        "Q1549591",
+        "Q4249901"
+      ]
+    },
+    {
+      "id": "6967990",
+      "oldName": "Az Zuwāydah",
+      "english": "Az Zuwāydah",
+      "country": "PS",
+      "longitude": 34.38053,
+      "latitude": 31.43954,
+      "name": "阿兹扎韦达",
+      "sourceId": "Q59623",
+      "sourceCountry": "Q219060",
+      "sourceLatitude": 31.428439,
+      "sourceLongitude": 34.36595,
+      "distanceKm": 1.851,
+      "instanceOf": [
+        "Q3957",
+        "Q136721998"
+      ]
+    },
+    {
+      "id": "1685755",
+      "oldName": "Sorsogon",
+      "english": "Sorsogon",
+      "country": "PH",
+      "longitude": 123.99333,
+      "latitude": 12.97389,
+      "name": "索科贡市",
+      "sourceId": "Q174096",
+      "sourceCountry": "Q928",
+      "sourceLatitude": 12.974167,
+      "sourceLongitude": 124.005833,
+      "distanceKm": 1.353,
+      "instanceOf": [
+        "Q106078286",
+        "Q1549591"
+      ]
+    },
+    {
+      "id": "2218970",
+      "oldName": "Az Zāwīyah",
+      "english": "Az Zāwīyah",
+      "country": "LY",
+      "longitude": 12.72764,
+      "latitude": 32.7571,
+      "name": "扎维耶",
+      "sourceId": "Q221503",
+      "sourceCountry": "Q1016",
+      "sourceLatitude": 32.754444,
+      "sourceLongitude": 12.729722,
+      "distanceKm": 0.353,
+      "instanceOf": [
+        "Q486972",
+        "Q16124843"
+      ]
+    },
+    {
+      "id": "630429",
+      "oldName": "Baranovichi",
+      "english": "Baranovichi",
+      "country": "BY",
+      "longitude": 26.00775,
+      "latitude": 53.13255,
+      "name": "巴拉诺维奇",
+      "sourceId": "Q237655",
+      "sourceCountry": "Q184",
+      "sourceLatitude": 53.1325,
+      "sourceLongitude": 26.017778,
+      "distanceKm": 0.668,
+      "instanceOf": [
+        "Q79323854",
+        "Q1549591"
+      ]
+    },
+    {
+      "id": "201521",
+      "oldName": "Musanze",
+      "english": "Musanze",
+      "country": "RW",
+      "longitude": 29.63497,
+      "latitude": -1.49984,
+      "name": "鲁亨盖里",
+      "sourceId": "Q246145",
+      "sourceCountry": "Q1037",
+      "sourceLatitude": -1.494444,
+      "sourceLongitude": 29.641667,
+      "distanceKm": 0.954,
+      "instanceOf": [
+        "Q515"
+      ]
+    },
+    {
+      "id": "2029656",
+      "oldName": "Undurkhaan",
+      "english": "Undurkhaan",
+      "country": "MN",
+      "longitude": 110.65556,
+      "latitude": 47.31944,
+      "name": "温都尔汗",
+      "sourceId": "Q297632",
+      "sourceCountry": "Q711",
+      "sourceLatitude": 47.323889,
+      "sourceLongitude": 110.661667,
+      "distanceKm": 0.675,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "1700925",
+      "oldName": "Marikina City",
+      "english": "Marikina City",
+      "country": "PH",
+      "longitude": 121.1133,
+      "latitude": 14.6481,
+      "name": "馬利金納",
+      "sourceId": "Q17175",
+      "sourceCountry": "Q928",
+      "sourceLatitude": 14.65,
+      "sourceLongitude": 121.1,
+      "distanceKm": 1.444,
+      "instanceOf": [
+        "Q29946056"
+      ]
+    },
+    {
+      "id": "2658822",
+      "oldName": "Sankt Gallen",
+      "english": "Sankt Gallen",
+      "country": "CH",
+      "longitude": 9.37477,
+      "latitude": 47.42391,
+      "name": "圣加仑",
+      "sourceId": "Q25607",
+      "sourceCountry": "Q39",
+      "sourceLatitude": 47.423333,
+      "sourceLongitude": 9.377222,
+      "distanceKm": 0.195,
+      "instanceOf": [
+        "Q70208",
+        "Q14770218",
+        "Q1187811",
+        "Q54935504"
+      ]
+    },
+    {
+      "id": "102985",
+      "oldName": "Raḩīmah",
+      "english": "Raḩīmah",
+      "country": "SA",
+      "longitude": 50.06194,
+      "latitude": 26.70791,
+      "name": "拉斯坦努拉",
+      "sourceId": "Q27222",
+      "sourceCountry": "Q851",
+      "sourceLatitude": 26.707417,
+      "sourceLongitude": 50.067352,
+      "distanceKm": 0.539,
+      "instanceOf": [
+        "Q110571169"
+      ]
+    },
+    {
+      "id": "3168175",
+      "oldName": "San Lazzaro",
+      "english": "San Lazzaro",
+      "country": "IT",
+      "longitude": 11.40851,
+      "latitude": 44.4705,
+      "name": "萨韦纳河畔圣拉扎罗",
+      "sourceId": "Q94991",
+      "sourceCountry": "Q38",
+      "sourceLatitude": 44.471567,
+      "sourceLongitude": 11.404859,
+      "distanceKm": 0.313,
+      "instanceOf": [
+        "Q747074"
+      ]
+    },
+    {
+      "id": "109571",
+      "oldName": "Al Hufūf",
+      "english": "Al Hufūf",
+      "country": "SA",
+      "longitude": 49.58764,
+      "latitude": 25.36467,
+      "name": "胡富夫",
+      "sourceId": "Q27136",
+      "sourceCountry": "Q851",
+      "sourceLatitude": 25.3608,
+      "sourceLongitude": 49.5997,
+      "distanceKm": 1.284,
+      "instanceOf": [
+        "Q3957"
+      ]
+    },
+    {
+      "id": "2869449",
+      "oldName": "Moosburg",
+      "english": "Moosburg",
+      "country": "DE",
+      "longitude": 11.93811,
+      "latitude": 48.47089,
+      "name": "伊萨尔河畔莫斯堡",
+      "sourceId": "Q31872",
+      "sourceCountry": "Q183",
+      "sourceLatitude": 48.466667,
+      "sourceLongitude": 11.933333,
+      "distanceKm": 0.586,
+      "instanceOf": [
+        "Q42744322"
+      ]
+    },
+    {
+      "id": "512023",
+      "oldName": "Pavlovskiy Posad",
+      "english": "Pavlovskiy Posad",
+      "country": "RU",
+      "longitude": 38.65025,
+      "latitude": 55.78187,
+      "name": "巴甫洛夫斯基镇",
+      "sourceId": "Q177908",
+      "sourceCountry": "Q159",
+      "sourceLatitude": 55.783333,
+      "sourceLongitude": 38.65,
+      "distanceKm": 0.163,
+      "instanceOf": [
+        "Q7930989",
+        "Q486972"
+      ]
+    },
+    {
+      "id": "584923",
+      "oldName": "Sumgayit",
+      "english": "Sumgayit",
+      "country": "AZ",
+      "longitude": 49.66861,
+      "latitude": 40.58972,
+      "name": "苏姆盖特",
+      "sourceId": "Q179833",
+      "sourceCountry": "Q227",
+      "sourceLatitude": 40.596111,
+      "sourceLongitude": 49.67,
+      "distanceKm": 0.719,
+      "instanceOf": [
+        "Q56557664",
+        "Q1549591"
+      ]
+    },
+    {
+      "id": "1700712",
+      "oldName": "Masbate",
+      "english": "Masbate",
+      "country": "PH",
+      "longitude": 123.62494,
+      "latitude": 12.37169,
+      "name": "马斯巴特",
+      "sourceId": "Q191651",
+      "sourceCountry": "Q928",
+      "sourceLatitude": 12.373889,
+      "sourceLongitude": 123.624722,
+      "distanceKm": 0.245,
+      "instanceOf": [
+        "Q106078286"
+      ]
+    },
+    {
+      "id": "2391067",
+      "oldName": "Toukountouna",
+      "english": "Toukountouna",
+      "country": "BJ",
+      "longitude": 1.37437,
+      "latitude": 10.50279,
+      "name": "圖昆圖納",
+      "sourceId": "Q3532838",
+      "sourceCountry": "Q962",
+      "sourceLatitude": 10.498611,
+      "sourceLongitude": 1.375556,
+      "distanceKm": 0.482,
+      "instanceOf": [
+        "Q1780506"
+      ]
+    },
+    {
+      "id": "osm:node:1404878862",
+      "oldName": "Nyagatare",
+      "english": "Nyagatare",
+      "country": "RW",
+      "longitude": 30.329535,
+      "latitude": -1.298632,
+      "name": "尼亞加塔雷",
+      "sourceId": "Q3562393",
+      "sourceCountry": "Q1037",
+      "sourceLatitude": -1.294722,
+      "sourceLongitude": 30.327222,
+      "distanceKm": 0.504,
+      "instanceOf": [
+        "Q3957"
+      ]
+    },
+    {
+      "id": "11523825",
+      "oldName": "Adelaide city centre",
+      "english": "Adelaide city centre",
+      "country": "AU",
+      "longitude": 138.60334,
+      "latitude": -34.92873,
+      "name": "阿德莱德市区中心",
+      "sourceId": "Q4681820",
+      "sourceCountry": "Q408",
+      "sourceLatitude": -34.928611,
+      "sourceLongitude": 138.6,
+      "distanceKm": 0.304,
+      "instanceOf": [
+        "Q738570",
+        "Q188509"
+      ]
+    },
+    {
+      "id": "osm:node:655186900",
+      "oldName": "Guledagudda",
+      "english": "Guledagudda",
+      "country": "IN",
+      "longitude": 75.7899798,
+      "latitude": 16.0504384,
+      "name": "古莱德古德达",
+      "sourceId": "Q1706521",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 16.05,
+      "sourceLongitude": 75.8,
+      "distanceKm": 1.07,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "1176470",
+      "oldName": "Jaglot",
+      "english": "Jaglot",
+      "country": "PK",
+      "longitude": 74.62412,
+      "latitude": 35.68842,
+      "name": "贾格劳特",
+      "sourceId": "Q1711444",
+      "sourceCountry": "Q843",
+      "sourceLatitude": 35.686944,
+      "sourceLongitude": 74.628889,
+      "distanceKm": 0.46,
+      "instanceOf": [
+        "Q3957"
+      ]
+    },
+    {
+      "id": "1133574",
+      "oldName": "Mehtar Lām",
+      "english": "Mehtar Lām",
+      "country": "AF",
+      "longitude": 70.20944,
+      "latitude": 34.67139,
+      "name": "米特拉姆",
+      "sourceId": "Q1982155",
+      "sourceCountry": "Q889",
+      "sourceLatitude": 34.668333,
+      "sourceLongitude": 70.208889,
+      "distanceKm": 0.343,
+      "instanceOf": [
+        "Q515"
+      ]
+    },
+    {
+      "id": "2653393",
+      "oldName": "Chalfont Saint Peter",
+      "english": "Chalfont Saint Peter",
+      "country": "GB",
+      "longitude": -0.55618,
+      "latitude": 51.60885,
+      "name": "查尔方特圣彼德",
+      "sourceId": "Q2006494",
+      "sourceCountry": "Q145",
+      "sourceLatitude": 51.607,
+      "sourceLongitude": -0.555,
+      "distanceKm": 0.221,
+      "instanceOf": [
+        "Q532",
+        "Q1115575"
+      ]
+    },
+    {
+      "id": "osm:node:245770211",
+      "oldName": "Jaito",
+      "english": "Jaito",
+      "country": "IN",
+      "longitude": 74.8892204,
+      "latitude": 30.4485444,
+      "name": "贾伊图",
+      "sourceId": "Q2008018",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 30.451389,
+      "sourceLongitude": 74.891944,
+      "distanceKm": 0.409,
+      "instanceOf": [
+        "Q56436498"
+      ]
+    },
+    {
+      "id": "1254675",
+      "oldName": "Thān",
+      "english": "Thān",
+      "country": "IN",
+      "longitude": 71.19942,
+      "latitude": 22.57422,
+      "name": "唐格阿德",
+      "sourceId": "Q2231030",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 22.566667,
+      "sourceLongitude": 71.183333,
+      "distanceKm": 1.85,
+      "instanceOf": [
+        "Q3957"
+      ]
+    },
+    {
+      "id": "1266461",
+      "oldName": "Kithor",
+      "english": "Kithor",
+      "country": "IN",
+      "longitude": 77.93861,
+      "latitude": 28.86684,
+      "name": "基陶尔",
+      "sourceId": "Q2234640",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 28.866,
+      "sourceLongitude": 77.938,
+      "distanceKm": 0.11,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "3682573",
+      "oldName": "Espinal",
+      "english": "Espinal",
+      "country": "CO",
+      "longitude": -74.88429,
+      "latitude": 4.14924,
+      "name": "埃斯皮纳尔",
+      "sourceId": "Q2298176",
+      "sourceCountry": "Q739",
+      "sourceLatitude": 4.148611,
+      "sourceLongitude": -74.881944,
+      "distanceKm": 0.269,
+      "instanceOf": [
+        "Q2555896"
+      ]
+    },
+    {
+      "id": "1257951",
+      "oldName": "Ropar",
+      "english": "Ropar",
+      "country": "IN",
+      "longitude": 76.52695,
+      "latitude": 30.96896,
+      "name": "鲁普纳加尔",
+      "sourceId": "Q2341875",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 30.966389,
+      "sourceLongitude": 76.533056,
+      "distanceKm": 0.647,
+      "instanceOf": [
+        "Q515"
+      ]
+    },
+    {
+      "id": "osm:node:245717195",
+      "oldName": "Nalkhera",
+      "english": "Nalkhera",
+      "country": "IN",
+      "longitude": 76.2382571,
+      "latitude": 23.8377679,
+      "name": "纳尔凯达",
+      "sourceId": "Q2446401",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 23.834167,
+      "sourceLongitude": 76.246667,
+      "distanceKm": 0.943,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "1262852",
+      "oldName": "Mokameh",
+      "english": "Mokameh",
+      "country": "IN",
+      "longitude": 85.9219,
+      "latitude": 25.39662,
+      "name": "莫卡梅",
+      "sourceId": "Q2453482",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 25.3898,
+      "sourceLongitude": 85.919097,
+      "distanceKm": 0.808,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "osm:node:2161157704",
+      "oldName": "Nellikkuppam",
+      "english": "Nellikkuppam",
+      "country": "IN",
+      "longitude": 79.6716408,
+      "latitude": 11.7756098,
+      "name": "内利库帕姆",
+      "sourceId": "Q2541207",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 11.7667,
+      "sourceLongitude": 79.6833,
+      "distanceKm": 1.607,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "osm:node:245774418",
+      "oldName": "Badgam",
+      "english": "Badgam",
+      "country": "IN",
+      "longitude": 74.7220085,
+      "latitude": 34.0154721,
+      "name": "巴德加姆",
+      "sourceId": "Q2577678",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 34.01524,
+      "sourceLongitude": 74.72074,
+      "distanceKm": 0.12,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "1259878",
+      "oldName": "Periyanayakkanpalaiyam",
+      "english": "Periyanayakkanpalaiyam",
+      "country": "IN",
+      "longitude": 76.95159,
+      "latitude": 11.15255,
+      "name": "佩里耶奈肯帕拉耶姆",
+      "sourceId": "Q2716607",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 11.152222,
+      "sourceLongitude": 76.945833,
+      "distanceKm": 0.628,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "osm:node:245638257",
+      "oldName": "Mahbubnagar",
+      "english": "Mahbubnagar",
+      "country": "IN",
+      "longitude": 77.9923191,
+      "latitude": 16.7434538,
+      "name": "马赫布卜讷格尔",
+      "sourceId": "Q2768192",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 16.733333,
+      "sourceLongitude": 77.983333,
+      "distanceKm": 1.475,
+      "instanceOf": [
+        "Q6936225",
+        "Q58339518",
+        "Q1549591"
+      ]
+    },
+    {
+      "id": "1703417",
+      "oldName": "Makati City",
+      "english": "Makati City",
+      "country": "PH",
+      "longitude": 121.03269,
+      "latitude": 14.55027,
+      "name": "马卡蒂",
+      "sourceId": "Q1508",
+      "sourceCountry": "Q928",
+      "sourceLatitude": 14.556667,
+      "sourceLongitude": 121.021389,
+      "distanceKm": 1.407,
+      "instanceOf": [
+        "Q29946056",
+        "Q1549591"
+      ]
+    },
+    {
+      "id": "2873759",
+      "oldName": "Marburg an der Lahn",
+      "english": "Marburg an der Lahn",
+      "country": "DE",
+      "longitude": 8.77069,
+      "latitude": 50.80904,
+      "name": "马尔堡",
+      "sourceId": "Q3869",
+      "sourceCountry": "Q183",
+      "sourceLatitude": 50.816667,
+      "sourceLongitude": 8.766667,
+      "distanceKm": 0.892,
+      "instanceOf": [
+        "Q134626",
+        "Q1187811",
+        "Q1547289",
+        "Q3678424",
+        "Q42744322"
+      ]
+    },
+    {
+      "id": "1729564",
+      "oldName": "Bacolod City",
+      "english": "Bacolod City",
+      "country": "PH",
+      "longitude": 122.95,
+      "latitude": 10.66667,
+      "name": "巴科洛德",
+      "sourceId": "Q5217",
+      "sourceCountry": "Q928",
+      "sourceLatitude": 10.676458,
+      "sourceLongitude": 122.950917,
+      "distanceKm": 1.091,
+      "instanceOf": [
+        "Q29946056"
+      ]
+    },
+    {
+      "id": "485660",
+      "oldName": "Svetlyy",
+      "english": "Svetlyy",
+      "country": "RU",
+      "longitude": 20.13473,
+      "latitude": 54.67501,
+      "name": "斯韦特雷",
+      "sourceId": "Q5665",
+      "sourceCountry": "Q159",
+      "sourceLatitude": 54.683333,
+      "sourceLongitude": 20.133333,
+      "distanceKm": 0.928,
+      "instanceOf": [
+        "Q7930989",
+        "Q56580425",
+        "Q2264924"
+      ]
+    },
+    {
+      "id": "7303020",
+      "oldName": "Wittenberg",
+      "english": "Wittenberg",
+      "country": "DE",
+      "longitude": 12.64973,
+      "latitude": 51.8661,
+      "name": "维滕贝格",
+      "sourceId": "Q6837",
+      "sourceCountry": "Q183",
+      "sourceLatitude": 51.8671,
+      "sourceLongitude": 12.6484,
+      "distanceKm": 0.144,
+      "instanceOf": [
+        "Q42744322",
+        "Q1547289",
+        "Q134626",
+        "Q1180262"
+      ]
+    },
+    {
+      "id": "2511401",
+      "oldName": "La Laguna",
+      "english": "La Laguna",
+      "country": "ES",
+      "longitude": -16.32014,
+      "latitude": 28.4853,
+      "name": "圣克里斯托瓦尔-德拉拉古纳",
+      "sourceId": "Q54898",
+      "sourceCountry": "Q29",
+      "sourceLatitude": 28.485278,
+      "sourceLongitude": -16.316667,
+      "distanceKm": 0.339,
+      "instanceOf": [
+        "Q2074737",
+        "Q515"
+      ]
+    },
+    {
+      "id": "293822",
+      "oldName": "Qiryat Yam",
+      "english": "Qiryat Yam",
+      "country": "IL",
+      "longitude": 35.06973,
+      "latitude": 32.84966,
+      "name": "亚姆村",
+      "sourceId": "Q152387",
+      "sourceCountry": "Q801",
+      "sourceLatitude": 32.833056,
+      "sourceLongitude": 35.066389,
+      "distanceKm": 1.869,
+      "instanceOf": [
+        "Q515",
+        "Q3505887"
+      ]
+    },
+    {
+      "id": "293896",
+      "oldName": "Qalansuwa",
+      "english": "Qalansuwa",
+      "country": "IL",
+      "longitude": 34.98106,
+      "latitude": 32.28493,
+      "name": "加兰苏瓦",
+      "sourceId": "Q168152",
+      "sourceCountry": "Q801",
+      "sourceLatitude": 32.285,
+      "sourceLongitude": 34.981111,
+      "distanceKm": 0.009,
+      "instanceOf": [
+        "Q486972",
+        "Q3505887"
+      ]
+    },
+    {
+      "id": "1701053",
+      "oldName": "Marawi City",
+      "english": "Marawi City",
+      "country": "PH",
+      "longitude": 124.28395,
+      "latitude": 8.0034,
+      "name": "马拉维",
+      "sourceId": "Q592338",
+      "sourceCountry": "Q928",
+      "sourceLatitude": 8.003056,
+      "sourceLongitude": 124.285,
+      "distanceKm": 0.122,
+      "instanceOf": [
+        "Q106078286",
+        "Q1549591"
+      ]
+    },
+    {
+      "id": "691255",
+      "oldName": "Trostyanets",
+      "english": "Trostyanets",
+      "country": "UA",
+      "longitude": 34.96567,
+      "latitude": 50.48478,
+      "name": "特罗斯佳内茨",
+      "sourceId": "Q606706",
+      "sourceCountry": "Q212",
+      "sourceLatitude": 50.481056,
+      "sourceLongitude": 34.964583,
+      "distanceKm": 0.42,
+      "instanceOf": [
+        "Q12131624",
+        "Q2989457"
+      ]
+    },
+    {
+      "id": "1285693",
+      "oldName": "Yawnghwe",
+      "english": "Yawnghwe",
+      "country": "MM",
+      "longitude": 96.93376,
+      "latitude": 20.65973,
+      "name": "良瑞",
+      "sourceId": "Q652202",
+      "sourceCountry": "Q836",
+      "sourceLatitude": 20.658341,
+      "sourceLongitude": 96.935525,
+      "distanceKm": 0.24,
+      "instanceOf": [
+        "Q3957",
+        "Q134587884"
+      ]
+    },
+    {
+      "id": "7910079",
+      "oldName": "Sodo",
+      "english": "Sodo",
+      "country": "ET",
+      "longitude": 37.76159,
+      "latitude": 6.86,
+      "name": "索多",
+      "sourceId": "Q673275",
+      "sourceCountry": "Q115",
+      "sourceLatitude": 6.86,
+      "sourceLongitude": 37.76,
+      "distanceKm": 0.175,
+      "instanceOf": [
+        "Q515",
+        "Q219875",
+        "Q1549591",
+        "Q486972"
+      ]
+    },
+    {
+      "id": "osm:node:151939365",
+      "oldName": "Saint Cloud",
+      "english": "Saint Cloud",
+      "country": "US",
+      "longitude": -94.1642004,
+      "latitude": 45.5616075,
+      "name": "圣云",
+      "sourceId": "Q736834",
+      "sourceCountry": "Q30",
+      "sourceLatitude": 45.553889,
+      "sourceLongitude": -94.170278,
+      "distanceKm": 0.978,
+      "instanceOf": [
+        "Q1093829"
+      ]
+    },
+    {
+      "id": "osm:node:3401515119",
+      "oldName": "Babai",
+      "english": "Babai",
+      "country": "IN",
+      "longitude": 77.9330027,
+      "latitude": 22.7048792,
+      "name": "巴拜",
+      "sourceId": "Q765367",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 22.7,
+      "sourceLongitude": 77.93,
+      "distanceKm": 0.623,
+      "instanceOf": [
+        "Q3957",
+        "Q2322432"
+      ]
+    },
+    {
+      "id": "1269102",
+      "oldName": "Jayamkondacholapuram",
+      "english": "Jayamkondacholapuram",
+      "country": "IN",
+      "longitude": 79.36369,
+      "latitude": 11.21266,
+      "name": "贾延孔达姆",
+      "sourceId": "Q769532",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 11.212,
+      "sourceLongitude": 79.365,
+      "distanceKm": 0.16,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "65170",
+      "oldName": "Baardheere",
+      "english": "Baardheere",
+      "country": "SO",
+      "longitude": 42.27644,
+      "latitude": 2.34464,
+      "name": "巴爾代雷",
+      "sourceId": "Q797499",
+      "sourceCountry": "Q1045",
+      "sourceLatitude": 2.344722,
+      "sourceLongitude": 42.276389,
+      "distanceKm": 0.011,
+      "instanceOf": [
+        "Q515"
+      ]
+    },
+    {
+      "id": "3591415",
+      "oldName": "Petapa",
+      "english": "Petapa",
+      "country": "GT",
+      "longitude": -90.56196,
+      "latitude": 14.50189,
+      "name": "聖米格",
+      "sourceId": "Q921966",
+      "sourceCountry": "Q774",
+      "sourceLatitude": 14.4962,
+      "sourceLongitude": -90.5525,
+      "distanceKm": 1.197,
+      "instanceOf": [
+        "Q1872284"
+      ]
+    },
+    {
+      "id": "265533",
+      "oldName": "Aigáleo",
+      "english": "Aigáleo",
+      "country": "GR",
+      "longitude": 23.68333,
+      "latitude": 37.98333,
+      "name": "艾加莱奥",
+      "sourceId": "Q985455",
+      "sourceCountry": "Q41",
+      "sourceLatitude": 37.9902,
+      "sourceLongitude": 23.68,
+      "distanceKm": 0.816,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "285108",
+      "oldName": "Al Bīrah",
+      "english": "Al Bīrah",
+      "country": "PS",
+      "longitude": 35.21645,
+      "latitude": 31.91001,
+      "name": "比雷赫",
+      "sourceId": "Q311326",
+      "sourceCountry": "Q219060",
+      "sourceLatitude": 31.905142,
+      "sourceLongitude": 35.214958,
+      "distanceKm": 0.558,
+      "instanceOf": [
+        "Q515",
+        "Q136721998"
+      ]
+    },
+    {
+      "id": "281141",
+      "oldName": "Dayr al Balaḩ",
+      "english": "Dayr al Balaḩ",
+      "country": "PS",
+      "longitude": 34.34933,
+      "latitude": 31.41834,
+      "name": "達魯姆",
+      "sourceId": "Q557383",
+      "sourceCountry": "Q219060",
+      "sourceLatitude": 31.416667,
+      "sourceLongitude": 34.35,
+      "distanceKm": 0.196,
+      "instanceOf": [
+        "Q515",
+        "Q136721998"
+      ]
+    },
+    {
+      "id": "787456",
+      "oldName": "Orahovac",
+      "english": "Orahovac",
+      "country": "XK",
+      "longitude": 20.65472,
+      "latitude": 42.39944,
+      "name": "奧拉霍瓦茨",
+      "sourceId": "Q733155",
+      "sourceCountry": "Q1246",
+      "sourceLatitude": 42.399444,
+      "sourceLongitude": 20.654722,
+      "distanceKm": 0,
+      "instanceOf": [
+        "Q515"
+      ]
+    },
+    {
+      "id": "712451",
+      "oldName": "Berdyansk",
+      "english": "Berdyansk",
+      "country": "UA",
+      "longitude": 36.78815,
+      "latitude": 46.75578,
+      "name": "别尔江斯克",
+      "sourceId": "Q33292",
+      "sourceCountry": "Q212",
+      "sourceLatitude": 46.755556,
+      "sourceLongitude": 36.788889,
+      "distanceKm": 0.061,
+      "instanceOf": [
+        "Q1549591",
+        "Q12131624"
+      ]
+    },
+    {
+      "id": "689378",
+      "oldName": "Volodymyr-Volynskyi",
+      "english": "Volodymyr-Volynskyi",
+      "country": "UA",
+      "longitude": 24.32119,
+      "latitude": 50.85033,
+      "name": "沃洛德米尔",
+      "sourceId": "Q33544",
+      "sourceCountry": "Q212",
+      "sourceLatitude": 50.848056,
+      "sourceLongitude": 24.322222,
+      "distanceKm": 0.263,
+      "instanceOf": [
+        "Q13416557",
+        "Q12131624"
+      ]
+    },
+    {
+      "id": "1726339",
+      "oldName": "Batac City",
+      "english": "Batac City",
+      "country": "PH",
+      "longitude": 120.56489,
+      "latitude": 18.0554,
+      "name": "巴塔克",
+      "sourceId": "Q39711",
+      "sourceCountry": "Q928",
+      "sourceLatitude": 18.0554,
+      "sourceLongitude": 120.56489,
+      "distanceKm": 0,
+      "instanceOf": [
+        "Q106078286"
+      ]
+    },
+    {
+      "id": "5546220",
+      "oldName": "Saint George",
+      "english": "Saint George",
+      "country": "US",
+      "longitude": -113.58412,
+      "latitude": 37.10415,
+      "name": "圣乔治",
+      "sourceId": "Q52472",
+      "sourceCountry": "Q30",
+      "sourceLatitude": 37.095278,
+      "sourceLongitude": -113.578056,
+      "distanceKm": 1.122,
+      "instanceOf": [
+        "Q1093829",
+        "Q62049"
+      ]
+    },
+    {
+      "id": "1730737",
+      "oldName": "Angeles City",
+      "english": "Angeles City",
+      "country": "PH",
+      "longitude": 120.58333,
+      "latitude": 15.15,
+      "name": "安赫莱斯",
+      "sourceId": "Q55741",
+      "sourceCountry": "Q928",
+      "sourceLatitude": 15.147181,
+      "sourceLongitude": 120.584733,
+      "distanceKm": 0.347,
+      "instanceOf": [
+        "Q29946056",
+        "Q620509"
+      ]
+    },
+    {
+      "id": "787157",
+      "oldName": "Pejë",
+      "english": "Pejë",
+      "country": "XK",
+      "longitude": 20.28828,
+      "latitude": 42.65913,
+      "name": "佩奇",
+      "sourceId": "Q112657",
+      "sourceCountry": "Q1246",
+      "sourceLatitude": 42.65913,
+      "sourceLongitude": 20.28828,
+      "distanceKm": 0,
+      "instanceOf": [
+        "Q515",
+        "Q28822032"
+      ]
+    },
+    {
+      "id": "584596",
+      "oldName": "Zaqatala",
+      "english": "Zaqatala",
+      "country": "AZ",
+      "longitude": 46.64479,
+      "latitude": 41.6316,
+      "name": "扎卡塔雷",
+      "sourceId": "Q147548",
+      "sourceCountry": "Q227",
+      "sourceLatitude": 41.633611,
+      "sourceLongitude": 46.643333,
+      "distanceKm": 0.254,
+      "instanceOf": [
+        "Q515"
+      ]
+    },
+    {
+      "id": "290104",
+      "oldName": "Sitrah",
+      "english": "Sitrah",
+      "country": "BH",
+      "longitude": 50.62056,
+      "latitude": 26.15472,
+      "name": "锡特拉",
+      "sourceId": "Q1416753",
+      "sourceCountry": "Q398",
+      "sourceLatitude": 26.15,
+      "sourceLongitude": 50.616667,
+      "distanceKm": 0.652,
+      "instanceOf": [
+        "Q23442",
+        "Q486972"
+      ]
+    },
+    {
+      "id": "1271929",
+      "oldName": "Fatehganj West",
+      "english": "Fatehganj West",
+      "country": "IN",
+      "longitude": 79.30657,
+      "latitude": 28.4662,
+      "name": "法泰赫甘杰帕斯赫奇米",
+      "sourceId": "Q1525479",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 28.463,
+      "sourceLongitude": 79.306,
+      "distanceKm": 0.36,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "1267758",
+      "oldName": "Karīmganj",
+      "english": "Karīmganj",
+      "country": "IN",
+      "longitude": 92.35543,
+      "latitude": 24.86919,
+      "name": "卡利姆嘎尼",
+      "sourceId": "Q1729385",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 24.866667,
+      "sourceLongitude": 92.366667,
+      "distanceKm": 1.166,
+      "instanceOf": [
+        "Q515",
+        "Q56061"
+      ]
+    },
+    {
+      "id": "osm:node:198432558",
+      "oldName": "Veinticinco de Mayo",
+      "english": "Veinticinco de Mayo",
+      "country": "AR",
+      "longitude": -60.171624,
+      "latitude": -35.4324152,
+      "name": "五月二十五市",
+      "sourceId": "Q2109979",
+      "sourceCountry": "Q414",
+      "sourceLatitude": -35.416667,
+      "sourceLongitude": -60.166667,
+      "distanceKm": 1.805,
+      "instanceOf": [
+        "Q3257686"
+      ]
+    },
+    {
+      "id": "1269819",
+      "oldName": "Idappadi",
+      "english": "Idappadi",
+      "country": "IN",
+      "longitude": 77.83891,
+      "latitude": 11.58624,
+      "name": "埃达帕迪",
+      "sourceId": "Q9904",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 11.58,
+      "sourceLongitude": 77.85,
+      "distanceKm": 1.391,
+      "instanceOf": [
+        "Q3957"
+      ]
+    },
+    {
+      "id": "1842943",
+      "oldName": "Kimhae",
+      "english": "Kimhae",
+      "country": "KR",
+      "longitude": 128.88111,
+      "latitude": 35.23417,
+      "name": "金海市",
+      "sourceId": "Q42082",
+      "sourceCountry": "Q884",
+      "sourceLatitude": 35.234167,
+      "sourceLongitude": 128.881111,
+      "distanceKm": 0,
+      "instanceOf": [
+        "Q29045252",
+        "Q1549591"
+      ]
+    },
+    {
+      "id": "3980194",
+      "oldName": "Ciudad de Villa de Álvarez",
+      "english": "Ciudad de Villa de Álvarez",
+      "country": "MX",
+      "longitude": -103.73778,
+      "latitude": 19.26722,
+      "name": "阿尔瓦雷斯镇",
+      "sourceId": "Q1853445",
+      "sourceCountry": "Q96",
+      "sourceLatitude": 19.264776,
+      "sourceLongitude": -103.736759,
+      "distanceKm": 0.292,
+      "instanceOf": [
+        "Q20202352",
+        "Q1549591"
+      ]
+    },
+    {
+      "id": "4838887",
+      "oldName": "Montville Center",
+      "english": "Montville Center",
+      "country": "US",
+      "longitude": -72.15119,
+      "latitude": 41.47899,
+      "name": "蒙特维尔",
+      "sourceId": "Q1898531",
+      "sourceCountry": "Q30",
+      "sourceLatitude": 41.463889,
+      "sourceLongitude": -72.155556,
+      "distanceKm": 1.715,
+      "instanceOf": [
+        "Q15127012"
+      ]
+    },
+    {
+      "id": "osm:node:245714770",
+      "oldName": "Mahesana",
+      "english": "Mahesana",
+      "country": "IN",
+      "longitude": 72.3867981,
+      "latitude": 23.6015557,
+      "name": "默黑萨纳",
+      "sourceId": "Q1922283",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 23.6,
+      "sourceLongitude": 72.4,
+      "distanceKm": 1.354,
+      "instanceOf": [
+        "Q6958514",
+        "Q1549591"
+      ]
+    },
+    {
+      "id": "osm:node:245760219",
+      "oldName": "Raya",
+      "english": "Raya",
+      "country": "IN",
+      "longitude": 77.7916007,
+      "latitude": 27.5575987,
+      "name": "拉耶",
+      "sourceId": "Q1925374",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 27.57,
+      "sourceLongitude": 77.78,
+      "distanceKm": 1.788,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "osm:node:273586814",
+      "oldName": "Cárdenas",
+      "english": "Cárdenas",
+      "country": "MX",
+      "longitude": -93.3753314,
+      "latitude": 17.990878,
+      "name": "卡德纳斯",
+      "sourceId": "Q1962471",
+      "sourceCountry": "Q96",
+      "sourceLatitude": 17.98943,
+      "sourceLongitude": -93.376856,
+      "distanceKm": 0.227,
+      "instanceOf": [
+        "Q20202352"
+      ]
+    },
+    {
+      "id": "147288",
+      "oldName": "Saatlı",
+      "english": "Saatlı",
+      "country": "AZ",
+      "longitude": 48.36892,
+      "latitude": 39.93214,
+      "name": "薩特雷",
+      "sourceId": "Q1993517",
+      "sourceCountry": "Q227",
+      "sourceLatitude": 39.931111,
+      "sourceLongitude": 48.369722,
+      "distanceKm": 0.133,
+      "instanceOf": [
+        "Q515"
+      ]
+    },
+    {
+      "id": "osm:node:571542100",
+      "oldName": "Macherla",
+      "english": "Macherla",
+      "country": "IN",
+      "longitude": 79.4364575,
+      "latitude": 16.4761003,
+      "name": "马切尔拉",
+      "sourceId": "Q2241562",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 16.48,
+      "sourceLongitude": 79.43,
+      "distanceKm": 0.812,
+      "instanceOf": [
+        "Q58339518"
+      ]
+    },
+    {
+      "id": "1268095",
+      "oldName": "Kangayam",
+      "english": "Kangayam",
+      "country": "IN",
+      "longitude": 77.5609,
+      "latitude": 11.00599,
+      "name": "康格埃耶姆",
+      "sourceId": "Q2308140",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 11.0054,
+      "sourceLongitude": 77.562,
+      "distanceKm": 0.137,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "1160544",
+      "oldName": "Khvāf",
+      "english": "Khvāf",
+      "country": "IR",
+      "longitude": 60.14404,
+      "latitude": 34.57232,
+      "name": "卡夫",
+      "sourceId": "Q2421210",
+      "sourceCountry": "Q794",
+      "sourceLatitude": 34.576389,
+      "sourceLongitude": 60.140833,
+      "distanceKm": 0.538,
+      "instanceOf": [
+        "Q56557504"
+      ]
+    },
+    {
+      "id": "1263567",
+      "oldName": "Mārahra",
+      "english": "Mārahra",
+      "country": "IN",
+      "longitude": 78.56891,
+      "latitude": 27.7368,
+      "name": "马雷赫拉",
+      "sourceId": "Q2543304",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 27.736667,
+      "sourceLongitude": 78.568889,
+      "distanceKm": 0.015,
+      "instanceOf": [
+        "Q515",
+        "Q486972"
+      ]
+    },
+    {
+      "id": "1254317",
+      "oldName": "Tisaiyanvilai",
+      "english": "Tisaiyanvilai",
+      "country": "IN",
+      "longitude": 77.86776,
+      "latitude": 8.33702,
+      "name": "蒂萨延维莱",
+      "sourceId": "Q2716415",
+      "sourceCountry": "Q668",
+      "sourceLatitude": 8.336111,
+      "sourceLongitude": 77.864444,
+      "distanceKm": 0.378,
+      "instanceOf": [
+        "Q486972"
+      ]
+    },
+    {
+      "id": "334826",
+      "oldName": "Hāyk’",
+      "english": "Hāyk’",
+      "country": "ET",
+      "longitude": 39.68333,
+      "latitude": 11.3,
+      "name": "海格",
+      "sourceId": "Q2811760",
+      "sourceCountry": "Q115",
+      "sourceLatitude": 11.3,
+      "sourceLongitude": 39.6833,
+      "distanceKm": 0.003,
+      "instanceOf": [
+        "Q515"
+      ]
+    },
+    {
+      "id": "329607",
+      "oldName": "Bale Robe",
+      "english": "Bale Robe",
+      "country": "ET",
+      "longitude": 40.00412,
+      "latitude": 7.12294,
+      "name": "罗宾",
+      "sourceId": "Q3434314",
+      "sourceCountry": "Q115",
+      "sourceLatitude": 7.116667,
+      "sourceLongitude": 40,
+      "distanceKm": 0.831,
+      "instanceOf": [
+        "Q515",
+        "Q690840"
+      ]
+    },
+    {
+      "id": "1710519",
+      "oldName": "City of Isabela",
+      "english": "City of Isabela",
+      "country": "PH",
+      "longitude": 121.97117,
+      "latitude": 6.70407,
+      "name": "伊莎贝拉",
+      "sourceId": "Q1710",
+      "sourceCountry": "Q928",
+      "sourceLatitude": 6.7,
+      "sourceLongitude": 121.966667,
+      "distanceKm": 0.671,
+      "instanceOf": [
+        "Q106078286",
+        "Q1549591"
+      ]
+    },
+    {
+      "id": "1684497",
+      "oldName": "Tagbilaran City",
+      "english": "Tagbilaran City",
+      "country": "PH",
+      "longitude": 123.85219,
+      "latitude": 9.65556,
+      "name": "塔比拉兰",
+      "sourceId": "Q1826",
+      "sourceCountry": "Q928",
+      "sourceLatitude": 9.65,
+      "sourceLongitude": 123.85,
+      "distanceKm": 0.662,
+      "instanceOf": [
+        "Q106078286",
+        "Q1549591"
+      ]
+    },
+    {
+      "id": "osm:node:240126519",
+      "oldName": "Kempten (Allgäu)",
+      "english": "Kempten (Allgäu)",
+      "country": "DE",
+      "longitude": 10.3168835,
+      "latitude": 47.7267063,
+      "name": "肯普滕",
+      "sourceId": "Q3994",
+      "sourceCountry": "Q183",
+      "sourceLatitude": 47.733333,
+      "sourceLongitude": 10.316667,
+      "distanceKm": 0.736,
+      "instanceOf": [
+        "Q253030",
+        "Q85631896",
+        "Q42744322"
+      ]
+    },
+    {
+      "id": "2509509",
+      "oldName": "Vila-real",
+      "english": "Vila-real",
+      "country": "ES",
+      "longitude": -0.10087,
+      "latitude": 39.9383,
+      "name": "比利亚雷亚尔",
+      "sourceId": "Q12292",
+      "sourceCountry": "Q29",
+      "sourceLatitude": 39.937778,
+      "sourceLongitude": -0.101389,
+      "distanceKm": 0.073,
+      "instanceOf": [
+        "Q2074737",
+        "Q515",
+        "Q123754112"
+      ]
+    },
+    {
+      "id": "3579925",
+      "oldName": "Saint George's",
+      "english": "Saint George's",
+      "country": "GD",
+      "longitude": -61.75226,
+      "latitude": 12.05288,
+      "name": "圣乔治",
+      "sourceId": "Q41547",
+      "sourceCountry": "Q769",
+      "sourceLatitude": 12.0525,
+      "sourceLongitude": -61.753056,
+      "distanceKm": 0.096,
+      "instanceOf": [
+        "Q515"
+      ]
+    },
+    {
+      "id": "1727995",
+      "oldName": "Baliuag",
+      "english": "Baliuag",
+      "country": "PH",
+      "longitude": 120.89694,
+      "latitude": 14.95472,
+      "name": "描里瓦",
+      "sourceId": "Q54554",
+      "sourceCountry": "Q928",
+      "sourceLatitude": 14.954,
+      "sourceLongitude": 120.901,
+      "distanceKm": 0.443,
+      "instanceOf": [
+        "Q106078286",
+        "Q24764"
+      ]
+    },
+    {
+      "id": "3435963",
+      "oldName": "Coronel Brandsen",
+      "english": "Coronel Brandsen",
+      "country": "AR",
+      "longitude": -58.23742,
+      "latitude": -35.16799,
+      "name": "布蘭森上校鎮",
+      "sourceId": "Q3287314",
+      "sourceCountry": "Q414",
+      "sourceLatitude": -35.166667,
+      "sourceLongitude": -58.216667,
+      "distanceKm": 1.889,
+      "instanceOf": [
+        "Q515"
+      ]
+    },
+    {
+      "id": "7909705",
+      "oldName": "Santa Cruz de los Taques",
+      "english": "Santa Cruz de los Taques",
+      "country": "VE",
+      "longitude": -70.25637,
+      "latitude": 11.8235,
+      "name": "聖克魯斯德洛斯塔克斯",
+      "sourceId": "Q3472621",
+      "sourceCountry": "Q717",
+      "sourceLatitude": 11.8217,
+      "sourceLongitude": -70.2561,
+      "distanceKm": 0.202,
+      "instanceOf": [
+        "Q515"
+      ]
+    },
+    {
+      "id": "344420",
+      "oldName": "Aksum",
+      "english": "Aksum",
+      "country": "ET",
+      "longitude": 38.72337,
+      "latitude": 14.12109,
+      "name": "阿克苏姆",
+      "sourceId": "Q5832",
+      "sourceCountry": "Q115",
+      "sourceLatitude": 14.116667,
+      "sourceLongitude": 38.733333,
+      "distanceKm": 1.18,
+      "instanceOf": [
+        "Q515",
+        "Q690840"
+      ]
+    }
+  ]
+}

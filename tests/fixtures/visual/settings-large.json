@@ -1,0 +1,25 @@
+{
+  "events": [
+    {
+      "t": 0.1,
+      "type": "tap",
+      "key": "open-settings"
+    },
+    {
+      "t": 0.35,
+      "type": "tap",
+      "key": "settings-category-appearance"
+    },
+    {
+      "t": 0.5,
+      "type": "tap",
+      "key": "setting-ui-scale-large"
+    },
+    {
+      "t": 0.8,
+      "type": "move",
+      "x": 20,
+      "y": 20
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "source": "Geofabrik Thailand OpenStreetMap extract 2026-11-09",
+  "sourceUrl": "https://download.geofabrik.de/asia/thailand-261109.osm.pbf",
+  "sha256": "ac4171d3f7125a2a4b7995f2068d0d2d26f5798172c9ec6d5ff82227575c09fb",
+  "license": "ODbL 1.0",
+  "matching": "OSM place node with Chinese name, normalized name and coordinates <=2km, unique match and QID compatible when available",
+  "places": [
+    {
+      "id": "1150452",
+      "oldName": "Takua Pa",
+      "english": "Takua Pa",
+      "country": "TH",
+      "longitude": 98.34383,
+      "latitude": 8.8705,
+      "name": "德高巴埠",
+      "sourceId": "osm:node:255445459",
+      "sourceQid": "Q476805",
+      "sourceLatitude": 8.8689862,
+      "sourceLongitude": 98.34356190000001,
+      "distanceKm": 0.171
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "events": [
+    { "t": 0.1, "type": "tap", "key": "toggle-sidebar" },
+    { "t": 0.9, "type": "tap", "key": "toggle-sidebar" },
+    { "t": 1.03, "type": "tap", "key": "toggle-sidebar" }
+  ]
+}

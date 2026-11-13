@@ -1,0 +1,4082 @@
+{
+  "retrieved": "2026-11-10",
+  "url": "https://dmfw.mca.gov.cn/stname/listPub",
+  "points": [
+    {
+      "code": "110101",
+      "name": "东城区",
+      "province": "北京市",
+      "longitude": 116.4101742,
+      "latitude": 39.9267431,
+      "source": "mca",
+      "source_id": "aa6203a3b42b9755dfc2672720225eff"
+    },
+    {
+      "code": "110102",
+      "name": "西城区",
+      "province": "北京市",
+      "longitude": 116.3597046,
+      "latitude": 39.9109635,
+      "source": "mca",
+      "source_id": "3f84bcf3cba45da136f9fa8ef979de1b"
+    },
+    {
+      "code": "110105",
+      "name": "朝阳区",
+      "province": "北京市",
+      "longitude": 116.4369922,
+      "latitude": 39.9200437,
+      "source": "mca",
+      "source_id": "3393fd80c36f9b3c0ba860bef9962498"
+    },
+    {
+      "code": "110106",
+      "name": "丰台区",
+      "province": "北京市",
+      "longitude": 116.2804602,
+      "latitude": 39.8573635,
+      "source": "mca",
+      "source_id": "eb6df7fd73537e3d6b329e208003b14f"
+    },
+    {
+      "code": "110107",
+      "name": "石景山区",
+      "province": "北京市",
+      "longitude": 116.2171277,
+      "latitude": 39.9054196,
+      "source": "mca",
+      "source_id": "87b04365d929d1e00dfff18afe1fdcfa"
+    },
+    {
+      "code": "110108",
+      "name": "海淀区",
+      "province": "北京市",
+      "longitude": 116.2921052,
+      "latitude": 39.9586052,
+      "source": "mca",
+      "source_id": "aaf494b13d8f7bddfa10be726a4fd321"
+    },
+    {
+      "code": "110109",
+      "name": "门头沟区",
+      "province": "北京市",
+      "longitude": 116.0956111,
+      "latitude": 39.939585,
+      "source": "mca",
+      "source_id": "a1cb272b9f4495b77a50da0c89d41952"
+    },
+    {
+      "code": "110111",
+      "name": "房山区",
+      "province": "北京市",
+      "longitude": 116.1370067,
+      "latitude": 39.7478614,
+      "source": "mca",
+      "source_id": "6fae2f19132078c3276c30d4584da7aa"
+    },
+    {
+      "code": "110112",
+      "name": "通州区",
+      "province": "北京市",
+      "longitude": 116.7229058,
+      "latitude": 39.9152158,
+      "source": "mca",
+      "source_id": "47ef847c568b74521bf21d40c16c64ee"
+    },
+    {
+      "code": "110113",
+      "name": "顺义区",
+      "province": "北京市",
+      "longitude": 116.6550724,
+      "latitude": 40.1490591,
+      "source": "mca",
+      "source_id": "de29e6db41266c115c2455d96776ca89"
+    },
+    {
+      "code": "110114",
+      "name": "昌平区",
+      "province": "北京市",
+      "longitude": 116.2251878,
+      "latitude": 40.2194061,
+      "source": "mca",
+      "source_id": "a1da025ff36b1aeaabe5b073904491bc"
+    },
+    {
+      "code": "110115",
+      "name": "大兴区",
+      "province": "北京市",
+      "longitude": 116.3353891,
+      "latitude": 39.7258233,
+      "source": "mca",
+      "source_id": "629eab4d8beb27362839ce8838a94daa"
+    },
+    {
+      "code": "110116",
+      "name": "怀柔区",
+      "province": "北京市",
+      "longitude": 116.6261371,
+      "latitude": 40.315107,
+      "source": "mca",
+      "source_id": "e38cf43508b46ef2f818d10b61afb738"
+    },
+    {
+      "code": "110117",
+      "name": "平谷区",
+      "province": "北京市",
+      "longitude": 117.1147529,
+      "latitude": 40.1393939,
+      "source": "mca",
+      "source_id": "a69afdcdd8ba3627372f0a774826aadc"
+    },
+    {
+      "code": "110118",
+      "name": "密云区",
+      "province": "北京市",
+      "longitude": 116.837076,
+      "latitude": 40.3757877,
+      "source": "mca",
+      "source_id": "86c109ef77c9527769eeebd71dc3d850"
+    },
+    {
+      "code": "110119",
+      "name": "延庆区",
+      "province": "北京市",
+      "longitude": 115.9686092,
+      "latitude": 40.4560746,
+      "source": "mca",
+      "source_id": "88d1dadfa277475005aa59a28e0f1a4e"
+    },
+    {
+      "code": "120101",
+      "name": "和平区",
+      "province": "天津市",
+      "longitude": 117.1849249,
+      "latitude": 39.1195304,
+      "source": "mca",
+      "source_id": "1f96222e02c53ee6cad8bdf65c5ec288"
+    },
+    {
+      "code": "120102",
+      "name": "河东区",
+      "province": "天津市",
+      "longitude": 117.2452945,
+      "latitude": 39.1277062,
+      "source": "mca",
+      "source_id": "6d8839eb40ba4932c91fa84c42151bad"
+    },
+    {
+      "code": "120103",
+      "name": "河西区",
+      "province": "天津市",
+      "longitude": 117.217096242,
+      "latitude": 39.10841822,
+      "source": "mca",
+      "source_id": "db6ed7e4be4473b608a0d120d5040bf8"
+    },
+    {
+      "code": "120104",
+      "name": "南开区",
+      "province": "天津市",
+      "longitude": 117.1446811,
+      "latitude": 39.137051,
+      "source": "mca",
+      "source_id": "f033e3e2af858ef04916e9a2a5844c3"
+    },
+    {
+      "code": "120105",
+      "name": "河北区",
+      "province": "天津市",
+      "longitude": 117.1907436,
+      "latitude": 39.1467199,
+      "source": "mca",
+      "source_id": "1568dc9af3f0c98595491e0f0a2cb73c"
+    },
+    {
+      "code": "120106",
+      "name": "红桥区",
+      "province": "天津市",
+      "longitude": 117.1442918,
+      "latitude": 39.1660611,
+      "source": "mca",
+      "source_id": "3f8cd92b85bbc7054cee31fe42339b99"
+    },
+    {
+      "code": "120110",
+      "name": "东丽区",
+      "province": "天津市",
+      "longitude": 117.3078438,
+      "latitude": 39.0855031,
+      "source": "mca",
+      "source_id": "85a504516227ef8e5cacd6a274d4fb08"
+    },
+    {
+      "code": "120111",
+      "name": "西青区",
+      "province": "天津市",
+      "longitude": 117.0028467,
+      "latitude": 39.1404483,
+      "source": "mca",
+      "source_id": "60b2137ae575a6f67582cc3e83d6c233"
+    },
+    {
+      "code": "120112",
+      "name": "津南区",
+      "province": "天津市",
+      "longitude": 117.350612,
+      "latitude": 38.9363267,
+      "source": "mca",
+      "source_id": "85b285c441f3fff14920dce24d3a6cdf"
+    },
+    {
+      "code": "120113",
+      "name": "北辰区",
+      "province": "天津市",
+      "longitude": 117.1290758,
+      "latitude": 39.2225781,
+      "source": "mca",
+      "source_id": "ed47c3233c9b259c8e982d6959f850b1"
+    },
+    {
+      "code": "120114",
+      "name": "武清区",
+      "province": "天津市",
+      "longitude": 117.0377858,
+      "latitude": 39.3820271,
+      "source": "mca",
+      "source_id": "af70be1c031e3f11cf2de10bf2eaa988"
+    },
+    {
+      "code": "120115",
+      "name": "宝坻区",
+      "province": "天津市",
+      "longitude": 117.30374,
+      "latitude": 39.7159224,
+      "source": "mca",
+      "source_id": "9d73bec6662b97d54c9dd148d2283e38"
+    },
+    {
+      "code": "120116",
+      "name": "滨海新区",
+      "province": "天津市",
+      "longitude": 117.7044638,
+      "latitude": 39.0026201,
+      "source": "mca",
+      "source_id": "9f0ecca9168227da24d131543de25568"
+    },
+    {
+      "code": "120117",
+      "name": "宁河区",
+      "province": "天津市",
+      "longitude": 117.8184498,
+      "latitude": 39.3293671,
+      "source": "mca",
+      "source_id": "ac2936bfacd7995cef8f0961281b5c91"
+    },
+    {
+      "code": "120118",
+      "name": "静海区",
+      "province": "天津市",
+      "longitude": 116.9687038,
+      "latitude": 38.9465724,
+      "source": "mca",
+      "source_id": "35e3620b6396df7459ed7a584fde305d"
+    },
+    {
+      "code": "120119",
+      "name": "蓟州区",
+      "province": "天津市",
+      "longitude": 117.4019141,
+      "latitude": 40.0443525,
+      "source": "mca",
+      "source_id": "5b4838886d1700e6e8e84adb9d6c8457"
+    },
+    {
+      "code": "1301",
+      "name": "石家庄市",
+      "province": "河北省",
+      "longitude": 114.5087765,
+      "latitude": 38.041893,
+      "source": "mca",
+      "source_id": "d31297b04515df9e0864bb73854cf184"
+    },
+    {
+      "code": "1302",
+      "name": "唐山市",
+      "province": "河北省",
+      "longitude": 118.1739,
+      "latitude": 39.62944,
+      "source": "mca",
+      "source_id": "68205c6a2f6accbd8b78fee3b0288d8e"
+    },
+    {
+      "code": "1303",
+      "name": "秦皇岛市",
+      "province": "河北省",
+      "longitude": 119.5142939,
+      "latitude": 39.886463,
+      "source": "mca",
+      "source_id": "9c387c704db0be0495538a9114ae957f"
+    },
+    {
+      "code": "1304",
+      "name": "邯郸市",
+      "province": "河北省",
+      "longitude": 114.5331,
+      "latitude": 36.62556,
+      "source": "mca",
+      "source_id": "a44d8e15c93596203290c553e339ddf0"
+    },
+    {
+      "code": "1305",
+      "name": "邢台市",
+      "province": "河北省",
+      "longitude": 114.4914979,
+      "latitude": 37.0597583,
+      "source": "mca",
+      "source_id": "7d28f983c9948a6415b30407bf5fdf0a"
+    },
+    {
+      "code": "1306",
+      "name": "保定市",
+      "province": "河北省",
+      "longitude": 115.4581866,
+      "latitude": 38.8730043,
+      "source": "mca",
+      "source_id": "1c1d9422fba06bfaccfc0e863cef8d2f"
+    },
+    {
+      "code": "1307",
+      "name": "张家口市",
+      "province": "河北省",
+      "longitude": 114.8797,
+      "latitude": 40.7675,
+      "source": "mca",
+      "source_id": "73bde2807bf527c9cc7e818903c8ea72"
+    },
+    {
+      "code": "1308",
+      "name": "承德市",
+      "province": "河北省",
+      "longitude": 117.9561,
+      "latitude": 40.95056,
+      "source": "mca",
+      "source_id": "8679b857538429f24cefb1e0d7dd90a3"
+    },
+    {
+      "code": "1309",
+      "name": "沧州市",
+      "province": "河北省",
+      "longitude": 116.832897,
+      "latitude": 38.303831,
+      "source": "mca",
+      "source_id": "6eb6fb103e126bcb5bd3bc7694f5c564"
+    },
+    {
+      "code": "1310",
+      "name": "廊坊市",
+      "province": "河北省",
+      "longitude": 116.6778,
+      "latitude": 39.53667,
+      "source": "mca",
+      "source_id": "803e371f6ea4cf6626f7eae78359ca59"
+    },
+    {
+      "code": "1311",
+      "name": "衡水市",
+      "province": "河北省",
+      "longitude": 115.6632413,
+      "latitude": 37.738507,
+      "source": "mca",
+      "source_id": "44d19de0e8fb1415dcb02f0fca925399"
+    },
+    {
+      "code": "1401",
+      "name": "太原市",
+      "province": "山西省",
+      "longitude": 112.5425,
+      "latitude": 37.87,
+      "source": "mca",
+      "source_id": "a63bcec0f036403a852844f026f57c5d"
+    },
+    {
+      "code": "1402",
+      "name": "大同市",
+      "province": "山西省",
+      "longitude": 113.3602158,
+      "latitude": 40.095217,
+      "source": "mca",
+      "source_id": "d5acdee27b182df0d0fdbd1e3b4d75be"
+    },
+    {
+      "code": "1403",
+      "name": "阳泉市",
+      "province": "山西省",
+      "longitude": 113.5739,
+      "latitude": 37.85667,
+      "source": "mca",
+      "source_id": "aec78051509944084b7dbbcf01c34386"
+    },
+    {
+      "code": "1404",
+      "name": "长治市",
+      "province": "山西省",
+      "longitude": 113.1106,
+      "latitude": 36.195,
+      "source": "mca",
+      "source_id": "bbf9d12a153c9e32a120ddf6af7c828"
+    },
+    {
+      "code": "1405",
+      "name": "晋城市",
+      "province": "山西省",
+      "longitude": 112.8456,
+      "latitude": 35.49139,
+      "source": "mca",
+      "source_id": "733fd67b92be051dc43fb08f5feed6d9"
+    },
+    {
+      "code": "1406",
+      "name": "朔州市",
+      "province": "山西省",
+      "longitude": 112.4276212,
+      "latitude": 39.3314737,
+      "source": "mca",
+      "source_id": "b84831991af61536d06d043647db4f3e"
+    },
+    {
+      "code": "1407",
+      "name": "晋中市",
+      "province": "山西省",
+      "longitude": 112.7461,
+      "latitude": 37.68722,
+      "source": "mca",
+      "source_id": "d8783d16d4afa3aa0bca964524d9e6b8"
+    },
+    {
+      "code": "1408",
+      "name": "运城市",
+      "province": "山西省",
+      "longitude": 111.0011,
+      "latitude": 35.02722,
+      "source": "mca",
+      "source_id": "df3a74d0de67fcede29b7c30e98aff07"
+    },
+    {
+      "code": "1409",
+      "name": "忻州市",
+      "province": "山西省",
+      "longitude": 112.7278812,
+      "latitude": 38.4154163,
+      "source": "mca",
+      "source_id": "deec4193e47acf14bdc7f6bcf0d72297"
+    },
+    {
+      "code": "1410",
+      "name": "临汾市",
+      "province": "山西省",
+      "longitude": 111.5128,
+      "latitude": 36.08833,
+      "source": "mca",
+      "source_id": "1f954abd2089ab2523083b69a3326350"
+    },
+    {
+      "code": "1411",
+      "name": "吕梁市",
+      "province": "山西省",
+      "longitude": 111.1376713,
+      "latitude": 37.5189894,
+      "source": "mca",
+      "source_id": "b4c0bce2efd679fc9191a7856a268cfd"
+    },
+    {
+      "code": "1501",
+      "name": "呼和浩特市",
+      "province": "内蒙古自治区",
+      "longitude": 111.7417444,
+      "latitude": 40.8411476,
+      "source": "mca",
+      "source_id": "84d32b5ce2dcc5aa4113b8d5dea5cdaf"
+    },
+    {
+      "code": "1502",
+      "name": "包头市",
+      "province": "内蒙古自治区",
+      "longitude": 109.8345205,
+      "latitude": 40.6567885,
+      "source": "mca",
+      "source_id": "eca3accb3888253e28bb8bdf9cd76a5f"
+    },
+    {
+      "code": "1503",
+      "name": "乌海市",
+      "province": "内蒙古自治区",
+      "longitude": 106.7886842,
+      "latitude": 39.6547104,
+      "source": "mca",
+      "source_id": "5c10ec448c36cbe761cac3f80cc75f4"
+    },
+    {
+      "code": "1504",
+      "name": "赤峰市",
+      "province": "内蒙古自治区",
+      "longitude": 118.8806,
+      "latitude": 42.25583,
+      "source": "mca",
+      "source_id": "ca6e8220374ec29a3220ec23397b40ee"
+    },
+    {
+      "code": "1505",
+      "name": "通辽市",
+      "province": "内蒙古自治区",
+      "longitude": 122.2376643,
+      "latitude": 43.651838,
+      "source": "mca",
+      "source_id": "ea458137d13682c307d4b2da3f457f59"
+    },
+    {
+      "code": "1506",
+      "name": "鄂尔多斯市",
+      "province": "内蒙古自治区",
+      "longitude": 109.776497,
+      "latitude": 39.6081057,
+      "source": "mca",
+      "source_id": "46011fdd45bd53edcf19500c614af15d"
+    },
+    {
+      "code": "1507",
+      "name": "呼伦贝尔市",
+      "province": "内蒙古自治区",
+      "longitude": 119.7712963,
+      "latitude": 49.1641761,
+      "source": "mca",
+      "source_id": "6b7e5954110db95e25c104b078a402bd"
+    },
+    {
+      "code": "1508",
+      "name": "巴彦淖尔市",
+      "province": "内蒙古自治区",
+      "longitude": 107.3817,
+      "latitude": 40.74222,
+      "source": "mca",
+      "source_id": "5b8adbd046a3d3d99db4b85254a2e6d1"
+    },
+    {
+      "code": "1509",
+      "name": "乌兰察布市",
+      "province": "内蒙古自治区",
+      "longitude": 113.1247424,
+      "latitude": 40.9929962,
+      "source": "mca",
+      "source_id": "808f230d29f5acad54054e1aac0ae180"
+    },
+    {
+      "code": "1522",
+      "name": "兴安盟",
+      "province": "内蒙古自治区",
+      "longitude": 122.0316974,
+      "latitude": 46.0803052,
+      "source": "mca",
+      "source_id": "3641044e4af717cee47255325e4665e0"
+    },
+    {
+      "code": "1525",
+      "name": "锡林郭勒盟",
+      "province": "内蒙古自治区",
+      "longitude": 116.0407806,
+      "latitude": 43.9311467,
+      "source": "mca",
+      "source_id": "300e748f9cbba059cbfb2260b4f15f33"
+    },
+    {
+      "code": "1529",
+      "name": "阿拉善盟",
+      "province": "内蒙古自治区",
+      "longitude": 105.7247241,
+      "latitude": 38.8513121,
+      "source": "mca",
+      "source_id": "8eb0bd23c2173ee74a43137b392a5d2d"
+    },
+    {
+      "code": "2101",
+      "name": "沈阳市",
+      "province": "辽宁省",
+      "longitude": 123.4584483,
+      "latitude": 41.6748816,
+      "source": "mca",
+      "source_id": "55fc83744cc2ef41da3572225e9258f"
+    },
+    {
+      "code": "2102",
+      "name": "大连市",
+      "province": "辽宁省",
+      "longitude": 121.6097,
+      "latitude": 38.91333,
+      "source": "mca",
+      "source_id": "3c13918c2252246c04ff8cf309d02feb"
+    },
+    {
+      "code": "2103",
+      "name": "鞍山市",
+      "province": "辽宁省",
+      "longitude": 122.9887517,
+      "latitude": 41.1064908,
+      "source": "mca",
+      "source_id": "5cb53dfc4168917bf692fb50b461d085"
+    },
+    {
+      "code": "2104",
+      "name": "抚顺市",
+      "province": "辽宁省",
+      "longitude": 123.9511,
+      "latitude": 41.87889,
+      "source": "mca",
+      "source_id": "d68b2bf2c2c7382e8f6ac2b4296fb30c"
+    },
+    {
+      "code": "2105",
+      "name": "本溪市",
+      "province": "辽宁省",
+      "longitude": 123.6792,
+      "latitude": 41.48472,
+      "source": "mca",
+      "source_id": "37d54f32141ba9f2184da4acb346ad5e"
+    },
+    {
+      "code": "2106",
+      "name": "丹东市",
+      "province": "辽宁省",
+      "longitude": 124.3486071,
+      "latitude": 39.9992976,
+      "source": "mca",
+      "source_id": "def61a737d14ba3e1ea6a70fd647659b"
+    },
+    {
+      "code": "2107",
+      "name": "锦州市",
+      "province": "辽宁省",
+      "longitude": 121.1211,
+      "latitude": 41.09389,
+      "source": "mca",
+      "source_id": "e37143208b7456fa2082a51136c0b130"
+    },
+    {
+      "code": "2108",
+      "name": "营口市",
+      "province": "辽宁省",
+      "longitude": 122.2144,
+      "latitude": 40.62361,
+      "source": "mca",
+      "source_id": "496d766ed2cdb28feebe7dfad0f86d61"
+    },
+    {
+      "code": "2109",
+      "name": "阜新市",
+      "province": "辽宁省",
+      "longitude": 121.6644,
+      "latitude": 42.02,
+      "source": "mca",
+      "source_id": "532c6bc6f1263c60c187d092f1a8c664"
+    },
+    {
+      "code": "2110",
+      "name": "辽阳市",
+      "province": "辽宁省",
+      "longitude": 123.2314,
+      "latitude": 41.26583,
+      "source": "mca",
+      "source_id": "29f8d52344a9158b52fb97f9139286d2"
+    },
+    {
+      "code": "2111",
+      "name": "盘锦市",
+      "province": "辽宁省",
+      "longitude": 122.0654207,
+      "latitude": 41.1163674,
+      "source": "mca",
+      "source_id": "6bee6af918c15cc8792e441789c381c6"
+    },
+    {
+      "code": "2112",
+      "name": "铁岭市",
+      "province": "辽宁省",
+      "longitude": 123.72,
+      "latitude": 42.22167,
+      "source": "mca",
+      "source_id": "3594c809432ce839ddcb34f02747fd96"
+    },
+    {
+      "code": "2113",
+      "name": "朝阳市",
+      "province": "辽宁省",
+      "longitude": 120.4830597,
+      "latitude": 41.5994431,
+      "source": "mca",
+      "source_id": "dbd58a99de0eed46aa5873ac9e0bd8cd"
+    },
+    {
+      "code": "2114",
+      "name": "葫芦岛市",
+      "province": "辽宁省",
+      "longitude": 120.8317,
+      "latitude": 40.70945,
+      "source": "mca",
+      "source_id": "e62f02b6e084cd3de71d7f4af86c68ef"
+    },
+    {
+      "code": "2201",
+      "name": "长春市",
+      "province": "吉林省",
+      "longitude": 125.3172,
+      "latitude": 43.81445,
+      "source": "mca",
+      "source_id": "d6deb1116c99a68a563129f9ba97bce2"
+    },
+    {
+      "code": "2202",
+      "name": "吉林市",
+      "province": "吉林省",
+      "longitude": 126.5435078,
+      "latitude": 43.8358397,
+      "source": "mca",
+      "source_id": "6a1986710747838ce145549a66f8195"
+    },
+    {
+      "code": "2203",
+      "name": "四平市",
+      "province": "吉林省",
+      "longitude": 124.3444,
+      "latitude": 43.16389,
+      "source": "mca",
+      "source_id": "7265836cd98ab692ab0e7d6c95f853fe"
+    },
+    {
+      "code": "2204",
+      "name": "辽源市",
+      "province": "吉林省",
+      "longitude": 125.1375,
+      "latitude": 42.88528,
+      "source": "mca",
+      "source_id": "968225306c99093ebea3c64a8d58a210"
+    },
+    {
+      "code": "2205",
+      "name": "通化市",
+      "province": "吉林省",
+      "longitude": 125.9342,
+      "latitude": 41.72611,
+      "source": "mca",
+      "source_id": "116d4e74db470c8dd863ec25ff3838f1"
+    },
+    {
+      "code": "2206",
+      "name": "白山市",
+      "province": "吉林省",
+      "longitude": 126.4083144,
+      "latitude": 41.9417141,
+      "source": "mca",
+      "source_id": "86a5afc17bf24bdaa35e7eb259f26a87"
+    },
+    {
+      "code": "2207",
+      "name": "松原市",
+      "province": "吉林省",
+      "longitude": 124.8192,
+      "latitude": 45.14,
+      "source": "mca",
+      "source_id": "d5306d3554b34ba10c2ad76f5dd3d5c8"
+    },
+    {
+      "code": "2208",
+      "name": "白城市",
+      "province": "吉林省",
+      "longitude": 122.8328,
+      "latitude": 45.61778,
+      "source": "mca",
+      "source_id": "a93f47d8324be41cb327d9d8e1b99660"
+    },
+    {
+      "code": "2224",
+      "name": "延边朝鲜族自治州",
+      "province": "吉林省",
+      "longitude": 129.4635967,
+      "latitude": 42.9069828,
+      "source": "mca",
+      "source_id": "975ef1360a346ddebb48fd43aa8b59d0"
+    },
+    {
+      "code": "2301",
+      "name": "哈尔滨市",
+      "province": "黑龙江省",
+      "longitude": 126.5290542,
+      "latitude": 45.8014508,
+      "source": "mca",
+      "source_id": "8199db721b278a5c659c3b3a12a2ece"
+    },
+    {
+      "code": "2302",
+      "name": "齐齐哈尔市",
+      "province": "黑龙江省",
+      "longitude": 123.9117,
+      "latitude": 47.35222,
+      "source": "mca",
+      "source_id": "5c9e4c07f9a49f55f266f5ec87e871eb"
+    },
+    {
+      "code": "2303",
+      "name": "鸡西市",
+      "province": "黑龙江省",
+      "longitude": 130.9619789,
+      "latitude": 45.2928633,
+      "source": "mca",
+      "source_id": "44325e70577646bb534fc57f29df953f"
+    },
+    {
+      "code": "2304",
+      "name": "鹤岗市",
+      "province": "黑龙江省",
+      "longitude": 130.29,
+      "latitude": 47.3475,
+      "source": "mca",
+      "source_id": "47741d32ec0e2ffb10617e7bf47aef3b"
+    },
+    {
+      "code": "2305",
+      "name": "双鸭山市",
+      "province": "黑龙江省",
+      "longitude": 131.1335709,
+      "latitude": 46.6738585,
+      "source": "mca",
+      "source_id": "7c768bddd22590259cdb399497220c07"
+    },
+    {
+      "code": "2306",
+      "name": "大庆市",
+      "province": "黑龙江省",
+      "longitude": 125.0967,
+      "latitude": 46.58722,
+      "source": "mca",
+      "source_id": "70672e791deee450d926acb2dbf094bd"
+    },
+    {
+      "code": "2307",
+      "name": "伊春市",
+      "province": "黑龙江省",
+      "longitude": 128.8339,
+      "latitude": 47.72528,
+      "source": "mca",
+      "source_id": "9c491c928130ab4617db5f4fcc087cc3"
+    },
+    {
+      "code": "2308",
+      "name": "佳木斯市",
+      "province": "黑龙江省",
+      "longitude": 130.3111,
+      "latitude": 46.7975,
+      "source": "mca",
+      "source_id": "ce90dd8f2c1e6d3f0b5170193a7d3ccd"
+    },
+    {
+      "code": "2309",
+      "name": "七台河市",
+      "province": "黑龙江省",
+      "longitude": 130.9947,
+      "latitude": 45.76917,
+      "source": "mca",
+      "source_id": "e76ea2a1b3c1927d56c643fe71de4f89"
+    },
+    {
+      "code": "2310",
+      "name": "牡丹江市",
+      "province": "黑龙江省",
+      "longitude": 129.6259728,
+      "latitude": 44.5488545,
+      "source": "mca",
+      "source_id": "38e2783880d5fe77f9bb2c1efedefcc0"
+    },
+    {
+      "code": "2311",
+      "name": "黑河市",
+      "province": "黑龙江省",
+      "longitude": 127.520902,
+      "latitude": 50.2433054,
+      "source": "mca",
+      "source_id": "c62dcb7f48a630c66c9947da42dda004"
+    },
+    {
+      "code": "2312",
+      "name": "绥化市",
+      "province": "黑龙江省",
+      "longitude": 126.9624133,
+      "latitude": 46.6520634,
+      "source": "mca",
+      "source_id": "9c19cd53d6fa88b5636b5f982b425052"
+    },
+    {
+      "code": "2327",
+      "name": "大兴安岭地区",
+      "province": "黑龙江省",
+      "longitude": 124.1320223,
+      "latitude": 50.4072584,
+      "source": "mca",
+      "source_id": "e4a027986b05505a20ba22821aacf141"
+    },
+    {
+      "code": "310101",
+      "name": "黄浦区",
+      "province": "上海市",
+      "longitude": 121.4805458,
+      "latitude": 31.2335672,
+      "source": "mca",
+      "source_id": "88d8016f65ffc7dfada269ed45358c71"
+    },
+    {
+      "code": "310104",
+      "name": "徐汇区",
+      "province": "上海市",
+      "longitude": 121.4322028,
+      "latitude": 31.1902111,
+      "source": "mca",
+      "source_id": "31fe880159915c604d50699cd894fc10"
+    },
+    {
+      "code": "310105",
+      "name": "长宁区",
+      "province": "上海市",
+      "longitude": 121.4193678,
+      "latitude": 31.2221141,
+      "source": "mca",
+      "source_id": "b138140d5da6a6d2530c8e5d616e6725"
+    },
+    {
+      "code": "310106",
+      "name": "静安区",
+      "province": "上海市",
+      "longitude": 121.4427981,
+      "latitude": 31.2296074,
+      "source": "mca",
+      "source_id": "19d5fbbbca06d3cc1285fd1a8dc7603c"
+    },
+    {
+      "code": "310107",
+      "name": "普陀区",
+      "province": "上海市",
+      "longitude": 121.39172377,
+      "latitude": 31.2515986760001,
+      "source": "mca",
+      "source_id": "94038370a3152ee7cd78cbdc41d3e1a7"
+    },
+    {
+      "code": "310109",
+      "name": "虹口区",
+      "province": "上海市",
+      "longitude": 121.5007188,
+      "latitude": 31.2665041,
+      "source": "mca",
+      "source_id": "a0d5397813178993ca760bc914c32314"
+    },
+    {
+      "code": "310110",
+      "name": "杨浦区",
+      "province": "上海市",
+      "longitude": 121.5213118,
+      "latitude": 31.2620261,
+      "source": "mca",
+      "source_id": "1e174743c3225ad5b7522373bc422faa"
+    },
+    {
+      "code": "310112",
+      "name": "闵行区",
+      "province": "上海市",
+      "longitude": 121.3771538,
+      "latitude": 31.1150761,
+      "source": "mca",
+      "source_id": "11c318201e01b45f025f57ff201eb763"
+    },
+    {
+      "code": "310113",
+      "name": "宝山区",
+      "province": "上海市",
+      "longitude": 121.485157354,
+      "latitude": 31.4069898830001,
+      "source": "mca",
+      "source_id": "92103a93fa9485205fcd82a6e5acbe3e"
+    },
+    {
+      "code": "310114",
+      "name": "嘉定区",
+      "province": "上海市",
+      "longitude": 121.260975796,
+      "latitude": 31.3780080220001,
+      "source": "mca",
+      "source_id": "adabbf0bc1c05d9f2cbe6a548a025c47"
+    },
+    {
+      "code": "310115",
+      "name": "浦东新区",
+      "province": "上海市",
+      "longitude": 121.5397948,
+      "latitude": 31.2232721,
+      "source": "mca",
+      "source_id": "b043f811f07f76a35e95bffd0d32c1d4"
+    },
+    {
+      "code": "310116",
+      "name": "金山区",
+      "province": "上海市",
+      "longitude": 121.337020616,
+      "latitude": 30.745722754,
+      "source": "mca",
+      "source_id": "92891dbb8c302f8c613dcb58f0c271c3"
+    },
+    {
+      "code": "310117",
+      "name": "松江区",
+      "province": "上海市",
+      "longitude": 121.223258431,
+      "latitude": 31.0346010690001,
+      "source": "mca",
+      "source_id": "3d46ea610994442d054621a5295d48f6"
+    },
+    {
+      "code": "310118",
+      "name": "青浦区",
+      "province": "上海市",
+      "longitude": 121.1196618,
+      "latitude": 31.1516801,
+      "source": "mca",
+      "source_id": "2bc8ef97528daa018a3d772f9f2d7b99"
+    },
+    {
+      "code": "310120",
+      "name": "奉贤区",
+      "province": "上海市",
+      "longitude": 121.4695668,
+      "latitude": 30.9199851,
+      "source": "mca",
+      "source_id": "a9295de7d6d1adb1e9527edd9f0d6189"
+    },
+    {
+      "code": "310151",
+      "name": "崇明区",
+      "province": "上海市",
+      "longitude": 121.3925808,
+      "latitude": 31.6246284,
+      "source": "mca",
+      "source_id": "1f1ea2abeef4c2eecad838f1053d055e"
+    },
+    {
+      "code": "3201",
+      "name": "南京市",
+      "province": "江苏省",
+      "longitude": 118.7914,
+      "latitude": 32.06055,
+      "source": "mca",
+      "source_id": "8ecf7e1616400dfbf1366281e7827752"
+    },
+    {
+      "code": "3202",
+      "name": "无锡市",
+      "province": "江苏省",
+      "longitude": 120.3078565,
+      "latitude": 31.4926452,
+      "source": "mca",
+      "source_id": "607a742c415a84e68db1ccef0f16624"
+    },
+    {
+      "code": "3203",
+      "name": "徐州市",
+      "province": "江苏省",
+      "longitude": 117.2783,
+      "latitude": 34.20611,
+      "source": "mca",
+      "source_id": "f9839b45c1d95f5fcad590659c87970a"
+    },
+    {
+      "code": "3204",
+      "name": "常州市",
+      "province": "江苏省",
+      "longitude": 119.9694,
+      "latitude": 31.81306,
+      "source": "mca",
+      "source_id": "7b709b2b9b7e926363d72a7500b8da0f"
+    },
+    {
+      "code": "3205",
+      "name": "苏州市",
+      "province": "江苏省",
+      "longitude": 120.5810371,
+      "latitude": 31.3011816,
+      "source": "mca",
+      "source_id": "5daeabb1f72c192e07f78659fd417a27"
+    },
+    {
+      "code": "3206",
+      "name": "南通市",
+      "province": "江苏省",
+      "longitude": 120.8906176,
+      "latitude": 31.9823322,
+      "source": "mca",
+      "source_id": "30fd874c4ea482cdf133140c3f00210a"
+    },
+    {
+      "code": "3207",
+      "name": "连云港市",
+      "province": "江苏省",
+      "longitude": 119.2157851,
+      "latitude": 34.5977799,
+      "source": "mca",
+      "source_id": "64b61e620f33da792857e5fedda81b97"
+    },
+    {
+      "code": "3208",
+      "name": "淮安市",
+      "province": "江苏省",
+      "longitude": 119.0063824,
+      "latitude": 33.6125197,
+      "source": "mca",
+      "source_id": "d69d2918a0c4681c9ff3e0049297554b"
+    },
+    {
+      "code": "3209",
+      "name": "盐城市",
+      "province": "江苏省",
+      "longitude": 120.1309799,
+      "latitude": 33.3845011,
+      "source": "mca",
+      "source_id": "866fb08af99f7ab865deafc74e35f9f2"
+    },
+    {
+      "code": "3210",
+      "name": "扬州市",
+      "province": "江苏省",
+      "longitude": 119.4073923,
+      "latitude": 32.3961218,
+      "source": "mca",
+      "source_id": "4bfb1ebbe7ee509e8038446522329169"
+    },
+    {
+      "code": "3211",
+      "name": "镇江市",
+      "province": "江苏省",
+      "longitude": 119.4519109,
+      "latitude": 32.2013596,
+      "source": "mca",
+      "source_id": "e4cf97a8317c75d7d239578e64dd6248"
+    },
+    {
+      "code": "3212",
+      "name": "泰州市",
+      "province": "江苏省",
+      "longitude": 119.9181415,
+      "latitude": 32.4584184,
+      "source": "mca",
+      "source_id": "6982b46e5f723861f03c00d9dce3c2ff"
+    },
+    {
+      "code": "3213",
+      "name": "宿迁市",
+      "province": "江苏省",
+      "longitude": 118.2698102,
+      "latitude": 33.9645916,
+      "source": "mca",
+      "source_id": "33e477d14dafd7b6dc8dfa2c598b0e79"
+    },
+    {
+      "code": "3301",
+      "name": "杭州市",
+      "province": "浙江省",
+      "longitude": 120.2052169,
+      "latitude": 30.248968,
+      "source": "mca",
+      "source_id": "f9b0083482426b84bba4225e64a9cd67"
+    },
+    {
+      "code": "3302",
+      "name": "宁波市",
+      "province": "浙江省",
+      "longitude": 121.621797,
+      "latitude": 29.8601991,
+      "source": "mca",
+      "source_id": "5c307fddeed4f69e24973e6a006e9697"
+    },
+    {
+      "code": "3303",
+      "name": "温州市",
+      "province": "浙江省",
+      "longitude": 120.6953,
+      "latitude": 27.99722,
+      "source": "mca",
+      "source_id": "63c80ea486888dceb7d9679a7819892e"
+    },
+    {
+      "code": "3304",
+      "name": "嘉兴市",
+      "province": "浙江省",
+      "longitude": 120.7511,
+      "latitude": 30.74861,
+      "source": "mca",
+      "source_id": "eb5f7d304fb7015931b281c337fc538c"
+    },
+    {
+      "code": "3305",
+      "name": "湖州市",
+      "province": "浙江省",
+      "longitude": 120.0817,
+      "latitude": 30.89639,
+      "source": "mca",
+      "source_id": "143c74d57bc64cb375270402c8762d93"
+    },
+    {
+      "code": "3306",
+      "name": "绍兴市",
+      "province": "浙江省",
+      "longitude": 120.5792666,
+      "latitude": 30.0540766,
+      "source": "mca",
+      "source_id": "5dfd950fc8a7fd00da368141ef081213"
+    },
+    {
+      "code": "3307",
+      "name": "金华市",
+      "province": "浙江省",
+      "longitude": 119.6419,
+      "latitude": 29.08195,
+      "source": "mca",
+      "source_id": "66410f50b4fc28de9501e4691f2fe32"
+    },
+    {
+      "code": "3308",
+      "name": "衢州市",
+      "province": "浙江省",
+      "longitude": 118.8542,
+      "latitude": 28.97333,
+      "source": "mca",
+      "source_id": "cf78e0b666a41b0293ac3198ca596175"
+    },
+    {
+      "code": "3309",
+      "name": "舟山市",
+      "province": "浙江省",
+      "longitude": 122.2031751,
+      "latitude": 29.9878712,
+      "source": "mca",
+      "source_id": "77cd6160766245129e898cebfe2d3270"
+    },
+    {
+      "code": "3310",
+      "name": "台州市",
+      "province": "浙江省",
+      "longitude": 121.4164,
+      "latitude": 28.65917,
+      "source": "mca",
+      "source_id": "5dd196c0a9da13f00266d325a34a6f67"
+    },
+    {
+      "code": "3311",
+      "name": "丽水市",
+      "province": "浙江省",
+      "longitude": 119.9182374,
+      "latitude": 28.4711994,
+      "source": "mca",
+      "source_id": "3ece02b0256770316404734a423ba284"
+    },
+    {
+      "code": "3401",
+      "name": "合肥市",
+      "province": "安徽省",
+      "longitude": 117.222242439,
+      "latitude": 31.8232820261,
+      "source": "mca",
+      "source_id": "307f6f866cdec27cbb44ce981c0bc306"
+    },
+    {
+      "code": "3402",
+      "name": "芜湖市",
+      "province": "安徽省",
+      "longitude": 118.4276968,
+      "latitude": 31.3559435,
+      "source": "mca",
+      "source_id": "732b9247dee90884b0b1e611c96c27a3"
+    },
+    {
+      "code": "3403",
+      "name": "蚌埠市",
+      "province": "安徽省",
+      "longitude": 117.3828,
+      "latitude": 32.91889,
+      "source": "mca",
+      "source_id": "59215f05372b75b8ca14a0ffe3c7f685"
+    },
+    {
+      "code": "3404",
+      "name": "淮南市",
+      "province": "安徽省",
+      "longitude": 117.012897209,
+      "latitude": 32.5892442993,
+      "source": "mca",
+      "source_id": "9c50097ca4f7089fd14ff7f5ea2ba686"
+    },
+    {
+      "code": "3405",
+      "name": "马鞍山市",
+      "province": "安徽省",
+      "longitude": 118.50112723,
+      "latitude": 31.67118514,
+      "source": "mca",
+      "source_id": "5433e7da32356a4fc4aff247b2db107e"
+    },
+    {
+      "code": "3406",
+      "name": "淮北市",
+      "province": "安徽省",
+      "longitude": 116.79297141,
+      "latitude": 33.9570399008,
+      "source": "mca",
+      "source_id": "44b88d7081e62873926677f535cd4432"
+    },
+    {
+      "code": "3407",
+      "name": "铜陵市",
+      "province": "安徽省",
+      "longitude": 117.806721694,
+      "latitude": 30.9477219908,
+      "source": "mca",
+      "source_id": "11072f977d8fc785cc5622df7821224a"
+    },
+    {
+      "code": "3408",
+      "name": "安庆市",
+      "province": "安徽省",
+      "longitude": 117.109878,
+      "latitude": 30.534506,
+      "source": "mca",
+      "source_id": "8032d81e8805b3b3c8f987ce78cc6482"
+    },
+    {
+      "code": "3410",
+      "name": "黄山市",
+      "province": "安徽省",
+      "longitude": 118.33248903,
+      "latitude": 29.71725443,
+      "source": "mca",
+      "source_id": "c578490986621661998918c018fd8ba7"
+    },
+    {
+      "code": "3411",
+      "name": "滁州市",
+      "province": "安徽省",
+      "longitude": 118.32800929,
+      "latitude": 32.25726156,
+      "source": "mca",
+      "source_id": "3515b972e24ab058d83b6f68106b5035"
+    },
+    {
+      "code": "3412",
+      "name": "阜阳市",
+      "province": "安徽省",
+      "longitude": 115.8089,
+      "latitude": 32.89278,
+      "source": "mca",
+      "source_id": "11b19a4795c8a90c3c765878e5b08e14"
+    },
+    {
+      "code": "3413",
+      "name": "宿州市",
+      "province": "安徽省",
+      "longitude": 116.9582293,
+      "latitude": 33.6486143,
+      "source": "mca",
+      "source_id": "996e2ccee6b8b174459ecc9e1b20f9ff"
+    },
+    {
+      "code": "3415",
+      "name": "六安市",
+      "province": "安徽省",
+      "longitude": 116.51460969,
+      "latitude": 31.73702791,
+      "source": "mca",
+      "source_id": "f17b4ba8a64307947c589dba0db32bf3"
+    },
+    {
+      "code": "3416",
+      "name": "亳州市",
+      "province": "安徽省",
+      "longitude": 115.773020712,
+      "latitude": 33.8475707709,
+      "source": "mca",
+      "source_id": "baa76c375fb01820cee21704a4336e59"
+    },
+    {
+      "code": "3417",
+      "name": "池州市",
+      "province": "安徽省",
+      "longitude": 117.4903139,
+      "latitude": 30.6761771,
+      "source": "mca",
+      "source_id": "158902183452fb0fe75b8105b68c4689"
+    },
+    {
+      "code": "3418",
+      "name": "宣城市",
+      "province": "安徽省",
+      "longitude": 118.7537082,
+      "latitude": 30.9428342,
+      "source": "mca",
+      "source_id": "50a875ff2b89cef86063f3252f540611"
+    },
+    {
+      "code": "3501",
+      "name": "福州市",
+      "province": "福建省",
+      "longitude": 119.2917069,
+      "latitude": 26.0773283,
+      "source": "mca",
+      "source_id": "6c527665eb4457f40851b8fc5be31f6e"
+    },
+    {
+      "code": "3502",
+      "name": "厦门市",
+      "province": "福建省",
+      "longitude": 118.084459753,
+      "latitude": 24.4821668078,
+      "source": "mca",
+      "source_id": "5af80a76c4012cbde9437eb2083c6dc"
+    },
+    {
+      "code": "3503",
+      "name": "莆田市",
+      "province": "福建省",
+      "longitude": 119.0028967,
+      "latitude": 25.4557715,
+      "source": "mca",
+      "source_id": "12854a953299399530251383de1a6af5"
+    },
+    {
+      "code": "3504",
+      "name": "三明市",
+      "province": "福建省",
+      "longitude": 117.6339,
+      "latitude": 26.26667,
+      "source": "mca",
+      "source_id": "68576e5ac4a65ef6324a4a25a2188fb1"
+    },
+    {
+      "code": "3505",
+      "name": "泉州市",
+      "province": "福建省",
+      "longitude": 118.6714,
+      "latitude": 24.87722,
+      "source": "mca",
+      "source_id": "486e2151709f93dacb81dfcf3e10ab8b"
+    },
+    {
+      "code": "3506",
+      "name": "漳州市",
+      "province": "福建省",
+      "longitude": 117.6425,
+      "latitude": 24.51722,
+      "source": "mca",
+      "source_id": "c50dbf83e191b2713318a695778c3eac"
+    },
+    {
+      "code": "3507",
+      "name": "南平市",
+      "province": "福建省",
+      "longitude": 118.0756242,
+      "latitude": 27.3857014,
+      "source": "mca",
+      "source_id": "13677420693edf12f75d5f7b44506c5"
+    },
+    {
+      "code": "3508",
+      "name": "龙岩市",
+      "province": "福建省",
+      "longitude": 117.0122,
+      "latitude": 25.07889,
+      "source": "mca",
+      "source_id": "d44c47e81dfece4fd216adfccb576c6b"
+    },
+    {
+      "code": "3509",
+      "name": "宁德市",
+      "province": "福建省",
+      "longitude": 119.5433043,
+      "latitude": 26.6697688,
+      "source": "mca",
+      "source_id": "8529a62e8658ab250027324c901ac528"
+    },
+    {
+      "code": "3601",
+      "name": "南昌市",
+      "province": "江西省",
+      "longitude": 115.8531,
+      "latitude": 28.68639,
+      "source": "mca",
+      "source_id": "6d0eacc3d3c31228def5870c3a6efdc0"
+    },
+    {
+      "code": "3602",
+      "name": "景德镇市",
+      "province": "江西省",
+      "longitude": 117.1788279,
+      "latitude": 29.2796054,
+      "source": "mca",
+      "source_id": "ead75e60638a7efac7a336dd54967c11"
+    },
+    {
+      "code": "3603",
+      "name": "萍乡市",
+      "province": "江西省",
+      "longitude": 113.8817391,
+      "latitude": 27.6624843,
+      "source": "mca",
+      "source_id": "cfed7fa71fe4784a37c10e1b3e6d1b9f"
+    },
+    {
+      "code": "3604",
+      "name": "九江市",
+      "province": "江西省",
+      "longitude": 115.9493792,
+      "latitude": 29.6628594,
+      "source": "mca",
+      "source_id": "4f8f18308f2b63ef2aa7d35ddfb02db7"
+    },
+    {
+      "code": "3605",
+      "name": "新余市",
+      "province": "江西省",
+      "longitude": 114.9128,
+      "latitude": 27.82195,
+      "source": "mca",
+      "source_id": "2dd260133c3c0f64f1fe32aad42d9e79"
+    },
+    {
+      "code": "3606",
+      "name": "鹰潭市",
+      "province": "江西省",
+      "longitude": 117.0342,
+      "latitude": 28.275,
+      "source": "mca",
+      "source_id": "96bcc8c10479885f7a0a71ae1d5b9f31"
+    },
+    {
+      "code": "3607",
+      "name": "赣州市",
+      "province": "江西省",
+      "longitude": 114.9290556,
+      "latitude": 25.8330468,
+      "source": "mca",
+      "source_id": "8d77b4b892be4576225477cdf6273400"
+    },
+    {
+      "code": "3608",
+      "name": "吉安市",
+      "province": "江西省",
+      "longitude": 114.9619536,
+      "latitude": 27.0949989,
+      "source": "mca",
+      "source_id": "7c9e08fffa398f23a6d5389256823e65"
+    },
+    {
+      "code": "3609",
+      "name": "宜春市",
+      "province": "江西省",
+      "longitude": 114.4114,
+      "latitude": 27.81833,
+      "source": "mca",
+      "source_id": "54df95ff1f3df239f9fc7133a5301fc4"
+    },
+    {
+      "code": "3610",
+      "name": "抚州市",
+      "province": "江西省",
+      "longitude": 116.3530063,
+      "latitude": 27.9525713,
+      "source": "mca",
+      "source_id": "a791dc2a73d3eb154c4f981e1789ac3a"
+    },
+    {
+      "code": "3611",
+      "name": "上饶市",
+      "province": "江西省",
+      "longitude": 117.9383,
+      "latitude": 28.45833,
+      "source": "mca",
+      "source_id": "81effb8c6f1565b4e95169fb13224df2"
+    },
+    {
+      "code": "3701",
+      "name": "济南市",
+      "province": "山东省",
+      "longitude": 117.114106,
+      "latitude": 36.651759,
+      "source": "mca",
+      "source_id": "b3edde04f92d87543567c5e2abc14ef"
+    },
+    {
+      "code": "3702",
+      "name": "青岛市",
+      "province": "山东省",
+      "longitude": 120.3770079,
+      "latitude": 36.0679253,
+      "source": "mca",
+      "source_id": "9b2f416dce87b40057983be5c9a51b3d"
+    },
+    {
+      "code": "3703",
+      "name": "淄博市",
+      "province": "山东省",
+      "longitude": 118.0486,
+      "latitude": 36.8125,
+      "source": "mca",
+      "source_id": "6fa9ad571149a4af6b75bdf964e56646"
+    },
+    {
+      "code": "3704",
+      "name": "枣庄市",
+      "province": "山东省",
+      "longitude": 117.3178617,
+      "latitude": 34.811122,
+      "source": "mca",
+      "source_id": "2327de618c9695a236475611c97fdc0d"
+    },
+    {
+      "code": "3705",
+      "name": "东营市",
+      "province": "山东省",
+      "longitude": 118.6689,
+      "latitude": 37.43361,
+      "source": "mca",
+      "source_id": "470ac9e502fd4b3f229b7d5fa81aee99"
+    },
+    {
+      "code": "3706",
+      "name": "烟台市",
+      "province": "山东省",
+      "longitude": 121.442563,
+      "latitude": 37.4635235,
+      "source": "mca",
+      "source_id": "e097557a11faf62d0c3f60fe9b5adbe4"
+    },
+    {
+      "code": "3707",
+      "name": "潍坊市",
+      "province": "山东省",
+      "longitude": 119.1558654,
+      "latitude": 36.7070255,
+      "source": "mca",
+      "source_id": "d8fcd016efd6748823d5a6861944b92"
+    },
+    {
+      "code": "3708",
+      "name": "济宁市",
+      "province": "山东省",
+      "longitude": 116.5818828,
+      "latitude": 35.4151416,
+      "source": "mca",
+      "source_id": "2d57fe8aac3cefc3971a4613f446811e"
+    },
+    {
+      "code": "3709",
+      "name": "泰安市",
+      "province": "山东省",
+      "longitude": 117.0808847,
+      "latitude": 36.2002549,
+      "source": "mca",
+      "source_id": "4da85aae4f8ebc4bcfb462f81ef1de44"
+    },
+    {
+      "code": "3710",
+      "name": "威海市",
+      "province": "山东省",
+      "longitude": 122.1152443,
+      "latitude": 37.5120879,
+      "source": "mca",
+      "source_id": "8d0146ab1f9771c000faa1c25d6c355c"
+    },
+    {
+      "code": "3711",
+      "name": "日照市",
+      "province": "山东省",
+      "longitude": 119.5213484,
+      "latitude": 35.4171637,
+      "source": "mca",
+      "source_id": "a63615485f2b6595a7583129f0b7711e"
+    },
+    {
+      "code": "3713",
+      "name": "临沂市",
+      "province": "山东省",
+      "longitude": 118.3506,
+      "latitude": 35.10528,
+      "source": "mca",
+      "source_id": "2aa513e38de91abd27e6a210e6581fc1"
+    },
+    {
+      "code": "3714",
+      "name": "德州市",
+      "province": "山东省",
+      "longitude": 116.3533832,
+      "latitude": 37.4356663,
+      "source": "mca",
+      "source_id": "76d8d4dd8f49e0a7c5a348fbf09b954b"
+    },
+    {
+      "code": "3715",
+      "name": "聊城市",
+      "province": "山东省",
+      "longitude": 115.9796067,
+      "latitude": 36.4570452,
+      "source": "mca",
+      "source_id": "3b4b03c52adff9f99a7eee2bc039f6a8"
+    },
+    {
+      "code": "3716",
+      "name": "滨州市",
+      "province": "山东省",
+      "longitude": 117.9647,
+      "latitude": 37.38222,
+      "source": "mca",
+      "source_id": "a3f6b49deab7a878135989bd81b510db"
+    },
+    {
+      "code": "3717",
+      "name": "菏泽市",
+      "province": "山东省",
+      "longitude": 115.474778,
+      "latitude": 35.2344307,
+      "source": "mca",
+      "source_id": "db2056c209e5aefc77443dcee13e5340"
+    },
+    {
+      "code": "4101",
+      "name": "郑州市",
+      "province": "河南省",
+      "longitude": 113.6192945,
+      "latitude": 34.747798,
+      "source": "mca",
+      "source_id": "9fefa3127d9115badb9cd8c8cfe76557"
+    },
+    {
+      "code": "4102",
+      "name": "开封市",
+      "province": "河南省",
+      "longitude": 114.3083725,
+      "latitude": 34.7988444,
+      "source": "mca",
+      "source_id": "95e9371bd11d4954b5d9be38ee67f161"
+    },
+    {
+      "code": "4103",
+      "name": "洛阳市",
+      "province": "河南省",
+      "longitude": 112.4476079,
+      "latitude": 34.6213495,
+      "source": "mca",
+      "source_id": "9514a43b959bcf5cb1f2c9c70e559fdf"
+    },
+    {
+      "code": "4104",
+      "name": "平顶山市",
+      "province": "河南省",
+      "longitude": 113.1863012,
+      "latitude": 33.7677622,
+      "source": "mca",
+      "source_id": "7c9db29757ddeda138d4e638903c57cc"
+    },
+    {
+      "code": "4105",
+      "name": "安阳市",
+      "province": "河南省",
+      "longitude": 114.3867,
+      "latitude": 36.09889,
+      "source": "mca",
+      "source_id": "79c1c076db55e66cd352e027aad6ce68"
+    },
+    {
+      "code": "4106",
+      "name": "鹤壁市",
+      "province": "河南省",
+      "longitude": 114.2913654,
+      "latitude": 35.7469322,
+      "source": "mca",
+      "source_id": "a465cce10eb48c41416879c8cfa40a86"
+    },
+    {
+      "code": "4107",
+      "name": "新乡市",
+      "province": "河南省",
+      "longitude": 113.9209073,
+      "latitude": 35.3037623,
+      "source": "mca",
+      "source_id": "a2095fa58c017315529242af9c05310a"
+    },
+    {
+      "code": "4108",
+      "name": "焦作市",
+      "province": "河南省",
+      "longitude": 113.2356,
+      "latitude": 35.21611,
+      "source": "mca",
+      "source_id": "9432c5394d0eec6cee32070a5022ff48"
+    },
+    {
+      "code": "4109",
+      "name": "濮阳市",
+      "province": "河南省",
+      "longitude": 115.0233962,
+      "latitude": 35.7620151,
+      "source": "mca",
+      "source_id": "377649da99575a1e24be23de07f42cfe"
+    },
+    {
+      "code": "4110",
+      "name": "许昌市",
+      "province": "河南省",
+      "longitude": 113.8462502,
+      "latitude": 34.0386432,
+      "source": "mca",
+      "source_id": "15d73d9e81a55eea679ce4377fb1d180"
+    },
+    {
+      "code": "4111",
+      "name": "漯河市",
+      "province": "河南省",
+      "longitude": 114.010766,
+      "latitude": 33.582343,
+      "source": "mca",
+      "source_id": "8af7d93242328a1f4829665860b533cf"
+    },
+    {
+      "code": "4112",
+      "name": "三门峡市",
+      "province": "河南省",
+      "longitude": 111.1947,
+      "latitude": 34.77417,
+      "source": "mca",
+      "source_id": "8ec7700c9a4c4e2fe1f27ca8394f39b3"
+    },
+    {
+      "code": "4113",
+      "name": "南阳市",
+      "province": "河南省",
+      "longitude": 112.5225747,
+      "latitude": 32.9924979,
+      "source": "mca",
+      "source_id": "59700e9cf0641a078fa0be61dca73ce4"
+    },
+    {
+      "code": "4114",
+      "name": "商丘市",
+      "province": "河南省",
+      "longitude": 115.6506,
+      "latitude": 34.41639,
+      "source": "mca",
+      "source_id": "8c13d2926817bea5de3ae9b87654077f"
+    },
+    {
+      "code": "4115",
+      "name": "信阳市",
+      "province": "河南省",
+      "longitude": 114.0880283,
+      "latitude": 32.1498162,
+      "source": "mca",
+      "source_id": "9179860ced22ea7c77923728bda57953"
+    },
+    {
+      "code": "4116",
+      "name": "周口市",
+      "province": "河南省",
+      "longitude": 114.6959467,
+      "latitude": 33.6361441,
+      "source": "mca",
+      "source_id": "5763a68ea80304a4a9bc79e031b08ead"
+    },
+    {
+      "code": "4117",
+      "name": "驻马店市",
+      "province": "河南省",
+      "longitude": 114.0165502,
+      "latitude": 33.0136374,
+      "source": "mca",
+      "source_id": "7e7059d143bd364fbceece0692acb143"
+    },
+    {
+      "code": "419001",
+      "name": "济源市",
+      "province": "河南省",
+      "longitude": 112.5964605,
+      "latitude": 35.0696403,
+      "source": "mca",
+      "source_id": "e0816d638806b7f0fbe7eed65332c002"
+    },
+    {
+      "code": "4201",
+      "name": "武汉市",
+      "province": "湖北省",
+      "longitude": 114.3,
+      "latitude": 30.595,
+      "source": "mca",
+      "source_id": "e6b41c0f5408d0a15272870304c6ea7d"
+    },
+    {
+      "code": "4202",
+      "name": "黄石市",
+      "province": "湖北省",
+      "longitude": 115.0319,
+      "latitude": 30.20278,
+      "source": "mca",
+      "source_id": "82b9953c388046a8a86bf7bad2c48715"
+    },
+    {
+      "code": "4203",
+      "name": "十堰市",
+      "province": "湖北省",
+      "longitude": 110.7938518,
+      "latitude": 32.6310844,
+      "source": "mca",
+      "source_id": "241f9b2ea1717f05bf09768e559abcd0"
+    },
+    {
+      "code": "4205",
+      "name": "宜昌市",
+      "province": "湖北省",
+      "longitude": 111.2814,
+      "latitude": 30.69444,
+      "source": "mca",
+      "source_id": "9dc9ff1dbef956b91585a8cd73e03b5e"
+    },
+    {
+      "code": "4206",
+      "name": "襄阳市",
+      "province": "湖北省",
+      "longitude": 112.1163403,
+      "latitude": 32.0110853,
+      "source": "mca",
+      "source_id": "38c44e30d58702004d400e632db4504c"
+    },
+    {
+      "code": "4207",
+      "name": "鄂州市",
+      "province": "湖北省",
+      "longitude": 114.8897,
+      "latitude": 30.39389,
+      "source": "mca",
+      "source_id": "9c48dfdefe4e46b97b3de73f6f43c275"
+    },
+    {
+      "code": "4208",
+      "name": "荆门市",
+      "province": "湖北省",
+      "longitude": 112.1931,
+      "latitude": 31.0375,
+      "source": "mca",
+      "source_id": "27fbb6dcc2547650dfb588d5c2813299"
+    },
+    {
+      "code": "4209",
+      "name": "孝感市",
+      "province": "湖北省",
+      "longitude": 113.9514,
+      "latitude": 30.92111,
+      "source": "mca",
+      "source_id": "c328a809c35a0e0c111bbe5c0fd9048b"
+    },
+    {
+      "code": "4210",
+      "name": "荆州市",
+      "province": "湖北省",
+      "longitude": 112.2351767,
+      "latitude": 30.3382091,
+      "source": "mca",
+      "source_id": "81d6b408f2e25a30f4b9410315d1f524"
+    },
+    {
+      "code": "4211",
+      "name": "黄冈市",
+      "province": "湖北省",
+      "longitude": 114.8672,
+      "latitude": 30.45611,
+      "source": "mca",
+      "source_id": "b502b6b4976051b34492e008569e1e65"
+    },
+    {
+      "code": "4212",
+      "name": "咸宁市",
+      "province": "湖北省",
+      "longitude": 114.3172,
+      "latitude": 29.84389,
+      "source": "mca",
+      "source_id": "f4458a39bcebe1fbc20a310016a94dbc"
+    },
+    {
+      "code": "4213",
+      "name": "随州市",
+      "province": "湖北省",
+      "longitude": 113.3761,
+      "latitude": 31.69222,
+      "source": "mca",
+      "source_id": "c1a3f6135704560313e98af21f962a39"
+    },
+    {
+      "code": "4228",
+      "name": "恩施土家族苗族自治州",
+      "province": "湖北省",
+      "longitude": 109.4835055,
+      "latitude": 30.2748493,
+      "source": "mca",
+      "source_id": "33b6ec4468c444a02c37042db1151ff5"
+    },
+    {
+      "code": "429004",
+      "name": "仙桃市",
+      "province": "湖北省",
+      "longitude": 113.437057805903,
+      "latitude": 30.3310131112603,
+      "source": "mca",
+      "source_id": "a0b973d8be97b8c8aa9d81be15614b1c"
+    },
+    {
+      "code": "429005",
+      "name": "潜江市",
+      "province": "湖北省",
+      "longitude": 112.894282,
+      "latitude": 30.4049766,
+      "source": "mca",
+      "source_id": "1ed99b3d83b59051cc65b4614a7ee513"
+    },
+    {
+      "code": "429006",
+      "name": "天门市",
+      "province": "湖北省",
+      "longitude": 113.156587590962,
+      "latitude": 30.666813148556,
+      "source": "mca",
+      "source_id": "8bf74aff45b1505161fbfd2103189b01"
+    },
+    {
+      "code": "429021",
+      "name": "神农架林区",
+      "province": "湖北省",
+      "longitude": 110.6710433,
+      "latitude": 31.7467429,
+      "source": "mca",
+      "source_id": "3349b5fbaccce1de1ee6e18dce9ab743"
+    },
+    {
+      "code": "4301",
+      "name": "长沙市",
+      "province": "湖南省",
+      "longitude": 112.9331,
+      "latitude": 28.23167,
+      "source": "mca",
+      "source_id": "b26e90b226e9e2bc998dd281f06f5189"
+    },
+    {
+      "code": "4302",
+      "name": "株洲市",
+      "province": "湖南省",
+      "longitude": 113.1270562,
+      "latitude": 27.832179,
+      "source": "mca",
+      "source_id": "eddb5807804910b557cbe511c7bb7041"
+    },
+    {
+      "code": "4303",
+      "name": "湘潭市",
+      "province": "湖南省",
+      "longitude": 112.9389,
+      "latitude": 27.83333,
+      "source": "mca",
+      "source_id": "c549238335c509dc9b8be2df29028007"
+    },
+    {
+      "code": "4304",
+      "name": "衡阳市",
+      "province": "湖南省",
+      "longitude": 112.5667,
+      "latitude": 26.89833,
+      "source": "mca",
+      "source_id": "e2cf5ff6bac0961f6197e1300940508a"
+    },
+    {
+      "code": "4305",
+      "name": "邵阳市",
+      "province": "湖南省",
+      "longitude": 111.4622,
+      "latitude": 27.24222,
+      "source": "mca",
+      "source_id": "cf20b6eb03a4306ba2992f36f1b41c64"
+    },
+    {
+      "code": "4306",
+      "name": "岳阳市",
+      "province": "湖南省",
+      "longitude": 113.1223655,
+      "latitude": 29.3585845,
+      "source": "mca",
+      "source_id": "7d23f41a16e0c36f1e713d290dd25c1f"
+    },
+    {
+      "code": "4307",
+      "name": "常德市",
+      "province": "湖南省",
+      "longitude": 111.6933,
+      "latitude": 29.03444,
+      "source": "mca",
+      "source_id": "1c2d1fc4dfea500aade7618fbd2bd91d"
+    },
+    {
+      "code": "4308",
+      "name": "张家界市",
+      "province": "湖南省",
+      "longitude": 110.4742,
+      "latitude": 29.11972,
+      "source": "mca",
+      "source_id": "1e8a815b9d280067f505e97ee8e68cb7"
+    },
+    {
+      "code": "4309",
+      "name": "益阳市",
+      "province": "湖南省",
+      "longitude": 112.3494,
+      "latitude": 28.55889,
+      "source": "mca",
+      "source_id": "908ea2cc8f08c81526d27211f3c5dde1"
+    },
+    {
+      "code": "4310",
+      "name": "郴州市",
+      "province": "湖南省",
+      "longitude": 113.01,
+      "latitude": 25.77306,
+      "source": "mca",
+      "source_id": "5c56416174633f1214d8eee30ac16e48"
+    },
+    {
+      "code": "4311",
+      "name": "永州市",
+      "province": "湖南省",
+      "longitude": 111.6081,
+      "latitude": 26.42306,
+      "source": "mca",
+      "source_id": "6bf78582eb9694a1457719e2ca0cc4e1"
+    },
+    {
+      "code": "4312",
+      "name": "怀化市",
+      "province": "湖南省",
+      "longitude": 109.9967,
+      "latitude": 27.57278,
+      "source": "mca",
+      "source_id": "2f4449ca20acecb131551bc4f0e1fea7"
+    },
+    {
+      "code": "4313",
+      "name": "娄底市",
+      "province": "湖南省",
+      "longitude": 111.9889,
+      "latitude": 27.70278,
+      "source": "mca",
+      "source_id": "c58543fd28418fff286f9b02c666ed7f"
+    },
+    {
+      "code": "4331",
+      "name": "湘西土家族苗族自治州",
+      "province": "湖南省",
+      "longitude": 109.6692701,
+      "latitude": 28.2191091,
+      "source": "mca",
+      "source_id": "3ab9dd7577801f3e4eb38b611285962f"
+    },
+    {
+      "code": "4401",
+      "name": "广州市",
+      "province": "广东省",
+      "longitude": 113.2589,
+      "latitude": 23.13222,
+      "source": "mca",
+      "source_id": "dcdeabca2707bd76907ad858a9e8ac02"
+    },
+    {
+      "code": "4402",
+      "name": "韶关市",
+      "province": "广东省",
+      "longitude": 113.5920717,
+      "latitude": 24.8145787,
+      "source": "mca",
+      "source_id": "4bc9388662801429df2dba36b7cb3549"
+    },
+    {
+      "code": "4403",
+      "name": "深圳市",
+      "province": "广东省",
+      "longitude": 114.0528,
+      "latitude": 22.54639,
+      "source": "mca",
+      "source_id": "cc384cd489bc08f09bb5fa87d76fce99"
+    },
+    {
+      "code": "4404",
+      "name": "珠海市",
+      "province": "广东省",
+      "longitude": 113.5719,
+      "latitude": 22.27417,
+      "source": "mca",
+      "source_id": "62157f66cb679d7c0702d518d4b6afa7"
+    },
+    {
+      "code": "4405",
+      "name": "汕头市",
+      "province": "广东省",
+      "longitude": 116.6775815,
+      "latitude": 23.3563394,
+      "source": "mca",
+      "source_id": "9de163a9b8349405399d60ee160400f"
+    },
+    {
+      "code": "4406",
+      "name": "佛山市",
+      "province": "广东省",
+      "longitude": 113.1158922,
+      "latitude": 23.0238471,
+      "source": "mca",
+      "source_id": "61119d5a31d3d79ad01282c3cb036e13"
+    },
+    {
+      "code": "4407",
+      "name": "江门市",
+      "province": "广东省",
+      "longitude": 113.0758528,
+      "latitude": 22.5818299,
+      "source": "mca",
+      "source_id": "ce3eec91f1bd094ebbad0bf0d5eeff28"
+    },
+    {
+      "code": "4408",
+      "name": "湛江市",
+      "province": "广东省",
+      "longitude": 110.3520919,
+      "latitude": 21.2724484,
+      "source": "mca",
+      "source_id": "e22423e8f735c8041463fdcf10614cda"
+    },
+    {
+      "code": "4409",
+      "name": "茂名市",
+      "province": "广东省",
+      "longitude": 110.9211,
+      "latitude": 21.66528,
+      "source": "mca",
+      "source_id": "19e569a94aa037eddb3f5a6ddc8f86bb"
+    },
+    {
+      "code": "4412",
+      "name": "肇庆市",
+      "province": "广东省",
+      "longitude": 112.4596464,
+      "latitude": 23.0495805,
+      "source": "mca",
+      "source_id": "84255873d99423b8b4cf001c29319c6e"
+    },
+    {
+      "code": "4413",
+      "name": "惠州市",
+      "province": "广东省",
+      "longitude": 114.4106,
+      "latitude": 23.115,
+      "source": "mca",
+      "source_id": "f8c8b3d881d2eb7ef63a54d0251055ab"
+    },
+    {
+      "code": "4414",
+      "name": "梅州市",
+      "province": "广东省",
+      "longitude": 116.1175,
+      "latitude": 24.29139,
+      "source": "mca",
+      "source_id": "8a7ed5f83b030410f53216d8a1232f0c"
+    },
+    {
+      "code": "4415",
+      "name": "汕尾市",
+      "province": "广东省",
+      "longitude": 115.3706,
+      "latitude": 22.78972,
+      "source": "mca",
+      "source_id": "b8d6a0d91bf17693b7a03335f424e408"
+    },
+    {
+      "code": "4416",
+      "name": "河源市",
+      "province": "广东省",
+      "longitude": 114.6956927,
+      "latitude": 23.7466406,
+      "source": "mca",
+      "source_id": "54d25e98ba5346c499ec23e4495b1fae"
+    },
+    {
+      "code": "4417",
+      "name": "阳江市",
+      "province": "广东省",
+      "longitude": 111.9781,
+      "latitude": 21.86,
+      "source": "mca",
+      "source_id": "e74e66caf2560c243ba738079446a94a"
+    },
+    {
+      "code": "4418",
+      "name": "清远市",
+      "province": "广东省",
+      "longitude": 113.0506755,
+      "latitude": 23.6845044,
+      "source": "mca",
+      "source_id": "837255b71989c7550baa7bfdfd2ec2f6"
+    },
+    {
+      "code": "4419",
+      "name": "东莞市",
+      "province": "广东省",
+      "longitude": 113.7465295,
+      "latitude": 23.0230974,
+      "source": "mca",
+      "source_id": "e8d2664546c9f213c0cefe3bc78d45c2"
+    },
+    {
+      "code": "4420",
+      "name": "中山市",
+      "province": "广东省",
+      "longitude": 113.3881737,
+      "latitude": 22.5199134,
+      "source": "mca",
+      "source_id": "f6122d535cc90bfa6290c2ce5182b01c"
+    },
+    {
+      "code": "4451",
+      "name": "潮州市",
+      "province": "广东省",
+      "longitude": 116.6177736,
+      "latitude": 23.6608392,
+      "source": "mca",
+      "source_id": "7103d2492b8d2cb454cf5c8fb2a2956f"
+    },
+    {
+      "code": "4452",
+      "name": "揭阳市",
+      "province": "广东省",
+      "longitude": 116.3681966,
+      "latitude": 23.5536286,
+      "source": "mca",
+      "source_id": "392a9d6330743fa186a29146d2d9b40b"
+    },
+    {
+      "code": "4453",
+      "name": "云浮市",
+      "province": "广东省",
+      "longitude": 112.0392931,
+      "latitude": 22.9175486,
+      "source": "mca",
+      "source_id": "3e83775b8fc93985993f08cad2ad416d"
+    },
+    {
+      "code": "4501",
+      "name": "南宁市",
+      "province": "广西壮族自治区",
+      "longitude": 108.3631,
+      "latitude": 22.81972,
+      "source": "mca",
+      "source_id": "3342e60520a5c203a7c8a49faf4ae876"
+    },
+    {
+      "code": "4502",
+      "name": "柳州市",
+      "province": "广西壮族自治区",
+      "longitude": 109.41107944228,
+      "latitude": 24.328165687623,
+      "source": "mca",
+      "source_id": "3fc5446c5cf319637c73e747b05779a3"
+    },
+    {
+      "code": "4503",
+      "name": "桂林市",
+      "province": "广西壮族自治区",
+      "longitude": 110.17494735982,
+      "latitude": 25.23832886331,
+      "source": "mca",
+      "source_id": "b715a7d98b61e7d4cefd13190fea8b27"
+    },
+    {
+      "code": "4504",
+      "name": "梧州市",
+      "province": "广西壮族自治区",
+      "longitude": 111.27406744629,
+      "latitude": 23.479585208817,
+      "source": "mca",
+      "source_id": "40f14b16c82fb8b6a1bef78c5a82a2eb"
+    },
+    {
+      "code": "4505",
+      "name": "北海市",
+      "province": "广西壮族自治区",
+      "longitude": 109.1164,
+      "latitude": 21.48445,
+      "source": "mca",
+      "source_id": "9de9192f67452203cd2d4777cf5d482c"
+    },
+    {
+      "code": "4506",
+      "name": "防城港市",
+      "province": "广西壮族自治区",
+      "longitude": 108.35072401119,
+      "latitude": 21.689646490709,
+      "source": "mca",
+      "source_id": "133feebccddb9667c54d05f8dfb6c36d"
+    },
+    {
+      "code": "4507",
+      "name": "钦州市",
+      "province": "广西壮族自治区",
+      "longitude": 108.6506,
+      "latitude": 21.98389,
+      "source": "mca",
+      "source_id": "310c02d7d167f276408563e8444f8293"
+    },
+    {
+      "code": "4508",
+      "name": "贵港市",
+      "province": "广西壮族自治区",
+      "longitude": 109.5947,
+      "latitude": 23.11444,
+      "source": "mca",
+      "source_id": "667a3104666c46368c93c8f015a7f17b"
+    },
+    {
+      "code": "4509",
+      "name": "玉林市",
+      "province": "广西壮族自治区",
+      "longitude": 110.1763038,
+      "latitude": 22.6568434,
+      "source": "mca",
+      "source_id": "746faa082947b66ef2dd0db8a90acc5c"
+    },
+    {
+      "code": "4510",
+      "name": "百色市",
+      "province": "广西壮族自治区",
+      "longitude": 106.61490328514,
+      "latitude": 23.905438063592,
+      "source": "mca",
+      "source_id": "4a1c0e4a05f1c96717e688391ce60769"
+    },
+    {
+      "code": "4511",
+      "name": "贺州市",
+      "province": "广西壮族自治区",
+      "longitude": 111.56203353112,
+      "latitude": 24.407244919689,
+      "source": "mca",
+      "source_id": "bb5b8e8aa9de0fc37cff1563774e1cd4"
+    },
+    {
+      "code": "4512",
+      "name": "河池市",
+      "province": "广西壮族自治区",
+      "longitude": 108.63273896399,
+      "latitude": 24.488130574915,
+      "source": "mca",
+      "source_id": "ed3512bd5838843e64ca2b0f3abc84c8"
+    },
+    {
+      "code": "4513",
+      "name": "来宾市",
+      "province": "广西壮族自治区",
+      "longitude": 109.2168635,
+      "latitude": 23.7526991,
+      "source": "mca",
+      "source_id": "dbb33c044148d84b2b67d3cf5f1a5c79"
+    },
+    {
+      "code": "4514",
+      "name": "崇左市",
+      "province": "广西壮族自治区",
+      "longitude": 107.36065426207,
+      "latitude": 22.379887221493,
+      "source": "mca",
+      "source_id": "e06bb906ff4987f2f47bd612de4bcf05"
+    },
+    {
+      "code": "4601",
+      "name": "海口市",
+      "province": "海南省",
+      "longitude": 110.1955699,
+      "latitude": 20.046461,
+      "source": "mca",
+      "source_id": "12d33bd7a25e267c1abb5a5501795bb0"
+    },
+    {
+      "code": "4602",
+      "name": "三亚市",
+      "province": "海南省",
+      "longitude": 109.5079209,
+      "latitude": 18.2548016,
+      "source": "mca",
+      "source_id": "2a43cffbb92b55c6a12c60c137235efa"
+    },
+    {
+      "code": "4603",
+      "name": "三沙市",
+      "province": "海南省",
+      "longitude": 112.3326291,
+      "latitude": 16.8332164,
+      "source": "mca",
+      "source_id": "998c0ca7745a2c6d292d09eb63a46c73"
+    },
+    {
+      "code": "4604",
+      "name": "儋州市",
+      "province": "海南省",
+      "longitude": 109.576926,
+      "latitude": 19.5230887,
+      "source": "mca",
+      "source_id": "6b8efce30a2961be330a5d68776032fb"
+    },
+    {
+      "code": "469001",
+      "name": "五指山市",
+      "province": "海南省",
+      "longitude": 109.5128528,
+      "latitude": 18.7769311,
+      "source": "mca",
+      "source_id": "de59cad6788c4131f1df537014565ce8"
+    },
+    {
+      "code": "469002",
+      "name": "琼海市",
+      "province": "海南省",
+      "longitude": 110.4703,
+      "latitude": 19.26085,
+      "source": "mca",
+      "source_id": "bf3d392642c804bd024cf066152ea64e"
+    },
+    {
+      "code": "469005",
+      "name": "文昌市",
+      "province": "海南省",
+      "longitude": 110.7932938,
+      "latitude": 19.5451177,
+      "source": "mca",
+      "source_id": "40ef425ce3efc1843706b7ea8c2fdf6d"
+    },
+    {
+      "code": "469006",
+      "name": "万宁市",
+      "province": "海南省",
+      "longitude": 110.3877373,
+      "latitude": 18.7953667,
+      "source": "mca",
+      "source_id": "661d3c0880d674527bc9cc215bc580be"
+    },
+    {
+      "code": "469007",
+      "name": "东方市",
+      "province": "海南省",
+      "longitude": 108.6482498,
+      "latitude": 19.0972411,
+      "source": "mca",
+      "source_id": "2a4edd3b5442bb6c87613edd8bcc65b7"
+    },
+    {
+      "code": "469021",
+      "name": "定安县",
+      "province": "海南省",
+      "longitude": 110.3532515,
+      "latitude": 19.6830076,
+      "source": "mca",
+      "source_id": "4a97a97fc5cbd767164ee7ce1acedf69"
+    },
+    {
+      "code": "469022",
+      "name": "屯昌县",
+      "province": "海南省",
+      "longitude": 110.0986615,
+      "latitude": 19.3534736,
+      "source": "mca",
+      "source_id": "c26f342f3192a506a4f08b97100ee801"
+    },
+    {
+      "code": "469023",
+      "name": "澄迈县",
+      "province": "海南省",
+      "longitude": 110.0029778,
+      "latitude": 19.7403585,
+      "source": "mca",
+      "source_id": "22fafc5473afdf537147c60e2b68c913"
+    },
+    {
+      "code": "469024",
+      "name": "临高县",
+      "province": "海南省",
+      "longitude": 109.6866858,
+      "latitude": 19.914636,
+      "source": "mca",
+      "source_id": "c5c69062fc814f231d184344c24abf11"
+    },
+    {
+      "code": "469025",
+      "name": "白沙黎族自治县",
+      "province": "海南省",
+      "longitude": 109.43838,
+      "latitude": 19.223244,
+      "source": "mca",
+      "source_id": "f1a2e908e224a5cc3e9b1ed34f153121"
+    },
+    {
+      "code": "469026",
+      "name": "昌江黎族自治县",
+      "province": "海南省",
+      "longitude": 109.0520255,
+      "latitude": 19.2997135,
+      "source": "mca",
+      "source_id": "84a8552c476f3a34c95098bcc17a0397"
+    },
+    {
+      "code": "469027",
+      "name": "乐东黎族自治县",
+      "province": "海南省",
+      "longitude": 109.1696271,
+      "latitude": 18.7515651,
+      "source": "mca",
+      "source_id": "98b8e42cff899dda53cdf464eadd0a03"
+    },
+    {
+      "code": "469028",
+      "name": "陵水黎族自治县",
+      "province": "海南省",
+      "longitude": 110.0332538,
+      "latitude": 18.5075851,
+      "source": "mca",
+      "source_id": "2e06297715cad573e371e07efd0b90c5"
+    },
+    {
+      "code": "469029",
+      "name": "保亭黎族苗族自治县",
+      "province": "海南省",
+      "longitude": 109.6963939,
+      "latitude": 18.641941,
+      "source": "mca",
+      "source_id": "67d9a41507f69fb093ef0697009864b0"
+    },
+    {
+      "code": "469030",
+      "name": "琼中黎族苗族自治县",
+      "province": "海南省",
+      "longitude": 109.8343068,
+      "latitude": 19.0351691,
+      "source": "mca",
+      "source_id": "cb7a4562854b1f59edced0b5b43bb203"
+    },
+    {
+      "code": "500101",
+      "name": "万州区",
+      "province": "重庆市",
+      "longitude": 108.4046572,
+      "latitude": 30.8097793,
+      "source": "mca",
+      "source_id": "5cd627bd84ebe2db9f31ac65dab7028a"
+    },
+    {
+      "code": "500102",
+      "name": "涪陵区",
+      "province": "重庆市",
+      "longitude": 107.3830752,
+      "latitude": 29.7047875,
+      "source": "mca",
+      "source_id": "35134406d9521210179cc3ea4de6c5e8"
+    },
+    {
+      "code": "500103",
+      "name": "渝中区",
+      "province": "重庆市",
+      "longitude": 106.5651868,
+      "latitude": 29.5558181,
+      "source": "mca",
+      "source_id": "d62a38689a7cc7cbde0821fece316c99"
+    },
+    {
+      "code": "500104",
+      "name": "大渡口区",
+      "province": "重庆市",
+      "longitude": 106.4784225,
+      "latitude": 29.4871541,
+      "source": "mca",
+      "source_id": "2e9387c2b707ca12b34325d8ed7ac69f"
+    },
+    {
+      "code": "500106",
+      "name": "沙坪坝区",
+      "province": "重庆市",
+      "longitude": 106.453015,
+      "latitude": 29.543689,
+      "source": "mca",
+      "source_id": "7efb65d981d79a685aa6c859aa0d498c"
+    },
+    {
+      "code": "500107",
+      "name": "九龙坡区",
+      "province": "重庆市",
+      "longitude": 106.5072098,
+      "latitude": 29.5050601,
+      "source": "mca",
+      "source_id": "b918a6978aca0d2b401ba68558c38802"
+    },
+    {
+      "code": "500108",
+      "name": "南岸区",
+      "province": "重庆市",
+      "longitude": 106.6403212,
+      "latitude": 29.5035061,
+      "source": "mca",
+      "source_id": "edc37697417b4c7219aa223bd804efd4"
+    },
+    {
+      "code": "500109",
+      "name": "北碚区",
+      "province": "重庆市",
+      "longitude": 106.392900309135,
+      "latitude": 29.8074285075176,
+      "source": "mca",
+      "source_id": "981e7fe5880244fef0206dfa52ca9797"
+    },
+    {
+      "code": "500110",
+      "name": "綦江区",
+      "province": "重庆市",
+      "longitude": 106.6475838,
+      "latitude": 29.0311911,
+      "source": "mca",
+      "source_id": "d050799ede50d3bda8489775df5a2f95"
+    },
+    {
+      "code": "500111",
+      "name": "大足区",
+      "province": "重庆市",
+      "longitude": 105.7182749,
+      "latitude": 29.7097434,
+      "source": "mca",
+      "source_id": "8f75e4f873ffa8b2552b6be0118b1ab1"
+    },
+    {
+      "code": "500113",
+      "name": "巴南区",
+      "province": "重庆市",
+      "longitude": 106.5366618,
+      "latitude": 29.4051871,
+      "source": "mca",
+      "source_id": "446a590ccfc7522e1e33d095a2bee7c4"
+    },
+    {
+      "code": "500114",
+      "name": "黔江区",
+      "province": "重庆市",
+      "longitude": 108.7666318,
+      "latitude": 29.5359651,
+      "source": "mca",
+      "source_id": "f365c5f51dc206a7f5e394c82996a3ef"
+    },
+    {
+      "code": "500115",
+      "name": "长寿区",
+      "province": "重庆市",
+      "longitude": 107.077024177584,
+      "latitude": 29.8636852657862,
+      "source": "mca",
+      "source_id": "5ae6cd4ade06633a204a411ad710cf44"
+    },
+    {
+      "code": "500116",
+      "name": "江津区",
+      "province": "重庆市",
+      "longitude": 106.2605441,
+      "latitude": 29.3228536,
+      "source": "mca",
+      "source_id": "b85b622198085bd041dc3659b07f4582"
+    },
+    {
+      "code": "500117",
+      "name": "合川区",
+      "province": "重庆市",
+      "longitude": 106.2725658,
+      "latitude": 29.9749661,
+      "source": "mca",
+      "source_id": "9baafb67040a8a6a2951afbae95eef50"
+    },
+    {
+      "code": "500118",
+      "name": "永川区",
+      "province": "重庆市",
+      "longitude": 105.923536111,
+      "latitude": 29.3595833333,
+      "source": "mca",
+      "source_id": "ac4a8a59057b0c98f24bf871eb41c146"
+    },
+    {
+      "code": "500119",
+      "name": "南川区",
+      "province": "重庆市",
+      "longitude": 107.0947878,
+      "latitude": 29.1605551,
+      "source": "mca",
+      "source_id": "9e0a21dfcd405da8dbfc87b29a696dea"
+    },
+    {
+      "code": "500120",
+      "name": "璧山区",
+      "province": "重庆市",
+      "longitude": 106.2009572,
+      "latitude": 29.5806778,
+      "source": "mca",
+      "source_id": "a3d4a346ca79d76d63e28c9b54d52367"
+    },
+    {
+      "code": "500151",
+      "name": "铜梁区",
+      "province": "重庆市",
+      "longitude": 106.0522477,
+      "latitude": 29.8479124,
+      "source": "mca",
+      "source_id": "ee1d663b0745448ea5ae50bb7265b7cf"
+    },
+    {
+      "code": "500152",
+      "name": "潼南区",
+      "province": "重庆市",
+      "longitude": 105.8370582,
+      "latitude": 30.1939522,
+      "source": "mca",
+      "source_id": "88d6bc45137438fc0cec0929b89336a2"
+    },
+    {
+      "code": "500153",
+      "name": "荣昌区",
+      "province": "重庆市",
+      "longitude": 105.6085344,
+      "latitude": 29.4196619,
+      "source": "mca",
+      "source_id": "d861816b40b6b97ae2c67e4384a4ceff"
+    },
+    {
+      "code": "500154",
+      "name": "开州区",
+      "province": "重庆市",
+      "longitude": 108.3885777,
+      "latitude": 31.1629089,
+      "source": "mca",
+      "source_id": "30a9ad14b8eb1ef204ca3049eb71ee53"
+    },
+    {
+      "code": "500155",
+      "name": "梁平区",
+      "province": "重庆市",
+      "longitude": 107.7658227,
+      "latitude": 30.6568151,
+      "source": "mca",
+      "source_id": "bb9a5b67ba95522ab1d728cb825d87e5"
+    },
+    {
+      "code": "500156",
+      "name": "武隆区",
+      "province": "重庆市",
+      "longitude": 107.7548304,
+      "latitude": 29.328747,
+      "source": "mca",
+      "source_id": "319808eb05e0b306f2213877aff7cea6"
+    },
+    {
+      "code": "500157",
+      "name": "两江新区",
+      "province": "重庆市",
+      "longitude": 106.5621771,
+      "latitude": 29.6455299,
+      "source": "mca",
+      "source_id": "472a8581fb88e37c7f353bcfb8923b91"
+    },
+    {
+      "code": "500229",
+      "name": "城口县",
+      "province": "重庆市",
+      "longitude": 108.6599458,
+      "latitude": 31.9499421,
+      "source": "mca",
+      "source_id": "6b161be368793c40491b155d98c22d97"
+    },
+    {
+      "code": "500230",
+      "name": "丰都县",
+      "province": "重庆市",
+      "longitude": 107.7257043,
+      "latitude": 29.8665246,
+      "source": "mca",
+      "source_id": "5431ae986cfc8965b189005c60f15f79"
+    },
+    {
+      "code": "500231",
+      "name": "垫江县",
+      "province": "重庆市",
+      "longitude": 107.3282727,
+      "latitude": 30.3300927,
+      "source": "mca",
+      "source_id": "88614ddcacb73fa53001ffd84576353d"
+    },
+    {
+      "code": "500233",
+      "name": "忠县",
+      "province": "重庆市",
+      "longitude": 108.0331465,
+      "latitude": 30.3023601,
+      "source": "mca",
+      "source_id": "1a0b6823991ef33bbfe5e451e7262b2b"
+    },
+    {
+      "code": "500235",
+      "name": "云阳县",
+      "province": "重庆市",
+      "longitude": 108.6925658,
+      "latitude": 30.9330721,
+      "source": "mca",
+      "source_id": "bd3e76de68cb95e0d4e1e27bb66d66e3"
+    },
+    {
+      "code": "500236",
+      "name": "奉节县",
+      "province": "重庆市",
+      "longitude": 109.4590428,
+      "latitude": 31.0206411,
+      "source": "mca",
+      "source_id": "22ca86b532856ec36a80449b19d84d8a"
+    },
+    {
+      "code": "500237",
+      "name": "巫山县",
+      "province": "重庆市",
+      "longitude": 109.8743089,
+      "latitude": 31.0772406,
+      "source": "mca",
+      "source_id": "37a944a16d6780b8fedaa1d392b6fae5"
+    },
+    {
+      "code": "500238",
+      "name": "巫溪县",
+      "province": "重庆市",
+      "longitude": 109.565341833,
+      "latitude": 31.4009731111,
+      "source": "mca",
+      "source_id": "c553609d04e605017a3781c2675f54da"
+    },
+    {
+      "code": "500240",
+      "name": "石柱土家族自治县",
+      "province": "重庆市",
+      "longitude": 108.109541,
+      "latitude": 30.0016917,
+      "source": "mca",
+      "source_id": "46cfe77d6bd6a2e0b5435862f102f0cc"
+    },
+    {
+      "code": "500241",
+      "name": "秀山土家族苗族自治县",
+      "province": "重庆市",
+      "longitude": 109.0028371,
+      "latitude": 28.451649,
+      "source": "mca",
+      "source_id": "46f68592c503eb9755460c322055b89d"
+    },
+    {
+      "code": "500242",
+      "name": "酉阳土家族苗族自治县",
+      "province": "重庆市",
+      "longitude": 108.7658085,
+      "latitude": 28.8733676,
+      "source": "mca",
+      "source_id": "b2fa31f7d2548f39b5923ec2f9b54cf6"
+    },
+    {
+      "code": "500243",
+      "name": "彭水苗族土家族自治县",
+      "province": "重庆市",
+      "longitude": 108.161321,
+      "latitude": 29.2970438,
+      "source": "mca",
+      "source_id": "f6b1ce0b3a9a235ccb4b8868e1ed8057"
+    },
+    {
+      "code": "5101",
+      "name": "成都市",
+      "province": "四川省",
+      "longitude": 104.0644,
+      "latitude": 30.57528,
+      "source": "mca",
+      "source_id": "dabe1892ff5226d7a1b937a66d1150e3"
+    },
+    {
+      "code": "5103",
+      "name": "自贡市",
+      "province": "四川省",
+      "longitude": 104.7764,
+      "latitude": 29.34195,
+      "source": "mca",
+      "source_id": "b304304b9c3932b9ccc8b218db558c05"
+    },
+    {
+      "code": "5104",
+      "name": "攀枝花市",
+      "province": "四川省",
+      "longitude": 101.7170058,
+      "latitude": 26.5859289,
+      "source": "mca",
+      "source_id": "f915b1be57ce86a65201cd6e00099e12"
+    },
+    {
+      "code": "5105",
+      "name": "泸州市",
+      "province": "四川省",
+      "longitude": 105.4389,
+      "latitude": 28.87417,
+      "source": "mca",
+      "source_id": "d7ea6228b12ceda9c463e478d1004b8b"
+    },
+    {
+      "code": "5106",
+      "name": "德阳市",
+      "province": "四川省",
+      "longitude": 104.3953,
+      "latitude": 31.12944,
+      "source": "mca",
+      "source_id": "2048bdb0be32efdf021617de87442647"
+    },
+    {
+      "code": "5107",
+      "name": "绵阳市",
+      "province": "四川省",
+      "longitude": 104.6767,
+      "latitude": 31.46972,
+      "source": "mca",
+      "source_id": "d1c8b5737123023b5d906cc45d14b545"
+    },
+    {
+      "code": "5108",
+      "name": "广元市",
+      "province": "四川省",
+      "longitude": 105.8397,
+      "latitude": 32.43806,
+      "source": "mca",
+      "source_id": "ec78b52e0bf463ead27e7766f4a4469f"
+    },
+    {
+      "code": "5109",
+      "name": "遂宁市",
+      "province": "四川省",
+      "longitude": 105.5894,
+      "latitude": 30.53556,
+      "source": "mca",
+      "source_id": "3b1739442336a5548065b00c31a37461"
+    },
+    {
+      "code": "5110",
+      "name": "内江市",
+      "province": "四川省",
+      "longitude": 105.0547,
+      "latitude": 29.5825,
+      "source": "mca",
+      "source_id": "39314a7cc66c5befb0975f3a2e461b1c"
+    },
+    {
+      "code": "5111",
+      "name": "乐山市",
+      "province": "四川省",
+      "longitude": 103.7631,
+      "latitude": 29.555,
+      "source": "mca",
+      "source_id": "45824d866f7e1a115712985e955e311e"
+    },
+    {
+      "code": "5113",
+      "name": "南充市",
+      "province": "四川省",
+      "longitude": 106.1067,
+      "latitude": 30.84028,
+      "source": "mca",
+      "source_id": "997539ce0b68b29a9427b4eb921f51c3"
+    },
+    {
+      "code": "5114",
+      "name": "眉山市",
+      "province": "四川省",
+      "longitude": 103.846281,
+      "latitude": 30.0796807,
+      "source": "mca",
+      "source_id": "a99930865a454471ddb1c9c8b0d2a87c"
+    },
+    {
+      "code": "5115",
+      "name": "宜宾市",
+      "province": "四川省",
+      "longitude": 104.6403,
+      "latitude": 28.75583,
+      "source": "mca",
+      "source_id": "42abe6447bbae9e6a3282407176f973c"
+    },
+    {
+      "code": "5116",
+      "name": "广安市",
+      "province": "四川省",
+      "longitude": 106.6294099,
+      "latitude": 30.4587302,
+      "source": "mca",
+      "source_id": "991d7fc3a5d64b1588349d8a19645d55"
+    },
+    {
+      "code": "5117",
+      "name": "达州市",
+      "province": "四川省",
+      "longitude": 107.4633,
+      "latitude": 31.21083,
+      "source": "mca",
+      "source_id": "9f344ef8fcc20b21f3cc5121420aba24"
+    },
+    {
+      "code": "5118",
+      "name": "雅安市",
+      "province": "四川省",
+      "longitude": 103.0411,
+      "latitude": 30.01361,
+      "source": "mca",
+      "source_id": "13217966e2e4c83c570ca3d9709d8438"
+    },
+    {
+      "code": "5119",
+      "name": "巴中市",
+      "province": "四川省",
+      "longitude": 106.7433,
+      "latitude": 31.87,
+      "source": "mca",
+      "source_id": "ca07a418569cff8631ae9a19264863a2"
+    },
+    {
+      "code": "5120",
+      "name": "资阳市",
+      "province": "四川省",
+      "longitude": 104.6242,
+      "latitude": 30.1325,
+      "source": "mca",
+      "source_id": "cb71610684dc07909fd05214b4eefb76"
+    },
+    {
+      "code": "5132",
+      "name": "阿坝藏族羌族自治州",
+      "province": "四川省",
+      "longitude": 102.2227641,
+      "latitude": 31.9017575,
+      "source": "mca",
+      "source_id": "e4f99a45c5102470923955e9288fd050"
+    },
+    {
+      "code": "5133",
+      "name": "甘孜藏族自治州",
+      "province": "四川省",
+      "longitude": 101.960811,
+      "latitude": 30.0522104,
+      "source": "mca",
+      "source_id": "fa7eb951c5a67c46ed076c22cdf7652e"
+    },
+    {
+      "code": "5134",
+      "name": "凉山彝族自治州",
+      "province": "四川省",
+      "longitude": 102.2679464,
+      "latitude": 27.8856433,
+      "source": "mca",
+      "source_id": "5c319cf8a3294a1646a26258f01a883"
+    },
+    {
+      "code": "5201",
+      "name": "贵阳市",
+      "province": "贵州省",
+      "longitude": 106.6264,
+      "latitude": 26.65111,
+      "source": "mca",
+      "source_id": "6edc4c8e48dda5b077de059c588de432"
+    },
+    {
+      "code": "5202",
+      "name": "六盘水市",
+      "province": "贵州省",
+      "longitude": 104.8278,
+      "latitude": 26.59639,
+      "source": "mca",
+      "source_id": "d8eb233cf71ff078b9d91a5c7f81d9f6"
+    },
+    {
+      "code": "5203",
+      "name": "遵义市",
+      "province": "贵州省",
+      "longitude": 107.026984,
+      "latitude": 27.7252367,
+      "source": "mca",
+      "source_id": "bdf3cbdfa80eb97f09db6a1c8dba63c2"
+    },
+    {
+      "code": "5204",
+      "name": "安顺市",
+      "province": "贵州省",
+      "longitude": 105.9439,
+      "latitude": 26.25556,
+      "source": "mca",
+      "source_id": "13c69dcdfd172e1c60bca6a7d26d7a24"
+    },
+    {
+      "code": "5205",
+      "name": "毕节市",
+      "province": "贵州省",
+      "longitude": 105.2892,
+      "latitude": 27.28778,
+      "source": "mca",
+      "source_id": "3beeaa4ed0d22ce73f4eca3028b7c3f5"
+    },
+    {
+      "code": "5206",
+      "name": "铜仁市",
+      "province": "贵州省",
+      "longitude": 109.185,
+      "latitude": 27.73472,
+      "source": "mca",
+      "source_id": "80b582367f83cc9b7756b128b742a821"
+    },
+    {
+      "code": "5223",
+      "name": "黔西南布依族苗族自治州",
+      "province": "贵州省",
+      "longitude": 104.903863,
+      "latitude": 25.0908841,
+      "source": "mca",
+      "source_id": "d0d71fafd985d0da2ad3d82749b3340d"
+    },
+    {
+      "code": "5226",
+      "name": "黔东南苗族侗族自治州",
+      "province": "贵州省",
+      "longitude": 107.9786774,
+      "latitude": 26.5873906,
+      "source": "mca",
+      "source_id": "111ca288ec2b956eff2fe6304e66204c"
+    },
+    {
+      "code": "5227",
+      "name": "黔南布依族苗族自治州",
+      "province": "贵州省",
+      "longitude": 107.5180528,
+      "latitude": 26.2568919,
+      "source": "mca",
+      "source_id": "b94adad7a2813a5560816dc3776927f1"
+    },
+    {
+      "code": "5301",
+      "name": "昆明市",
+      "province": "云南省",
+      "longitude": 102.8317,
+      "latitude": 24.88306,
+      "source": "mca",
+      "source_id": "557ae11504d9c4de8bbbcced9d4c8dbf"
+    },
+    {
+      "code": "5303",
+      "name": "曲靖市",
+      "province": "云南省",
+      "longitude": 103.7942,
+      "latitude": 25.49333,
+      "source": "mca",
+      "source_id": "68f99dc20e0cf6043de9c3b79473df14"
+    },
+    {
+      "code": "5304",
+      "name": "玉溪市",
+      "province": "云南省",
+      "longitude": 102.5258,
+      "latitude": 24.35028,
+      "source": "mca",
+      "source_id": "8a843a0e650b71787d5b23d86fe3c90e"
+    },
+    {
+      "code": "5305",
+      "name": "保山市",
+      "province": "云南省",
+      "longitude": 99.1606802,
+      "latitude": 25.1146385,
+      "source": "mca",
+      "source_id": "243d790c3aeb1ace16a1302978895495"
+    },
+    {
+      "code": "5306",
+      "name": "昭通市",
+      "province": "云南省",
+      "longitude": 103.7153,
+      "latitude": 27.34139,
+      "source": "mca",
+      "source_id": "7ba8b125d8dd63b76371ff545e18ac92"
+    },
+    {
+      "code": "5307",
+      "name": "丽江市",
+      "province": "云南省",
+      "longitude": 100.2261,
+      "latitude": 26.8575,
+      "source": "mca",
+      "source_id": "c242acc08373b919a9b9a66835a140c"
+    },
+    {
+      "code": "5308",
+      "name": "普洱市",
+      "province": "云南省",
+      "longitude": 100.9656634,
+      "latitude": 22.8266086,
+      "source": "mca",
+      "source_id": "baf8c38c01f983dcd33c96ab1ce69b06"
+    },
+    {
+      "code": "5309",
+      "name": "临沧市",
+      "province": "云南省",
+      "longitude": 100.0875,
+      "latitude": 23.88667,
+      "source": "mca",
+      "source_id": "6423fa887e32fc22272fcd1de959772f"
+    },
+    {
+      "code": "5323",
+      "name": "楚雄彝族自治州",
+      "province": "云南省",
+      "longitude": 101.526673,
+      "latitude": 25.0486437,
+      "source": "mca",
+      "source_id": "505f8f13348cd73cc4de951f06660d74"
+    },
+    {
+      "code": "5325",
+      "name": "红河哈尼族彝族自治州",
+      "province": "云南省",
+      "longitude": 103.3731786,
+      "latitude": 23.3663262,
+      "source": "mca",
+      "source_id": "c8b19246626ede1df88482a048d20dbf"
+    },
+    {
+      "code": "5326",
+      "name": "文山壮族苗族自治州",
+      "province": "云南省",
+      "longitude": 104.2137081,
+      "latitude": 23.4032939,
+      "source": "mca",
+      "source_id": "4aa85440aedefeacba1cd13148f683ef"
+    },
+    {
+      "code": "5328",
+      "name": "西双版纳傣族自治州",
+      "province": "云南省",
+      "longitude": 100.795897,
+      "latitude": 22.0120246,
+      "source": "mca",
+      "source_id": "50719d70233bef4b78df13369b7c9759"
+    },
+    {
+      "code": "5329",
+      "name": "大理白族自治州",
+      "province": "云南省",
+      "longitude": 100.2663992,
+      "latitude": 25.6092049,
+      "source": "mca",
+      "source_id": "29e72abc0bf9b1a2e0bf34952f76ff78"
+    },
+    {
+      "code": "5331",
+      "name": "德宏傣族景颇族自治州",
+      "province": "云南省",
+      "longitude": 98.585103,
+      "latitude": 24.4363908,
+      "source": "mca",
+      "source_id": "56f7833d97f27c036f8cadca72bbfb1c"
+    },
+    {
+      "code": "5333",
+      "name": "怒江傈僳族自治州",
+      "province": "云南省",
+      "longitude": 98.8558763,
+      "latitude": 25.8212351,
+      "source": "mca",
+      "source_id": "3d66933a43add5a812979e4ed33b74fa"
+    },
+    {
+      "code": "5334",
+      "name": "迪庆藏族自治州",
+      "province": "云南省",
+      "longitude": 99.701085,
+      "latitude": 27.8226947,
+      "source": "mca",
+      "source_id": "70bc7afe5b15cf78195a492a9aaaa6f6"
+    },
+    {
+      "code": "5401",
+      "name": "拉萨市",
+      "province": "西藏自治区",
+      "longitude": 91.1704687,
+      "latitude": 29.6564043,
+      "source": "mca",
+      "source_id": "bc0a0ff6ba3e81cd7724292aeb1819b8"
+    },
+    {
+      "code": "5402",
+      "name": "日喀则市",
+      "province": "西藏自治区",
+      "longitude": 88.8787566,
+      "latitude": 29.2697611,
+      "source": "mca",
+      "source_id": "5fc0282abef353f6a48c2c4a3b842cde"
+    },
+    {
+      "code": "5403",
+      "name": "昌都市",
+      "province": "西藏自治区",
+      "longitude": 97.1702261,
+      "latitude": 31.145086,
+      "source": "mca",
+      "source_id": "f1b1f6c013a96222122523c30bdefdc9"
+    },
+    {
+      "code": "5404",
+      "name": "林芝市",
+      "province": "西藏自治区",
+      "longitude": 94.3602393,
+      "latitude": 29.6517961,
+      "source": "mca",
+      "source_id": "5f7e822d7c3167acfa614a957694f541"
+    },
+    {
+      "code": "5405",
+      "name": "山南市",
+      "province": "西藏自治区",
+      "longitude": 91.7718099,
+      "latitude": 29.2405275,
+      "source": "mca",
+      "source_id": "b84cb10b39d39233696a4c3c32704f44"
+    },
+    {
+      "code": "5406",
+      "name": "那曲市",
+      "province": "西藏自治区",
+      "longitude": 92.0499494,
+      "latitude": 31.4790692,
+      "source": "mca",
+      "source_id": "9a63bccc90f710352d22d50799243328"
+    },
+    {
+      "code": "5425",
+      "name": "阿里地区",
+      "province": "西藏自治区",
+      "longitude": 80.1036129,
+      "latitude": 32.5034891,
+      "source": "mca",
+      "source_id": "8ba48ec7870e1c40219b651f621bd7e4"
+    },
+    {
+      "code": "6101",
+      "name": "西安市",
+      "province": "陕西省",
+      "longitude": 108.9353,
+      "latitude": 34.34528,
+      "source": "mca",
+      "source_id": "d0c8cb5075c00239fd61edc74a9d6999"
+    },
+    {
+      "code": "6102",
+      "name": "铜川市",
+      "province": "陕西省",
+      "longitude": 108.9404636,
+      "latitude": 34.8977386,
+      "source": "mca",
+      "source_id": "923b1364927ea6502d9d4886da9eb25c"
+    },
+    {
+      "code": "6103",
+      "name": "宝鸡市",
+      "province": "陕西省",
+      "longitude": 107.2331,
+      "latitude": 34.36472,
+      "source": "mca",
+      "source_id": "273c26ad0f1fd82aaa83eb507716aa3f"
+    },
+    {
+      "code": "6104",
+      "name": "咸阳市",
+      "province": "陕西省",
+      "longitude": 108.7042557,
+      "latitude": 34.331315,
+      "source": "mca",
+      "source_id": "24e84ae56977d723dc3765a1bbc6966e"
+    },
+    {
+      "code": "6105",
+      "name": "渭南市",
+      "province": "陕西省",
+      "longitude": 109.4656,
+      "latitude": 34.52167,
+      "source": "mca",
+      "source_id": "d4a48fad4b9ae915d71072f3abcedb68"
+    },
+    {
+      "code": "6106",
+      "name": "延安市",
+      "province": "陕西省",
+      "longitude": 109.4891372,
+      "latitude": 36.6482033,
+      "source": "mca",
+      "source_id": "ff236519ae28a12a843823e11288eb4a"
+    },
+    {
+      "code": "6107",
+      "name": "汉中市",
+      "province": "陕西省",
+      "longitude": 107.0186,
+      "latitude": 33.06917,
+      "source": "mca",
+      "source_id": "7467a8da867f59f7738ffe6a66c31218"
+    },
+    {
+      "code": "6108",
+      "name": "榆林市",
+      "province": "陕西省",
+      "longitude": 109.7290123,
+      "latitude": 38.2848022,
+      "source": "mca",
+      "source_id": "e2e0fddd0eabcd37c6ef7248aed56f11"
+    },
+    {
+      "code": "6109",
+      "name": "安康市",
+      "province": "陕西省",
+      "longitude": 109.0243737,
+      "latitude": 32.6868196,
+      "source": "mca",
+      "source_id": "82c5a05a9df41da5d277c4e279a73eda"
+    },
+    {
+      "code": "6110",
+      "name": "商洛市",
+      "province": "陕西省",
+      "longitude": 109.9136,
+      "latitude": 33.875,
+      "source": "mca",
+      "source_id": "c2cf1f67a72c41cf5b2f1ac354eca13e"
+    },
+    {
+      "code": "6201",
+      "name": "兰州市",
+      "province": "甘肃省",
+      "longitude": 103.831828532639,
+      "latitude": 36.0611423212865,
+      "source": "mca",
+      "source_id": "24ccff23365ddedec9b3746f801a1ade"
+    },
+    {
+      "code": "6202",
+      "name": "嘉峪关市",
+      "province": "甘肃省",
+      "longitude": 98.2883612857526,
+      "latitude": 39.7721765502942,
+      "source": "mca",
+      "source_id": "ca8c5ab5f7b7bfdecee42dcf63fd3486"
+    },
+    {
+      "code": "6203",
+      "name": "金昌市",
+      "province": "甘肃省",
+      "longitude": 102.185983244421,
+      "latitude": 38.5209071647785,
+      "source": "mca",
+      "source_id": "e8b26a3a743dd232ec1bcc6ef8263b75"
+    },
+    {
+      "code": "6204",
+      "name": "白银市",
+      "province": "甘肃省",
+      "longitude": 104.136084285084,
+      "latitude": 36.5450821072711,
+      "source": "mca",
+      "source_id": "f9b2890031a5264dc8065f81a3729c45"
+    },
+    {
+      "code": "6205",
+      "name": "天水市",
+      "province": "甘肃省",
+      "longitude": 105.721034207344,
+      "latitude": 34.5824242856517,
+      "source": "mca",
+      "source_id": "22730bc5723ac94f4a4c278b512b121"
+    },
+    {
+      "code": "6206",
+      "name": "武威市",
+      "province": "甘肃省",
+      "longitude": 102.636469828481,
+      "latitude": 37.9287146290077,
+      "source": "mca",
+      "source_id": "7eb23dee1947e7fc3dbfcfa02df0feeb"
+    },
+    {
+      "code": "6207",
+      "name": "张掖市",
+      "province": "甘肃省",
+      "longitude": 100.448186066068,
+      "latitude": 38.9245258622921,
+      "source": "mca",
+      "source_id": "31748f6e01b14a3aca0d040d3a34a2f8"
+    },
+    {
+      "code": "6208",
+      "name": "平凉市",
+      "province": "甘肃省",
+      "longitude": 106.660859455849,
+      "latitude": 35.5433246087947,
+      "source": "mca",
+      "source_id": "a9f8bf38b0c8add9d53d77e55af8edf5"
+    },
+    {
+      "code": "6209",
+      "name": "酒泉市",
+      "province": "甘肃省",
+      "longitude": 98.4936909445672,
+      "latitude": 39.7329840621714,
+      "source": "mca",
+      "source_id": "cc9086b1c5995e5aea2372481388dc58"
+    },
+    {
+      "code": "6210",
+      "name": "庆阳市",
+      "province": "甘肃省",
+      "longitude": 107.638693937335,
+      "latitude": 35.7098432079659,
+      "source": "mca",
+      "source_id": "e7fa481c3202f6326a872e033ee12f4f"
+    },
+    {
+      "code": "6211",
+      "name": "定西市",
+      "province": "甘肃省",
+      "longitude": 104.589790801242,
+      "latitude": 35.6085595581819,
+      "source": "mca",
+      "source_id": "a590d0bdf121e1154dd145dde2182f33"
+    },
+    {
+      "code": "6212",
+      "name": "陇南市",
+      "province": "甘肃省",
+      "longitude": 104.957389280747,
+      "latitude": 33.3720878860849,
+      "source": "mca",
+      "source_id": "78374af3b6d42407c1baa6df3e43d889"
+    },
+    {
+      "code": "6229",
+      "name": "临夏回族自治州",
+      "province": "甘肃省",
+      "longitude": 103.208191348902,
+      "latitude": 35.6021668121456,
+      "source": "mca",
+      "source_id": "68884a3a347b4a50b55935d7c3c7b374"
+    },
+    {
+      "code": "6230",
+      "name": "甘南藏族自治州",
+      "province": "甘肃省",
+      "longitude": 102.909941814362,
+      "latitude": 34.9844160691129,
+      "source": "mca",
+      "source_id": "bcc53e511cb97349745223a13fe8f98d"
+    },
+    {
+      "code": "6301",
+      "name": "西宁市",
+      "province": "青海省",
+      "longitude": 101.7758,
+      "latitude": 36.61667,
+      "source": "mca",
+      "source_id": "5afed2731aebc48a9c1ef597e4496602"
+    },
+    {
+      "code": "6302",
+      "name": "海东市",
+      "province": "青海省",
+      "longitude": 102.4077524,
+      "latitude": 36.4739249,
+      "source": "mca",
+      "source_id": "65d4e6f772077f1b5a909f14fe74f535"
+    },
+    {
+      "code": "6322",
+      "name": "海北藏族自治州",
+      "province": "青海省",
+      "longitude": 100.8994067,
+      "latitude": 36.9547191,
+      "source": "mca",
+      "source_id": "e6b92e721d2ed80c8ee371ffa0f3e137"
+    },
+    {
+      "code": "6323",
+      "name": "黄南藏族自治州",
+      "province": "青海省",
+      "longitude": 102.0133319,
+      "latitude": 35.5196634,
+      "source": "mca",
+      "source_id": "bd5eb67197c8baf39abac8ab63b7ff5b"
+    },
+    {
+      "code": "6325",
+      "name": "海南藏族自治州",
+      "province": "青海省",
+      "longitude": 100.6214825,
+      "latitude": 36.2963296,
+      "source": "mca",
+      "source_id": "3078c23fc50f2e7faf3ce830df981b95"
+    },
+    {
+      "code": "6326",
+      "name": "果洛藏族自治州",
+      "province": "青海省",
+      "longitude": 100.2446661,
+      "latitude": 34.4730791,
+      "source": "mca",
+      "source_id": "b19767462e0e18871939ff57f85d9cfe"
+    },
+    {
+      "code": "6327",
+      "name": "玉树藏族自治州",
+      "province": "青海省",
+      "longitude": 97.0027344,
+      "latitude": 33.0084265,
+      "source": "mca",
+      "source_id": "a1ef8dbb3302207b38f14445f0d54f50"
+    },
+    {
+      "code": "6328",
+      "name": "海西蒙古族藏族自治州",
+      "province": "青海省",
+      "longitude": 97.3317149,
+      "latitude": 37.3494155,
+      "source": "mca",
+      "source_id": "5e43f515572ed562293da2bfb738d936"
+    },
+    {
+      "code": "6401",
+      "name": "银川市",
+      "province": "宁夏回族自治区",
+      "longitude": 106.2264,
+      "latitude": 38.48695,
+      "source": "mca",
+      "source_id": "7449f7d88f294930d5473fd9c09d9944"
+    },
+    {
+      "code": "6402",
+      "name": "石嘴山市",
+      "province": "宁夏回族自治区",
+      "longitude": 106.3792909,
+      "latitude": 38.9832442,
+      "source": "mca",
+      "source_id": "eb91bf8e24eacf905ae6f4a1a33cfd73"
+    },
+    {
+      "code": "6403",
+      "name": "吴忠市",
+      "province": "宁夏回族自治区",
+      "longitude": 106.1942,
+      "latitude": 37.99722,
+      "source": "mca",
+      "source_id": "932ecea4e9d93b162dde942aba6ce43a"
+    },
+    {
+      "code": "6404",
+      "name": "固原市",
+      "province": "宁夏回族自治区",
+      "longitude": 106.2386,
+      "latitude": 36.01639,
+      "source": "mca",
+      "source_id": "72b92d53677b4c3d9d5bbd0b7eefa016"
+    },
+    {
+      "code": "6405",
+      "name": "中卫市",
+      "province": "宁夏回族自治区",
+      "longitude": 105.1931,
+      "latitude": 37.49972,
+      "source": "mca",
+      "source_id": "527323d962a5e62b54427ff3a8c89a02"
+    },
+    {
+      "code": "6501",
+      "name": "乌鲁木齐市",
+      "province": "新疆维吾尔自治区",
+      "longitude": 87.6139219,
+      "latitude": 43.8239779,
+      "source": "mca",
+      "source_id": "39e949c45a1cc7db127fae2a947a634"
+    },
+    {
+      "code": "6502",
+      "name": "克拉玛依市",
+      "province": "新疆维吾尔自治区",
+      "longitude": 84.88695,
+      "latitude": 45.57917,
+      "source": "mca",
+      "source_id": "5b697c05f157e082662baadd39a44230"
+    },
+    {
+      "code": "6504",
+      "name": "吐鲁番市",
+      "province": "新疆维吾尔自治区",
+      "longitude": 89.1865211,
+      "latitude": 42.949683,
+      "source": "mca",
+      "source_id": "555bd5f28edb25751c2494858776b4f3"
+    },
+    {
+      "code": "6505",
+      "name": "哈密市",
+      "province": "新疆维吾尔自治区",
+      "longitude": 93.5137312,
+      "latitude": 42.8177505,
+      "source": "mca",
+      "source_id": "93866269e4b558229479a1f09130c4f2"
+    },
+    {
+      "code": "6523",
+      "name": "昌吉回族自治州",
+      "province": "新疆维吾尔自治区",
+      "longitude": 87.3055292,
+      "latitude": 44.0097827,
+      "source": "mca",
+      "source_id": "d3f053d6538d80eaed1e310477cd1b4e"
+    },
+    {
+      "code": "6527",
+      "name": "博尔塔拉蒙古自治州",
+      "province": "新疆维吾尔自治区",
+      "longitude": 82.0632305,
+      "latitude": 44.9045491,
+      "source": "mca",
+      "source_id": "49c78d68ecbac029ca31fa1e67b6e16"
+    },
+    {
+      "code": "6528",
+      "name": "巴音郭楞蒙古自治州",
+      "province": "新疆维吾尔自治区",
+      "longitude": 86.1425519,
+      "latitude": 41.763152,
+      "source": "mca",
+      "source_id": "512f2857d7b8b8d07e29360d8d90b5ac"
+    },
+    {
+      "code": "6529",
+      "name": "阿克苏地区",
+      "province": "新疆维吾尔自治区",
+      "longitude": 80.2552168,
+      "latitude": 41.1701272,
+      "source": "mca",
+      "source_id": "717380f72266b6a3e91a0b88a134887c"
+    },
+    {
+      "code": "6530",
+      "name": "克孜勒苏柯尔克孜自治州",
+      "province": "新疆维吾尔自治区",
+      "longitude": 76.1627759,
+      "latitude": 39.7130485,
+      "source": "mca",
+      "source_id": "583e8c7b68643b2024326ed05e638074"
+    },
+    {
+      "code": "6531",
+      "name": "喀什地区",
+      "province": "新疆维吾尔自治区",
+      "longitude": 75.9908529,
+      "latitude": 39.4673923,
+      "source": "mca",
+      "source_id": "c260c1db91508bb410859cfb648135ca"
+    },
+    {
+      "code": "6532",
+      "name": "和田地区",
+      "province": "新疆维吾尔自治区",
+      "longitude": 79.9200623,
+      "latitude": 37.1145484,
+      "source": "mca",
+      "source_id": "fa445185b4d98700eeee806adba708fa"
+    },
+    {
+      "code": "6540",
+      "name": "伊犁哈萨克自治州",
+      "province": "新疆维吾尔自治区",
+      "longitude": 81.3211076,
+      "latitude": 43.9155779,
+      "source": "mca",
+      "source_id": "644d0062307a3fb9360a2b0326b5c792"
+    },
+    {
+      "code": "6542",
+      "name": "塔城地区",
+      "province": "新疆维吾尔自治区",
+      "longitude": 82.9837919,
+      "latitude": 46.7507131,
+      "source": "mca",
+      "source_id": "e6c61c227869d42799504d764c057d93"
+    },
+    {
+      "code": "6543",
+      "name": "阿勒泰地区",
+      "province": "新疆维吾尔自治区",
+      "longitude": 88.1378331,
+      "latitude": 47.8439608,
+      "source": "mca",
+      "source_id": "bbc95fa7cb6823a6671b99ff1e10c7f1"
+    },
+    {
+      "code": "659001",
+      "name": "石河子市",
+      "province": "新疆维吾尔自治区",
+      "longitude": 86.0776468,
+      "latitude": 44.3039791,
+      "source": "mca",
+      "source_id": "1699187a8183105115a27af4158a0904"
+    },
+    {
+      "code": "659002",
+      "name": "阿拉尔市",
+      "province": "新疆维吾尔自治区",
+      "longitude": 81.2778788,
+      "latitude": 40.5474081,
+      "source": "mca",
+      "source_id": "19c9a9ca9ad6d689cc90808848fc60db"
+    },
+    {
+      "code": "659003",
+      "name": "图木舒克市",
+      "province": "新疆维吾尔自治区",
+      "longitude": 79.0721226,
+      "latitude": 39.8660692,
+      "source": "mca",
+      "source_id": "dc8aa20c97dd4fa619a854df580d154b"
+    },
+    {
+      "code": "659004",
+      "name": "五家渠市",
+      "province": "新疆维吾尔自治区",
+      "longitude": 87.5402694940567,
+      "latitude": 44.1660046575817,
+      "source": "mca",
+      "source_id": "d0e59eb035ecce08284751e64e0891c5"
+    },
+    {
+      "code": "659005",
+      "name": "北屯市",
+      "province": "新疆维吾尔自治区",
+      "longitude": 87.8312463,
+      "latitude": 47.3254538,
+      "source": "mca",
+      "source_id": "d29a22854d50c637ac36677c3f6c0cfe"
+    },
+    {
+      "code": "659006",
+      "name": "铁门关市",
+      "province": "新疆维吾尔自治区",
+      "longitude": 85.6678247451782,
+      "latitude": 41.8622875213623,
+      "source": "mca",
+      "source_id": "b933a39333c8d1abaf4628c0758f4e6e"
+    },
+    {
+      "code": "659007",
+      "name": "双河市",
+      "province": "新疆维吾尔自治区",
+      "longitude": 82.365697,
+      "latitude": 44.845697,
+      "source": "mca",
+      "source_id": "cca3dd38f8bdf3142fdb9f5164d6340f"
+    },
+    {
+      "code": "659008",
+      "name": "可克达拉市",
+      "province": "新疆维吾尔自治区",
+      "longitude": 80.991676928883,
+      "latitude": 43.9397453068241,
+      "source": "mca",
+      "source_id": "a180d9b7fb663b109088b8ea274b6842"
+    },
+    {
+      "code": "659009",
+      "name": "昆玉市",
+      "province": "新疆维吾尔自治区",
+      "longitude": 79.267935147509,
+      "latitude": 37.2157359121593,
+      "source": "mca",
+      "source_id": "81b292f6b639402b4d5253ec57dd5662"
+    },
+    {
+      "code": "659010",
+      "name": "胡杨河市",
+      "province": "新疆维吾尔自治区",
+      "longitude": 84.8250263929367,
+      "latitude": 44.6925812958034,
+      "source": "mca",
+      "source_id": "ec413f5ce3da7b7dece0023e96ca3fa9"
+    },
+    {
+      "code": "659011",
+      "name": "新星市",
+      "province": "新疆维吾尔自治区",
+      "longitude": 93.746695,
+      "latitude": 42.7947024,
+      "source": "mca",
+      "source_id": "ee12ef04d6fe5c8b72487eb01f0fe10f"
+    },
+    {
+      "code": "659012",
+      "name": "白杨市",
+      "province": "新疆维吾尔自治区",
+      "longitude": 82.8942207,
+      "latitude": 46.7271394,
+      "source": "mca",
+      "source_id": "1ba635762bdbc2b884adedd86be87a4"
+    },
+    {
+      "code": "659013",
+      "name": "草湖市",
+      "province": "新疆维吾尔自治区",
+      "longitude": 76.0150361111111,
+      "latitude": 39.2918138888889,
+      "source": "mca-government-seat",
+      "source_id": "c9ef21484682b5a2f3fa091aee0afcb1",
+      "source_name": "草湖镇"
+    },
+    {
+      "code": "81",
+      "name": "香港特别行政区",
+      "province": "香港特别行政区",
+      "longitude": 114.16667,
+      "source": "geonames",
+      "source_id": "1819730"
+    },
+    {
+      "code": "82",
+      "name": "澳门特别行政区",
+      "province": "澳门特别行政区",
+      "longitude": 113.55972,
+      "source": "geonames",
+      "source_id": "1821275"
+    }
+  ]
+}

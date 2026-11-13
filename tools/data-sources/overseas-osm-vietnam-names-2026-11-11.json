@@ -1,0 +1,79 @@
+{
+  "source": "Geofabrik Vietnam OpenStreetMap extract 2026-11-09",
+  "sourceUrl": "https://download.geofabrik.de/asia/vietnam-261109.osm.pbf",
+  "sha256": "6277506058bc2462e4cf94db3fdfbdb196ab96bc928ea49711a4729dea61019e",
+  "license": "ODbL 1.0",
+  "matching": "OSM place node with Chinese name, normalized name and coordinates <=2km, unique match and QID compatible when available",
+  "places": [
+    {
+      "id": "8656376",
+      "oldName": "Thanh Khê",
+      "english": "Thanh Khê",
+      "country": "VN",
+      "longitude": 108.19102,
+      "latitude": 16.0706,
+      "name": "清溪",
+      "sourceId": "osm:node:11214899104",
+      "sourceQid": null,
+      "sourceLatitude": 16.068368200000002,
+      "sourceLongitude": 108.1966311,
+      "distanceKm": 0.648
+    },
+    {
+      "id": "1579018",
+      "oldName": "Kiến An",
+      "english": "Kiến An",
+      "country": "VN",
+      "longitude": 106.62556,
+      "latitude": 20.80528,
+      "name": "建安",
+      "sourceId": "osm:node:11222095230",
+      "sourceQid": null,
+      "sourceLatitude": 20.8078776,
+      "sourceLongitude": 106.62493320000002,
+      "distanceKm": 0.296
+    },
+    {
+      "id": "1582367",
+      "oldName": "Đố Sơn",
+      "english": "Đố Sơn",
+      "country": "VN",
+      "longitude": 106.78944,
+      "latitude": 20.71361,
+      "name": "塗山",
+      "sourceId": "osm:node:12922934602",
+      "sourceQid": null,
+      "sourceLatitude": 20.7197634,
+      "sourceLongitude": 106.78566780000001,
+      "distanceKm": 0.787
+    },
+    {
+      "id": "13680016",
+      "oldName": "Giảng Võ",
+      "english": "Giảng Võ",
+      "country": "VN",
+      "longitude": 105.81252,
+      "latitude": 21.03066,
+      "name": "講武",
+      "sourceId": "osm:node:13709983623",
+      "sourceQid": null,
+      "sourceLatitude": 21.027092600000003,
+      "sourceLongitude": 105.8168301,
+      "distanceKm": 0.597
+    },
+    {
+      "id": "8616113",
+      "oldName": "Cầu Giấy",
+      "english": "Cầu Giấy",
+      "country": "VN",
+      "longitude": 105.80073,
+      "latitude": 21.03228,
+      "name": "紙橋",
+      "sourceId": "osm:node:13709960767",
+      "sourceQid": null,
+      "sourceLatitude": 21.028670400000003,
+      "sourceLongitude": 105.78660450000001,
+      "distanceKm": 1.517
+    }
+  ]
+}

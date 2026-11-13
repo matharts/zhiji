@@ -1,0 +1,11 @@
+[package]
+name = "zhiji-calendar-validation"
+version = "0.0.0"
+edition = "2024"
+publish = false
+
+[workspace]
+
+[dependencies]
+tyme4rs = "=1.5.1"
+serde_json = "=1.0.154"

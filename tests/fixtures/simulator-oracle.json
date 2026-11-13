@@ -1,0 +1,1855 @@
+{
+  "reference": {
+    "repository": "https://github.com/lzm0x219/ziwei-simulator",
+    "revision": "5a5ace5898f43911ce91de031d79f9c4ccffaaef",
+    "basis": "Original implementation output; behavioral reference, not independent validation of astrological correctness.",
+    "palaceOrder": "寅 through 丑",
+    "transformationCodes": {
+      "A": "禄",
+      "B": "权",
+      "C": "科",
+      "D": "忌"
+    }
+  },
+  "cases": [
+    {
+      "input": {
+        "id": "jiazi-male-month-hour",
+        "gender": "男",
+        "stem": "甲",
+        "branch": "子",
+        "ziwei": "辰",
+        "month": 1,
+        "hour": "子",
+        "manualMain": null,
+        "decade": "寅",
+        "yearly": null,
+        "showLocationStar": true
+      },
+      "expected": {
+        "mainBranch": "寅",
+        "fiveElement": {
+          "fiveElementNum": 6,
+          "fiveElementName": "火六局"
+        },
+        "decadeDirection": "顺",
+        "flyingStarsByPalace": {
+          "寅": [
+            "天同",
+            "天機",
+            "文昌",
+            "廉貞"
+          ],
+          "卯": [
+            "太陰",
+            "天同",
+            "天機",
+            "巨門"
+          ],
+          "辰": [
+            "貪狼",
+            "太陰",
+            "右弼",
+            "天機"
+          ],
+          "巳": [
+            "武曲",
+            "貪狼",
+            "天梁",
+            "文曲"
+          ],
+          "午": [
+            "太陽",
+            "武曲",
+            "太陰",
+            "天同"
+          ],
+          "未": [
+            "巨門",
+            "太陽",
+            "文曲",
+            "文昌"
+          ],
+          "申": [
+            "天梁",
+            "紫微",
+            "左辅",
+            "武曲"
+          ],
+          "酉": [
+            "破軍",
+            "巨門",
+            "太陰",
+            "貪狼"
+          ],
+          "戌": [
+            "廉貞",
+            "破軍",
+            "武曲",
+            "太陽"
+          ],
+          "亥": [
+            "天機",
+            "天梁",
+            "紫微",
+            "太陰"
+          ],
+          "子": [
+            "天同",
+            "天機",
+            "文昌",
+            "廉貞"
+          ],
+          "丑": [
+            "太陰",
+            "天同",
+            "天機",
+            "巨門"
+          ]
+        },
+        "palaces": [
+          {
+            "branch": "寅",
+            "stem": "丙",
+            "name": "命宮",
+            "decadeName": "大命",
+            "decadeRange": [
+              6,
+              15
+            ],
+            "yearlyAge": "15 歲",
+            "yearlyName": null,
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "貪狼",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              }
+            ]
+          },
+          {
+            "branch": "卯",
+            "stem": "丁",
+            "name": "父母",
+            "decadeName": "大父",
+            "decadeRange": [
+              16,
+              25
+            ],
+            "yearlyAge": null,
+            "yearlyName": null,
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "天機",
+                "birthTransformation": null,
+                "outwardTransformation": "C",
+                "inwardTransformation": null
+              },
+              {
+                "name": "巨門",
+                "birthTransformation": null,
+                "outwardTransformation": "D",
+                "inwardTransformation": "B"
+              }
+            ]
+          },
+          {
+            "branch": "辰",
+            "stem": "戊",
+            "name": "福德",
+            "decadeName": "大福",
+            "decadeRange": [
+              26,
+              35
+            ],
+            "yearlyAge": null,
+            "yearlyName": null,
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "紫微",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              },
+              {
+                "name": "天相",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              },
+              {
+                "name": "左辅",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              },
+              {
+                "name": "文曲",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              }
+            ]
+          },
+          {
+            "branch": "巳",
+            "stem": "己",
+            "name": "田宅",
+            "decadeName": "大田",
+            "decadeRange": [
+              36,
+              45
+            ],
+            "yearlyAge": "6 歲",
+            "yearlyName": null,
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "天梁",
+                "birthTransformation": null,
+                "outwardTransformation": "C",
+                "inwardTransformation": "B"
+              }
+            ]
+          },
+          {
+            "branch": "午",
+            "stem": "庚",
+            "name": "官祿",
+            "decadeName": "大官",
+            "decadeRange": [
+              46,
+              55
+            ],
+            "yearlyAge": "7 歲",
+            "yearlyName": null,
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "七殺",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              }
+            ]
+          },
+          {
+            "branch": "未",
+            "stem": "辛",
+            "name": "交友",
+            "decadeName": "大友",
+            "decadeRange": [
+              56,
+              65
+            ],
+            "yearlyAge": "8 歲",
+            "yearlyName": null,
+            "isLaiYin": false,
+            "stars": []
+          },
+          {
+            "branch": "申",
+            "stem": "壬",
+            "name": "遷移",
+            "decadeName": "大遷",
+            "decadeRange": [
+              66,
+              75
+            ],
+            "yearlyAge": "9 歲",
+            "yearlyName": null,
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "廉貞",
+                "birthTransformation": "A",
+                "outwardTransformation": null,
+                "inwardTransformation": "D"
+              }
+            ]
+          },
+          {
+            "branch": "酉",
+            "stem": "癸",
+            "name": "疾厄",
+            "decadeName": "大疾",
+            "decadeRange": [
+              76,
+              85
+            ],
+            "yearlyAge": "10 歲",
+            "yearlyName": null,
+            "isLaiYin": false,
+            "stars": []
+          },
+          {
+            "branch": "戌",
+            "stem": "甲",
+            "name": "財帛",
+            "decadeName": "大財",
+            "decadeRange": [
+              86,
+              95
+            ],
+            "yearlyAge": "11 歲",
+            "yearlyName": null,
+            "isLaiYin": true,
+            "stars": [
+              {
+                "name": "破軍",
+                "birthTransformation": "B",
+                "outwardTransformation": "B",
+                "inwardTransformation": null
+              },
+              {
+                "name": "右弼",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": "C"
+              },
+              {
+                "name": "文昌",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              }
+            ]
+          },
+          {
+            "branch": "亥",
+            "stem": "乙",
+            "name": "子女",
+            "decadeName": "大子",
+            "decadeRange": [
+              96,
+              105
+            ],
+            "yearlyAge": "12 歲",
+            "yearlyName": null,
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "天同",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              }
+            ]
+          },
+          {
+            "branch": "子",
+            "stem": "丙",
+            "name": "夫妻",
+            "decadeName": "大夫",
+            "decadeRange": [
+              106,
+              115
+            ],
+            "yearlyAge": "13 歲",
+            "yearlyName": null,
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "武曲",
+                "birthTransformation": "C",
+                "outwardTransformation": null,
+                "inwardTransformation": "B"
+              },
+              {
+                "name": "天府",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              }
+            ]
+          },
+          {
+            "branch": "丑",
+            "stem": "丁",
+            "name": "兄弟",
+            "decadeName": "大兄",
+            "decadeRange": [
+              116,
+              125
+            ],
+            "yearlyAge": "14 歲",
+            "yearlyName": null,
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "太陽",
+                "birthTransformation": "D",
+                "outwardTransformation": null,
+                "inwardTransformation": "B"
+              },
+              {
+                "name": "太陰",
+                "birthTransformation": null,
+                "outwardTransformation": "A",
+                "inwardTransformation": null
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "input": {
+        "id": "yichou-female-manual-yearly",
+        "gender": "女",
+        "stem": "乙",
+        "branch": "丑",
+        "ziwei": "酉",
+        "month": null,
+        "hour": null,
+        "manualMain": "午",
+        "decade": "午",
+        "yearly": "辰",
+        "showLocationStar": true
+      },
+      "expected": {
+        "mainBranch": "午",
+        "fiveElement": {
+          "fiveElementNum": 3,
+          "fiveElementName": "木三局"
+        },
+        "decadeDirection": "顺",
+        "flyingStarsByPalace": {
+          "寅": [
+            "貪狼",
+            "太陰",
+            "右弼",
+            "天機"
+          ],
+          "卯": [
+            "武曲",
+            "貪狼",
+            "天梁",
+            "文曲"
+          ],
+          "辰": [
+            "太陽",
+            "武曲",
+            "太陰",
+            "天同"
+          ],
+          "巳": [
+            "巨門",
+            "太陽",
+            "文曲",
+            "文昌"
+          ],
+          "午": [
+            "天梁",
+            "紫微",
+            "左辅",
+            "武曲"
+          ],
+          "未": [
+            "破軍",
+            "巨門",
+            "太陰",
+            "貪狼"
+          ],
+          "申": [
+            "廉貞",
+            "破軍",
+            "武曲",
+            "太陽"
+          ],
+          "酉": [
+            "天機",
+            "天梁",
+            "紫微",
+            "太陰"
+          ],
+          "戌": [
+            "天同",
+            "天機",
+            "文昌",
+            "廉貞"
+          ],
+          "亥": [
+            "太陰",
+            "天同",
+            "天機",
+            "巨門"
+          ],
+          "子": [
+            "貪狼",
+            "太陰",
+            "右弼",
+            "天機"
+          ],
+          "丑": [
+            "武曲",
+            "貪狼",
+            "天梁",
+            "文曲"
+          ]
+        },
+        "palaces": [
+          {
+            "branch": "寅",
+            "stem": "戊",
+            "name": "財帛",
+            "decadeName": "大財",
+            "decadeRange": [
+              83,
+              92
+            ],
+            "yearlyAge": null,
+            "yearlyName": "流夫",
+            "isLaiYin": false,
+            "stars": []
+          },
+          {
+            "branch": "卯",
+            "stem": "己",
+            "name": "子女",
+            "decadeName": "大子",
+            "decadeRange": [
+              93,
+              102
+            ],
+            "yearlyAge": "3 歲",
+            "yearlyName": "流兄",
+            "isLaiYin": false,
+            "stars": []
+          },
+          {
+            "branch": "辰",
+            "stem": "庚",
+            "name": "夫妻",
+            "decadeName": "大夫",
+            "decadeRange": [
+              103,
+              112
+            ],
+            "yearlyAge": "4 歲",
+            "yearlyName": "流命",
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "天同",
+                "birthTransformation": null,
+                "outwardTransformation": "D",
+                "inwardTransformation": "A"
+              }
+            ]
+          },
+          {
+            "branch": "巳",
+            "stem": "辛",
+            "name": "兄弟",
+            "decadeName": "大兄",
+            "decadeRange": [
+              113,
+              122
+            ],
+            "yearlyAge": "5 歲",
+            "yearlyName": "流父",
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "武曲",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              },
+              {
+                "name": "破軍",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              }
+            ]
+          },
+          {
+            "branch": "午",
+            "stem": "壬",
+            "name": "命宮",
+            "decadeName": "大命",
+            "decadeRange": [
+              3,
+              12
+            ],
+            "yearlyAge": "6 歲",
+            "yearlyName": "流福",
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "太陽",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              }
+            ]
+          },
+          {
+            "branch": "未",
+            "stem": "癸",
+            "name": "父母",
+            "decadeName": "大父",
+            "decadeRange": [
+              13,
+              22
+            ],
+            "yearlyAge": "7 歲",
+            "yearlyName": "流田",
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "天府",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              }
+            ]
+          },
+          {
+            "branch": "申",
+            "stem": "甲",
+            "name": "福德",
+            "decadeName": "大福",
+            "decadeRange": [
+              23,
+              32
+            ],
+            "yearlyAge": "8 歲",
+            "yearlyName": "流官",
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "天機",
+                "birthTransformation": "A",
+                "outwardTransformation": null,
+                "inwardTransformation": "D"
+              },
+              {
+                "name": "太陰",
+                "birthTransformation": "D",
+                "outwardTransformation": null,
+                "inwardTransformation": "B"
+              }
+            ]
+          },
+          {
+            "branch": "酉",
+            "stem": "乙",
+            "name": "田宅",
+            "decadeName": "大田",
+            "decadeRange": [
+              33,
+              42
+            ],
+            "yearlyAge": "9 歲",
+            "yearlyName": "流友",
+            "isLaiYin": true,
+            "stars": [
+              {
+                "name": "紫微",
+                "birthTransformation": "C",
+                "outwardTransformation": "C",
+                "inwardTransformation": null
+              },
+              {
+                "name": "貪狼",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": "B"
+              }
+            ]
+          },
+          {
+            "branch": "戌",
+            "stem": "丙",
+            "name": "官祿",
+            "decadeName": "大官",
+            "decadeRange": [
+              43,
+              52
+            ],
+            "yearlyAge": "10 歲",
+            "yearlyName": "流遷",
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "巨門",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              }
+            ]
+          },
+          {
+            "branch": "亥",
+            "stem": "丁",
+            "name": "交友",
+            "decadeName": "大友",
+            "decadeRange": [
+              53,
+              62
+            ],
+            "yearlyAge": "11 歲",
+            "yearlyName": "流疾",
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "天相",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              }
+            ]
+          },
+          {
+            "branch": "子",
+            "stem": "戊",
+            "name": "遷移",
+            "decadeName": "大遷",
+            "decadeRange": [
+              63,
+              72
+            ],
+            "yearlyAge": "12 歲",
+            "yearlyName": "流財",
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "天梁",
+                "birthTransformation": "B",
+                "outwardTransformation": null,
+                "inwardTransformation": "A"
+              }
+            ]
+          },
+          {
+            "branch": "丑",
+            "stem": "己",
+            "name": "疾厄",
+            "decadeName": "大疾",
+            "decadeRange": [
+              73,
+              82
+            ],
+            "yearlyAge": null,
+            "yearlyName": "流子",
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "廉貞",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              },
+              {
+                "name": "七殺",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "input": {
+        "id": "yichou-male-reverse",
+        "gender": "男",
+        "stem": "乙",
+        "branch": "丑",
+        "ziwei": "酉",
+        "month": null,
+        "hour": null,
+        "manualMain": "午",
+        "decade": "午",
+        "yearly": null,
+        "showLocationStar": false
+      },
+      "expected": {
+        "mainBranch": "午",
+        "fiveElement": {
+          "fiveElementNum": 3,
+          "fiveElementName": "木三局"
+        },
+        "decadeDirection": "逆",
+        "flyingStarsByPalace": {
+          "寅": [
+            "貪狼",
+            "太陰",
+            "右弼",
+            "天機"
+          ],
+          "卯": [
+            "武曲",
+            "貪狼",
+            "天梁",
+            "文曲"
+          ],
+          "辰": [
+            "太陽",
+            "武曲",
+            "太陰",
+            "天同"
+          ],
+          "巳": [
+            "巨門",
+            "太陽",
+            "文曲",
+            "文昌"
+          ],
+          "午": [
+            "天梁",
+            "紫微",
+            "左辅",
+            "武曲"
+          ],
+          "未": [
+            "破軍",
+            "巨門",
+            "太陰",
+            "貪狼"
+          ],
+          "申": [
+            "廉貞",
+            "破軍",
+            "武曲",
+            "太陽"
+          ],
+          "酉": [
+            "天機",
+            "天梁",
+            "紫微",
+            "太陰"
+          ],
+          "戌": [
+            "天同",
+            "天機",
+            "文昌",
+            "廉貞"
+          ],
+          "亥": [
+            "太陰",
+            "天同",
+            "天機",
+            "巨門"
+          ],
+          "子": [
+            "貪狼",
+            "太陰",
+            "右弼",
+            "天機"
+          ],
+          "丑": [
+            "武曲",
+            "貪狼",
+            "天梁",
+            "文曲"
+          ]
+        },
+        "palaces": [
+          {
+            "branch": "寅",
+            "stem": "戊",
+            "name": "財帛",
+            "decadeName": "大財",
+            "decadeRange": [
+              43,
+              52
+            ],
+            "yearlyAge": null,
+            "yearlyName": null,
+            "isLaiYin": false,
+            "stars": []
+          },
+          {
+            "branch": "卯",
+            "stem": "己",
+            "name": "子女",
+            "decadeName": "大子",
+            "decadeRange": [
+              33,
+              42
+            ],
+            "yearlyAge": "3 歲",
+            "yearlyName": null,
+            "isLaiYin": false,
+            "stars": []
+          },
+          {
+            "branch": "辰",
+            "stem": "庚",
+            "name": "夫妻",
+            "decadeName": "大夫",
+            "decadeRange": [
+              23,
+              32
+            ],
+            "yearlyAge": "4 歲",
+            "yearlyName": null,
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "天同",
+                "birthTransformation": null,
+                "outwardTransformation": "D",
+                "inwardTransformation": "A"
+              }
+            ]
+          },
+          {
+            "branch": "巳",
+            "stem": "辛",
+            "name": "兄弟",
+            "decadeName": "大兄",
+            "decadeRange": [
+              13,
+              22
+            ],
+            "yearlyAge": "5 歲",
+            "yearlyName": null,
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "武曲",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              },
+              {
+                "name": "破軍",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              }
+            ]
+          },
+          {
+            "branch": "午",
+            "stem": "壬",
+            "name": "命宮",
+            "decadeName": "大命",
+            "decadeRange": [
+              3,
+              12
+            ],
+            "yearlyAge": "6 歲",
+            "yearlyName": null,
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "太陽",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              }
+            ]
+          },
+          {
+            "branch": "未",
+            "stem": "癸",
+            "name": "父母",
+            "decadeName": "大父",
+            "decadeRange": [
+              113,
+              122
+            ],
+            "yearlyAge": "7 歲",
+            "yearlyName": null,
+            "isLaiYin": false,
+            "stars": []
+          },
+          {
+            "branch": "申",
+            "stem": "甲",
+            "name": "福德",
+            "decadeName": "大福",
+            "decadeRange": [
+              103,
+              112
+            ],
+            "yearlyAge": "8 歲",
+            "yearlyName": null,
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "天機",
+                "birthTransformation": "A",
+                "outwardTransformation": null,
+                "inwardTransformation": "D"
+              },
+              {
+                "name": "太陰",
+                "birthTransformation": "D",
+                "outwardTransformation": null,
+                "inwardTransformation": "B"
+              }
+            ]
+          },
+          {
+            "branch": "酉",
+            "stem": "乙",
+            "name": "田宅",
+            "decadeName": "大田",
+            "decadeRange": [
+              93,
+              102
+            ],
+            "yearlyAge": "9 歲",
+            "yearlyName": null,
+            "isLaiYin": true,
+            "stars": [
+              {
+                "name": "紫微",
+                "birthTransformation": "C",
+                "outwardTransformation": "C",
+                "inwardTransformation": null
+              },
+              {
+                "name": "貪狼",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": "B"
+              }
+            ]
+          },
+          {
+            "branch": "戌",
+            "stem": "丙",
+            "name": "官祿",
+            "decadeName": "大官",
+            "decadeRange": [
+              83,
+              92
+            ],
+            "yearlyAge": "10 歲",
+            "yearlyName": null,
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "巨門",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              }
+            ]
+          },
+          {
+            "branch": "亥",
+            "stem": "丁",
+            "name": "交友",
+            "decadeName": "大友",
+            "decadeRange": [
+              73,
+              82
+            ],
+            "yearlyAge": "11 歲",
+            "yearlyName": null,
+            "isLaiYin": false,
+            "stars": []
+          },
+          {
+            "branch": "子",
+            "stem": "戊",
+            "name": "遷移",
+            "decadeName": "大遷",
+            "decadeRange": [
+              63,
+              72
+            ],
+            "yearlyAge": "12 歲",
+            "yearlyName": null,
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "天梁",
+                "birthTransformation": "B",
+                "outwardTransformation": null,
+                "inwardTransformation": "A"
+              }
+            ]
+          },
+          {
+            "branch": "丑",
+            "stem": "己",
+            "name": "疾厄",
+            "decadeName": "大疾",
+            "decadeRange": [
+              53,
+              62
+            ],
+            "yearlyAge": null,
+            "yearlyName": null,
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "廉貞",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "input": {
+        "id": "guihai-female-twelfth-month",
+        "gender": "女",
+        "stem": "癸",
+        "branch": "亥",
+        "ziwei": "子",
+        "month": 12,
+        "hour": "亥",
+        "manualMain": null,
+        "decade": "未",
+        "yearly": "亥",
+        "showLocationStar": false
+      },
+      "expected": {
+        "mainBranch": "寅",
+        "fiveElement": {
+          "fiveElementNum": 2,
+          "fiveElementName": "水二局"
+        },
+        "decadeDirection": "顺",
+        "flyingStarsByPalace": {
+          "寅": [
+            "廉貞",
+            "破軍",
+            "武曲",
+            "太陽"
+          ],
+          "卯": [
+            "天機",
+            "天梁",
+            "紫微",
+            "太陰"
+          ],
+          "辰": [
+            "天同",
+            "天機",
+            "文昌",
+            "廉貞"
+          ],
+          "巳": [
+            "太陰",
+            "天同",
+            "天機",
+            "巨門"
+          ],
+          "午": [
+            "貪狼",
+            "太陰",
+            "右弼",
+            "天機"
+          ],
+          "未": [
+            "武曲",
+            "貪狼",
+            "天梁",
+            "文曲"
+          ],
+          "申": [
+            "太陽",
+            "武曲",
+            "太陰",
+            "天同"
+          ],
+          "酉": [
+            "巨門",
+            "太陽",
+            "文曲",
+            "文昌"
+          ],
+          "戌": [
+            "天梁",
+            "紫微",
+            "左辅",
+            "武曲"
+          ],
+          "亥": [
+            "破軍",
+            "巨門",
+            "太陰",
+            "貪狼"
+          ],
+          "子": [
+            "廉貞",
+            "破軍",
+            "武曲",
+            "太陽"
+          ],
+          "丑": [
+            "天機",
+            "天梁",
+            "紫微",
+            "太陰"
+          ]
+        },
+        "palaces": [
+          {
+            "branch": "寅",
+            "stem": "甲",
+            "name": "命宮",
+            "decadeName": "大疾",
+            "decadeRange": [
+              2,
+              11
+            ],
+            "yearlyAge": "52 歲",
+            "yearlyName": "流田",
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "破軍",
+                "birthTransformation": "A",
+                "outwardTransformation": "B",
+                "inwardTransformation": null
+              }
+            ]
+          },
+          {
+            "branch": "卯",
+            "stem": "乙",
+            "name": "父母",
+            "decadeName": "大財",
+            "decadeRange": [
+              12,
+              21
+            ],
+            "yearlyAge": "53 歲",
+            "yearlyName": "流官",
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "左辅",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              },
+              {
+                "name": "文曲",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": "C"
+              }
+            ]
+          },
+          {
+            "branch": "辰",
+            "stem": "丙",
+            "name": "福德",
+            "decadeName": "大子",
+            "decadeRange": [
+              22,
+              31
+            ],
+            "yearlyAge": "54 歲",
+            "yearlyName": "流友",
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "廉貞",
+                "birthTransformation": null,
+                "outwardTransformation": "D",
+                "inwardTransformation": null
+              }
+            ]
+          },
+          {
+            "branch": "巳",
+            "stem": "丁",
+            "name": "田宅",
+            "decadeName": "大夫",
+            "decadeRange": [
+              32,
+              41
+            ],
+            "yearlyAge": "55 歲",
+            "yearlyName": "流遷",
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "太陰",
+                "birthTransformation": "C",
+                "outwardTransformation": "A",
+                "inwardTransformation": "C"
+              }
+            ]
+          },
+          {
+            "branch": "午",
+            "stem": "戊",
+            "name": "官祿",
+            "decadeName": "大兄",
+            "decadeRange": [
+              42,
+              51
+            ],
+            "yearlyAge": "56 歲",
+            "yearlyName": "流疾",
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "貪狼",
+                "birthTransformation": "D",
+                "outwardTransformation": "A",
+                "inwardTransformation": null
+              }
+            ]
+          },
+          {
+            "branch": "未",
+            "stem": "己",
+            "name": "交友",
+            "decadeName": "大命",
+            "decadeRange": [
+              52,
+              61
+            ],
+            "yearlyAge": "57 歲",
+            "yearlyName": "流財",
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "天同",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              },
+              {
+                "name": "巨門",
+                "birthTransformation": "B",
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              }
+            ]
+          },
+          {
+            "branch": "申",
+            "stem": "庚",
+            "name": "遷移",
+            "decadeName": "大父",
+            "decadeRange": [
+              62,
+              71
+            ],
+            "yearlyAge": "58 歲",
+            "yearlyName": "流子",
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "武曲",
+                "birthTransformation": null,
+                "outwardTransformation": "B",
+                "inwardTransformation": "C"
+              }
+            ]
+          },
+          {
+            "branch": "酉",
+            "stem": "辛",
+            "name": "疾厄",
+            "decadeName": "大福",
+            "decadeRange": [
+              72,
+              81
+            ],
+            "yearlyAge": "59 歲",
+            "yearlyName": "流夫",
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "太陽",
+                "birthTransformation": null,
+                "outwardTransformation": "B",
+                "inwardTransformation": null
+              },
+              {
+                "name": "天梁",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": "B"
+              }
+            ]
+          },
+          {
+            "branch": "戌",
+            "stem": "壬",
+            "name": "財帛",
+            "decadeName": "大田",
+            "decadeRange": [
+              82,
+              91
+            ],
+            "yearlyAge": "60 歲",
+            "yearlyName": "流兄",
+            "isLaiYin": false,
+            "stars": []
+          },
+          {
+            "branch": "亥",
+            "stem": "癸",
+            "name": "子女",
+            "decadeName": "大官",
+            "decadeRange": [
+              92,
+              101
+            ],
+            "yearlyAge": "61 歲",
+            "yearlyName": "流命",
+            "isLaiYin": true,
+            "stars": [
+              {
+                "name": "天機",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": "C"
+              },
+              {
+                "name": "右弼",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              },
+              {
+                "name": "文昌",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              }
+            ]
+          },
+          {
+            "branch": "子",
+            "stem": "甲",
+            "name": "夫妻",
+            "decadeName": "大友",
+            "decadeRange": [
+              102,
+              111
+            ],
+            "yearlyAge": null,
+            "yearlyName": "流父",
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "紫微",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              }
+            ]
+          },
+          {
+            "branch": "丑",
+            "stem": "乙",
+            "name": "兄弟",
+            "decadeName": "大遷",
+            "decadeRange": [
+              112,
+              121
+            ],
+            "yearlyAge": null,
+            "yearlyName": "流福",
+            "isLaiYin": false,
+            "stars": []
+          }
+        ]
+      }
+    },
+    {
+      "input": {
+        "id": "renxu-male-wraparound",
+        "gender": "男",
+        "stem": "壬",
+        "branch": "戌",
+        "ziwei": "亥",
+        "month": 2,
+        "hour": "戌",
+        "manualMain": null,
+        "decade": "午",
+        "yearly": "子",
+        "showLocationStar": true
+      },
+      "expected": {
+        "mainBranch": "巳",
+        "fiveElement": {
+          "fiveElementNum": 6,
+          "fiveElementName": "火六局"
+        },
+        "decadeDirection": "顺",
+        "flyingStarsByPalace": {
+          "寅": [
+            "天梁",
+            "紫微",
+            "左辅",
+            "武曲"
+          ],
+          "卯": [
+            "破軍",
+            "巨門",
+            "太陰",
+            "貪狼"
+          ],
+          "辰": [
+            "廉貞",
+            "破軍",
+            "武曲",
+            "太陽"
+          ],
+          "巳": [
+            "天機",
+            "天梁",
+            "紫微",
+            "太陰"
+          ],
+          "午": [
+            "天同",
+            "天機",
+            "文昌",
+            "廉貞"
+          ],
+          "未": [
+            "太陰",
+            "天同",
+            "天機",
+            "巨門"
+          ],
+          "申": [
+            "貪狼",
+            "太陰",
+            "右弼",
+            "天機"
+          ],
+          "酉": [
+            "武曲",
+            "貪狼",
+            "天梁",
+            "文曲"
+          ],
+          "戌": [
+            "太陽",
+            "武曲",
+            "太陰",
+            "天同"
+          ],
+          "亥": [
+            "巨門",
+            "太陽",
+            "文曲",
+            "文昌"
+          ],
+          "子": [
+            "天梁",
+            "紫微",
+            "左辅",
+            "武曲"
+          ],
+          "丑": [
+            "破軍",
+            "巨門",
+            "太陰",
+            "貪狼"
+          ]
+        },
+        "palaces": [
+          {
+            "branch": "寅",
+            "stem": "壬",
+            "name": "子女",
+            "decadeName": "大財",
+            "decadeRange": [
+              96,
+              105
+            ],
+            "yearlyAge": "17 歲",
+            "yearlyName": "流福",
+            "isLaiYin": true,
+            "stars": [
+              {
+                "name": "文曲",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              }
+            ]
+          },
+          {
+            "branch": "卯",
+            "stem": "癸",
+            "name": "夫妻",
+            "decadeName": "大子",
+            "decadeRange": [
+              106,
+              115
+            ],
+            "yearlyAge": "18 歲",
+            "yearlyName": "流田",
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "廉貞",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              },
+              {
+                "name": "破軍",
+                "birthTransformation": null,
+                "outwardTransformation": "A",
+                "inwardTransformation": null
+              }
+            ]
+          },
+          {
+            "branch": "辰",
+            "stem": "甲",
+            "name": "兄弟",
+            "decadeName": "大夫",
+            "decadeRange": [
+              116,
+              125
+            ],
+            "yearlyAge": "19 歲",
+            "yearlyName": "流官",
+            "isLaiYin": false,
+            "stars": []
+          },
+          {
+            "branch": "巳",
+            "stem": "乙",
+            "name": "命宮",
+            "decadeName": "大兄",
+            "decadeRange": [
+              6,
+              15
+            ],
+            "yearlyAge": "20 歲",
+            "yearlyName": "流友",
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "天府",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              },
+              {
+                "name": "左辅",
+                "birthTransformation": "C",
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              }
+            ]
+          },
+          {
+            "branch": "午",
+            "stem": "丙",
+            "name": "父母",
+            "decadeName": "大命",
+            "decadeRange": [
+              16,
+              25
+            ],
+            "yearlyAge": "21 歲",
+            "yearlyName": "流遷",
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "天同",
+                "birthTransformation": null,
+                "outwardTransformation": "A",
+                "inwardTransformation": null
+              },
+              {
+                "name": "太陰",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              }
+            ]
+          },
+          {
+            "branch": "未",
+            "stem": "丁",
+            "name": "福德",
+            "decadeName": "大父",
+            "decadeRange": [
+              26,
+              35
+            ],
+            "yearlyAge": "22 歲",
+            "yearlyName": "流疾",
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "武曲",
+                "birthTransformation": "D",
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              },
+              {
+                "name": "貪狼",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": "D"
+              }
+            ]
+          },
+          {
+            "branch": "申",
+            "stem": "戊",
+            "name": "田宅",
+            "decadeName": "大福",
+            "decadeRange": [
+              36,
+              45
+            ],
+            "yearlyAge": "23 歲",
+            "yearlyName": "流財",
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "太陽",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              },
+              {
+                "name": "巨門",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              }
+            ]
+          },
+          {
+            "branch": "酉",
+            "stem": "己",
+            "name": "官祿",
+            "decadeName": "大田",
+            "decadeRange": [
+              46,
+              55
+            ],
+            "yearlyAge": "24 歲",
+            "yearlyName": "流子",
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "天相",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              },
+              {
+                "name": "右弼",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              }
+            ]
+          },
+          {
+            "branch": "戌",
+            "stem": "庚",
+            "name": "交友",
+            "decadeName": "大官",
+            "decadeRange": [
+              56,
+              65
+            ],
+            "yearlyAge": "25 歲",
+            "yearlyName": "流夫",
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "天機",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              },
+              {
+                "name": "天梁",
+                "birthTransformation": "A",
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              }
+            ]
+          },
+          {
+            "branch": "亥",
+            "stem": "辛",
+            "name": "遷移",
+            "decadeName": "大友",
+            "decadeRange": [
+              66,
+              75
+            ],
+            "yearlyAge": null,
+            "yearlyName": "流兄",
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "紫微",
+                "birthTransformation": "B",
+                "outwardTransformation": null,
+                "inwardTransformation": "C"
+              },
+              {
+                "name": "七殺",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": null
+              }
+            ]
+          },
+          {
+            "branch": "子",
+            "stem": "壬",
+            "name": "疾厄",
+            "decadeName": "大遷",
+            "decadeRange": [
+              76,
+              85
+            ],
+            "yearlyAge": null,
+            "yearlyName": "流命",
+            "isLaiYin": false,
+            "stars": [
+              {
+                "name": "文昌",
+                "birthTransformation": null,
+                "outwardTransformation": null,
+                "inwardTransformation": "C"
+              }
+            ]
+          },
+          {
+            "branch": "丑",
+            "stem": "癸",
+            "name": "財帛",
+            "decadeName": "大疾",
+            "decadeRange": [
+              86,
+              95
+            ],
+            "yearlyAge": "16 歲",
+            "yearlyName": "流父",
+            "isLaiYin": false,
+            "stars": []
+          }
+        ]
+      }
+    }
+  ]
+}

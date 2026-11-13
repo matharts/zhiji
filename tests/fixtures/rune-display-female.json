@@ -1,0 +1,6 @@
+{
+  "events": [
+    {"t": 0.1, "type": "tap", "key": "show-location-stars"},
+    {"t": 0.2, "type": "tap", "key": "birth-3"}
+  ]
+}

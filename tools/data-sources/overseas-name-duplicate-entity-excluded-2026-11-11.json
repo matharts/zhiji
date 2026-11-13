@@ -1,0 +1,158 @@
+[
+  {
+    "id": "1264949",
+    "oldName": "Leteri",
+    "english": "Leteri",
+    "country": "IN",
+    "longitude": 77.40858,
+    "latitude": 24.05979,
+    "name": "拉泰里",
+    "sourceId": "Q2237508",
+    "sourceCountry": "Q668",
+    "sourceLatitude": 24.057222,
+    "sourceLongitude": 77.410556,
+    "distanceKm": 0.348,
+    "instanceOf": [
+      "Q486972"
+    ]
+  },
+  {
+    "id": "1259083",
+    "oldName": "Rabkavi",
+    "english": "Rabkavi",
+    "country": "IN",
+    "longitude": 75.1106,
+    "latitude": 16.47567,
+    "name": "拉布卡维巴恩哈特蒂",
+    "sourceId": "Q2475119",
+    "sourceCountry": "Q668",
+    "sourceLatitude": 16.47,
+    "sourceLongitude": 75.12,
+    "distanceKm": 1.182,
+    "instanceOf": [
+      "Q486972"
+    ]
+  },
+  {
+    "id": "osm:node:1353020337",
+    "oldName": "Rusera",
+    "english": "Rusera",
+    "country": "IN",
+    "longitude": 86.0246736,
+    "latitude": 25.753832,
+    "name": "罗塞拉",
+    "sourceId": "Q2559014",
+    "sourceCountry": "Q668",
+    "sourceLatitude": 25.76,
+    "sourceLongitude": 86.03,
+    "distanceKm": 0.867,
+    "instanceOf": [
+      "Q486972"
+    ]
+  },
+  {
+    "id": "1268376",
+    "oldName": "Kallakkurichchi",
+    "english": "Kallakkurichchi",
+    "country": "IN",
+    "longitude": 78.959,
+    "latitude": 11.7404,
+    "name": "卡拉库里奇",
+    "sourceId": "Q2308206",
+    "sourceCountry": "Q668",
+    "sourceLatitude": 11.738931,
+    "sourceLongitude": 78.973861,
+    "distanceKm": 1.623,
+    "instanceOf": [
+      "Q3957"
+    ]
+  },
+  {
+    "id": "1263859",
+    "oldName": "Mandi Dabwāli",
+    "english": "Mandi Dabwāli",
+    "country": "IN",
+    "longitude": 74.70025,
+    "latitude": 29.96633,
+    "name": "马恩迪达布瓦利",
+    "sourceId": "Q2558283",
+    "sourceCountry": "Q668",
+    "sourceLatitude": 29.947656,
+    "sourceLongitude": 74.732233,
+    "distanceKm": 3.709,
+    "instanceOf": [
+      "Q486972"
+    ]
+  },
+  {
+    "id": "1282950",
+    "oldName": "Panauti̇̄",
+    "english": "Panauti̇̄",
+    "country": "NP",
+    "longitude": 85.51487,
+    "latitude": 27.58447,
+    "name": "帕瑙提",
+    "sourceId": "Q2049147",
+    "sourceCountry": "Q837",
+    "sourceLatitude": 27.583333,
+    "sourceLongitude": 85.516667,
+    "distanceKm": 0.217,
+    "instanceOf": [
+      "Q515",
+      "Q486972",
+      "Q3492039"
+    ]
+  },
+  {
+    "id": "1259652",
+    "oldName": "Pimpri",
+    "english": "Pimpri",
+    "country": "IN",
+    "longitude": 73.80696,
+    "latitude": 18.62292,
+    "name": "宾布里-金杰沃德",
+    "sourceId": "Q119219",
+    "sourceCountry": "Q668",
+    "sourceLatitude": 18.627778,
+    "sourceLongitude": 73.813056,
+    "distanceKm": 0.838,
+    "instanceOf": [
+      "Q58339518",
+      "Q112684326"
+    ]
+  },
+  {
+    "id": "1271850",
+    "oldName": "Gadag",
+    "english": "Gadag",
+    "country": "IN",
+    "longitude": 75.62971,
+    "latitude": 15.42977,
+    "name": "嘎达格贝塔基里",
+    "sourceId": "Q522115",
+    "sourceCountry": "Q668",
+    "sourceLatitude": 15.416667,
+    "sourceLongitude": 75.616667,
+    "distanceKm": 2.016,
+    "instanceOf": [
+      "Q58339518"
+    ]
+  },
+  {
+    "id": "4581833",
+    "oldName": "Hilton Head",
+    "english": "Hilton Head",
+    "country": "US",
+    "longitude": -80.75261,
+    "latitude": 32.21632,
+    "name": "希尔顿黑德岛",
+    "sourceId": "Q1001134",
+    "sourceCountry": "Q30",
+    "sourceLatitude": 32.178889,
+    "sourceLongitude": -80.743056,
+    "distanceKm": 4.251,
+    "instanceOf": [
+      "Q15127012"
+    ]
+  }
+]

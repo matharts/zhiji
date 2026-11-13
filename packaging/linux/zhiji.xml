@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="application/vnd.matharts.zhiji+json">
+    <comment>Zhiji chart draft</comment>
+    <comment xml:lang="zh_CN">知几命盘草稿</comment>
+    <glob pattern="*.ziwei"/>
+    <icon name="zhiji"/>
+    <sub-class-of type="application/json"/>
+  </mime-type>
+</mime-info>

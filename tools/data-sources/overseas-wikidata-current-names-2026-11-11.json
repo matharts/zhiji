@@ -1,0 +1,268 @@
+{
+  "source": "Wikidata API current labels",
+  "sourceUrl": "https://www.wikidata.org/",
+  "retrieved": "2026-11-11",
+  "license": "CC0-1.0",
+  "matching": "Offline multilingual English/alias, country and coordinates <=2km, unique QID and settlement type; Wikidata live Chinese labels or Chinese Wikipedia page titles with disambiguation suffix removed.",
+  "places": [
+    {
+      "id": "11549973",
+      "oldName": "Argüelles",
+      "english": "Argüelles",
+      "country": "ES",
+      "longitude": -3.71785,
+      "latitude": 40.42821,
+      "name": "阿圭列斯",
+      "sourceId": "Q64874",
+      "sourceCountry": "Q29",
+      "sourceLatitude": 40.429161,
+      "sourceLongitude": -3.718847,
+      "distanceKm": 0.135,
+      "instanceOf": [
+        "Q10267336"
+      ],
+      "sourceKind": "label"
+    },
+    {
+      "id": "3008379",
+      "oldName": "La Madeleine",
+      "english": "La Madeleine",
+      "country": "FR",
+      "longitude": 3.07585,
+      "latitude": 50.64603,
+      "name": "拉马德莱娜",
+      "sourceId": "Q842003",
+      "sourceCountry": "Q142",
+      "sourceLatitude": 50.655278,
+      "sourceLongitude": 3.070278,
+      "distanceKm": 1.099,
+      "instanceOf": [
+        "Q484170"
+      ],
+      "sourceKind": "label"
+    },
+    {
+      "id": "2977824",
+      "oldName": "Saint-Ouen",
+      "english": "Saint-Ouen",
+      "country": "FR",
+      "longitude": 2.33339,
+      "latitude": 48.90654,
+      "name": "塞纳河畔圣旺",
+      "sourceId": "Q208889",
+      "sourceCountry": "Q142",
+      "sourceLatitude": 48.906944,
+      "sourceLongitude": 2.333056,
+      "distanceKm": 0.051,
+      "instanceOf": [
+        "Q484170"
+      ],
+      "sourceKind": "label"
+    },
+    {
+      "id": "12626165",
+      "oldName": "Outremont",
+      "english": "Outremont",
+      "country": "CA",
+      "longitude": -73.60865,
+      "latitude": 45.51564,
+      "name": "乌特勒蒙",
+      "sourceId": "Q2042095",
+      "sourceCountry": "Q16",
+      "sourceLatitude": 45.51805,
+      "sourceLongitude": -73.61111,
+      "distanceKm": 0.329,
+      "instanceOf": [
+        "Q578521",
+        "Q2983893"
+      ],
+      "sourceKind": "label"
+    },
+    {
+      "id": "2154912",
+      "oldName": "North Melbourne",
+      "english": "North Melbourne",
+      "country": "AU",
+      "longitude": 144.94512,
+      "latitude": -37.79798,
+      "name": "北墨尔本",
+      "sourceId": "Q7056074",
+      "sourceCountry": "Q408",
+      "sourceLatitude": -37.799167,
+      "sourceLongitude": 144.946667,
+      "distanceKm": 0.189,
+      "instanceOf": [
+        "Q188509",
+        "Q45242174"
+      ],
+      "sourceKind": "label"
+    },
+    {
+      "id": "4897543",
+      "oldName": "Irving Park",
+      "english": "Irving Park",
+      "country": "US",
+      "longitude": -87.73645,
+      "latitude": 41.95336,
+      "name": "伊文公園",
+      "sourceId": "Q3154615",
+      "sourceCountry": "Q30",
+      "sourceLatitude": 41.95,
+      "sourceLongitude": -87.73,
+      "distanceKm": 0.65,
+      "instanceOf": [
+        "Q860582",
+        "Q486972"
+      ],
+      "sourceKind": "label"
+    },
+    {
+      "id": "5194584",
+      "oldName": "Hunting Park",
+      "english": "Hunting Park",
+      "country": "US",
+      "longitude": -75.14379,
+      "latitude": 40.0165,
+      "name": "亨廷登公園",
+      "sourceId": "Q5944933",
+      "sourceCountry": "Q30",
+      "sourceLatitude": 40.0183,
+      "sourceLongitude": -75.1252,
+      "distanceKm": 1.593,
+      "instanceOf": [
+        "Q1076486",
+        "Q123705"
+      ],
+      "sourceKind": "label"
+    },
+    {
+      "id": "osm:node:153917252",
+      "oldName": "Riverside",
+      "english": "Riverside",
+      "country": "US",
+      "longitude": -84.1246358,
+      "latitude": 39.7793976,
+      "name": "里弗賽德",
+      "sourceId": "Q428366",
+      "sourceCountry": "Q30",
+      "sourceLatitude": 39.7789,
+      "sourceLongitude": -84.1231,
+      "distanceKm": 0.142,
+      "instanceOf": [
+        "Q1093829"
+      ],
+      "sourceKind": "zhwiki title"
+    },
+    {
+      "id": "1150533",
+      "oldName": "Sukhothai",
+      "english": "Sukhothai",
+      "country": "TH",
+      "longitude": 99.823,
+      "latitude": 17.00778,
+      "name": "素可泰",
+      "sourceId": "Q5368613",
+      "sourceCountry": "Q869",
+      "sourceLatitude": 17,
+      "sourceLongitude": 99.816667,
+      "distanceKm": 1.094,
+      "instanceOf": [
+        "Q515"
+      ],
+      "sourceKind": "label"
+    },
+    {
+      "id": "3120619",
+      "oldName": "L'Hospitalet de Llobregat",
+      "english": "L'Hospitalet de Llobregat",
+      "country": "ES",
+      "longitude": 2.10028,
+      "latitude": 41.35967,
+      "name": "奥斯皮塔莱特-德略夫雷加特",
+      "sourceId": "Q15470",
+      "sourceCountry": "Q29",
+      "sourceLatitude": 41.358889,
+      "sourceLongitude": 2.099167,
+      "distanceKm": 0.127,
+      "instanceOf": [
+        "Q33146843",
+        "Q1549591"
+      ],
+      "sourceKind": "label"
+    },
+    {
+      "id": "8393989",
+      "oldName": "Plaza de la Revolución",
+      "english": "Plaza de la Revolución",
+      "country": "CU",
+      "longitude": -82.39197,
+      "latitude": 23.11936,
+      "name": "革命广场",
+      "sourceId": "Q2099152",
+      "sourceCountry": "Q241",
+      "sourceLatitude": 23.124444,
+      "sourceLongitude": -82.386111,
+      "distanceKm": 0.822,
+      "instanceOf": [
+        "Q558330",
+        "Q486972"
+      ],
+      "sourceKind": "label"
+    },
+    {
+      "id": "5198748",
+      "oldName": "Logan",
+      "english": "Logan",
+      "country": "US",
+      "longitude": -75.15157,
+      "latitude": 40.02845,
+      "name": "洛根",
+      "sourceId": "Q6666905",
+      "sourceCountry": "Q30",
+      "sourceLatitude": 40.0356,
+      "sourceLongitude": -75.1431,
+      "distanceKm": 1.072,
+      "instanceOf": [
+        "Q123705"
+      ],
+      "sourceKind": "label"
+    },
+    {
+      "id": "wd:Q2683072",
+      "oldName": "Oak Grove",
+      "english": "Oak Grove",
+      "country": "US",
+      "longitude": -122.64,
+      "latitude": 45.416667,
+      "name": "奧克格羅夫",
+      "sourceId": "Q2683072",
+      "sourceCountry": "Q30",
+      "sourceLatitude": 45.416667,
+      "sourceLongitude": -122.64,
+      "distanceKm": 0,
+      "instanceOf": [
+        "Q498162",
+        "Q17343829"
+      ],
+      "sourceKind": "zhwiki title"
+    },
+    {
+      "id": "5117575",
+      "oldName": "Forest Hills",
+      "english": "Forest Hills",
+      "country": "US",
+      "longitude": -73.85014,
+      "latitude": 40.71621,
+      "name": "森林小丘",
+      "sourceId": "Q1202211",
+      "sourceCountry": "Q30",
+      "sourceLatitude": 40.716111,
+      "sourceLongitude": -73.85,
+      "distanceKm": 0.016,
+      "instanceOf": [
+        "Q123705"
+      ],
+      "sourceKind": "label"
+    }
+  ]
+}
