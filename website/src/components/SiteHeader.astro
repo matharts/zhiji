@@ -1,0 +1,73 @@
+---
+import Icon from './Icon.astro';
+const links = [
+  { href: '/#setup', label: '起盘' },
+  { href: '/#reading', label: '盘面' },
+  { href: '/#transformations', label: '飞化' },
+  { href: '/#notes', label: '标注' },
+];
+---
+<header class="site-header fixed inset-x-0 top-0 z-50">
+ <div class="site-header-inner wrap flex items-center">
+  <a class="brand inline-flex items-center whitespace-nowrap" href="/" aria-label="知几，返回首页">
+    <img src="/images/app.ico" alt="" width="32" height="32" />
+    <span>知几</span>
+  </a>
+  <nav class="main-nav hidden items-center min-[701px]:flex" aria-label="主导航">
+    {links.map((link) => <a href={link.href}>{link.label}</a>)}
+  </nav>
+  <details class="mobile-menu relative hidden max-[700px]:block">
+    <summary>菜单 <Icon name="chevron-down" /></summary>
+    <nav class="mobile-menu-panel" aria-label="移动导航">
+      {links.map((link) => <a href={link.href}>{link.label}</a>)}
+    </nav>
+  </details>
+  <a class="nav-action inline-flex items-center justify-center whitespace-nowrap" href="/download/">下载 <Icon name="arrow-right" /></a>
+ </div>
+</header>
+<script>
+  const header = document.querySelector<HTMLElement>('.site-header');
+  if (header) {
+    // 越过顶部阈值后切换导航背景，与当前滚动位置同步。
+    const syncHeader = () => header.classList.toggle('is-scrolled', window.scrollY > 12);
+    window.addEventListener('scroll', syncHeader, { passive: true });
+    syncHeader();
+  }
+  if (window.location.pathname === '/') {
+    const sections = [...document.querySelectorAll<HTMLElement>('main section[id]')];
+    const links = [...document.querySelectorAll<HTMLAnchorElement>('.main-nav a, .mobile-menu-panel a')];
+    let frame = 0;
+    // 每帧按章节位置更新导航高亮，将自化章节归入四化导航项。
+    const updateActiveLink = () => {
+      frame = 0;
+      let active = '';
+      for (const section of sections) {
+        if (section.getBoundingClientRect().top <= 160) active = section.id;
+      }
+      if (active === 'self-transformations') active = 'transformations';
+      links.forEach((link) => {
+        if (link.hash === `#${active}`) link.setAttribute('aria-current', 'location');
+        else link.removeAttribute('aria-current');
+      });
+    };
+    window.addEventListener('scroll', () => {
+      if (!frame) frame = requestAnimationFrame(updateActiveLink);
+    }, { passive: true });
+    updateActiveLink();
+  }
+  const menu = document.querySelector('.mobile-menu');
+  if (menu instanceof HTMLDetailsElement) {
+    menu.addEventListener('click', (event) => {
+      if (event.target instanceof Element && event.target.closest('a')) menu.open = false;
+    });
+    document.addEventListener('click', (event) => {
+      if (event.target instanceof Node && !menu.contains(event.target)) menu.open = false;
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && menu.open) {
+        menu.open = false;
+        menu.querySelector('summary')?.focus();
+      }
+    });
+  }
+</script>

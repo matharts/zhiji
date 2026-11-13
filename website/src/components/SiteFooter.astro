@@ -1,0 +1,12 @@
+---
+import Icon from './Icon.astro';
+const repository = 'https://github.com/matharts/zhiji';
+---
+<footer class="site-footer wrap flex flex-col items-start justify-between gap-8 min-[561px]:flex-row min-[561px]:items-end">
+  <div class="footer-name">知几<span>专业命理师的排盘软件</span></div>
+  <nav aria-label="页脚导航">
+    <a href="/download/">下载</a>
+    <a href={`${repository}/releases`}>版本记录 <Icon name="arrow-up-right" /></a>
+    <a href={repository}>GitHub <Icon name="arrow-up-right" /></a>
+  </nav>
+</footer>

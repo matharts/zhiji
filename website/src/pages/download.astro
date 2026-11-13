@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+const repository = 'https://github.com/matharts/zhiji';
+const platforms = [
+  { id: 'macos', name: 'macOS' },
+  { id: 'windows', name: 'Windows' },
+  { id: 'linux', name: 'Linux' },
+];
+---
+<BaseLayout title="下载 — 知几 Zhiji" description="下载知几桌面版，查看最新发布版本与各平台安装包。">
+    <main id="main" class="download-main wrap">
+      <a class="back-link" href="/"><Icon name="arrow-left" /> 返回首页</a>
+      <div class="download-heading flex items-center gap-5 min-[561px]:gap-9">
+        <img src="/images/app.png" alt="" width="96" height="96" />
+        <div><h1>下载<span class="download-title-name">知几</span></h1><p>选择适合电脑的桌面安装包。</p></div>
+      </div>
+      <div class="release-status flex flex-col items-start gap-4 min-[561px]:flex-row min-[561px]:items-center min-[561px]:justify-between">
+        <p data-release-status role="status" aria-live="polite">请查看 GitHub 发布页获取最新版本信息。</p>
+        <a href={`${repository}/releases`}>查看发布页 <Icon name="arrow-up-right" /></a>
+      </div>
+      <div class="download-panel"><table class="download-table w-full border-collapse">
+        <thead><tr><th scope="col">系统</th><th scope="col">安装包</th></tr></thead>
+        <tbody>
+          {platforms.map((platform) => (
+            <tr data-platform={platform.id}>
+              <th scope="row">{platform.name}</th>
+              <td data-assets><a class="asset-fallback" href={`${repository}/releases`}>请查看 GitHub 发布页</a></td>
+            </tr>
+          ))}
+        </tbody>
+      </table></div>
+      <p class="platform-note">目标平台为 macOS、Windows 和 Linux；可用版本与系统要求以发布页为准。</p>
+      <section class="source-section flex flex-col gap-5 min-[561px]:flex-row min-[561px]:items-center min-[561px]:justify-between" aria-labelledby="source-title">
+        <div><h2 id="source-title">从源码构建</h2><p>查看项目源码、构建步骤和发布说明。</p></div>
+        <a class="quiet-link" href={repository}>查看 GitHub 项目 <Icon name="arrow-up-right" /></a>
+      </section>
+    </main>
+    <script>import '../scripts/download.ts';</script>
+</BaseLayout>
