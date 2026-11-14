@@ -1,5 +1,7 @@
 use super::{desktop_arguments, platform::instance::Request, restored_window_options};
-use std::{ffi::OsString, path::PathBuf};
+use std::ffi::OsString;
+#[cfg(unix)]
+use std::path::PathBuf;
 
 #[test]
 /// 恢复矩形按主屏倍率转换为创建参数，保留负坐标和非整数倍率。

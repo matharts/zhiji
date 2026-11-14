@@ -255,6 +255,7 @@ pub(crate) fn t(text: impl AsRef<str>) -> String {
 }
 
 /// 转换系统菜单专用文案；macOS 繁体把“复制”写作“拷貝”。
+#[cfg(target_os = "macos")]
 pub(crate) fn menu_t(text: impl AsRef<str>) -> String {
     let text = text.as_ref();
     if variant() == ChineseVariant::Traditional && text == "复制" {
@@ -383,7 +384,6 @@ mod tests {
         assert_eq!(t("高亮笔"), "螢光筆");
         assert_eq!(t("命盘标记工具栏"), "命盤標記工具列");
         assert_eq!(t("宫干"), "宮干");
-        assert_eq!(menu_t("复制"), "拷貝");
         assert_eq!(t("另存为"), "另存新檔");
         assert_eq!(t("当前文件"), "目前檔案");
         assert_eq!(t("数据"), "資料");
@@ -412,6 +412,14 @@ mod tests {
             t("不保存设置退出会丢失本次设置修改。"),
             "不儲存設定並結束會遺失本次設定修改。"
         );
+    }
+
+    #[cfg(target_os = "macos")]
+    #[test]
+    /// 验证 macOS 系统菜单的“复制”使用台湾菜单用词。
+    fn macos_menu_uses_taiwan_copy_term() {
+        let _locale = scope(ChineseVariant::Traditional);
+        assert_eq!(menu_t("复制"), "拷貝");
     }
 
     #[test]

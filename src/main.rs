@@ -25,7 +25,6 @@ mod workspace;
 
 #[cfg(test)]
 #[path = "../tests/support/visual.rs"]
-#[allow(dead_code)]
 mod visual_support;
 
 use app::AppState;

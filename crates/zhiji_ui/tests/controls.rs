@@ -35,33 +35,14 @@ fn view(state: &State, _: &mut Cx<State>) -> El {
             tx.instant();
         })
         .build();
-    col()
-        .gap(12.0)
-        .child(radio)
-        .child(
-            zhiji_ui::Checkbox::new(
-                "checkbox",
-                "全部",
-                if state.checked {
-                    zhiji_ui::CheckboxState::Checked
-                } else {
-                    zhiji_ui::CheckboxState::Unchecked
-                },
-            )
+    col().gap(12.0).child(radio).child(
+        zhiji_ui::Switch::new("switch", "显示", state.checked)
             .on_toggle_tx(|state: &mut State, tx| {
                 state.checked = !state.checked;
                 tx.instant();
             })
             .build(),
-        )
-        .child(
-            zhiji_ui::Switch::new("switch", "显示", state.checked)
-                .on_toggle_tx(|state: &mut State, tx| {
-                    state.checked = !state.checked;
-                    tx.instant();
-                })
-                .build(),
-        )
+    )
 }
 
 /// 按稳定键模拟控件点击。
@@ -199,17 +180,8 @@ fn controls_bind_actions_and_reflect_selected_state() {
             .iter()
             .any(|item| item.key.as_deref() == Some("radio") && item.item_selected)
     );
-    tap(&mut runtime, "checkbox");
-    assert!(runtime.state.checked);
-    let checkbox = runtime
-        .elements()
-        .into_iter()
-        .find(|item| item.key.as_deref() == Some("checkbox"))
-        .unwrap();
-    assert_eq!(checkbox.role, "checkbox");
-    assert_eq!(checkbox.label.as_deref(), Some("全部"));
     tap(&mut runtime, "switch");
-    assert!(!runtime.state.checked);
+    assert!(runtime.state.checked);
     assert!(runtime.accessibility_action("switch", rune::accesskit::Action::Focus, None));
     runtime.key(KeyEvent {
         key: Key::Text(" ".into()),
@@ -217,7 +189,7 @@ fn controls_bind_actions_and_reflect_selected_state() {
     });
     runtime.frame(0.0);
     assert!(
-        runtime.state.checked,
+        !runtime.state.checked,
         "keyboard activation must invoke the switch action"
     );
 }
@@ -246,7 +218,7 @@ fn disabled_radio_does_not_invoke_action() {
 fn enabled_controls_show_pointer_feedback_and_disabled_controls_do_not() {
     let mut runtime = Runtime::new(State::default(), view, (240.0, 160.0), Env::new(false, 1.0));
     runtime.frame(0.0);
-    for key in ["checkbox", "switch"] {
+    for key in ["switch"] {
         let (x, y) = runtime.find(key).unwrap();
         runtime.pointer_move(x, y);
         for _ in 0..12 {
@@ -258,17 +230,6 @@ fn enabled_controls_show_pointer_feedback_and_disabled_controls_do_not() {
             .find(|e| e.key.as_deref() == Some(key))
             .unwrap();
         assert!(info.hover > 0.0, "{key} must respond to hover");
-        if key == "checkbox" {
-            let overlay = runtime
-                .elements()
-                .into_iter()
-                .find(|e| e.key.as_deref() == Some("checkbox-hover"))
-                .unwrap();
-            assert!(
-                overlay.opacity > 0.0,
-                "hover must appear on the checkbox itself"
-            );
-        }
         runtime.pointer_down(x, y);
         for _ in 0..12 {
             runtime.frame(1.0 / 120.0);
@@ -289,7 +250,7 @@ fn enabled_controls_show_pointer_feedback_and_disabled_controls_do_not() {
         Env::new(false, 1.0),
     );
     disabled.frame(0.0);
-    for key in ["disabled-check", "disabled-switch"] {
+    for key in ["disabled-switch"] {
         let (x, y) = disabled.find(key).unwrap();
         disabled.pointer_move(x, y);
         disabled.pointer_down(x, y);
@@ -306,31 +267,16 @@ fn enabled_controls_show_pointer_feedback_and_disabled_controls_do_not() {
     }
 }
 
-/// 组合带动画的开关和复选框。
+/// 组合带动画的开关。
 fn motion_view(state: &State, _: &mut Cx<State>) -> El {
-    col()
-        .child(
-            zhiji_ui::Switch::new("motion-switch", "显示", state.checked)
-                .on_toggle_tx(|state: &mut State, _| state.checked = !state.checked)
-                .build(),
-        )
-        .child(
-            zhiji_ui::Checkbox::new(
-                "motion-check",
-                "全部",
-                if state.checked {
-                    zhiji_ui::CheckboxState::Checked
-                } else {
-                    zhiji_ui::CheckboxState::Unchecked
-                },
-            )
-            .build(),
-        )
+    zhiji_ui::Switch::new("motion-switch", "显示", state.checked)
+        .on_toggle_tx(|state: &mut State, _| state.checked = !state.checked)
+        .build()
 }
 
 #[test]
-/// 验证开关和勾选标记动画可以重定向。
-fn controlled_switch_and_check_mark_animate_and_retarget() {
+/// 验证开关动画可以重定向。
+fn controlled_switch_animates_and_retargets() {
     let mut runtime = Runtime::new(
         State::default(),
         motion_view,
@@ -348,18 +294,15 @@ fn controlled_switch_and_check_mark_animate_and_retarget() {
     tap(&mut runtime, "motion-switch");
     runtime.frame(0.06);
     let midway = info(&runtime, "motion-switch-knob").rect[0];
-    let opacity = info(&runtime, "motion-check-check-mark").opacity;
     assert!(
         midway > start && midway < start + 12.0,
         "knob: {start} -> {midway}"
     );
-    assert!(opacity > 0.0 && opacity < 1.0, "mark opacity: {opacity}");
     tap(&mut runtime, "motion-switch");
     for _ in 0..90 {
         runtime.frame(1.0 / 120.0);
     }
     assert!((info(&runtime, "motion-switch-knob").rect[0] - start).abs() < 0.01);
-    assert!(info(&runtime, "motion-check-check-mark").opacity < 0.01);
 
     let mut reduced = Runtime::new(
         State::default(),
@@ -469,7 +412,7 @@ fn has(node: &Value, field: &str, value: &str) -> bool {
         .is_some_and(|items| items.iter().any(|item| item == value))
 }
 
-/// 创建混合状态及禁用状态的无障碍测试组合。
+/// 创建禁用状态的无障碍测试组合。
 fn accessibility_view(_: &State, _: &mut Cx<State>) -> El {
     col()
         .gap(12.0)
@@ -481,17 +424,6 @@ fn accessibility_view(_: &State, _: &mut Cx<State>) -> El {
                 .build(),
         )
         .child(
-            zhiji_ui::Checkbox::new("mixed", "部分", zhiji_ui::CheckboxState::Mixed)
-                .on_toggle_tx(|state: &mut State, _| state.checked = true)
-                .build(),
-        )
-        .child(
-            zhiji_ui::Checkbox::new("disabled-check", "禁用", zhiji_ui::CheckboxState::Checked)
-                .disabled(true)
-                .on_toggle_tx(|state: &mut State, _| state.choice = true)
-                .build(),
-        )
-        .child(
             zhiji_ui::Switch::new("disabled-switch", "显示", true)
                 .disabled(true)
                 .on_toggle_tx(|state: &mut State, _| state.choice = true)
@@ -500,8 +432,8 @@ fn accessibility_view(_: &State, _: &mut Cx<State>) -> El {
 }
 
 #[test]
-/// 验证混合和禁用状态可访问，禁用控件不暴露可执行动作。
-fn accessibility_exposes_mixed_and_disabled_controls_without_disabled_actions() {
+/// 验证禁用控件可访问，且不暴露可执行动作。
+fn accessibility_exposes_disabled_controls_without_disabled_actions() {
     let mut runtime = Runtime::new(
         State::default(),
         accessibility_view,
@@ -510,12 +442,7 @@ fn accessibility_exposes_mixed_and_disabled_controls_without_disabled_actions() 
     );
     runtime.frame(0.0);
     let tree = runtime.accessibility_json();
-    let mixed = find(&tree, "mixed").unwrap();
-    assert_eq!(mixed["role"], "check-box");
-    assert_eq!(mixed["name"], "部分");
-    assert!(has(mixed, "states", "mixed"));
-    assert!(has(mixed, "actions", "click"));
-    for key in ["disabled-radio", "disabled-check", "disabled-switch"] {
+    for key in ["disabled-radio", "disabled-switch"] {
         let node = find(&tree, key).unwrap();
         assert!(has(node, "states", "disabled"), "{key}: {node}");
         assert!(!has(node, "actions", "click"), "{key}: {node}");
@@ -524,17 +451,6 @@ fn accessibility_exposes_mixed_and_disabled_controls_without_disabled_actions() 
         tap(&mut runtime, key);
         assert!(!runtime.state.choice, "{key} invoked its disabled handler");
     }
-    assert!(runtime.accessibility_action("mixed", rune::accesskit::Action::Click, None));
-    runtime.frame(0.0);
-    assert!(runtime.state.checked);
-    assert!(
-        has(
-            find(&runtime.accessibility_json(), "mixed").unwrap(),
-            "states",
-            "mixed"
-        ),
-        "component state changes only when its caller supplies a new value"
-    );
 }
 #[test]
 /// 验证嵌套主题作用域恢复此前配色。

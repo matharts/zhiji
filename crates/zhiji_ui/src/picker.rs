@@ -530,8 +530,6 @@ pub struct ModalDialog {
     viewport: Option<(f32, f32)>,
     close: Option<El>,
     custom_content: bool,
-    panel_key: Option<String>,
-    backdrop_content: Option<El>,
 }
 
 impl ModalDialog {
@@ -547,8 +545,6 @@ impl ModalDialog {
             viewport: None,
             close: None,
             custom_content: false,
-            panel_key: None,
-            backdrop_content: None,
         }
     }
     /// 在共享面板内使用调用方完整组合的内容。
@@ -556,16 +552,6 @@ impl ModalDialog {
         let mut dialog = Self::new(key, title, content, el());
         dialog.custom_content = true;
         dialog
-    }
-    /// 指定面板稳定键，迁移已有视图时可保留元素身份。
-    pub fn panel_key(mut self, key: impl Into<String>) -> Self {
-        self.panel_key = Some(key.into());
-        self
-    }
-    /// 在遮罩内添加交互层，用于优先关闭子弹层。
-    pub fn backdrop_content(mut self, content: El) -> Self {
-        self.backdrop_content = Some(content);
-        self
     }
     /// 设置期望面板尺寸，挂载时可按视口收缩。
     pub fn size(mut self, width: f32, height: f32) -> Self {
@@ -634,10 +620,7 @@ impl ModalDialog {
                 )
         };
         let panel = col()
-            .key(
-                self.panel_key
-                    .unwrap_or_else(|| format!("{}-panel", self.key)),
-            )
+            .key(format!("{}-panel", self.key))
             .transition(Transition::none())
             .size(width, height)
             .radius(10.0)
@@ -651,7 +634,7 @@ impl ModalDialog {
             .fill(Color::BLACK.alpha(0.32))
             .transition(Transition::none())
             .a11y_hidden()
-            .child(self.backdrop_content.unwrap_or_else(el));
+            .child(el());
         el().key(self.key.clone())
             .transition(Transition::opacity().springs(SpringPair::new(
                 rune::Spring::new(0.20, 0.0),

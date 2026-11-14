@@ -99,12 +99,6 @@ fn pixel_plane_reuses_unchanged_hue() {
         [255, 0, 0]
     });
     assert_eq!(samples, 2 * 234 * 160);
-    pixels.invalidate_plane();
-    pixels.update_plane(0.5, |_, _| {
-        samples += 1;
-        [0, 255, 0]
-    });
-    assert_eq!(samples, 3 * 234 * 160);
 }
 
 #[test]

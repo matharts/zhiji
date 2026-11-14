@@ -43,8 +43,7 @@ impl ColorPickerPixels {
         }
     }
 
-    /// 色相相同时复用像素；在调用 `invalidate_plane` 前，
-    /// `color` 对同一输入必须返回相同 sRGB 字节。
+    /// 色相相同时复用像素；`color` 对同一输入必须返回相同 sRGB 字节。
     pub fn update_plane(&mut self, hue: f32, mut color: impl FnMut(f32, f32) -> [u8; 3]) {
         if self.plane_hue == Some(hue) {
             return;
@@ -58,11 +57,6 @@ impl ColorPickerPixels {
         }
         self.plane.set(PLANE_WIDTH, PLANE_HEIGHT, bytes);
         self.plane_hue = Some(hue);
-    }
-
-    /// 颜色映射变化后使缓存失效，强制下次更新重新生成面板。
-    pub fn invalidate_plane(&mut self) {
-        self.plane_hue = None;
     }
 
     /// 借用饱和度和明度面板像素。

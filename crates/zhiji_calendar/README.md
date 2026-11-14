@@ -31,7 +31,7 @@ assert_eq!(Calendar.to_solar(lunar, date.calendar())?, date);
 
 `TimeOfDay` 使用时、分、秒，不接受闰秒标签；`CivilDateTime` 是民用钟表字段，不表示已经解析的唯一时刻。`Longitude` 使用向东为正的角度，范围 -180° 至 180°，拒绝 NaN 和无穷值，0° 是有效经度。`UtcOffset` 以秒保存明确偏移，保留历史偏移中的秒数，不根据经度猜测时区或解析夏令时。
 
-`YearBoundary` 和 `DayBoundary` 表达调用方需要明确选择的分界规则，不设置公共默认值。紫微取数与四柱反推的分界规则分别处理。
+`DayBoundary` 表达调用方需要明确选择的日界规则，不设置公共默认值。紫微取数与四柱反推的分界规则分别处理。
 
 ## 真太阳时
 

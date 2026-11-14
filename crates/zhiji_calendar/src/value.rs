@@ -74,12 +74,6 @@ impl UtcOffset {
     }
 }
 
-/// 年界约定；不提供默认值，由调用方明确选择。
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
-pub enum YearBoundary {
-    LunarNewYear,
-    StartOfSpring,
-}
 /// 日界约定，区分午夜与子初换日。
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum DayBoundary {

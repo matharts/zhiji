@@ -1,8 +1,0 @@
-{
-  "events": [
-    {"t": 0.1, "type": "tap", "key": "palace-0"},
-    {"t": 0.2, "type": "tap", "key": "open-settings"},
-    {"t": 0.3, "type": "tap", "key": "settings-category-appearance"},
-    {"t": 0.4, "type": "tap", "key": "color-0"}
-  ]
-}

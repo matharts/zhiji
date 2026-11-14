@@ -93,19 +93,12 @@ tokens! {
     AnnotationNeutral => ("#b8afb1", "#948a97"),
     AnnotationNeutralMuted => ("#a9a3a6", "#948a97"),
     Error => ("#b11f2d", "#e88c95"),
-    DangerHover => ("#ffdfdc", "#593039"),
     StatusDanger => ("#cf1322", "#f38a91"),
     StatusSuccess => ("#389e0d", "#8dcf77"),
     ToggleOn => ("#706575", "#c5b8cc"),
     ToggleOff => ("#89838a", "#b9afbd"),
     SwitchTrackOff => ("#bfbfbf", "#a69cac"),
 
-    ColorCard => ("#faf9f7", "#302c35"),
-    ColorCardHover => ("#f2f0eb", "#3a3541"),
-    ColorCardOpen => ("#f7f3fa", "#3c3348"),
-    ColorCardBorder => ("#ece9e4", "#49424f"),
-    ColorCardBorderOpen => ("#b9a6c9", "#7e6790"),
-    PreferencesDivider => ("#eeeee9", "#403b46"),
     TextInputBorder => ("#bdbdbd", "#bdbdbd"),
     CaretFocus => ("#356cb8", "#356cb8"),
     Checkerboard => ("#dedede", "#dedede"),
@@ -193,8 +186,5 @@ mod tests {
         assert_eq!(ColorToken::ChartInk.hex(true), "#e8e3ed");
         assert_eq!(ColorToken::ChartGrid.hex(true), "#aaa1ad");
         assert_eq!(ColorToken::SealInk.hex(true), "#d98b8a");
-        assert_eq!(ColorToken::ColorCard.hex(true), "#302c35");
-        assert_eq!(ColorToken::ColorCardBorder.hex(true), "#49424f");
-        assert_eq!(ColorToken::PreferencesDivider.hex(true), "#403b46");
     }
 }

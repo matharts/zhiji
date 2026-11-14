@@ -2,7 +2,6 @@
 //!
 //! 组件接收调用方状态并返回 Rune 元素；业务状态和动作处理由应用负责。
 
-mod checkbox;
 mod color_picker;
 mod dialog;
 mod icon_button;
@@ -14,7 +13,6 @@ mod switch;
 mod text;
 mod tokens;
 
-pub use checkbox::{Checkbox, CheckboxState};
 pub use color_picker::{ColorPickerPixels, ColorPlane, HueSlider, OpacitySlider, color_preview};
 pub use dialog::{ConfirmationDialog, dialog_button};
 pub use icon_button::IconButton;
