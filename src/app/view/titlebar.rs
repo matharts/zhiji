@@ -9,7 +9,11 @@ const HEADLESS_LEADING: f32 =
     16.0 + 2.0 * rune::Chrome::TRAFFIC_PITCH + rune::Chrome::TRAFFIC_LIGHT;
 
 /// 按原生标题栏安全区组合应用名称、取数、布局及设置入口。
-pub(super) fn render(state: &AppState, chrome: ChromeInsets) -> El {
+pub(super) fn render(
+    state: &AppState,
+    chrome: ChromeInsets,
+    columns: super::WorkspaceColumns,
+) -> El {
     let workspace = &state.workspace;
     let leading = if rune::tooling::is_headless() {
         HEADLESS_LEADING
@@ -132,24 +136,20 @@ pub(super) fn render(state: &AppState, chrome: ChromeInsets) -> El {
     );
     el().key("app-titlebar")
         .w_full()
-        .h(44.0)
+        .h(super::TITLEBAR_HEIGHT)
         .absolute(0.0, 0.0)
         .child(
-            el().w_frac(if workspace.presentation().sidebar_collapsed() {
-                1.0
-            } else {
-                0.56
-            })
-            .h_full()
-            // 侧栏收起时命盘外侧留白可能延伸到窗口拖动区域。
-            .fill(color(ColorToken::Window).alpha(
-                if workspace.presentation().sidebar_collapsed() {
-                    0.0
-                } else {
-                    1.0
-                },
-            ))
-            .window_drag(),
+            el().w_frac(columns.chart_fraction())
+                .h_full()
+                // 侧栏收起时命盘外侧留白可能延伸到窗口拖动区域。
+                .fill(color(ColorToken::Window).alpha(
+                    if workspace.presentation().sidebar_collapsed() {
+                        0.0
+                    } else {
+                        1.0
+                    },
+                ))
+                .window_drag(),
         )
         .child(
             row()
@@ -189,7 +189,7 @@ pub(super) fn render(state: &AppState, chrome: ChromeInsets) -> El {
                     .w_full()
                     .h(27.0)
                     .absolute(0.0, 8.0)
-                    .child(el().w_frac(0.56).h_full())
+                    .child(el().w_frac(columns.chart_fraction()).h_full())
                     .child(
                         row()
                             .grow(1.0)

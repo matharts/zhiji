@@ -2365,13 +2365,99 @@ fn settings_page_follows_sidebar_size() {
         tap(&mut runtime, "open-settings");
         runtime.frame(1.0);
         let ([x, y, panel_width, panel_height], _) = runtime.presented("settings-panel").unwrap();
-        assert!((x - width * 0.56).abs() < 1.0);
-        assert!((panel_width - width * 0.44).abs() < 1.0);
+        let sidebar = if width >= 1400.0 { 600.0 } else { width * 0.44 };
+        assert!((x - (width - sidebar)).abs() < 1.0);
+        assert!((panel_width - sidebar).abs() < 1.0);
         assert!(y >= 0.0 && y + panel_height <= height + 1.0);
         tap(&mut runtime, "settings-category-appearance");
         tap(&mut runtime, "color-0");
         let ([px, py, pw, ph], _) = runtime.presented("color-picker").unwrap();
         assert!(px >= 0.0 && py >= 0.0 && px + pw <= width && py + ph <= height);
+    }
+}
+
+#[test]
+/// 验证宽屏限制右栏宽度，并让命盘使用多出的窗口空间。
+fn wide_windows_expand_the_chart_and_cap_the_sidebar() {
+    for (width, height, expected_path_width, expected_side) in [
+        (1300.0, 800.0, 728.0, 660.0),
+        (1512.0, 1020.0, 912.0, 864.0),
+        (1728.0, 1084.0, 1128.0, 944.0),
+        (1920.0, 1200.0, 1320.0, 1060.0),
+    ] {
+        let mut runtime = Runtime::new(
+            AppState::with_input(sample_input(false)),
+            view,
+            (width, height),
+            Env::new(false, 1.0),
+        );
+        // 首帧读取窗口尺寸，第二帧应用新列宽，第三帧等待命盘读取新面板尺寸。
+        for _ in 0..3 {
+            runtime.frame(0.0);
+        }
+        runtime.frame(1.2);
+        let ([pane_x, pane_y, pane_width, pane_height], _) =
+            runtime.presented("chart-pane").unwrap();
+        assert_eq!((pane_x, pane_y), (0.0, 0.0));
+        assert!((pane_width - expected_path_width).abs() < 1.0);
+        assert!((pane_height - height).abs() < 0.1);
+        let ([chart_x, chart_y, chart_width, chart_height], _) =
+            runtime.presented("chart").unwrap();
+        assert!(
+            (chart_width - expected_side).abs() < 1.0,
+            "{width}x{height}: chart {chart_width} at {chart_x},{chart_y}; pane {pane_width}x{pane_height}; expected {expected_side}"
+        );
+        assert!((chart_height - expected_side).abs() < 1.0);
+        assert!((chart_x - (pane_width - expected_side) / 2.0).abs() < 1.0);
+        assert!(chart_y >= 44.0);
+        assert!(chart_x >= 0.0 && chart_x + chart_width <= width);
+        assert!(chart_y + chart_height < height);
+        assert!((width - pane_width - 600.0).abs() < 1.0 || width < 1400.0);
+        let ([_, _, toolbar_width, _], _) = runtime.presented("annotation-toolbar").unwrap();
+        if expected_side > 660.0 {
+            assert!((484.0..=542.0).contains(&toolbar_width));
+        } else {
+            assert!((toolbar_width - 484.0).abs() < 0.1);
+        }
+        let ([_, _, tool_width, _], _) = runtime.presented("mark-tool-select").unwrap();
+        assert!((tool_width - 36.0).abs() < 0.1);
+    }
+}
+
+#[test]
+/// 验证窗口跨过右栏封顶和命盘放大区间时不会发生列宽跳变。
+fn wide_layout_expands_without_a_breakpoint_jump() {
+    for widths in [
+        &[1363.0, 1364.0, 1365.0][..],
+        &[1398.0, 1399.0, 1400.0, 1401.0][..],
+    ] {
+        let mut previous: Option<[f32; 3]> = None;
+        for &width in widths {
+            let mut runtime = Runtime::new(
+                AppState::with_input(sample_input(false)),
+                view,
+                (width, 1084.0),
+                Env::new(false, 1.0),
+            );
+            for _ in 0..3 {
+                runtime.frame(0.0);
+            }
+            runtime.frame(1.2);
+            let current = [
+                runtime.presented("chart-pane").unwrap().0[2],
+                runtime.presented("chart").unwrap().0[2],
+                runtime.presented("annotation-toolbar").unwrap().0[2],
+            ];
+            if let Some(previous) = previous {
+                for (index, (before, after)) in previous.into_iter().zip(current).enumerate() {
+                    assert!(
+                        (after - before).abs() < 2.0,
+                        "layout jump at {width}: column {index} changed {before} -> {after}"
+                    );
+                }
+            }
+            previous = Some(current);
+        }
     }
 }
 

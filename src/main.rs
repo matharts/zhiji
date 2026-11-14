@@ -23,6 +23,11 @@ mod transformation;
 mod updates;
 mod workspace;
 
+#[cfg(test)]
+#[path = "../tests/support/visual.rs"]
+#[allow(dead_code)]
+mod visual_support;
+
 use app::AppState;
 use rune::{App, AppSpec, FontSmoothing};
 
@@ -206,7 +211,7 @@ fn main() {
     let app = app
         .init(move || AppState::with_handle(handle, headless))
         .font_smoothing(FontSmoothing::Off)
-        .titlebar(rune::Titlebar::new(44.0))
+        .titlebar(rune::Titlebar::new(app::view::TITLEBAR_HEIGHT))
         .keep_running()
         .standard_menus()
         .on_close(AppState::on_close)

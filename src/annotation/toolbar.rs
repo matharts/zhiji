@@ -251,8 +251,12 @@ pub(crate) fn render<S: 'static>(
     dispatch: Dispatch<S>,
     export_button: El,
     feedback: Option<El>,
+    spread: f32,
 ) -> El {
-    let mut tools = row().center_y();
+    let spread = spread.clamp(0.0, 1.0);
+    let tool_gap = 6.0 * spread;
+    let command_inset = 2.0 * spread;
+    let mut tools = row().center_y().gap(tool_gap);
     for (tool, name, key) in [
         (Tool::Select, "选择宫位", "mark-tool-select"),
         (Tool::Rectangle, "矩形", "mark-tool-rectangle"),
@@ -265,7 +269,8 @@ pub(crate) fn render<S: 'static>(
     ] {
         tools = tools.child(tool_button(marking, dispatch, tool, name, key));
     }
-    let width = WIDTH + if feedback.is_some() { 60.0 } else { 0.0 };
+    let width =
+        WIDTH + 7.0 * tool_gap + 8.0 * command_inset + if feedback.is_some() { 60.0 } else { 0.0 };
     let mut controls = row()
         .key("annotation-toolbar")
         .size(width, HEIGHT)
@@ -282,31 +287,40 @@ pub(crate) fn render<S: 'static>(
                 .mx(5.0)
                 .fill(color(ColorToken::Divider)),
         )
-        .child(command_button::<S>(
-            dispatch,
-            "mark-undo",
-            "撤销标记",
-            marking.can_undo(),
-            false,
-            false,
-        ))
-        .child(command_button::<S>(
-            dispatch,
-            "mark-redo",
-            "重做标记",
-            marking.can_redo(),
-            false,
-            true,
-        ))
-        .child(command_button::<S>(
-            dispatch,
-            "mark-clear",
-            "清空标记（可撤销）",
-            marking.can_clear(),
-            true,
-            false,
-        ))
-        .child(more_button::<S>(dispatch));
+        .child(
+            command_button::<S>(
+                dispatch,
+                "mark-undo",
+                "撤销标记",
+                marking.can_undo(),
+                false,
+                false,
+            )
+            .mx(command_inset),
+        )
+        .child(
+            command_button::<S>(
+                dispatch,
+                "mark-redo",
+                "重做标记",
+                marking.can_redo(),
+                false,
+                true,
+            )
+            .mx(command_inset),
+        )
+        .child(
+            command_button::<S>(
+                dispatch,
+                "mark-clear",
+                "清空标记（可撤销）",
+                marking.can_clear(),
+                true,
+                false,
+            )
+            .mx(command_inset),
+        )
+        .child(more_button::<S>(dispatch).mx(command_inset));
     controls = controls.child(
         el().size(1.0, 18.0)
             .mx(4.0)

@@ -43,6 +43,7 @@ fn view(root: &OtherRoot, cx: &mut Cx<OtherRoot>) -> El {
             OtherRoot::action,
             el(),
             None,
+            0.0,
         ))
         .child(chart_workspace::render_interactive::<OtherRoot>(
             root,

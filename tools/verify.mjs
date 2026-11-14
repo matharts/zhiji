@@ -19,6 +19,7 @@ const exports = [
   'export::tests::flow::hidden_stem_or_palace_export_preserves_grid_layout',
   'export::copy::tests::copy_freezes_the_visible_chart_and_hidden_marks_are_excluded',
   'export::tests::flow::exported_image_freezes_edited_drawings_and_text_before_the_dialog',
+  'app::view::tests::window_matches_wide_visual_fixture',
 ];
 /** 递归枚举实际文件，不把目录作为资源条目。 */
 function* files(dir) {

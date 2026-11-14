@@ -17,6 +17,55 @@ use crate::{
 };
 
 pub(crate) const TOOLBAR_BUTTON_SIZE: f32 = 32.0;
+pub(crate) const TITLEBAR_HEIGHT: f32 = 44.0;
+const SIDEBAR_FRACTION: f32 = 0.44;
+const SIDEBAR_MAX_WIDTH: f32 = 600.0;
+const CHART_SIDE_CLEARANCE: f32 = 48.0;
+// 上下各保留一个标题栏高度，摘要和工具栏都落在这段安全区内。
+const CHART_VERTICAL_CLEARANCE: f32 = TITLEBAR_HEIGHT * 2.0;
+// 折叠布局的 700 点保持原工具栏，随命盘放大到 1040 点时逐步增加组间距。
+const TOOLBAR_SPREAD_START: f32 = 700.0;
+const TOOLBAR_SPREAD_RANGE: f32 = 340.0;
+
+/// 宽屏时保持右栏内容宽度稳定，并把剩余空间留给命盘。
+#[derive(Clone, Copy, Debug, PartialEq)]
+struct WorkspaceColumns {
+    chart_width: f32,
+    chart_fraction: f32,
+}
+
+impl WorkspaceColumns {
+    /// 普通窗口沿用固定比例，宽屏为右栏封顶；所有列宽从这里统一计算。
+    fn new(window_width: f32, collapsed: bool) -> Self {
+        let window_width = if window_width.is_finite() && window_width > 0.0 {
+            window_width
+        } else {
+            crate::preferences::settings::DEFAULT_WINDOW_SIZE.0
+        };
+        if collapsed {
+            return Self {
+                chart_width: window_width,
+                chart_fraction: 1.0,
+            };
+        }
+        let sidebar = (window_width * SIDEBAR_FRACTION).min(SIDEBAR_MAX_WIDTH);
+        let chart_width = window_width - sidebar;
+        Self {
+            chart_width,
+            chart_fraction: chart_width / window_width,
+        }
+    }
+
+    /// 返回命盘区占窗口宽度的比例，标题栏拖动区也使用同一值。
+    fn chart_fraction(self) -> f32 {
+        self.chart_fraction
+    }
+
+    /// 返回宽屏命盘区宽度；布局尚未就绪时用于定位兜底。
+    fn chart_width(self) -> f32 {
+        self.chart_width
+    }
+}
 
 /// 分发标注工具栏动作。
 fn toolbar_action(state: &mut AppState, action: marking_toolbar::ToolbarAction) {
@@ -92,13 +141,28 @@ pub(crate) fn render(state: &AppState, cx: &mut Cx<AppState>) -> El {
     cx.reduced_motion(state.workspace.motion().resolve(cx.system_reduced_motion()));
     let collapsed = state.workspace.presentation().sidebar_collapsed();
     let background = zhiji_ui::color(zhiji_ui::ColorToken::Window);
+    let window_width = cx
+        .layout_size("window-root")
+        .map(|size| size[0])
+        .or(state.window_size.map(|size| size.0))
+        .unwrap_or(crate::preferences::settings::DEFAULT_WINDOW_SIZE.0);
+    let columns = WorkspaceColumns::new(window_width, collapsed);
     let chart_layout = if collapsed {
-        cx.layout_with("chart-pane", |[_, _, width, height]| {
+        cx.layout_with("chart-pane", move |[_, _, width, height]| {
             chart::Layout::fit_collapsed(width, height - marking_toolbar::RESERVED_HEIGHT)
         })
     } else {
-        cx.layout_with("chart-pane", |[_, _, width, height]| {
-            chart::Layout::fit(width, height - marking_toolbar::RESERVED_HEIGHT)
+        cx.layout_with("chart-pane", move |[_, _, width, height]| {
+            let fit = chart::Layout::fit(width, height - marking_toolbar::RESERVED_HEIGHT);
+            let expanded = chart::Layout::fit_expanded(
+                width - CHART_SIDE_CLEARANCE,
+                height - marking_toolbar::RESERVED_HEIGHT - CHART_VERTICAL_CLEARANCE,
+            );
+            if expanded.side() > fit.side() {
+                expanded
+            } else {
+                fit
+            }
         })
     }
     .unwrap_or_default();
@@ -137,7 +201,7 @@ pub(crate) fn render(state: &AppState, cx: &mut Cx<AppState>) -> El {
     );
     let pane = col()
         .key("chart-pane")
-        .w_frac(if collapsed { 1.0 } else { 0.56 })
+        .w_frac(columns.chart_fraction())
         .h_full()
         .center()
         .fill(background)
@@ -232,7 +296,7 @@ pub(crate) fn render(state: &AppState, cx: &mut Cx<AppState>) -> El {
     }
     root = root
         .child(content)
-        .child(titlebar::render(state, cx.chrome_insets()))
+        .child(titlebar::render(state, cx.chrome_insets(), columns))
         .child(chart_summary(state).anchored("chart-workspace", Side::Top, Align::Center, 12.0))
         .child(
             marking_toolbar::render(
@@ -245,6 +309,8 @@ pub(crate) fn render(state: &AppState, cx: &mut Cx<AppState>) -> El {
                     AppState::request_export,
                 ),
                 export_control::feedback(state.tasks.export.status()),
+                ((chart_layout.side() - TOOLBAR_SPREAD_START) / TOOLBAR_SPREAD_RANGE)
+                    .clamp(0.0, 1.0),
             )
             .anchored("chart-toolbar-anchor", Side::Top, Align::Center, 0.0),
         );
@@ -379,7 +445,7 @@ pub(crate) fn render(state: &AppState, cx: &mut Cx<AppState>) -> El {
         let pane_rect = cx.window_layout("chart-pane").unwrap_or([
             0.0,
             0.0,
-            state.window_size.map_or(1300.0, |s| s.0) * if collapsed { 1.0 } else { 0.56 },
+            columns.chart_width(),
             pane_height,
         ]);
         let factor = chart_layout.side() / chart::SIZE;
@@ -395,3 +461,7 @@ pub(crate) fn render(state: &AppState, cx: &mut Cx<AppState>) -> El {
     }
     root
 }
+
+#[cfg(test)]
+#[path = "../../../tests/unit/app/view.rs"]
+mod tests;

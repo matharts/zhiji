@@ -178,7 +178,12 @@ pub(super) fn view(state: &AppState, cx: &mut Cx<AppState>, target: [f32; 4]) ->
     );
     // 全窗口场景之上仍保留原生关闭、最小化和窗口拖动区域。
     root = root
-        .child(el().absolute(0.0, 0.0).w_full().h(44.0).window_drag())
+        .child(
+            el().absolute(0.0, 0.0)
+                .w_full()
+                .h(crate::app::view::TITLEBAR_HEIGHT)
+                .window_drag(),
+        )
         .child(
             el().key("skip-first-launch")
                 .absolute(width - 104.0, height - 58.0)

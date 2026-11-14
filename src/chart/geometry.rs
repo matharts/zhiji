@@ -231,6 +231,19 @@ impl Layout {
         }
     }
 
+    /// 将命盘适配到宽屏可用空间，允许超过参考尺寸以保持全屏可读性。
+    pub(crate) fn fit_expanded(width: f32, height: f32) -> Self {
+        const EXPANDED_MAX: f32 = 1120.0;
+        let available = width.min(height);
+        if available.is_finite() && available > 0.0 {
+            Self {
+                side: available.min(EXPANDED_MAX),
+            }
+        } else {
+            Self::default()
+        }
+    }
+
     /// 侧栏收起时允许放大，同时保留控件安全间距。
     pub(crate) fn fit_collapsed(width: f32, height: f32) -> Self {
         // 水平留白同时避让右上角侧栏按钮。

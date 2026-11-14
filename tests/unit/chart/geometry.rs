@@ -10,6 +10,14 @@ fn fit_preserves_reference_size_and_uses_the_smaller_dimension() {
 }
 
 #[test]
+/// 验证宽屏命盘可超过参考尺寸，但不会无限放大。
+fn expanded_layout_grows_beyond_the_reference_and_stops_at_the_limit() {
+    assert_eq!(Layout::fit_expanded(900.0, 800.0).side(), 800.0);
+    assert_eq!(Layout::fit_expanded(1300.0, 1200.0).side(), 1120.0);
+    assert_eq!(Layout::fit_expanded(0.0, 400.0), Layout::default());
+}
+
+#[test]
 /// 验证收起侧栏后的命盘为工具栏保留空间。
 fn collapsed_chart_fits_with_room_for_the_toolbar() {
     let fit = |width, height| Layout::fit_collapsed(width, height);

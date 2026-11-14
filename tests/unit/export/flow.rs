@@ -1,8 +1,6 @@
 use super::*;
+use crate::visual_support as visual;
 use std::time::{Duration, Instant};
-
-#[path = "../../support/visual.rs"]
-mod visual;
 
 /// 用注入渲染器打开真实视图中的导出面板。
 fn open_export_dialog(
