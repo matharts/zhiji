@@ -2,28 +2,31 @@
 
 ## 检查入口
 
-从仓库根目录运行。统一入口是 [verify.mjs](../tools/verify.mjs)，它为测试隔离应用配置；已有依赖缓存时可追加 `--offline`。
+从仓库根目录运行。统一入口是 [verify.ts](../tools/verify.ts)，它为测试隔离应用配置；已有依赖缓存时可追加 `--offline`。
 
 ```sh
+# 工具脚本的严格 TypeScript 类型检查；首次先执行 pnpm install
+mise exec -- node tools/verify.ts types
+
 # 资源清单、校验值和内嵌路径
-mise exec -- node tools/verify.mjs resources
+mise exec -- node tools/verify.ts resources
 
 # 资源、rustfmt、严格 Clippy、全工作区常规测试
-mise exec -- node tools/verify.mjs rust
+mise exec -- node tools/verify.ts rust
 
 # 需可用图形适配器：真实 PNG 导出与离屏视觉回归
-mise exec -- node tools/verify.mjs gpu
+mise exec -- node tools/verify.ts gpu
 
 # macOS 打包应用的原生交互
-mise exec -- node tools/verify.mjs native --app-bundle 'target/release/知几.app'
+mise exec -- node tools/verify.ts native --app-bundle 'target/release/知几.app'
 
 # 已生成 target/updates 中的签名产物：使用客户端实际验签
-mise exec -- node tools/verify.mjs updates
+mise exec -- node tools/verify.ts updates
 ```
 
-`rust` 使用所有 targets 和 features，但不会执行标记为 ignored 的 GPU 或测量测试。`gpu` 和 `updates` 先检查测试选择，再核对执行数量；零项选择不能当作通过。`updates` 必须精确选中并通过一项客户端产物验签测试，产物准备见[发布约定](releasing.md)。
+`types` 使用根级 `typescript` 按 `tsconfig.json` 对 `tools/` 和 `tests/` 做严格检查，不生成文件；桌面 CI 在安装锁定的开发依赖后执行。`rust` 使用所有 targets 和 features，但不会执行标记为 ignored 的 GPU 或测量测试。`gpu` 和 `updates` 先检查测试选择，再核对执行数量；零项选择不能当作通过。`updates` 必须精确选中并通过一项客户端产物验签测试，产物准备见[发布约定](releasing.md)。
 
-`rust` 和桌面 CI 运行字体工具、更新元数据、`tests/architecture.test.mjs`、`tests/verify.test.mjs`、海外候选审计及优先城市迁移六组 Node 测试。架构检查覆盖内部 crate 的直接依赖，以及工作区、设置、更新和诊断生产源码中对 `AppState` 与显式应用模块路径的引用；源码检查是有限的文本哨兵，不替代 Rust 名称解析或完整依赖图分析。校验入口测试验证零项选择、多项选择、忽略及执行数量不符都会失败。海外数据测试分别检查候选审计的冲突隔离、重复 ID 拒绝，以及迁移遇到非法人口值时不写入任何资源。外置单元测试仍可组合应用根视图。
+`rust` 和桌面 CI 运行字体、更新、架构、校验入口及地点数据 Node 测试。地点测试检查候选审计的冲突隔离、重复 ID 拒绝、国内目录确定性重建、批次配置一致性，以及迁移和完整重放在输入或清单故障时不写入任何资源。架构检查覆盖内部 crate 的直接依赖，以及工作区、设置、更新和诊断生产源码中对 `AppState` 与显式应用模块路径的引用；源码检查是有限的文本哨兵，不替代 Rust 名称解析或完整依赖图分析。校验入口测试验证零项选择、多项选择、忽略及执行数量不符都会失败。外置单元测试仍可组合应用根视图。
 
 视觉回归需要 `visual-test` feature，统一 GPU 入口会启用它。单独运行时使用 `cargo test --locked -p zhiji --features visual-test --test visual_regression -- --ignored --test-threads=1`。普通构建不注册测试场景；`rust` 入口也会检查普通构建与测试构建的场景配置。
 
@@ -89,13 +92,15 @@ mise exec -- node tools/verify.mjs updates
 
 再次 review 后收紧三处边界：窗口帧从视图构建到 `on_frame_encoded` 持有界面语言门闩，离屏任务只在视图构建与 `Runtime::frame` 文字排版期间临时切换，排版结束后立即释放，GPU 准备和读回不阻塞设置；无头单元测试没有原生编码回调，因此测试构建不启用自动帧门闩，阻塞、重复进入和释放由专用线程测试验证。地点搜索同时使用原文、简体和繁体查询，`河内／河內`、`长春／長春`、`乾县／乾縣` 均可命中，错误简体“干县”不会命中“乾县”。导出恢复测试改为复用导出前创建的 `TextSystem`，导出后重新排版并读取其实际语言；删除 Rune 语言恢复代码会使测试失败。Runtime 还以真实后台导出验证了任务完成，避免仅靠应用侧影子状态假通过。
 
-本轮执行 `mise exec -- node tools/verify.mjs rust`（568 项工作区测试通过，另有 14 项 Node 检查）及 `mise exec -- node tools/verify.mjs gpu`（10 项图片导出、13 项视觉回归通过）。保留现有参考图、比较容差和负向对照，未重生成基准；这些自动化结果不替代 Windows/Linux 原生验收。
+本轮执行 `mise exec -- node tools/verify.ts rust`（568 项工作区测试通过，另有 14 项 Node 检查）及 `mise exec -- node tools/verify.ts gpu`（10 项图片导出、13 项视觉回归通过）。保留现有参考图、比较容差和负向对照，未重生成基准；这些自动化结果不替代 Windows/Linux 原生验收。
 
-2026-11-14 修复 Desktop CI 的测试隔离问题：工作区测试改为与 `verify.mjs rust` 一样串行执行，避免多个测试线程同时改写 Rune 的进程级语言选择。无头截图固定使用 macOS 标题栏安全区和平台默认配置目录文案，使同一套窗口基准可在 Linux 软件 Vulkan 上比较；真实 Linux 窗口仍按自身平台显示。比较器仅在整幅图每个通道的最大差异不超过 2 时豁免后端合成舍入，原有变化像素、均值和分块阈值不变，并以通道差 3 的负向用例确认仍会拒绝；未重新生成参考图。资源文本通过 `.gitattributes` 固定 LF，避免 Windows 检出转换换行后与清单摘要不符。
+2026-11-14 修复 Desktop CI 的测试隔离问题：工作区测试改为与 `verify.ts rust` 一样串行执行，避免多个测试线程同时改写 Rune 的进程级语言选择。无头截图固定使用 macOS 标题栏安全区和平台默认配置目录文案，使同一套窗口基准可在 Linux 软件 Vulkan 上比较；真实 Linux 窗口仍按自身平台显示。比较器仅在整幅图每个通道的最大差异不超过 2 时豁免后端合成舍入，原有变化像素、均值和分块阈值不变，并以通道差 3 的负向用例确认仍会拒绝；未重新生成参考图。资源文本通过 `.gitattributes` 固定 LF，避免 Windows 检出转换换行后与清单摘要不符。
 
 同日新增 `window-wide-1728x1084-1x.png` 宽屏窗口基准，覆盖右栏 600 点封顶、命盘随高度放大、顶部摘要与标注工具栏。列宽在右栏封顶和命盘放大区间连续变化，另有相邻窗口宽度的布局断言；该基准使用与窗口一致的 sRGB 合成路径，不能替代真实全屏窗口和系统控制区验收。大盘工具栏增加组间距后，`collapsed-square-1x.png` 仅更新工具栏区域 `x=240..759, y=942..985`（包含边界），共 4125 个像素发生变化，区域外与旧基准一致；比较容差和其他参考图未调整。
 
-同日并行改造日期输入状态机、偏好投影和字体语言门闩：日期校验只返回字段意图，具体焦点 key 与 Rune 按键适配留在视图；工作区只保留一份偏好字段，`settings.json` 继续使用扁平字段；时钟改用 libc 的 `tm`，设置、草稿和最近文件在替换前同步临时文件。`mise exec -- node tools/verify.mjs rust` 通过（580 项工作区测试、17 项 Node 检查），`mise exec -- node tools/verify.mjs gpu` 通过（24 项 GPU 检查，其中 13 项视觉回归）。随后构建并临时签名的 release 应用包通过原生辅助功能、系统菜单及真实文件流程检查；文件流程连续三次通过，覆盖首次保存、直接保存、另存为、外部冲突、最近文件及保存后退出。本轮未重生成视觉基准，应用包未公证。
+同日并行改造日期输入状态机、偏好投影和字体语言门闩：日期校验只返回字段意图，具体焦点 key 与 Rune 按键适配留在视图；工作区只保留一份偏好字段，`settings.json` 继续使用扁平字段；时钟改用 libc 的 `tm`，设置、草稿和最近文件在替换前同步临时文件。`mise exec -- node tools/verify.ts rust` 通过（580 项工作区测试、17 项 Node 检查），`mise exec -- node tools/verify.ts gpu` 通过（24 项 GPU 检查，其中 13 项视觉回归）。随后构建并临时签名的 release 应用包通过原生辅助功能、系统菜单及真实文件流程检查；文件流程连续三次通过，覆盖首次保存、直接保存、另存为、外部冲突、最近文件及保存后退出。本轮未重生成视觉基准，应用包未公证。
+
+同日整理 `tools/`：海外地点脚本迁入 `tools/birthplaces/`，使用 Node 26 直接执行的可擦除 TypeScript；重放与名称审计共用 `pipeline.ts` 的批次顺序，地点、时区和清单写入统一经过 `catalog.ts`。完整重放先在临时目录执行，全部步骤和清单摘要校验通过后才提交资源；单步生成也不再先改资源、后因清单损坏失败。国内目录生成保留既有 JSON 键顺序。新增批次一致性、国内目录确定性、完整重放、故障不写入、名称覆盖及清单损坏回归；`node --test` 共 25 项通过，`node tools/verify.ts resources` 通过，隔离完整重放与当前资源逐字节一致。未修改地点内容、资源参考值或应用视觉。
 
 ## 原生与平台验证
 
@@ -179,7 +184,7 @@ swiftc tests/macos_test_application.swift tests/macos_file_open.swift -o /tmp/zh
 
 macOS 的 `valid_mac_archive_replaces_and_restarts_an_isolated_bundle` 在临时目录执行真实 tar 解包、应用包原子交换和重启命令，核对旧资源清理、版本变化及旧进程 PID 参数。合成程序仅写入启动标记，不打开窗口；该测试不代表真实应用启动、系统签名信任或公开源升级验收。
 
-`mise exec -- node --test tests/updates.test.mjs` 验证目标与发布协议。更新签名工具在生成每个产物后独立复核签名和客户端公钥。线上发布后，必须用公开更新源验证真实升级，不把本机签名包当成已上线。
+`mise exec -- node --test tests/updates.test.ts` 验证目标与发布协议。更新签名工具在生成每个产物后独立复核签名和客户端公钥。线上发布后，必须用公开更新源验证真实升级，不把本机签名包当成已上线。
 
 2026-11-13 为三端统一增加自动更新开关，并将“前往下载”改为应用内“下载更新”。审阅新旧截图后更新 `settings-about-1x.png` 和 `update-available-1x.png`：分别有 61663 和 62150 个变化像素，边界分别为 `x=746..1281, y=166..458`、`x=746..1281, y=169..490`（包含边界）；关于页之外逐字节一致。`help-guide-1x.png` 同步更新遮罩后露出的关于页背景，33949 个变化像素全部位于 `x=970..1281, y=166..457`，帮助面板正文和命盘逐字节一致。其他基准和比较容差不变。
 

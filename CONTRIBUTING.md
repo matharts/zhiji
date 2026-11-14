@@ -18,7 +18,7 @@ sudo apt-get install -y libxkbcommon-dev libwayland-dev libssl-dev pkg-config
 
 图形运行与原生自动化还有平台依赖，以 [.github/workflows/desktop.yml](.github/workflows/desktop.yml) 为准。
 
-Node.js 用于项目验证与部分基准工具；历史基准采集另需 Bun 和 Playwright CLI。这些工具不加入应用运行依赖。字体资源的来源和维护限制见[字体说明](assets/fonts/README.md)。
+Node.js 用于项目验证与部分基准工具；历史基准采集另需 Bun 和 Playwright CLI。这些工具不加入应用运行依赖。工具脚本的静态类型检查需要先执行 `mise exec -- pnpm install`，再运行 `mise exec -- node tools/verify.ts types`。字体资源的来源和维护限制见[字体说明](assets/fonts/README.md)。
 
 ## 修改流程
 
@@ -68,7 +68,9 @@ docs: 补充 Git 提交规范
 
 ## 代码约定
 
-实现时遵循[代码规范](docs/coding.md)和[架构](docs/architecture.md)；界面修改遵循[界面规范](docs/interface.md)。格式使用 rustfmt，静态检查使用严格 Clippy；共享命令以 `tools/verify.mjs` 为入口。
+实现时遵循[代码规范](docs/coding.md)和[架构](docs/architecture.md)；界面修改遵循[界面规范](docs/interface.md)。格式使用 rustfmt，静态检查使用严格 Clippy；共享命令以 `tools/verify.ts` 为入口。
+
+开发工具使用 Node 26。脚本以可直接执行的 TypeScript 编写，不生成转译产物，运行时仍由 Node 擦除类型。根级 `package.json` 只固定静态检查工具；`pnpm install` 后的 `tools/verify.ts types` 按 `tsconfig.json` 对 `tools/` 和 `tests/` 执行严格类型检查。资源读写统一经过 `tools/birthplaces/catalog.ts`，批次顺序统一由 `tools/birthplaces/pipeline.ts` 维护。工具职责、命名约定和命令见 [tools/README.md](tools/README.md)。
 
 ## 文档维护
 

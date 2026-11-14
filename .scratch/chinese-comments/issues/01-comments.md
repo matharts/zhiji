@@ -22,8 +22,8 @@ Blocked by: none
 
 ### 注释审计
 
-- `node .scratch/chinese-comments/audit.mjs`：最近一次扫描 1779 个 Rust 函数及接口声明，遗漏 0。
-- `node .scratch/chinese-comments/audit-scripts.mjs`：最近一次扫描 JavaScript 53、TypeScript（含 Astro 脚本）46、C 6、Swift 52 个具名函数或方法，遗漏 0。
+- `node .scratch/chinese-comments/audit.ts`：最近一次扫描 1779 个 Rust 函数及接口声明，遗漏 0。
+- `node .scratch/chinese-comments/audit-scripts.ts`：最近一次扫描 JavaScript 53、TypeScript（含 Astro 脚本）46、C 6、Swift 52 个具名函数或方法，遗漏 0。
 - 测试回调的中文验证意图及遗留英文说明另经源码核查；审计只证明说明存在，不自动证明说明质量。
 - 工作区存在同期变动，以上计数对应本次扫描时的源码；审计脚本可再次执行。
 

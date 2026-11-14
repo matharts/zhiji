@@ -26,8 +26,10 @@ mise run desktop:run
 mise run desktop:run -- --scene reference
 
 # 资源、格式、Clippy 和常规测试
-mise exec -- node tools/verify.mjs rust
+mise exec -- node tools/verify.ts rust
 ```
+
+开发工具及地点数据重建命令见 [tools/README.md](tools/README.md)。
 
 ## 项目文档
 

@@ -19,7 +19,7 @@
 SIMULATOR_CHECKOUT=/path/to/ziwei-simulator
 bun tests/fixtures/generate-simulator-oracle.ts "$SIMULATOR_CHECKOUT" > /tmp/simulator-oracle.json
 cmp tests/fixtures/simulator-oracle.json /tmp/simulator-oracle.json
-node tests/fixtures/verify-simulator-fixtures.cjs
+node tests/fixtures/verify-simulator-fixtures.ts
 ```
 
 扩大组合覆盖时生成临时样例，再交给核心测试：
@@ -29,7 +29,7 @@ bun tests/fixtures/generate-simulator-oracle.ts "$SIMULATOR_CHECKOUT" --matrix >
 ZHIJI_SIMULATOR_ORACLE=/tmp/simulator-matrix.json mise exec -- cargo test --locked -p zhiji_core --test simulator_reference reference_cases_match_every_palace_and_star
 ```
 
-`verify-simulator-fixtures.cjs` 检查历史样例内部一致性，不运行当前桌面应用。
+`verify-simulator-fixtures.ts` 检查历史样例内部一致性，不运行当前桌面应用。
 
 ## 浏览器重采集
 
@@ -39,8 +39,8 @@ ZHIJI_SIMULATOR_ORACLE=/tmp/simulator-matrix.json mise exec -- cargo test --lock
 mkdir -p output/playwright
 playwright-cli -s=simulator open http://localhost:4593
 playwright-cli -s=simulator resize 1300 800
-playwright-cli -s=simulator --json run-code --filename=tests/fixtures/capture-simulator.js > /tmp/simulator-browser-result.json
-node tests/fixtures/verify-simulator-fixtures.cjs /tmp/simulator-browser-result.json
+playwright-cli -s=simulator --json run-code --filename=tests/fixtures/capture-simulator.ts > /tmp/simulator-browser-result.json
+node tests/fixtures/verify-simulator-fixtures.ts /tmp/simulator-browser-result.json
 playwright-cli -s=simulator close
 ```
 

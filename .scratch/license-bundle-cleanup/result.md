@@ -41,7 +41,7 @@ gzip 使用 Node 默认参数离线计算，不代表真实服务器的传输字
 
 浏览器测试将 GitHub 最新发布接口替换为合成响应，避免公开源状态影响本地渲染检查；不是公开发布或下载链路验收。首次分块方案出现构造器初始化顺序错误，修正后完整复测通过，未放宽断言。
 
-截图、浏览器结果、分块大小和许可证比较记录见[验收证据](../../output/playwright/license-bundle-cleanup/)；可重复执行的浏览器脚本为 [browser-check.js](browser-check.js)。完整命令日志同时保留在 `/tmp/zhiji-license-cleanup-resources.log`、`/tmp/zhiji-bundle-cleanup-tests.log`、`/tmp/zhiji-bundle-cleanup-check.log`、`/tmp/zhiji-bundle-cleanup-build.log`。
+截图、浏览器结果、分块大小和许可证比较记录见[验收证据](../../output/playwright/license-bundle-cleanup/)；可重复执行的浏览器脚本为 [browser-check.ts](browser-check.ts)。完整命令日志同时保留在 `/tmp/zhiji-license-cleanup-resources.log`、`/tmp/zhiji-bundle-cleanup-tests.log`、`/tmp/zhiji-bundle-cleanup-check.log`、`/tmp/zhiji-bundle-cleanup-build.log`。
 
 ## 边界
 

@@ -63,5 +63,5 @@ assert_eq!(Calendar.to_solar(lunar, date.calendar())?, date);
 
 ```sh
 mise exec -- cargo test --locked --offline -p zhiji_calendar
-mise exec -- node tools/verify.mjs rust --offline
+mise exec -- node tools/verify.ts rust --offline
 ```

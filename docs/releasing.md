@@ -46,11 +46,11 @@ macOS 文档类型声明来自 [Info.plist](../assets/macos/Info.plist)，打包
 
 ```sh
 # 仅首次配置；已有私钥时绝不覆盖。公钥变更须单独设计客户端信任过渡。
-mise exec -- node tools/updates.mjs keygen
+mise exec -- node tools/release/updates.ts keygen
 # 在对应系统和架构完成构建打包后，生成签名更新资产。
-mise exec -- node tools/updates.mjs prepare
+mise exec -- node tools/release/updates.ts prepare
 # 使用客户端校验实际签名产物；必须选中并通过一项测试。
-mise exec -- node tools/verify.mjs updates
+mise exec -- node tools/verify.ts updates
 ```
 
 发布 tag 使用 `v<三段正式版本>`，与 Cargo 版本及应用显示版本一致。各目标生成 `latest-<系统>-<架构>.json`、对应更新包、签名和 SHA-256。将全部目标资产上传到同一次正式 Release；源固定为本项目 `releases/latest/download/latest-<系统>-<架构>.json`。签名元数据绑定目标、正式版本、下载 URL、字节数和包签名，签名后不得编辑。生成工具独立验证签名与应用公钥一致。CI 只上传构建产物，不自动公开发布；配置 secret 和正式发布须单独完成。尚无公开源时显示“暂无公开更新”，不误报为最新版。

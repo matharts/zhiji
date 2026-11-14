@@ -23,16 +23,20 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libxkbcommon-dev libwayland-dev libssl-dev pkg-config patchelf squashfs-tools desktop-file-utils xdg-utils libx11-xcb1 libxcursor1 libxi6 libxrandr2
       - uses: jdx/mise-action@v5
+      - name: Install TypeScript tooling
+        run: mise exec -- pnpm install --frozen-lockfile
+      - name: Check TypeScript tooling
+        run: mise exec -- node tools/verify.ts types
       - name: Verify embedded resources
-        run: mise exec -- node tools/verify.mjs resources
+        run: mise exec -- node tools/verify.ts resources
       - name: Check font tooling
-        run: mise exec -- node --test tests/font_tools.test.mjs
+        run: mise exec -- node --test tests/font_tools.test.ts
       - name: Check updater release metadata
-        run: mise exec -- node --test tests/updates.test.mjs
+        run: mise exec -- node --test tests/updates.test.ts
       - name: Check architecture and verification guards
-        run: mise exec -- node --test tests/architecture.test.mjs tests/verify.test.mjs
+        run: mise exec -- node --test tests/architecture.test.ts tests/verify.test.ts
       - name: Check overseas data tooling
-        run: mise exec -- node --test tests/overseas_candidate_audit.test.mjs tests/overseas_priority_migration.test.mjs
+        run: mise exec -- node --test tests/overseas_candidate_audit.test.ts tests/overseas_priority_migration.test.ts tests/china_divisions.test.ts tests/places_pipeline.test.ts tests/name_assignments.test.ts
       - name: Check formatting
         if: runner.os == 'macOS' && matrix.os == 'macos-15'
         run: mise exec -- cargo fmt --all -- --check
@@ -64,10 +68,10 @@ jobs:
         env:
           CARGO_PACKAGER_SIGN_PRIVATE_KEY: ${{ secrets.CARGO_PACKAGER_SIGN_PRIVATE_KEY }}
           CARGO_PACKAGER_SIGN_PRIVATE_KEY_PASSWORD: ${{ secrets.CARGO_PACKAGER_SIGN_PRIVATE_KEY_PASSWORD }}
-        run: mise exec -- node tools/updates.mjs prepare
+        run: mise exec -- node tools/release/updates.ts prepare
       - name: Verify signed artifacts with the updater client
         if: startsWith(github.ref, 'refs/tags/v')
-        run: mise exec -- node tools/verify.mjs updates
+        run: mise exec -- node tools/verify.ts updates
       - name: Upload desktop package
         uses: actions/upload-artifact@v7
         with:
@@ -102,7 +106,7 @@ jobs:
             export VK_ICD_FILENAMES="$driver"
             break
           done
-          mise exec -- node tools/verify.mjs gpu
+          mise exec -- node tools/verify.ts gpu
       - name: Check native Linux accessibility
         shell: bash
         run: |

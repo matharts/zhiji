@@ -36,7 +36,7 @@ Generate the subset in a separate, empty output directory using HarfBuzz
 `hb-subset`:
 
 ```sh
-mise exec -- node tools/fonts.mjs tc /path/to/SourceHanSerifTC-VF.otf --output /path/to/generated/tc
+mise exec -- node tools/fonts/generate-subsets.ts tc /path/to/SourceHanSerifTC-VF.otf --output /path/to/generated/tc
 ```
 
 The source must have SHA-256
@@ -49,7 +49,7 @@ regressions before replacing the asset.
 The Han supplement can be regenerated separately from the Hanazono source:
 
 ```sh
-mise exec -- node tools/fonts.mjs supplemental /path/to/HanaMinB.ttf --output /path/to/generated/supplemental
+mise exec -- node tools/fonts/generate-subsets.ts supplemental /path/to/HanaMinB.ttf --output /path/to/generated/supplemental
 ```
 
 Its source SHA-256 is

@@ -251,7 +251,7 @@ fn cancellation_cannot_abandon_an_installation() {
 }
 
 #[test]
-#[ignore = "需要先构建、打包并运行 tools/updates.mjs prepare"]
+#[ignore = "需要先构建、打包并运行 tools/release/updates.ts prepare"]
 /// 用客户端校验器验证真实发布产物，避免发布工具和客户端各自通过却互不兼容。
 fn packaged_update_signatures_match_client() {
     let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("target/updates");

@@ -1,5 +1,6 @@
 /target/
 /output/
+/node_modules/
 
 # Local tool state and browser snapshots
 /.playwright-cli/

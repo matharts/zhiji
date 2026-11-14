@@ -5,9 +5,12 @@
 从仓库根目录运行：
 
 ```sh
-mise exec -- node tools/calendar-validation/reference.mjs verify
-mise exec -- node tools/calendar-validation/run.mjs all
-mise exec -- node tools/calendar-validation/check.mjs
+# 校验并整理固定参考数据
+mise exec -- node tools/calendar-validation/references.ts
+# 执行完整历法评估
+mise exec -- node tools/calendar-validation/evaluate.ts
+# 检查独立工程与参考解析测试
+mise exec -- node tools/calendar-validation/verify.ts
 ```
 
 命令默认离线。首次缺少依赖缓存时先执行：
