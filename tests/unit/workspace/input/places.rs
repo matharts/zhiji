@@ -563,6 +563,60 @@ fn input_editor_places_search_supports_cities_counties_english_and_fifty_limit()
 }
 
 #[test]
+/// 验证地点检索同时接受简体、繁体输入，并保留“乾县”等地名专名。
+fn input_editor_places_search_accepts_both_chinese_variants() {
+    let catalog = catalog();
+    for query in ["河内", "河內"] {
+        assert!(
+            catalog
+                .search(PlaceMode::Overseas, query)
+                .iter()
+                .any(|result| matches!(
+                    &result.target,
+                    PlaceSearchTarget::Selection(PlaceSelection::Overseas { city, .. })
+                        if city == "1581130"
+                )),
+            "{query}"
+        );
+    }
+    for query in ["长春", "長春"] {
+        assert!(
+            catalog
+                .search(PlaceMode::Domestic, query)
+                .iter()
+                .any(|result| matches!(
+                    &result.target,
+                    PlaceSearchTarget::City { city, .. } if city == "cn:220100"
+                )),
+            "{query}"
+        );
+    }
+    for query in ["乾县", "乾縣"] {
+        assert!(
+            catalog
+                .search(PlaceMode::Domestic, query)
+                .iter()
+                .any(|result| matches!(
+                    &result.target,
+                    PlaceSearchTarget::Selection(PlaceSelection::Domestic { county, .. })
+                        if county == "cn:610424"
+                )),
+            "{query}"
+        );
+    }
+    assert!(
+        catalog
+            .search(PlaceMode::Domestic, "干县")
+            .iter()
+            .all(|result| !matches!(
+                &result.target,
+                PlaceSearchTarget::Selection(PlaceSelection::Domestic { county, .. })
+                    if county == "cn:610424"
+            ))
+    );
+}
+
+#[test]
 /// 验证城市搜索填充路径后仍可只确认城市。
 fn input_editor_places_city_search_selects_path_but_still_allows_city() {
     let catalog = catalog();

@@ -1208,6 +1208,18 @@ fn general_settings_apply_theme_motion_scale_and_date_defaults() {
         runtime.state.workspace.ui_scale(),
         crate::preferences::settings::UiScale::Large
     );
+    tap(&mut runtime, "setting-chinese-variant-traditional");
+    assert_eq!(
+        runtime.state.workspace.chinese_variant(),
+        crate::preferences::settings::ChineseVariant::Traditional
+    );
+    assert_selected_indicator(&runtime, "setting-chinese-variant", "traditional");
+    tap(&mut runtime, "setting-chinese-variant-simplified");
+    assert_eq!(
+        runtime.state.workspace.chinese_variant(),
+        crate::preferences::settings::ChineseVariant::Simplified
+    );
+    assert_selected_indicator(&runtime, "setting-chinese-variant", "simplified");
 
     tap(&mut runtime, "settings-category-chart");
     tap(&mut runtime, "setting-date-mode-pillars");
@@ -1234,6 +1246,160 @@ fn general_settings_apply_theme_motion_scale_and_date_defaults() {
             .elements()
             .iter()
             .any(|item| { item.key.as_deref() == Some("date-mode-pillars") && item.item_selected })
+    );
+}
+
+#[test]
+/// 验证简繁标准映射到对应的字体排版语言。
+fn chinese_variant_maps_to_font_language() {
+    use crate::preferences::settings::ChineseVariant;
+
+    let mut text =
+        rune::text::TextSystem::new(crate::fonts::FONTS.files, crate::fonts::FONTS.families);
+    assert!(
+        text.set_language(
+            parley::fontique::Language::parse(ChineseVariant::Traditional.tag()).ok()
+        )
+    );
+    assert_eq!(
+        text.language(),
+        parley::fontique::Language::parse("zh-Hant").ok()
+    );
+}
+
+#[test]
+/// 验证简繁体设置转换设置页文案，而非只替换字形。
+fn chinese_variant_setting_converts_interface_text() {
+    let mut runtime = Runtime::new(
+        AppState::with_input(sample_input(false)),
+        view,
+        (1300.0, 800.0),
+        Env::new(false, 1.0),
+    );
+    runtime.on_key = Some(on_key);
+    runtime.frame(0.0);
+    tap(&mut runtime, "open-settings");
+    tap(&mut runtime, "settings-category-appearance");
+    tap(&mut runtime, "setting-chinese-variant-traditional");
+    runtime.frame(0.2);
+    assert!(
+        runtime
+            .elements()
+            .iter()
+            .any(|element| element.text.as_deref() == Some("介面簡繁體"))
+    );
+    assert!(
+        runtime
+            .elements()
+            .iter()
+            .any(|element| element.text.as_deref() == Some("繁體"))
+    );
+    for expected in ["設定", "介面外觀", "介面文字大小", "開啟", "重設", "丑"] {
+        assert!(
+            runtime
+                .elements()
+                .iter()
+                .any(|element| element.text.as_deref() == Some(expected)),
+            "繁体界面缺少：{expected}"
+        );
+    }
+    for unexpected in ["設置", "界面外觀", "界面字號", "開啓", "醜"] {
+        assert!(
+            !runtime
+                .elements()
+                .iter()
+                .any(|element| element.text.as_deref() == Some(unexpected)),
+            "繁体界面不应出现：{unexpected}"
+        );
+    }
+
+    tap(&mut runtime, "setting-chinese-variant-simplified");
+    runtime.frame(0.2);
+    assert!(
+        runtime
+            .elements()
+            .iter()
+            .any(|element| element.text.as_deref() == Some("界面简繁体"))
+    );
+    assert!(
+        !runtime
+            .elements()
+            .iter()
+            .any(|element| element.text.as_deref() == Some("介面簡繁體"))
+    );
+}
+
+#[test]
+/// 验证界面与命盘简繁体独立切换，混用状态不会互相覆盖。
+fn interface_and_chart_variants_are_independent() {
+    use crate::preferences::settings::ChineseVariant;
+
+    let mut runtime = Runtime::new(
+        AppState::with_input(sample_input(false)),
+        view,
+        (1300.0, 800.0),
+        Env::new(false, 1.0),
+    );
+    runtime.on_key = Some(on_key);
+    runtime.frame(0.0);
+    tap(&mut runtime, "open-settings");
+    tap(&mut runtime, "settings-category-appearance");
+    tap(&mut runtime, "setting-chinese-variant-traditional");
+    tap(&mut runtime, "setting-chart-chinese-variant-simplified");
+    runtime.frame(0.2);
+    assert_eq!(
+        runtime.state.workspace.chinese_variant(),
+        ChineseVariant::Traditional
+    );
+    assert_eq!(
+        runtime.state.workspace.chart_chinese_variant(),
+        ChineseVariant::Simplified
+    );
+    for expected in ["介面簡繁體", "命盤簡繁體", "盤面配色"] {
+        assert!(
+            runtime
+                .elements()
+                .iter()
+                .any(|element| element.text.as_deref() == Some(expected)),
+            "繁体界面缺少：{expected}"
+        );
+    }
+    assert!(
+        runtime
+            .elements()
+            .iter()
+            .any(|element| element.text.as_deref() == Some("财"))
+    );
+    assert!(
+        !runtime
+            .elements()
+            .iter()
+            .any(|element| element.text.as_deref() == Some("財"))
+    );
+
+    tap(&mut runtime, "setting-chinese-variant-simplified");
+    tap(&mut runtime, "setting-chart-chinese-variant-traditional");
+    runtime.frame(0.2);
+    for expected in ["界面简繁体", "命盘简繁体", "盘面配色"] {
+        assert!(
+            runtime
+                .elements()
+                .iter()
+                .any(|element| element.text.as_deref() == Some(expected)),
+            "简体界面缺少：{expected}"
+        );
+    }
+    assert!(
+        runtime
+            .elements()
+            .iter()
+            .any(|element| element.text.as_deref() == Some("財"))
+    );
+    assert!(
+        !runtime
+            .elements()
+            .iter()
+            .any(|element| element.text.as_deref() == Some("财"))
     );
 }
 
@@ -1972,7 +2138,7 @@ fn export_dialog_suggests_reference_name_and_cancellation_is_safe() {
     assert_eq!(kind, FileDialogKind::Save);
     assert_eq!(
         options.file_name.as_deref(),
-        Some("甲子年紫微在辰-男盤.png")
+        Some("甲子年紫微在辰-男盘.png")
     );
     runtime.resolve_file_dialog(None).unwrap();
     runtime.frame(0.0);

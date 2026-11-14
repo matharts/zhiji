@@ -26,7 +26,7 @@ pub use picker::{
 };
 pub use segmented::{Segmented, SegmentedOption};
 pub use switch::Switch;
-pub use text::{FONT_FAMILY, font, font_scope, input, label, regular_label};
+pub use text::{FONT_FAMILY, fixed_font, font, font_scope, input, label, regular_label};
 pub use tokens::{ColorToken, color, is_night, theme_scope};
 
 use rune::{Curve, Easing, El, Spring, SpringPair, Transition, Tx, Vec2};

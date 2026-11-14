@@ -4,6 +4,7 @@ use rune::{Curve, Cx, El, Image, LoopSpec, el};
 
 use super::WorkspaceHost;
 use crate::annotation::{Marking, Tool, selection::SelectionAction};
+use crate::i18n::LocalizedEl;
 
 /// 将 Rune 标注交互绑定到宿主当前工作区。
 fn marking_mut<S: WorkspaceHost>(state: &mut S) -> &mut Marking {
@@ -30,13 +31,17 @@ pub(crate) fn render_interactive<S: WorkspaceHost>(
     let workspace = host.workspace();
     let view = workspace.session().view();
     let marking = &workspace.marking;
-    let mut board = render_with_motion(
-        view,
-        seal,
-        scale,
-        workspace.night_mode(),
-        !cx.is_reduced_motion(),
-    );
+    // 仅盘内生成文字切换用字作用域，交互名称和用户标注仍沿用界面上下文。
+    let mut board = {
+        let _locale = crate::i18n::scope(workspace.chart_chinese_variant());
+        render_with_motion(
+            view,
+            seal,
+            scale,
+            workspace.night_mode(),
+            !cx.is_reduced_motion(),
+        )
+    };
     for (i, palace) in view.chart.palaces.iter().enumerate() {
         if palace.stem.is_some() {
             let branch = palace.branch;
@@ -45,7 +50,7 @@ pub(crate) fn render_interactive<S: WorkspaceHost>(
                 el().key(format!("palace-{i}"))
                     .transition(rune::Transition::none())
                     .role("button")
-                    .label(format!("{}宫飞化", branch.name()))
+                    .local_label(format!("{}宫飞化", branch.name()))
                     .checked(view.flying.is_some_and(|flying| flying.branch == branch))
                     .focusable(true)
                     .size(width, height)
@@ -89,7 +94,7 @@ pub(crate) fn render_interactive<S: WorkspaceHost>(
                 .absolute(0.0, 0.0)
                 .cursor(marking.cursor())
                 .role("group")
-                .label("命盘标注")
+                .local_label("命盘标注")
                 .focusable(true)
                 .tab_index(-1)
                 .on_pointer_move_local(|state: &mut S, pointer, tx| {
@@ -157,8 +162,8 @@ pub(crate) fn render_interactive<S: WorkspaceHost>(
         let ink = rune::Color::from(marking.ink().rgb());
         let mut editor = input(edit, style)
             .key("annotation-text")
-            .label("文字标注")
-            .help("回车完成，Shift+回车换行")
+            .local_label("文字标注")
+            .local_help("回车完成，Shift+回车换行")
             .focus_return(marking.editing_index().map_or_else(
                 || "annotation-surface".to_owned(),
                 |index| format!("annotation-object-{index}"),

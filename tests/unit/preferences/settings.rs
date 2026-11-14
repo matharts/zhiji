@@ -12,6 +12,8 @@ fn preferences_round_trip_and_fill_new_fields() {
             motion: MotionMode::Off,
             date_mode: DateModePreference::Pillars,
             ui_scale: UiScale::Large,
+            chinese_variant: ChineseVariant::Traditional,
+            chart_chinese_variant: ChineseVariant::Simplified,
             restore_layout: false,
             remember_display: true,
             export_scale: ExportScale::Ultra,
@@ -37,8 +39,35 @@ fn preferences_round_trip_and_fill_new_fields() {
     assert!(partial.values.restore_layout);
     assert!(!partial.values.remember_display);
     assert_eq!(partial.values.export_scale, ExportScale::High);
+    assert_eq!(partial.values.chinese_variant, ChineseVariant::Simplified);
+    assert_eq!(
+        partial.values.chart_chinese_variant,
+        ChineseVariant::Simplified
+    );
     assert_eq!(partial.palette, Palette::default());
     assert_eq!(partial.display, Display::default());
+}
+
+#[test]
+/// 旧版统一设置保留原命盘用字，新版显式选择优先且非法值不回退。
+fn chart_variant_migrates_old_settings_without_linking_new_values() {
+    let directory = tempfile::tempdir().unwrap();
+    let path = directory.path().join("settings.json");
+    std::fs::write(&path, r#"{"chinese_variant":"traditional"}"#).unwrap();
+    let mut migrated = read(&path).unwrap();
+    assert_eq!(
+        migrated.values.chart_chinese_variant,
+        ChineseVariant::Traditional
+    );
+    migrated.values.chinese_variant = ChineseVariant::Simplified;
+    write(&path, &migrated).unwrap();
+    assert_eq!(read(&path).unwrap(), migrated);
+    std::fs::write(
+        &path,
+        r#"{"chinese_variant":"traditional","chart_chinese_variant":"invalid"}"#,
+    )
+    .unwrap();
+    assert_eq!(read(&path), Err(ReadError::Invalid));
 }
 
 #[test]
@@ -58,6 +87,10 @@ fn preference_modes_resolve_against_the_system() {
     assert_eq!(ExportScale::Base.factor(), 1);
     assert_eq!(ExportScale::High.factor(), 2);
     assert_eq!(ExportScale::Ultra.factor(), 3);
+    assert_eq!(ChineseVariant::Simplified.tag(), "zh-Hans");
+    assert_eq!(ChineseVariant::Traditional.tag(), "zh-Hant");
+    assert_eq!(ChineseVariant::Simplified.index(), 0);
+    assert_eq!(ChineseVariant::Traditional.index(), 1);
 }
 
 #[test]

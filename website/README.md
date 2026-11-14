@@ -19,10 +19,10 @@ pnpm dev
 
 标题使用项目已有 Source Han Serif 衍生字体的站点文字子集，许可见 [`public/fonts/OFL-Source-Han-Serif.txt`](public/fonts/OFL-Source-Han-Serif.txt)。未覆盖的字符使用系统衬线字体回退。
 
-“知几”使用同源的 `ZhijiLocationSerif-VF.otf` 提取字形，通过 `unicode-range` 补充到标题字体中，保留其他文字的现有字形。更新方式：
+“知几”使用同源的 `ZhijiChineseSerif-VF.otf` 提取字形，通过 `unicode-range` 补充到标题字体中，保留其他文字的现有字形。更新方式：
 
 ```sh
-hb-subset ../assets/fonts/ZhijiLocationSerif-VF.otf --unicodes=U+51E0,U+77E5 --output-file=/tmp/zhiji-name.otf --name-IDs='*' --name-languages='*'
+hb-subset ../assets/fonts/ZhijiChineseSerif-VF.otf --unicodes=U+51E0,U+77E5 --output-file=/tmp/zhiji-name.otf --name-IDs='*' --name-languages='*'
 woff2_compress /tmp/zhiji-name.otf
 cp /tmp/zhiji-name.woff2 public/fonts/zhiji-name.woff2
 ```

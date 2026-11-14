@@ -708,6 +708,8 @@ fn window_matches_visual_fixtures() {
     let settings_script = settings_script.to_str().unwrap();
     let settings_large_script = fixture("settings-large.json");
     let settings_large_script = settings_large_script.to_str().unwrap();
+    let traditional_script = fixture("traditional.json");
+    let traditional_script = traditional_script.to_str().unwrap();
     let settings_chart_script = fixture("settings-chart.json");
     let settings_chart_script = settings_chart_script.to_str().unwrap();
     let settings_about_script = fixture("settings-about.json");
@@ -815,6 +817,13 @@ fn window_matches_visual_fixtures() {
             "900x600",
             "1",
             "0.9",
+        ),
+        (
+            "traditional-1x",
+            &["--scene", "reference", "--script", traditional_script],
+            "1300x800",
+            "1",
+            "1.2",
         ),
         (
             "settings-chart-1x",

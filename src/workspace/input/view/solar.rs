@@ -1,7 +1,7 @@
+use crate::i18n::{label, regular_label, t};
 use rune::{Align, El, GrowthSpec, Key, Side, col, el, row};
 use zhiji_ui::{
     Button, CalendarGrid, ChoiceOption, ColorToken, DropdownTrigger, IconButton, SelectList, color,
-    label, regular_label,
 };
 
 use crate::workspace::input::{
@@ -20,7 +20,7 @@ pub(super) fn render<S: InputEditorHost>(state: &S, width: f32) -> El {
         .justify_between()
         .child(label("出生时间", 14.0, ColorToken::InkBody))
         .child(
-            Button::new("solar-today", "今天")
+            Button::new("solar-today", t("今天"))
                 .compact()
                 .on_press_tx(|state: &mut S, tx| {
                     let source = state.input_editor_mut();
@@ -43,18 +43,18 @@ pub(super) fn render<S: InputEditorHost>(state: &S, width: f32) -> El {
         .child(trigger::<S>(
             state,
             SolarSelect::Year,
-            format!("{} 年", solar.year()),
+            t(format!("{} 年", solar.year())),
             112.0,
         ))
         .child(trigger::<S>(
             state,
             SolarSelect::Month,
-            format!("{} 月", solar.month()),
+            t(format!("{} 月", solar.month())),
             80.0,
         ))
         .child(el().grow(1.0))
         .child(
-            IconButton::new("solar-prev-month", "上个月", super::arrow(false))
+            IconButton::new("solar-prev-month", t("上个月"), super::arrow(false))
                 .disabled(previous_disabled)
                 .on_press_tx(|state: &mut S, tx| {
                     let source = state.input_editor_mut();
@@ -67,7 +67,7 @@ pub(super) fn render<S: InputEditorHost>(state: &S, width: f32) -> El {
                 .build(),
         )
         .child(
-            IconButton::new("solar-next-month", "下个月", super::arrow(true))
+            IconButton::new("solar-next-month", t("下个月"), super::arrow(true))
                 .disabled(next_disabled)
                 .on_press_tx(|state: &mut S, tx| {
                     let source = state.input_editor_mut();
@@ -79,7 +79,7 @@ pub(super) fn render<S: InputEditorHost>(state: &S, width: f32) -> El {
                 })
                 .build(),
         );
-    let mut weekdays = CalendarGrid::new("solar-weekdays", "星期").gap(2.0);
+    let mut weekdays = CalendarGrid::new("solar-weekdays", t("星期")).gap(2.0);
     for title in ["日", "一", "二", "三", "四", "五", "六"] {
         weekdays = weekdays.cell(el().h(24.0).center().child(regular_label(
             title,
@@ -93,7 +93,7 @@ pub(super) fn render<S: InputEditorHost>(state: &S, width: f32) -> El {
         .unwrap_or(if today_here { source.today.day() } else { 1 });
     let mut days = CalendarGrid::new(
         "solar-days",
-        format!("{} 年 {} 月", solar.year(), solar.month()),
+        t(format!("{} 年 {} 月", solar.year(), solar.month())),
     )
     .gap(2.0);
     let first = usize::from(solar.first_weekday());
@@ -115,12 +115,12 @@ pub(super) fn render<S: InputEditorHost>(state: &S, width: f32) -> El {
             solar.day() == Some(day),
         )
         .calendar_cell()
-        .label(format!(
+        .label(t(format!(
             "{} 年 {} 月 {day} 日{}",
             solar.year(),
             solar.month(),
             if is_today { "，今天" } else { "" }
-        ))
+        )))
         .on_select_tx(move |state: &mut S, tx| {
             let source = state.input_editor_mut();
             source.dismiss_popup();
@@ -180,7 +180,7 @@ pub(super) fn render<S: InputEditorHost>(state: &S, width: f32) -> El {
                     SolarSelect::Hour,
                     solar
                         .hour()
-                        .map_or_else(|| "选择".into(), |value| format!("{value:02}")),
+                        .map_or_else(|| t("选择"), |value| format!("{value:02}")),
                     80.0,
                 ))
                 .child(regular_label("时", 13.0, ColorToken::InkHint)),
@@ -194,7 +194,7 @@ pub(super) fn render<S: InputEditorHost>(state: &S, width: f32) -> El {
                     SolarSelect::Minute,
                     solar
                         .minute()
-                        .map_or_else(|| "选择".into(), |value| format!("{value:02}")),
+                        .map_or_else(|| t("选择"), |value| format!("{value:02}")),
                     80.0,
                 ))
                 .child(regular_label("分", 13.0, ColorToken::InkHint)),
@@ -250,7 +250,7 @@ fn trigger<S: InputEditorHost>(state: &S, select: SolarSelect, text: String, wid
         state.input_editor().draft.popup == DatePopup::Solar(select),
     )
     .size(width, 32.0)
-    .label(format!("选择{}", select_title(select)))
+    .label(t(format!("选择{}", select_title(select))))
     .on_toggle_tx(move |state: &mut S, tx| {
         state.input_editor_mut().toggle_solar(select, tx);
     })
@@ -300,7 +300,7 @@ pub(super) fn popup<S: InputEditorHost>(state: &S, select: SolarSelect, below: b
                 };
                 ChoiceOption::new(
                     format!("solar-option-{value}"),
-                    text,
+                    t(text),
                     selected == Some(value),
                 )
                 .list_item()
@@ -321,14 +321,17 @@ pub(super) fn popup<S: InputEditorHost>(state: &S, select: SolarSelect, below: b
                 ))
             },
         );
-    let list = SelectList::new("solar-select-list", format!("{}列表", select_title(select)))
-        .size(width - 12.0, 238.0)
-        .build()
-        .focusable(true)
-        .a11y_value(source.solar_active.to_string())
-        .no_focus_ring()
-        .child(rows)
-        .on_key(|state: &mut S, event, tx| state.input_editor_mut().solar_menu_key(event, tx));
+    let list = SelectList::new(
+        "solar-select-list",
+        t(format!("{}列表", select_title(select))),
+    )
+    .size(width - 12.0, 238.0)
+    .build()
+    .focusable(true)
+    .a11y_value(source.solar_active.to_string())
+    .no_focus_ring()
+    .child(rows)
+    .on_key(|state: &mut S, event, tx| state.input_editor_mut().solar_menu_key(event, tx));
     col()
         .key("solar-select-popup")
         .instant_changes()

@@ -3,7 +3,8 @@
 use rune::{El, LineCap, LoopSpec, Shape, Tx, canvas};
 
 use crate::export::Status;
-use zhiji_ui::{ColorToken, IconButton, color, regular_label};
+use crate::i18n::{LocalizedEl, regular_label, t};
+use zhiji_ui::{ColorToken, IconButton, color};
 
 /// 返回导出按钮的标准图标。
 fn export_icon() -> El {
@@ -41,24 +42,24 @@ pub(crate) fn button<S: 'static>(
 ) -> El {
     let button = IconButton::new(
         "export-image",
-        "导出图片",
+        t("导出图片"),
         if exporting { spinner() } else { export_icon() },
     )
     .size(size)
     .radius(6.0)
     .interaction_colors(ColorToken::BorderSoft, ColorToken::Border)
-    .help(if exporting {
+    .help(t(if exporting {
         "导出中"
     } else if busy {
         "草稿处理中"
     } else {
         "导出图片"
-    })
+    }))
     .disabled(busy)
     .on_press_tx(request)
     .build();
     if exporting {
-        button.description("导出中")
+        button.local_description("导出中")
     } else {
         button
     }

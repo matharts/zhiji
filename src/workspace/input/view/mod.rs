@@ -3,11 +3,10 @@ mod pillars;
 mod places;
 mod solar;
 
+use crate::i18n::{LocalizedEl, label, regular_label, t};
 use rune::{Cx, El, Key, Phase, ScrollSpec, Spring, SpringPair, Transition, Vec2, col, el, row};
 use zhiji_core::Gender;
-use zhiji_ui::{
-    Button, ChoiceOption, ColorToken, IconButton, ModalDialog, Segmented, label, regular_label,
-};
+use zhiji_ui::{Button, ChoiceOption, ColorToken, IconButton, ModalDialog, Segmented};
 
 use super::{
     InputEditorHost, InputStep,
@@ -106,11 +105,11 @@ pub(super) fn render<S: InputEditorHost>(state: &S, cx: &mut Cx<S>) -> Option<El
     let mut actions = row().gap(12.0).items_center().child(
         Button::new(
             "date-source-cancel",
-            if is_result || is_fold || is_zone {
+            t(if is_result || is_fold || is_zone {
                 "返回"
             } else {
                 "取消"
-            },
+            }),
         )
         .on_press_tx(|state: &mut S, _tx| {
             state.input_editor_mut().back();
@@ -120,7 +119,7 @@ pub(super) fn render<S: InputEditorHost>(state: &S, cx: &mut Cx<S>) -> Option<El
     actions = actions.child(
         Button::new(
             "date-source-submit",
-            if mode == DateMode::Pillars && !is_result && !is_zone {
+            t(if mode == DateMode::Pillars && !is_result && !is_zone {
                 if source.is_searching() {
                     "查询中…"
                 } else {
@@ -128,7 +127,7 @@ pub(super) fn render<S: InputEditorHost>(state: &S, cx: &mut Cx<S>) -> Option<El
                 }
             } else {
                 "确认"
-            },
+            }),
         )
         .size(
             if mode == DateMode::Pillars && !is_result && !is_zone {
@@ -169,12 +168,12 @@ pub(super) fn render<S: InputEditorHost>(state: &S, cx: &mut Cx<S>) -> Option<El
             .grow(1.0),
         )
         .child(actions);
-    let close = IconButton::new("date-source-close", "关闭日期取数", close_icon())
+    let close = IconButton::new("date-source-close", t("关闭日期取数"), close_icon())
         .on_press_tx(|state: &mut S, _tx| {
             state.input_editor_mut().close();
         })
         .build();
-    let mut dialog = ModalDialog::new("date-source", "日期取数", body, footer)
+    let mut dialog = ModalDialog::new("date-source", t("日期取数"), body, footer)
         .viewport(vw, vh)
         .close_button(close)
         .modal("date-source-toggle", |state: &mut S| {
@@ -318,7 +317,7 @@ fn candidates<S: InputEditorHost>(state: &S) -> El {
         }
         let selected = *selected == Some(index);
         list = list.child(
-            ChoiceOption::new(format!("date-candidate-{index}"), label, selected)
+            ChoiceOption::new(format!("date-candidate-{index}"), t(label), selected)
                 .fill_width()
                 .borderless()
                 .on_select_tx(move |state: &mut S, tx| {
@@ -343,7 +342,7 @@ fn candidates<S: InputEditorHost>(state: &S) -> El {
             regular_label(&range_label, 13.0, ColorToken::InkMuted)
                 .key("date-candidate-range")
                 .role("status")
-                .label(range_label),
+                .local_label(range_label),
         );
     }
     col().w_full().gap(16.0).child(header).child(
@@ -373,11 +372,11 @@ fn repeated_time<S: InputEditorHost>(state: &S) -> El {
         choices = choices.child(
             ChoiceOption::new(
                 format!("date-fold-{index}"),
-                if index == 0 {
+                t(if index == 0 {
                     "第一次出现"
                 } else {
                     "第二次出现"
-                },
+                }),
                 chosen,
             )
             .fill_width()
@@ -415,6 +414,7 @@ fn timezone_choice<S: InputEditorHost>(state: &S) -> El {
             "Asia/Urumqi" => "新疆时间",
             _ => zone.as_str(),
         };
+        let title = t(title);
         let zone = zone.clone();
         choices = choices.child(
             ChoiceOption::new(format!("date-zone-{index}"), title, selected)
@@ -438,7 +438,7 @@ fn timezone_choice<S: InputEditorHost>(state: &S) -> El {
 fn mode_row<S: InputEditorHost>(state: &S, width: f32) -> El {
     let source = state.input_editor();
     let mode_width = 312.0_f32.min((width - 148.0).max(120.0));
-    let mut modes = Segmented::new("取数方式")
+    let mut modes = Segmented::new(t("取数方式"))
         .key("date-mode-switch")
         .columns(3)
         .size(mode_width, 34.0)
@@ -461,21 +461,26 @@ fn mode_row<S: InputEditorHost>(state: &S, width: f32) -> El {
         (DateMode::Lunar, "lunar", "农历"),
         (DateMode::Pillars, "pillars", "干支反推"),
     ] {
+        let title = t(title);
         modes = modes.child(
-            ChoiceOption::new(format!("date-mode-{key}"), title, source.draft.mode == mode)
-                .fill_width()
-                .borderless()
-                .group_indicator()
-                .on_select_tx(move |state: &mut S, tx| {
-                    let source = state.input_editor_mut();
-                    source.set_mode(mode);
-                    tx.motion(Spring::NONE);
-                    tx.color_motion(Spring::NONE);
-                })
-                .build(),
+            ChoiceOption::new(
+                format!("date-mode-{key}"),
+                title.clone(),
+                source.draft.mode == mode,
+            )
+            .fill_width()
+            .borderless()
+            .group_indicator()
+            .on_select_tx(move |state: &mut S, tx| {
+                let source = state.input_editor_mut();
+                source.set_mode(mode);
+                tx.motion(Spring::NONE);
+                tx.color_motion(Spring::NONE);
+            })
+            .build(),
         );
     }
-    let mut gender = Segmented::new("出生性别")
+    let mut gender = Segmented::new(t("出生性别"))
         .key("date-gender-switch")
         .radius(16.0)
         .selection_indicator(
@@ -487,6 +492,7 @@ fn mode_row<S: InputEditorHost>(state: &S, width: f32) -> El {
         (Gender::Male, "male", "男"),
         (Gender::Female, "female", "女"),
     ] {
+        let title = t(title);
         gender = gender.child(
             ChoiceOption::new(
                 format!("date-gender-{key}"),

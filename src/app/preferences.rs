@@ -1,7 +1,8 @@
 //! 设置读取故障及退出失败的明确恢复选择，不在提示消失时隐式覆盖文件。
 
+use crate::i18n::{regular_label, t};
 use rune::{El, Tx, col, row};
-use zhiji_ui::{ColorToken, ConfirmationDialog, dialog_button, regular_label};
+use zhiji_ui::{ColorToken, ConfirmationDialog, dialog_button};
 
 use super::AppState;
 use crate::preferences::settings::{self, ReadError};
@@ -92,7 +93,7 @@ pub(crate) fn dialog(state: &AppState) -> Option<El> {
         )
     };
     let mut alternatives = row().gap(12.0).child(
-        dialog_button("preferences-continue", "继续使用", false)
+        dialog_button("preferences-continue", t("继续使用"), false)
             .on_press_tx(|state: &mut AppState, tx| {
                 state.dismiss_preferences_prompt();
                 tx.instant();
@@ -111,7 +112,7 @@ pub(crate) fn dialog(state: &AppState) -> Option<El> {
     if read_error.is_some() {
         detail = detail.child(
             row().w_full().justify_end().child(
-                dialog_button("preferences-reload", "重新读取", false)
+                dialog_button("preferences-reload", t("重新读取"), false)
                     .w(92.0)
                     .on_press_tx(AppState::reload_preferences),
             ),
@@ -119,7 +120,7 @@ pub(crate) fn dialog(state: &AppState) -> Option<El> {
     }
     if state.preferences_close_can_discard() {
         alternatives = alternatives.child(
-            dialog_button("preferences-discard", "放弃设置并退出", false)
+            dialog_button("preferences-discard", t("放弃设置并退出"), false)
                 .w(144.0)
                 .on_press_tx(AppState::discard_preferences_on_exit),
         );
@@ -127,11 +128,11 @@ pub(crate) fn dialog(state: &AppState) -> Option<El> {
     Some(
         ConfirmationDialog::new(
             "preferences-recovery",
-            title,
-            title,
+            t(title),
+            t(title),
             detail,
             alternatives,
-            dialog_button("preferences-retry", action, true)
+            dialog_button("preferences-retry", t(action), true)
                 .w(if read_error.is_some() { 110.0 } else { 92.0 })
                 .on_press_tx(AppState::retry_preferences),
         )

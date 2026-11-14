@@ -1,7 +1,8 @@
 //! 文档切换决策独立于文件读写，后台成功不能丢弃之后产生的新编辑。
+use crate::i18n::{regular_label, t};
 use rune::{El, Tx, col, row};
 use std::{collections::VecDeque, path::PathBuf};
-use zhiji_ui::{ColorToken, ConfirmationDialog, dialog_button, regular_label};
+use zhiji_ui::{ColorToken, ConfirmationDialog, dialog_button};
 
 use super::AppState;
 use crate::draft::OpenedDraft;
@@ -156,8 +157,8 @@ impl AppState {
             .map(|s| s.to_string_lossy().into_owned());
         match (name, self.document_modified()) {
             (Some(name), dirty) => format!("{name}{}", if dirty { " •" } else { "" }),
-            (None, true) => "未命名 •".into(),
-            (None, false) => "知几".into(),
+            (None, true) => format!("{} •", t("未命名")),
+            (None, false) => t("知几"),
         }
     }
 
@@ -291,6 +292,7 @@ impl AppState {
 
     /// 接收保存和打开结果、重查修改状态、执行文件意图并同步窗口标题。
     pub(super) fn poll_files(&mut self, tx: &mut Tx) -> bool {
+        let _locale = crate::i18n::scope(self.workspace.chinese_variant());
         let mut changed = false;
         if matches!(
             self.file_flow.pending,
@@ -340,13 +342,15 @@ impl AppState {
             changed = true;
         }
         let label = self.document_label();
-        if self.file_flow.title.as_ref() != Some(&label) {
-            tx.set_title(if label == "知几" {
-                label.clone()
-            } else {
-                format!("{label} — 知几")
-            });
-            self.file_flow.title = Some(label);
+        let app_name = t("知几");
+        let title = if label == app_name {
+            app_name.clone()
+        } else {
+            format!("{label} — {app_name}")
+        };
+        if self.file_flow.title.as_ref() != Some(&title) {
+            tx.set_title(title.clone());
+            self.file_flow.title = Some(title);
             changed = true;
         }
         self.poll_external_files(tx) || changed
@@ -376,25 +380,25 @@ pub(crate) fn unsaved_dialog(state: &AppState) -> Option<El> {
     let cancel = row()
         .gap(12.0)
         .child(
-            dialog_button("document-discard", "不保存", false)
+            dialog_button("document-discard", t("不保存"), false)
                 .on_press_tx(|s: &mut AppState, tx| s.resolve_unsaved(UnsavedChoice::Discard, tx)),
         )
         .child(
-            dialog_button("document-cancel", "取消", false)
+            dialog_button("document-cancel", t("取消"), false)
                 .on_press_tx(|s: &mut AppState, tx| s.resolve_unsaved(UnsavedChoice::Cancel, tx)),
         );
     Some(
         ConfirmationDialog::new(
             "document-unsaved",
-            "保存对当前草稿的修改？",
-            "保存对当前草稿的修改？",
+            t("保存对当前草稿的修改？"),
+            t("保存对当前草稿的修改？"),
             col().child(regular_label(
                 "不保存将丢弃尚未保存的修改。",
                 14.0,
                 ColorToken::InkBody,
             )),
             cancel,
-            dialog_button("document-save", "保存", true)
+            dialog_button("document-save", t("保存"), true)
                 .on_press_tx(|s: &mut AppState, tx| s.resolve_unsaved(UnsavedChoice::Save, tx)),
         )
         .modal("app-identity", AppState::cancel_unsaved),
@@ -459,15 +463,17 @@ pub(crate) fn recent_dialog(state: &AppState) -> Option<El> {
     Some(
         ConfirmationDialog::new(
             "recent-files",
-            "最近打开",
-            "最近打开",
+            t("最近打开"),
+            t("最近打开"),
             list,
-            dialog_button("recent-clear", "清空列表", false).on_press_tx(|s: &mut AppState, tx| {
-                s.document.clear_recent();
-                s.file_flow.recent_open = false;
-                tx.instant();
-            }),
-            dialog_button("recent-close", "关闭", true).on_press_tx(|s: &mut AppState, tx| {
+            dialog_button("recent-clear", t("清空列表"), false).on_press_tx(
+                |s: &mut AppState, tx| {
+                    s.document.clear_recent();
+                    s.file_flow.recent_open = false;
+                    tx.instant();
+                },
+            ),
+            dialog_button("recent-close", t("关闭"), true).on_press_tx(|s: &mut AppState, tx| {
                 s.file_flow.recent_open = false;
                 tx.instant();
             }),

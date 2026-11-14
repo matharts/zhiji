@@ -2,8 +2,9 @@
 
 use std::time::{Duration, Instant};
 
+use crate::i18n::{LocalizedEl, regular_label};
 use rune::{Align, El, Side, el};
-use zhiji_ui::{ColorToken, color, regular_label};
+use zhiji_ui::{ColorToken, color};
 
 use super::AppState;
 
@@ -80,7 +81,7 @@ pub(crate) fn overlay(state: &AppState) -> Option<El> {
             .fill(color(ColorToken::Canvas))
             .border(1.0, color(ColorToken::BorderSoft))
             .role("status")
-            .label(TextCopyFeedback::message())
+            .local_label(TextCopyFeedback::message())
             .child(
                 regular_label(TextCopyFeedback::message(), 12.0, ColorToken::InkBody).a11y_hidden(),
             )

@@ -1,6 +1,7 @@
 //! 将独立更新器绑定到应用操作、退出保护和窗口提示。
 
 use super::AppState;
+use crate::i18n::{LocalizedEl, regular_label, t};
 use crate::updates::UpdateStatus;
 use rune::Tx;
 
@@ -27,12 +28,12 @@ impl AppState {
 /// 三端共用就绪提示与安装期间的交互遮罩，不在后台检查时打扰用户。
 pub(crate) fn overlay(state: &AppState, show_ready: bool) -> Option<rune::El> {
     use rune::{Align, Side, col, el, row};
-    use zhiji_ui::{Button, ColorToken, ModalDialog, color, regular_label};
+    use zhiji_ui::{Button, ColorToken, ModalDialog, color};
     if *state.updates.status() == UpdateStatus::Installing {
         return Some(
             ModalDialog::custom(
                 "update-installing",
-                "正在安装更新",
+                t("正在安装更新"),
                 col().child(regular_label("正在安装更新…", 13.0, ColorToken::InkBody)),
             )
             .size(280.0, 100.0)
@@ -54,7 +55,7 @@ pub(crate) fn overlay(state: &AppState, show_ready: bool) -> Option<rune::El> {
             .radius(8.0)
             .fill(color(ColorToken::Canvas))
             .role("status")
-            .label("更新已准备就绪")
+            .local_label("更新已准备就绪")
             .child(
                 col()
                     .gap(8.0)
@@ -67,7 +68,7 @@ pub(crate) fn overlay(state: &AppState, show_ready: bool) -> Option<rune::El> {
                         row()
                             .gap(8.0)
                             .child(
-                                Button::new("update-later", "稍后")
+                                Button::new("update-later", t("稍后"))
                                     .compact()
                                     .on_press_tx(|state: &mut AppState, tx| {
                                         state.updates.dismiss_notification();
@@ -76,7 +77,7 @@ pub(crate) fn overlay(state: &AppState, show_ready: bool) -> Option<rune::El> {
                                     .build(),
                             )
                             .child(
-                                Button::new("update-restart", "重启并更新")
+                                Button::new("update-restart", t("重启并更新"))
                                     .compact()
                                     .on_press_tx(AppState::advance_update)
                                     .build(),

@@ -1,7 +1,8 @@
 //! 分别保存持久偏好、可恢复布局和当前交互状态，不复制会话领域数据。
 
 use crate::preferences::settings::{
-    AppearanceMode, DateModePreference, ExportScale, MotionMode, PreferenceValues, UiScale,
+    AppearanceMode, ChineseVariant, DateModePreference, ExportScale, MotionMode, PreferenceValues,
+    UiScale,
 };
 
 /// 这些选择跨文档沿用，并由应用的偏好写入队列持久化。
@@ -10,6 +11,8 @@ pub(super) struct WorkspacePreferences {
     pub(super) motion: MotionMode,
     pub(super) default_date_mode: DateModePreference,
     pub(super) ui_scale: UiScale,
+    pub(super) chinese_variant: ChineseVariant,
+    pub(super) chart_chinese_variant: ChineseVariant,
     pub(super) restore_layout: bool,
     pub(super) remember_display: bool,
     pub(super) export_scale: ExportScale,
@@ -24,6 +27,8 @@ impl Default for WorkspacePreferences {
             motion: values.motion,
             default_date_mode: values.date_mode,
             ui_scale: values.ui_scale,
+            chinese_variant: values.chinese_variant,
+            chart_chinese_variant: values.chart_chinese_variant,
             restore_layout: values.restore_layout,
             remember_display: values.remember_display,
             export_scale: values.export_scale,

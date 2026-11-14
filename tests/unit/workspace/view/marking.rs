@@ -909,10 +909,87 @@ fn draft_menu_saves_and_restores_chart_and_editable_annotations() {
 }
 
 #[test]
+/// 验证各文字和字重使用的内嵌字体及有效字形。
+fn representative_text_uses_expected_embedded_faces() {
+    use parley::PositionedLayoutItem;
+    let _language = crate::fonts::language_scope(crate::fonts::DEFAULT_LANGUAGE);
+    assert_eq!(
+        crate::fonts::FONTS.families.0.split(',').next(),
+        Some(zhiji_ui::FONT_FAMILY)
+    );
+    let mut text = crate::fonts::text_system(crate::fonts::DEFAULT_LANGUAGE);
+    for (sample, weight, expected) in [
+        ("命", 400.0, &[0][..]),
+        ("命", 600.0, &[0]),
+        ("命", 700.0, &[0]),
+        ("ABCD", 900.0, &[0]),
+        ("简体中文 繁體中文", 400.0, &[0]),
+        ("體國龍龜鬱龘", 400.0, &[0]),
+        ("ABC 123 ·•°", 400.0, &[0]),
+        ("𠯫", 400.0, &[1]),
+    ] {
+        let layout = text.layout_rich(sample, &[], zhiji_ui::font(16.0, weight), 1.0, None);
+        let mut faces = Vec::new();
+        for item in layout.lines().flat_map(|line| line.items()) {
+            if let PositionedLayoutItem::GlyphRun(run) = item {
+                faces.push(
+                    crate::fonts::FONTS
+                        .files
+                        .iter()
+                        .position(|face| run.run().font().data.as_ref() == *face)
+                        .expect("文字应使用内嵌字体"),
+                );
+                assert!(
+                    run.glyphs().all(|glyph| glyph.id != 0),
+                    "{sample:?} 存在缺字"
+                );
+            }
+        }
+        assert_eq!(faces, expected, "{sample:?} 字重 {weight}");
+    }
+}
+
+#[test]
+/// 验证思源宋体的简体、台湾繁体及香港繁体字形可以分别取到。
+fn chinese_font_exposes_regional_locale_variants() {
+    /// 按语言标签收集排版后的字形编号。
+    fn glyphs(language: &'static str) -> Vec<u32> {
+        let _language = crate::fonts::language_scope(language);
+        let mut text = crate::fonts::text_system(language);
+        let layout = text.layout_rich(
+            "骨直今門戶",
+            &[],
+            zhiji_ui::fixed_font(16.0, 400.0, 16.0),
+            1.0,
+            None,
+        );
+        layout
+            .lines()
+            .flat_map(|line| line.items())
+            .filter_map(|item| match item {
+                parley::PositionedLayoutItem::GlyphRun(run) => Some(run),
+                _ => None,
+            })
+            .flat_map(|run| run.glyphs().map(|glyph| glyph.id).collect::<Vec<_>>())
+            .collect()
+    }
+    let simplified = glyphs("zh-Hans");
+    let traditional = glyphs("zh-Hant");
+    let hong_kong = glyphs("zh-HK");
+    assert!(simplified.iter().all(|id| *id != 0));
+    assert!(traditional.iter().all(|id| *id != 0));
+    assert!(hong_kong.iter().all(|id| *id != 0));
+    assert_ne!(simplified, traditional);
+    assert_ne!(traditional, hong_kong);
+    crate::fonts::select_language(crate::fonts::DEFAULT_LANGUAGE);
+}
+
+#[test]
 /// 验证标注菜单和草稿对话框使用内嵌字体。
 fn marking_menus_and_draft_dialog_use_the_embedded_faces() {
     use parley::PositionedLayoutItem;
-    let mut text = rune::text::TextSystem::new(crate::assets::FONTS, crate::assets::FAMILIES);
+    let _language = crate::fonts::language_scope(crate::fonts::DEFAULT_LANGUAGE);
+    let mut text = crate::fonts::text_system(crate::fonts::DEFAULT_LANGUAGE);
     for (label, weight, face) in [
         ("复制图片", 400.0, 0),
         ("隐藏标注", 400.0, 0),
@@ -924,8 +1001,8 @@ fn marking_menus_and_draft_dialog_use_the_embedded_faces() {
         ("下移一层", 400.0, 0),
         ("删除标注", 400.0, 0),
         ("当前盘面和标注将被替换，请先保存需要保留的内容。", 400.0, 0),
-        ("替换已有草稿？", 600.0, 1),
-        ("打开草稿？", 600.0, 1),
+        ("替换已有草稿？", 600.0, 0),
+        ("打开草稿？", 600.0, 0),
     ] {
         let layout = text.layout_rich(label, &[], zhiji_ui::font(13.0, weight), 1.0, None);
         let mut runs = 0;
@@ -934,7 +1011,7 @@ fn marking_menus_and_draft_dialog_use_the_embedded_faces() {
                 if let PositionedLayoutItem::GlyphRun(run) = item {
                     runs += 1;
                     assert!(
-                        run.run().font().data.as_ref() == crate::assets::FONTS[face],
+                        run.run().font().data.as_ref() == crate::fonts::FONTS.files[face],
                         "system font fallback in menu label {label:?}"
                     );
                     assert!(
@@ -949,12 +1026,13 @@ fn marking_menus_and_draft_dialog_use_the_embedded_faces() {
 }
 
 #[test]
-/// 验证动态中英文标注使用内嵌字体回退。
-fn annotation_text_uses_embedded_fallback_for_dynamic_chinese_and_latin() {
+/// 验证动态简繁中文标注使用内嵌字体。
+fn annotation_text_uses_embedded_font_for_dynamic_chinese() {
     use parley::PositionedLayoutItem;
-    let mut text = rune::text::TextSystem::new(crate::assets::FONTS, crate::assets::FAMILIES);
+    let _language = crate::fonts::language_scope(crate::fonts::DEFAULT_LANGUAGE);
+    let mut text = crate::fonts::text_system(crate::fonts::DEFAULT_LANGUAGE);
     let layout = text.layout_rich(
-        "标注说明：北京市 / Wręby / 𠯫 / 가래나무말 / باغلوجِه",
+        "标注说明：北京市 / 繁體：臺灣、香港、澳門 / ABC 123",
         &[],
         crate::annotation::annotation_text_style(14.0),
         1.0,
@@ -966,7 +1044,8 @@ fn annotation_text_uses_embedded_fallback_for_dynamic_chinese_and_latin() {
             if let PositionedLayoutItem::GlyphRun(run) = item {
                 count += 1;
                 assert!(
-                    crate::assets::FONTS
+                    crate::fonts::FONTS
+                        .files
                         .iter()
                         .any(|face| run.run().font().data.as_ref() == *face),
                     "标注文字使用了系统字体"

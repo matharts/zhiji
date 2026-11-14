@@ -20,6 +20,8 @@ pub(crate) fn attach(app: App<AppState>, started: Instant) -> App<AppState> {
             Ok(mut file) => {
                 let mut recorded = None;
                 app = app.on_frame_encoded(move |frame| {
+                    // 测量回调会替换应用安装的帧回调，仍需在每帧结束时释放语言锁。
+                    crate::fonts::finish_frame();
                     let Some(input) = rune::last_input() else {
                         return;
                     };

@@ -1,6 +1,7 @@
 //! 参考模拟器排盘输入和显示控件。
 
-use zhiji_ui::{ColorToken, IconButton, LegendOption, Switch, color, label};
+use crate::i18n::{LocalizedEl, label, t};
+use zhiji_ui::{ColorToken, IconButton, LegendOption, Switch, color};
 
 use rune::{El, LineCap, ScrollSpec, Shape, canvas, col, el, row};
 use zhiji_core::{Branch, Gender, Month, Stem, Transformation};
@@ -95,8 +96,8 @@ impl Picker {
         }
     }
     /// 返回排盘字段的可见及可访问标题。
-    fn title(self) -> &'static str {
-        match self {
+    fn title(self) -> String {
+        t(match self {
             Self::Stem => "天干",
             Self::Branch => "地支",
             Self::Ziwei => "紫微",
@@ -105,7 +106,7 @@ impl Picker {
             Self::Main => "命宫",
             Self::Decade => "大限",
             Self::Yearly => "流年",
-        }
+        })
     }
     /// 将输入或计算得到的宫位映射为零基选项编号。
     fn selected(self, workspace: &Workspace) -> Option<u8> {
@@ -185,10 +186,11 @@ fn picker<S: WorkspaceHost>(workspace: &Workspace, picker: Picker) -> El {
     }
     for index in 0..count {
         let (name, action) = picker.option(index);
+        let name = t(name);
         let cell = button::<S>(
             format!("{}-{index}", picker.id()),
-            name.into(),
-            format!("{} {name}", picker.title()),
+            name.clone(),
+            t(format!("{} {name}", picker.title())),
             picker.selected(workspace) == Some(index),
             picker.available(workspace, index),
             5.0,
@@ -201,7 +203,7 @@ fn picker<S: WorkspaceHost>(workspace: &Workspace, picker: Picker) -> El {
         });
     }
     let reset = || {
-        IconButton::new("reset-yearly", "重置流年", reset_icon())
+        IconButton::new("reset-yearly", t("重置流年"), reset_icon())
             .size(27.0)
             .on_press_tx(|state: &mut S, tx| {
                 state.workspace_mut().apply(Action::ClearYearly);
@@ -250,7 +252,7 @@ fn picker<S: WorkspaceHost>(workspace: &Workspace, picker: Picker) -> El {
 /// 构建性别分段选项和移动选中背景。
 fn gender<S: WorkspaceHost>(workspace: &Workspace) -> El {
     let current = workspace.session().input().gender;
-    let mut options = zhiji_ui::Segmented::new("性別")
+    let mut options = zhiji_ui::Segmented::new(t("性别"))
         .key("gender-options")
         .radius(16.0)
         .selection_indicator(
@@ -262,11 +264,12 @@ fn gender<S: WorkspaceHost>(workspace: &Workspace) -> El {
         .into_iter()
         .enumerate()
     {
+        let name = t(name);
         options = options.child(
             button::<S>(
                 format!("gender-{index}"),
-                name.into(),
-                format!("性別 {name}"),
+                name.clone(),
+                t(format!("性别 {name}")),
                 current == value,
                 true,
                 14.0,
@@ -283,7 +286,7 @@ fn gender<S: WorkspaceHost>(workspace: &Workspace) -> El {
         .child(
             el().size(28.0, 32.0)
                 .center()
-                .child(label("性別", 14.0, ColorToken::InkBody)),
+                .child(label("性别", 14.0, ColorToken::InkBody)),
         )
         .child(options.build());
     if let Some(element) = workspace.session().chart().five_element {
@@ -327,11 +330,12 @@ fn visibility<S: WorkspaceHost>(
     flag: Visibility,
     key: &'static str,
 ) -> El {
+    let title = t(title);
     let on = workspace
         .session()
         .display()
         .visible(flag, workspace.session().input());
-    Switch::new(key, title, on)
+    Switch::new(key, title.clone(), on)
         .compact()
         .on_toggle_tx(move |state: &mut S, tx| {
             state
@@ -343,7 +347,7 @@ fn visibility<S: WorkspaceHost>(
         .w(0.0)
         .grow(1.0)
         .h(30.0)
-        .help(format!("{}{title}", if on { "隐藏" } else { "显示" }))
+        .local_help(format!("{}{title}", if on { "隐藏" } else { "显示" }))
 }
 
 /// 构建四化组及全选图例，颜色从当前会话配色读取。
@@ -353,9 +357,10 @@ fn transformations<S: WorkspaceHost>(
     title: &'static str,
     key: &'static str,
 ) -> El {
+    let title = t(title);
     let flags = workspace.session().display().transforms(group);
     let all = flags.iter().all(|v| *v);
-    let bulk = LegendOption::new(format!("{key}-all"), "全部", dot(all, 6.0), all)
+    let bulk = LegendOption::new(format!("{key}-all"), t("全部"), dot(all, 6.0), all)
         .selection_fill(ColorToken::Canvas)
         .hover_fill(ColorToken::LegendNeutral)
         .ink(ColorToken::InkMuted)
@@ -368,12 +373,12 @@ fn transformations<S: WorkspaceHost>(
             tx.color_motion(rune::Spring::new(0.16, 0.0));
         })
         .build()
-        .label(format!("{title}全部"));
+        .local_label(format!("{title}全部"));
     let mut items = row().w_full().gap(6.0);
     for value in Transformation::ALL {
         let index = transformation::index(value);
         let on = flags[index];
-        let word = transformation::label(value);
+        let word = t(transformation::label(value));
         let ink = if on {
             ColorToken::AnnotationOn
         } else {
@@ -382,7 +387,7 @@ fn transformations<S: WorkspaceHost>(
         items = items.child(
             LegendOption::new(
                 format!("{key}-{index}"),
-                word,
+                word.clone(),
                 label(value.code(), 18.0, ink),
                 on,
             )
@@ -403,7 +408,7 @@ fn transformations<S: WorkspaceHost>(
             .build()
             .w(0.0)
             .grow(1.0)
-            .label(format!("{title}{word}")),
+            .local_label(format!("{title}{word}")),
         );
     }
     col()
@@ -427,7 +432,7 @@ fn transformations<S: WorkspaceHost>(
 fn directions<S: WorkspaceHost>(workspace: &Workspace) -> El {
     let current = workspace.session().display().self_direction;
     let all = current == SelfDirection::All;
-    let bulk = LegendOption::new("self-direction-all", "全部", dot(all, 6.0), all)
+    let bulk = LegendOption::new("self-direction-all", t("全部"), dot(all, 6.0), all)
         .size(56.0, 24.0)
         .selection_fill(ColorToken::Canvas)
         .hover_fill(ColorToken::LegendNeutral)
@@ -444,12 +449,13 @@ fn directions<S: WorkspaceHost>(workspace: &Workspace) -> El {
             tx.color_motion(rune::Spring::new(0.16, 0.0));
         })
         .build()
-        .label("显示全部自化向性");
+        .local_label("显示全部自化向性");
     let mut choices = row().w_full().gap(6.0);
     for (kind, title) in [
         (SelfDirection::Inward, "向心"),
         (SelfDirection::Outward, "离心"),
     ] {
+        let title = t(title);
         let on = current == SelfDirection::All || current == kind;
         let (start, end, head) = if kind == SelfDirection::Inward {
             (18.0, 2.0, 6.0)
@@ -497,7 +503,7 @@ fn directions<S: WorkspaceHost>(workspace: &Workspace) -> El {
             );
         }
         choices = choices.child(
-            LegendOption::new(key, title, symbol, on)
+            LegendOption::new(key, title.clone(), symbol, on)
                 .selection_fill(ColorToken::DirectionSurface)
                 .hover_fill(ColorToken::DirectionSurfaceHover)
                 .ink(if on {
@@ -527,7 +533,7 @@ fn directions<S: WorkspaceHost>(workspace: &Workspace) -> El {
         .w_full()
         .gap(4.0)
         .role("group")
-        .label("自化向性显示")
+        .local_label("自化向性显示")
         .child(
             row()
                 .w_full()
@@ -654,7 +660,7 @@ pub(crate) fn render<S: WorkspaceHost>(state: &S, _scale: f32) -> El {
                 .gap(2.0)
                 .child(label("排盘信息", 12.0, ColorToken::InkLabelMuted).key("chart-input-label"))
                 .child(
-                    IconButton::new("reset-chart-input", "重置排盘数据", reset_icon())
+                    IconButton::new("reset-chart-input", t("重置排盘数据"), reset_icon())
                         .size(26.0)
                         .on_press_tx(|state: &mut S, tx| {
                             state.workspace_mut().reset_chart_input();

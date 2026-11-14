@@ -1,31 +1,6 @@
-//! 原生窗口和离屏图片绘制共用的内嵌字体及图像资源。
+//! 原生窗口和离屏图片绘制共用的图像资源。
 
 use rune::{Image, ImageCache, Waker};
-
-pub(crate) const FONTS: &[&[u8]] = &[
-    include_bytes!("../assets/fonts/ZhijiPrototypeSerif-Regular.otf"),
-    include_bytes!("../assets/fonts/ZhijiPrototypeSerif-SemiBold.otf"),
-    include_bytes!("../assets/fonts/ZhijiPrototypeSerif-Bold.otf"),
-    include_bytes!("../assets/fonts/ZhijiPrototypeSerif-Heavy.otf"),
-    include_bytes!("../assets/fonts/ZhijiLocationSerif-VF.otf"),
-    include_bytes!("../assets/fonts/NotoSerif-VF.ttf"),
-    include_bytes!("../assets/fonts/ZhijiKoreanSerif-VF.ttf"),
-    include_bytes!("../assets/fonts/ZhijiHanSupplement.ttf"),
-    include_bytes!("../assets/fonts/NotoNaskhArabic-VF.ttf"),
-    include_bytes!("../assets/fonts/NotoSerifThai-VF.ttf"),
-    include_bytes!("../assets/fonts/NotoSerifBengali-VF.ttf"),
-    include_bytes!("../assets/fonts/NotoSerifGeorgian-VF.ttf"),
-    include_bytes!("../assets/fonts/NotoSerifEthiopic-VF.ttf"),
-];
-pub(crate) const FONT_FAMILY: &str = zhiji_ui::FONT_FAMILY;
-pub(crate) const FAMILIES: (&str, &str) = (
-    concat!(
-        "Zhiji Prototype Serif, Zhiji Location Serif, Noto Serif, ",
-        "Zhiji Korean Serif, Zhiji Han Supplement, Noto Naskh Arabic, ",
-        "Noto Serif Thai, Noto Serif Bengali, Noto Serif Georgian, Noto Serif Ethiopic"
-    ),
-    FONT_FAMILY,
-);
 
 /// 解码日间来因印章，内嵌资源无效属于构建资源不变量被破坏。
 pub(crate) fn seal(wake: Waker) -> Image {

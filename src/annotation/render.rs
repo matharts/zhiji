@@ -1,6 +1,5 @@
 //! 交互命盘和图片输出共用的标注绘制。
 
-use rune::tok::Family;
 use rune::{El, LineCap, Shape, TextStyle, canvas, el, text};
 use zhiji_ui::ColorToken;
 
@@ -10,9 +9,7 @@ use crate::chart::SIZE;
 
 /// 创建不受界面字号偏好缩放的标注文字样式。
 pub(crate) fn text_style(size: f32) -> TextStyle {
-    TextStyle::new(size, 500.0)
-        .family(Family::Named(crate::assets::FONT_FAMILY))
-        .lh(size + 4.0)
+    zhiji_ui::fixed_font(size, 500.0, size + 4.0)
 }
 
 /// 用固定采样数生成任意端点方向下的椭圆轮廓。

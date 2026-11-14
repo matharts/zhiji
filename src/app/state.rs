@@ -159,6 +159,8 @@ impl PreferencesHost for AppState {
             motion: self.workspace.motion(),
             date_mode: self.workspace.default_date_mode(),
             ui_scale: self.workspace.ui_scale(),
+            chinese_variant: self.workspace.chinese_variant(),
+            chart_chinese_variant: self.workspace.chart_chinese_variant(),
             restore_layout: self.workspace.restore_layout(),
             remember_display: self.workspace.remember_display(),
             export_scale: self.workspace.export_scale(),
@@ -223,6 +225,13 @@ impl AppState {
             PreferenceChange::Motion(value) => self.workspace.set_motion(value),
             PreferenceChange::DateMode(value) => self.workspace.set_default_date_mode(value),
             PreferenceChange::UiScale(value) => self.workspace.set_ui_scale(value),
+            PreferenceChange::ChineseVariant(value) => {
+                crate::fonts::select_language(value.tag());
+                self.workspace.set_chinese_variant(value);
+            }
+            PreferenceChange::ChartChineseVariant(value) => {
+                self.workspace.set_chart_chinese_variant(value);
+            }
             PreferenceChange::RestoreLayout(value) => self.workspace.set_restore_layout(value),
             PreferenceChange::RememberDisplay(value) => self.workspace.set_remember_display(value),
             PreferenceChange::ExportScale(value) => self.workspace.set_export_scale(value),
@@ -478,6 +487,7 @@ impl AppState {
         if self.closing.is_some() || self.tasks.export.is_busy() || self.document.is_busy() {
             return;
         }
+        let _locale = crate::i18n::scope(self.workspace.chinese_variant());
         let snapshot = self.workspace.capture_export_image();
         let Some(id) = self
             .tasks
@@ -524,6 +534,7 @@ impl AppState {
         {
             return;
         }
+        let _locale = crate::i18n::scope(self.workspace.chinese_variant());
         self.workspace.close_marking_more_menu();
         self.tasks.copy_image.clear_feedback();
         let snapshot = self.workspace.capture_draft();
@@ -538,17 +549,17 @@ impl AppState {
             return;
         }
         let options = rune::FileDialogOptions {
-            title: "保存命盘草稿".into(),
+            title: crate::i18n::t("保存命盘草稿"),
             file_name: Some(
                 self.document
                     .path()
                     .and_then(|p| p.file_name())
                     .map(|s| s.to_string_lossy().into_owned())
-                    .unwrap_or_else(|| "命盘草稿.ziwei".into()),
+                    .unwrap_or_else(|| format!("{}.ziwei", crate::i18n::t("命盘草稿"))),
             ),
             ..Default::default()
         }
-        .filter("命盘草稿", &["ziwei"]);
+        .filter(crate::i18n::t("命盘草稿"), &["ziwei"]);
         tx.save_file(options, |state: &mut Self, answer, tx| {
             state.document.save_answer(answer, state.waker.clone());
             state.poll_files(tx);
@@ -563,16 +574,17 @@ impl AppState {
         if self.closing.is_some() || self.document.is_busy() || self.tasks.export.is_busy() {
             return;
         }
+        let _locale = crate::i18n::scope(self.workspace.chinese_variant());
         self.workspace.close_marking_more_menu();
         self.tasks.copy_image.clear_feedback();
         if !self.document.begin_open() {
             return;
         }
         let options = rune::FileDialogOptions {
-            title: "打开命盘草稿".into(),
+            title: crate::i18n::t("打开命盘草稿"),
             ..Default::default()
         }
-        .filter("命盘草稿", &["ziwei"]);
+        .filter(crate::i18n::t("命盘草稿"), &["ziwei"]);
         tx.open_file(options, |state: &mut Self, answer, tx| {
             state.document.open_answer(answer, state.waker.clone());
             tx.wake_after(Duration::from_secs(3));

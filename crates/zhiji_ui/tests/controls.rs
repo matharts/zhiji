@@ -9,6 +9,11 @@ fn interface_font_scale_is_scoped() {
         let _scope = zhiji_ui::font_scope(1.25);
         assert_eq!(zhiji_ui::font(12.0, 400.0).size, 15.0);
         assert_eq!(zhiji_ui::font(12.0, 400.0).line_height, 15.0);
+        let fixed = zhiji_ui::fixed_font(14.0, 500.0, 18.0);
+        assert_eq!(
+            (fixed.size, fixed.weight, fixed.line_height),
+            (14.0, 500.0, 18.0)
+        );
     }
     assert_eq!(zhiji_ui::font(12.0, 400.0).size, 12.0);
 }

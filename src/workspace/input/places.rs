@@ -422,19 +422,18 @@ impl PlaceCatalog {
     /// 搜索国内市县名称或海外双语地名及上下文，结果携带完整路径以区分同名。
     /// 名称命中优先，稳定排序后最多返回 50 项。
     pub(crate) fn search(&self, mode: PlaceMode, query: &str) -> Vec<PlaceSearchResult> {
-        let query = query.trim().to_lowercase();
+        let query = query.trim();
         if query.is_empty() {
             return Vec::new();
         }
+        // 目录来源同时含简体和繁体名称；查询也必须同时覆盖两种用字。
+        let queries = search_queries(query);
         let mut results = Vec::new();
         match mode {
             PlaceMode::Domestic => {
                 for province in &self.provinces {
                     for city in &province.cities {
-                        if format!("{} {}", city.name, province.name)
-                            .to_lowercase()
-                            .contains(&query)
-                        {
+                        if matches_search(&format!("{} {}", city.name, province.name), &queries) {
                             results.push(PlaceSearchResult {
                                 name: city.name.clone(),
                                 context: province.name.clone(),
@@ -446,10 +445,7 @@ impl PlaceCatalog {
                         }
                         for county in &city.counties {
                             let context = format!("{} / {}", province.name, city.name);
-                            if format!("{} {}", county.name, context)
-                                .to_lowercase()
-                                .contains(&query)
-                            {
+                            if matches_search(&format!("{} {}", county.name, context), &queries) {
                                 results.push(PlaceSearchResult {
                                     name: county.name.clone(),
                                     context,
@@ -477,10 +473,10 @@ impl PlaceCatalog {
                         self.country_name(place.country()),
                         place.region()
                     );
-                    if format!("{} {} {}", place.name(), place.english_name(), context)
-                        .to_lowercase()
-                        .contains(&query)
-                    {
+                    if matches_search(
+                        &format!("{} {} {}", place.name(), place.english_name(), context),
+                        &queries,
+                    ) {
                         results.push(PlaceSearchResult {
                             name: place.name().to_owned(),
                             context,
@@ -495,17 +491,36 @@ impl PlaceCatalog {
             }
         }
         results.sort_by(|left, right| {
-            right
-                .name
-                .to_lowercase()
-                .contains(&query)
-                .cmp(&left.name.to_lowercase().contains(&query))
+            matches_search(&right.name, &queries)
+                .cmp(&matches_search(&left.name, &queries))
                 .then(left.name.cmp(&right.name))
                 .then(left.context.cmp(&right.context))
         });
         results.truncate(50);
         results
     }
+}
+
+/// 将查询扩展为原文、简体和繁体三种形式，并保持顺序去重。
+fn search_queries(query: &str) -> Vec<String> {
+    let mut queries = Vec::with_capacity(3);
+    for value in [
+        query.to_owned(),
+        crate::i18n::to_simplified(query),
+        crate::i18n::to_traditional(query),
+    ] {
+        let value = value.to_lowercase();
+        if !queries.contains(&value) {
+            queries.push(value);
+        }
+    }
+    queries
+}
+
+/// 检查候选文本是否命中任意简繁查询形式。
+fn matches_search(text: &str, queries: &[String]) -> bool {
+    let text = text.to_lowercase();
+    queries.iter().any(|query| text.contains(query))
 }
 
 #[derive(Clone, Debug, PartialEq, Eq)]

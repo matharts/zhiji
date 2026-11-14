@@ -6,7 +6,8 @@ use crate::annotation::Marking;
 use crate::color::Palette;
 use crate::preferences::color_editor::{ColorEdit, ColorEditor};
 use crate::preferences::settings::{
-    AppearanceMode, DateModePreference, ExportScale, MotionMode, UiScale, WindowLayout,
+    AppearanceMode, ChineseVariant, DateModePreference, ExportScale, MotionMode, UiScale,
+    WindowLayout,
 };
 use crate::session::Display;
 use crate::session::{Action, Session};
@@ -158,6 +159,26 @@ impl Workspace {
         self.preferences.ui_scale = scale;
     }
 
+    /// 读取界面简繁体用字标准。
+    pub(crate) fn chinese_variant(&self) -> ChineseVariant {
+        self.preferences.chinese_variant
+    }
+
+    /// 更新界面简繁体用字标准，字体语言由应用层同步，不联动命盘用字。
+    pub(crate) fn set_chinese_variant(&mut self, variant: ChineseVariant) {
+        self.preferences.chinese_variant = variant;
+    }
+
+    /// 读取命盘及其图片输出使用的独立用字标准。
+    pub(crate) fn chart_chinese_variant(&self) -> ChineseVariant {
+        self.preferences.chart_chinese_variant
+    }
+
+    /// 更新命盘用字，不改变界面文案、原始排盘数据或用户标注。
+    pub(crate) fn set_chart_chinese_variant(&mut self, variant: ChineseVariant) {
+        self.preferences.chart_chinese_variant = variant;
+    }
+
     /// 判断启动时是否恢复上次布局。
     pub(crate) fn restore_layout(&self) -> bool {
         self.preferences.restore_layout
@@ -274,6 +295,8 @@ impl Workspace {
             self.session.snapshot(),
             self.marking.visible_marks().to_vec(),
             self.ui.night.get(),
+            self.preferences.chinese_variant,
+            self.preferences.chart_chinese_variant,
         )
     }
 

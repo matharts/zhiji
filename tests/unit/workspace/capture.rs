@@ -19,6 +19,30 @@ fn image_capture_freezes_night_mode() {
     assert!(!workspace.capture_export_image().night_mode());
 }
 
+#[test]
+/// 验证导出和复制独立冻结命盘用字，界面切换不联动图片内容。
+fn image_capture_freezes_chinese_variant() {
+    use crate::preferences::settings::ChineseVariant;
+
+    let mut workspace = Workspace::with_input(Default::default());
+    workspace.set_chart_chinese_variant(ChineseVariant::Traditional);
+    let exported = workspace.capture_export_image();
+    let copied = workspace.capture_copy_image();
+    workspace.set_chart_chinese_variant(ChineseVariant::Simplified);
+    workspace.set_chinese_variant(ChineseVariant::Traditional);
+    for snapshot in [exported, copied] {
+        assert_eq!(snapshot.chinese_variant(), ChineseVariant::Simplified);
+        assert_eq!(
+            snapshot.chart_chinese_variant(),
+            ChineseVariant::Traditional
+        );
+    }
+    assert_eq!(
+        workspace.capture_export_image().chart_chinese_variant(),
+        ChineseVariant::Simplified
+    );
+}
+
 /// 在工作区开启尚未提交的文字标注。
 fn begin_text(workspace: &mut Workspace, text: &str) {
     workspace.marking.select(Tool::Text);

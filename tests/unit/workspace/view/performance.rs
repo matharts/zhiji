@@ -21,7 +21,8 @@ fn report(name: &str, samples: &mut [Duration]) {
 #[ignore = "manual performance measurement"]
 /// 手动测量色相拖动交互开销。
 fn measure_hue_drag() {
-    let text = rune::text::TextSystem::new(crate::assets::FONTS, crate::assets::FAMILIES);
+    let _language = crate::fonts::language_scope(crate::fonts::DEFAULT_LANGUAGE);
+    let text = crate::fonts::text_system(crate::fonts::DEFAULT_LANGUAGE);
     let mut state = AppState::with_input(sample_input(false));
     state.workspace.set_settings_open(true);
     state

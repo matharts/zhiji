@@ -4,7 +4,6 @@ use std::path::Path;
 use std::sync::Arc;
 
 use rune::render::{Gpu, OFFSCREEN_FORMAT, Offscreen, Renderer};
-use rune::text::TextSystem;
 use rune::{Cx, El, Env, FontSmoothing, Image, Runtime};
 
 pub(super) use crate::workspace::ImageSnapshot as Snapshot;
@@ -16,12 +15,15 @@ struct ExportView {
 
 /// 只从冻结快照组合命盘和标注，避免导出受到后续编辑影响。
 fn view(state: &ExportView, cx: &mut Cx<ExportView>) -> El {
-    let chart = crate::chart::render(
-        state.snapshot.view(),
-        Some(&state.seal),
-        cx.env().scale,
-        state.snapshot.night_mode(),
-    );
+    let chart = {
+        let _locale = crate::i18n::scope(state.snapshot.chart_chinese_variant());
+        crate::chart::render(
+            state.snapshot.view(),
+            Some(&state.seal),
+            cx.env().scale,
+            state.snapshot.night_mode(),
+        )
+    };
     crate::annotation::annotate(
         chart,
         state.snapshot.annotations().iter(),
@@ -39,6 +41,7 @@ pub(super) struct Raster {
 pub(super) fn rasterize(snapshot: Snapshot, scale: u32) -> Result<Raster, String> {
     let scale = scale.clamp(1, 3) as f32;
     let night = snapshot.night_mode();
+    let language = snapshot.chinese_variant().tag();
     let state = ExportView {
         snapshot,
         seal: if night {
@@ -47,12 +50,19 @@ pub(super) fn rasterize(snapshot: Snapshot, scale: u32) -> Result<Raster, String
             crate::assets::seal(Arc::new(|| {}))
         },
     };
-    let text = TextSystem::new(crate::assets::FONTS, crate::assets::FAMILIES);
+    let text = crate::fonts::text_system(language);
     let size = crate::chart::SIZE;
-    let mut runtime = Runtime::with_text(state, view, (size, size), Env::new(false, scale), text);
-    runtime.set_font_smoothing(FontSmoothing::Off);
-    runtime.set_srgb_blend(true);
-    runtime.frame(0.0);
+    let mut runtime = {
+        // 只固定视图构建和文字排版阶段，GPU 准备、绘制与读回不占用界面语言锁。
+        let _language = crate::fonts::language_scope(language);
+        let _locale = crate::i18n::scope(state.snapshot.chinese_variant());
+        let mut runtime =
+            Runtime::with_text(state, view, (size, size), Env::new(false, scale), text);
+        runtime.set_font_smoothing(FontSmoothing::Off);
+        runtime.set_srgb_blend(true);
+        runtime.frame(0.0);
+        runtime
+    };
 
     let gpu = Gpu::try_new(Gpu::instance(), None)?;
     let format = OFFSCREEN_FORMAT.remove_srgb_suffix();

@@ -5,7 +5,8 @@ use std::path::Path;
 use rune::{El, Tx};
 
 use crate::export::RequestId;
-use zhiji_ui::{ConfirmationDialog, dialog_button, regular_label};
+use crate::i18n::{regular_label, t};
+use zhiji_ui::{ConfirmationDialog, dialog_button};
 
 /// 将确认按钮绑定到具体请求，避免旧弹窗处理新任务。
 fn button<S: 'static>(
@@ -15,7 +16,7 @@ fn button<S: 'static>(
     replace: bool,
     confirm: fn(&mut S, RequestId, bool, &mut Tx),
 ) -> El {
-    dialog_button(key, title, replace)
+    dialog_button(key, t(title), replace)
         .on_press_tx(move |state: &mut S, tx| confirm(state, id, replace, tx))
 }
 
@@ -30,8 +31,8 @@ pub(crate) fn render<S: 'static>(
     Some(
         ConfirmationDialog::new(
             "export-confirmation",
-            "替换已有文件",
-            "替换已有文件？",
+            t("替换已有文件"),
+            t("替换已有文件？"),
             regular_label(
                 "目标文件已存在，是否替换？",
                 14.0,

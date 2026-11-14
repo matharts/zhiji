@@ -21,6 +21,16 @@ fn settle_preferences(state: &mut AppState) {
 }
 
 #[test]
+/// 验证窗口标题中的应用名跟随简繁体设置。
+fn document_label_follows_chinese_variant() {
+    let app = AppState::default();
+    let locale = crate::i18n::scope(crate::i18n::ChineseVariant::Traditional);
+    assert_eq!(app.document_label(), "知幾");
+    drop(locale);
+    assert_eq!(app.document_label(), "知几");
+}
+
+#[test]
 /// 普通退出写入失败时保留窗口意图，修复路径后重试才退出。
 fn preferences_failure_blocks_regular_quit_until_retry_succeeds() {
     let directory = tempfile::tempdir().unwrap();
@@ -130,6 +140,8 @@ fn preference_changes_share_loading_saving_and_defaults() {
         motion: crate::preferences::settings::MotionMode::Off,
         date_mode: crate::preferences::settings::DateModePreference::Pillars,
         ui_scale: UiScale::Large,
+        chinese_variant: crate::preferences::settings::ChineseVariant::Traditional,
+        chart_chinese_variant: crate::preferences::settings::ChineseVariant::Traditional,
         restore_layout: false,
         remember_display: true,
         export_scale: crate::preferences::settings::ExportScale::Ultra,
@@ -152,6 +164,8 @@ fn preference_changes_share_loading_saving_and_defaults() {
     let json: serde_json::Value = serde_json::from_slice(&std::fs::read(&path).unwrap()).unwrap();
     assert!(json.get("values").is_none());
     assert_eq!(json["ui_scale"], "large");
+    assert_eq!(json["chinese_variant"], "traditional");
+    assert_eq!(json["chart_chinese_variant"], "traditional");
     state.reset_preferences();
     settle_preferences(&mut state);
     assert_eq!(

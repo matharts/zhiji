@@ -1,8 +1,8 @@
+use crate::i18n::{LocalizedEl, label, regular_label, t};
 use rune::{Align, El, Side, col, el, row};
 use zhiji_core::{Branch, Stem};
 use zhiji_ui::{
-    Button, CalendarGrid, ChoiceOption, ColorToken, DropdownTrigger, IconButton, color, label,
-    regular_label,
+    Button, CalendarGrid, ChoiceOption, ColorToken, DropdownTrigger, IconButton, color,
 };
 
 use crate::workspace::input::{
@@ -60,7 +60,7 @@ pub(super) fn render<S: InputEditorHost>(state: &S, width: f32) -> El {
             .radius(6.0)
             .fill(color(ColorToken::Window))
             .role("radiogroup")
-            .label(format!("{}天干", key.title()))
+            .local_label(format!("{}天干", key.title()))
             .focus_group();
         for index in 0..10 {
             let stem = Stem::from_index(index).expect("ten stems");
@@ -74,7 +74,7 @@ pub(super) fn render<S: InputEditorHost>(state: &S, width: f32) -> El {
                 .fill_width()
                 .borderless()
                 .disabled(!pillars.stem_enabled(key))
-                .label(format!("{}天干 {}", key.title(), stem.name()))
+                .label(t(format!("{}天干 {}", key.title(), stem.name())))
                 .on_select_tx(move |state: &mut S, tx| {
                     let source = state.input_editor_mut();
                     source.dismiss_popup();
@@ -93,7 +93,7 @@ pub(super) fn render<S: InputEditorHost>(state: &S, width: f32) -> El {
             .radius(6.0)
             .fill(color(ColorToken::Window))
             .role("radiogroup")
-            .label(format!("{}地支", key.title()))
+            .local_label(format!("{}地支", key.title()))
             .focus_group();
         for index in 0..12 {
             let branch = Branch::from_index(index).expect("twelve branches");
@@ -107,7 +107,7 @@ pub(super) fn render<S: InputEditorHost>(state: &S, width: f32) -> El {
                 .fill_width()
                 .borderless()
                 .disabled(!pillars.branch_enabled(key, branch))
-                .label(format!("{}地支 {}", key.title(), branch.name()))
+                .label(t(format!("{}地支 {}", key.title(), branch.name())))
                 .on_select_tx(move |state: &mut S, tx| {
                     let source = state.input_editor_mut();
                     source.dismiss_popup();
@@ -187,7 +187,7 @@ pub(super) fn render<S: InputEditorHost>(state: &S, width: f32) -> El {
                 state.input_editor().draft.popup == DatePopup::PillarCycles,
             )
             .size(column_width, 32.0)
-            .label("选择其他甲子年份组")
+            .label(t("选择其他甲子年份组"))
             .on_toggle_tx(|state: &mut S, _tx| {
                 let source = state.input_editor_mut();
                 if source.draft.popup == DatePopup::PillarCycles {
@@ -244,7 +244,7 @@ pub(super) fn popup<S: InputEditorHost>(state: &S, inner_width: f32, below: bool
             row()
                 .gap(4.0)
                 .child(
-                    IconButton::new("pillar-page-prev", "前六组", super::arrow(false))
+                    IconButton::new("pillar-page-prev", t("前六组"), super::arrow(false))
                         .size(28.0)
                         .disabled(start == 0)
                         .on_press_tx(|state: &mut S, tx| {
@@ -254,7 +254,7 @@ pub(super) fn popup<S: InputEditorHost>(state: &S, inner_width: f32, below: bool
                         .build(),
                 )
                 .child(
-                    IconButton::new("pillar-page-next", "后六组", super::arrow(true))
+                    IconButton::new("pillar-page-next", t("后六组"), super::arrow(true))
                         .size(28.0)
                         .disabled(start + 6 >= YearCycle::COUNT)
                         .on_press_tx(|state: &mut S, tx| {
@@ -264,7 +264,7 @@ pub(super) fn popup<S: InputEditorHost>(state: &S, inner_width: f32, below: bool
                         .build(),
                 ),
         );
-    let mut grid = CalendarGrid::new("pillar-cycle-grid", "甲子年份组")
+    let mut grid = CalendarGrid::new("pillar-cycle-grid", t("甲子年份组"))
         .columns(3)
         .gap(8.0);
     for index in start..(start + 6).min(YearCycle::COUNT) {
@@ -277,7 +277,7 @@ pub(super) fn popup<S: InputEditorHost>(state: &S, inner_width: f32, below: bool
             )
             .size((width - 54.0) / 3.0, 28.0)
             .borderless()
-            .label(format!("{} 至 {} 年，共六十年", cycle.from, cycle.to))
+            .label(t(format!("{} 至 {} 年，共六十年", cycle.from, cycle.to)))
             .on_select_tx(move |state: &mut S, _tx| {
                 let source = state.input_editor_mut();
                 source.select_cycle(index);
@@ -310,7 +310,7 @@ pub(super) fn popup<S: InputEditorHost>(state: &S, inner_width: f32, below: bool
         .child(grid.build())
         .child(
             row().w_full().justify_end().child(
-                Button::new("pillar-cycle-cancel", "取消")
+                Button::new("pillar-cycle-cancel", t("取消"))
                     .compact()
                     .on_press_tx(|state: &mut S, _tx| {
                         state.input_editor_mut().dismiss_popup();

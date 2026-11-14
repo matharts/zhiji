@@ -14,6 +14,65 @@ fn night_export_uses_the_captured_chart_background() {
 }
 
 #[test]
+#[ignore = "requires a GPU adapter for offscreen rendering"]
+/// 验证离屏输出使用命盘用字，而界面语言只负责字体区域字形。
+fn export_uses_chart_variant_independently_of_interface() {
+    let mut traditional_chart = AppState::with_input(crate::scenes::sample_input(false));
+    traditional_chart
+        .workspace
+        .set_chinese_variant(crate::i18n::ChineseVariant::Simplified);
+    traditional_chart
+        .workspace
+        .set_chart_chinese_variant(crate::i18n::ChineseVariant::Traditional);
+    let traditional = rasterize(traditional_chart.workspace.capture_export_image(), 1).unwrap();
+
+    let mut simplified_chart = AppState::with_input(crate::scenes::sample_input(false));
+    simplified_chart
+        .workspace
+        .set_chinese_variant(crate::i18n::ChineseVariant::Simplified);
+    simplified_chart
+        .workspace
+        .set_chart_chinese_variant(crate::i18n::ChineseVariant::Simplified);
+    let simplified = rasterize(simplified_chart.workspace.capture_export_image(), 1).unwrap();
+
+    assert_eq!(
+        (traditional.width, traditional.height),
+        (simplified.width, simplified.height)
+    );
+    assert_ne!(traditional.rgba, simplified.rgba);
+}
+
+#[test]
+#[ignore = "requires a GPU adapter for offscreen rendering"]
+/// 验证离屏导出不会把命盘字体语言留在窗口线程。
+fn export_restores_the_interface_font_language() {
+    use crate::i18n::ChineseVariant;
+    use parley::fontique::Language;
+
+    let mut state = AppState::with_input(crate::scenes::sample_input(false));
+    crate::fonts::select_language(ChineseVariant::Traditional.tag());
+    state
+        .workspace
+        .set_chinese_variant(ChineseVariant::Simplified);
+    state
+        .workspace
+        .set_chart_chinese_variant(ChineseVariant::Traditional);
+    let traditional = Language::parse(ChineseVariant::Traditional.tag()).ok();
+    let mut text = crate::fonts::text_system(ChineseVariant::Traditional.tag());
+    let sample = "骨直今門戶";
+    let style = zhiji_ui::fixed_font(16.0, 400.0, 16.0);
+    text.layout_rich(sample, &[], style, 1.0, None);
+    assert_eq!(text.language(), traditional);
+
+    let image = rasterize(state.workspace.capture_export_image(), 1).unwrap();
+
+    assert_eq!(image.width, crate::chart::SIZE as u32);
+    text.layout_rich(sample, &[], style, 1.0, None);
+    assert_eq!(text.language(), traditional);
+    crate::fonts::select_language(crate::fonts::DEFAULT_LANGUAGE);
+}
+
+#[test]
 #[ignore = "manual GPU performance measurement"]
 /// 手动测量重复离屏绘制的耗时。
 fn measure_repeated_rasterization() {

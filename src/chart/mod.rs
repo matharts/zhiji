@@ -9,7 +9,6 @@ mod palace;
 pub(crate) use coordinates::SIZE;
 pub(crate) use geometry::{Layout, palace_rect};
 
-use rune::tok::Family;
 use rune::{Color, El, Image, LineCap, Shape, TextStyle, canvas, el, text};
 use zhiji_core::Chart;
 use zhiji_ui::ColorToken;
@@ -51,9 +50,7 @@ struct Drawing {
 
 /// 创建命盘固定字号的字体样式，与界面字号缩放分离。
 fn text_style(size: f32, weight: f32) -> TextStyle {
-    TextStyle::new(size, weight)
-        .family(Family::Named(crate::assets::FONT_FAMILY))
-        .lh(size)
+    zhiji_ui::fixed_font(size, weight, size)
 }
 
 impl Drawing {

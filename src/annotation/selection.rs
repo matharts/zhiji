@@ -5,6 +5,7 @@ use rune::{El, Key, LineCap, Shape, canvas, el};
 use crate::annotation::geometry;
 use crate::annotation::{Mark, MarkKind};
 use crate::chart::SIZE;
+use crate::i18n::{LocalizedEl, t};
 use zhiji_ui::{ColorToken, color};
 
 #[derive(Clone, Copy)]
@@ -23,21 +24,22 @@ pub(crate) fn accessible_object<S: 'static>(
 ) -> El {
     let rect = geometry::bounds(mark);
     let kind = match &mark.kind {
-        MarkKind::Pen(_) => "画笔".to_owned(),
-        MarkKind::Highlighter(_) => "高亮笔".to_owned(),
-        MarkKind::Line(..) => "直线".to_owned(),
-        MarkKind::Arrow(..) => "箭头".to_owned(),
-        MarkKind::Rectangle(..) => "矩形".to_owned(),
-        MarkKind::Ellipse(..) => "圆形".to_owned(),
-        MarkKind::Text { value, .. } => format!("文字：{value}"),
+        MarkKind::Pen(_) => t("画笔"),
+        MarkKind::Highlighter(_) => t("高亮笔"),
+        MarkKind::Line(..) => t("直线"),
+        MarkKind::Arrow(..) => t("箭头"),
+        MarkKind::Rectangle(..) => t("矩形"),
+        MarkKind::Ellipse(..) => t("圆形"),
+        MarkKind::Text { value, .. } => format!("{}：{value}", t("文字")),
     };
     let is_text = matches!(mark.kind, MarkKind::Text { .. });
+    let accessible = format!("{}{}{}{}{}", t("第"), index + 1, t("个"), kind, t("标注"));
     el().key(format!("annotation-object-{index}"))
         .size(rect.width().max(10.0), rect.height().max(10.0))
         .absolute(rect.min[0], rect.min[1])
         .role("button")
-        .label(format!("第{}个{}标注", index + 1, kind))
-        .description(if is_text {
+        .label(accessible)
+        .local_description(if is_text {
             "方向键移动，Alt 加方向键调整大小，Delete 删除，回车编辑文字"
         } else {
             "方向键移动，Alt 加方向键调整大小，Delete 删除"

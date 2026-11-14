@@ -1,5 +1,6 @@
 //! 原生开场时间轴：星空飞行、三光、图标、宫格及真实命盘落位。
 use crate::app::AppState;
+use crate::i18n::LocalizedEl;
 use rune::{Color, Cx, El, Image, LineCap, Shape, canvas, el, text};
 use std::f32::consts::{PI, TAU};
 
@@ -90,7 +91,7 @@ pub(super) fn view(state: &AppState, cx: &mut Cx<AppState>, target: [f32; 4]) ->
         .clip_rounded(0.0)
         .instant_changes()
         .role("dialog")
-        .label("首次启动动画")
+        .local_label("首次启动动画")
         .modal(false, |state: &mut AppState| state.launch.finish())
         .child(
             el().absolute(0.0, 0.0)
@@ -185,12 +186,12 @@ pub(super) fn view(state: &AppState, cx: &mut Cx<AppState>, target: [f32; 4]) ->
                 .center()
                 .radius(6.0)
                 .role("button")
-                .label("跳过启动动画")
+                .local_label("跳过启动动画")
                 .focusable(true)
                 .focus_ring(2.0, 2.0, tint([190, 166, 231], 1.0))
                 .on_press_tx(AppState::finish_launch)
                 .child(
-                    text("跳过")
+                    text(crate::i18n::t("跳过"))
                         .font(zhiji_ui::font(13.0, 400.0))
                         .color(if land > 0.5 && !night {
                             tint([90, 75, 105], 1.0)

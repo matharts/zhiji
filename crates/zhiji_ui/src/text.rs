@@ -4,8 +4,8 @@ use std::cell::Cell;
 
 use crate::tokens::{ColorToken, color};
 
-/// 桌面应用内嵌字体注册的字体族名称。
-pub const FONT_FAMILY: &str = "Zhiji Prototype Serif";
+/// 桌面应用内嵌思源宋体注册的字体族名称。
+pub const FONT_FAMILY: &str = "Zhiji Chinese Serif";
 
 thread_local! { static UI_SCALE: Cell<f32> = const { Cell::new(1.0) }; }
 
@@ -27,9 +27,14 @@ pub fn font_scope(scale: f32) -> FontScaleScope {
 /// 按当前界面倍率创建字体；行高随字号同步缩放。
 pub fn font(size: f32, weight: f32) -> TextStyle {
     let size = size * UI_SCALE.with(Cell::get);
+    fixed_font(size, weight, size)
+}
+
+/// 创建不受界面字号倍率影响的共享字体样式。
+pub fn fixed_font(size: f32, weight: f32, line_height: f32) -> TextStyle {
     TextStyle::new(size, weight)
         .family(Family::Named(FONT_FAMILY))
-        .lh(size)
+        .lh(line_height)
 }
 
 /// 为受控文本编辑状态创建输入框，统一光标和选区颜色。

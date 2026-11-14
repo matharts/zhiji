@@ -84,7 +84,7 @@ impl<'a> Painter<'a> {
         if let Some(stem) = palace.stem.filter(|_| display.stem) {
             let offset = if display.branch { 108.0 } else { 126.0 };
             out.label(
-                stem.name(),
+                crate::i18n::chart_t(stem.name()),
                 [x + 4.25, y + offset + baseline_offset],
                 FONT,
                 600.0,
@@ -94,7 +94,7 @@ impl<'a> Painter<'a> {
         }
         if display.branch {
             out.label(
-                palace.branch.name(),
+                crate::i18n::chart_t(palace.branch.name()),
                 [x + 4.25, y + 126.0 + baseline_offset],
                 FONT,
                 600.0,
@@ -103,7 +103,8 @@ impl<'a> Painter<'a> {
             );
         }
         if let Some(name) = palace.name.filter(|_| display.palace) {
-            for (i, character) in name.chars().enumerate() {
+            let localized = crate::i18n::chart_t(name);
+            for (i, character) in localized.chars().enumerate() {
                 out.label(
                     character.to_string(),
                     [x + 129.25, y + 108.0 + baseline_offset + i as f32 * 18.0],
@@ -127,7 +128,7 @@ impl<'a> Painter<'a> {
                 0.0
             };
             out.label(
-                name,
+                crate::i18n::chart_t(name),
                 [x + 75.0, y + 102.90625 + offset],
                 FONT,
                 600.0,
@@ -210,7 +211,8 @@ impl<'a> Painter<'a> {
                     _ => BLACK,
                 }
             };
-            for (i, character) in star.name.chars().enumerate() {
+            let localized = crate::i18n::chart_t(star.name);
+            for (i, character) in localized.chars().enumerate() {
                 out.label(
                     character.to_string(),
                     [
@@ -289,10 +291,11 @@ impl<'a> Painter<'a> {
         let [x, y] = origin;
         let Self { out, display, .. } = self;
         use geometry::{ArrowKind, add, inward};
-        let yearly = palace
-            .yearly_name
-            .map(str::to_owned)
-            .or_else(|| palace.yearly_age.map(|age| format!("{age} 歲")));
+        let yearly = palace.yearly_name.map(crate::i18n::chart_t).or_else(|| {
+            palace
+                .yearly_age
+                .map(|age| crate::i18n::chart_t(format!("{age} 歲")))
+        });
         if let Some(yearly) = yearly.filter(|_| display.yearly && display.palace) {
             let label = out.label(yearly, [x + 75.0, y + 86.0], 10.0, 600.0, BLACK, true);
             if let Some(name) = palace.yearly_name {

@@ -4,6 +4,7 @@ use rune::{Align, Curve, Easing, El, Side, col, el, row};
 
 use super::Marking;
 use crate::annotation::{Ink, Tool, Weight};
+use crate::i18n::{LocalizedEl, t};
 
 #[derive(Clone, Copy)]
 pub(crate) enum ToolbarAction {
@@ -62,12 +63,13 @@ fn weight_button<S: 'static>(
     } else {
         "线条粗细"
     };
+    let description = t(format!("{}：{}", kind, weight.name()));
     el().key(format!("mark-weight-{index}"))
         .size(24.0, 32.0)
         .center()
         .role("button")
-        .label(format!("{}：{}", kind, weight.name()))
-        .help(format!("{}：{}", kind, weight.name()))
+        .local_label(description.clone())
+        .local_help(description)
         .checked(selected)
         .focusable(true)
         .radius(4.0)
@@ -104,8 +106,8 @@ fn tool_button<S: 'static>(
     el().key(key)
         .size(36.0, 32.0)
         .role("button")
-        .label(name)
-        .help(name)
+        .local_label(name)
+        .local_help(name)
         .checked(selected)
         .focusable(true)
         .center()
@@ -153,12 +155,13 @@ fn color_button<S: 'static>(
     index: usize,
 ) -> El {
     let selected = marking.ink() == ink;
+    let name = t(ink.name());
     el().key(format!("mark-color-{index}"))
         .size(24.0, 32.0)
         .center()
         .role("button")
-        .label(format!("标记颜色：{}", ink.name()))
-        .help(ink.name())
+        .local_label(format!("标记颜色：{name}"))
+        .local_help(name)
         .checked(selected)
         .focusable(true)
         .radius(4.0)
@@ -212,7 +215,7 @@ fn command_button<S: 'static>(
     clear: bool,
     redo: bool,
 ) -> El {
-    IconButton::new(key, label, command_icon(clear, redo, enabled))
+    IconButton::new(key, t(label), command_icon(clear, redo, enabled))
         .disabled(!enabled)
         .on_press_tx(move |state: &mut S, tx| {
             let action = if clear {
@@ -232,10 +235,10 @@ fn command_button<S: 'static>(
 fn more_button<S: 'static>(dispatch: Dispatch<S>) -> El {
     IconButton::new(
         "mark-more",
-        "更多标注操作",
+        t("更多标注操作"),
         zhiji_ui::icon(zhiji_ui::Icon::More, 20.0, ColorToken::InkIcon),
     )
-    .help("更多操作")
+    .help(t("更多操作"))
     .on_press_tx(move |state: &mut S, _tx| {
         dispatch(state, ToolbarAction::More);
     })
@@ -270,7 +273,7 @@ pub(crate) fn render<S: 'static>(
         .fill(zhiji_ui::color(ColorToken::Canvas))
         .shadow(2.0, 8.0, rune::Color::BLACK.alpha(0.12))
         .role("toolbar")
-        .label("命盘标记工具栏")
+        .local_label("命盘标记工具栏")
         .px(8.0)
         .center_y()
         .child(tools)
@@ -382,7 +385,7 @@ pub(crate) fn palette<S: 'static>(
             .size(24.0, 32.0)
             .center()
             .role("button")
-            .label("自定义标注颜色")
+            .local_label("自定义标注颜色")
             .checked(custom_selected)
             .focusable(true)
             .radius(4.0)
@@ -416,7 +419,7 @@ pub(crate) fn custom_picker<S: 'static>(
     }
     let plane = zhiji_ui::ColorPlane::new(
         "mark-custom-plane",
-        "自定义颜色饱和度和亮度",
+        t("自定义颜色饱和度和亮度"),
         picker.pixels.plane(),
         picker.saturation,
         picker.value,
@@ -430,7 +433,7 @@ pub(crate) fn custom_picker<S: 'static>(
     .build();
     let hue = zhiji_ui::HueSlider::new(
         "mark-custom-hue",
-        "自定义颜色色相",
+        t("自定义颜色色相"),
         picker.pixels.hue_strip(),
         picker.hue,
     )
@@ -479,7 +482,7 @@ pub(crate) fn custom_picker<S: 'static>(
                 )
                 .color(color(ColorToken::InkIcon))
                 .role("textbox")
-                .label("自定义颜色十六进制值")
+                .local_label("自定义颜色十六进制值")
                 .on_edit(edit)
                 .on_input_change(move |state: &mut S, tx| {
                     dispatch(state, ToolbarAction::CustomText);
@@ -489,14 +492,14 @@ pub(crate) fn custom_picker<S: 'static>(
         .child(
             el().key("mark-custom-apply")
                 .role("button")
-                .label("应用自定义颜色")
+                .local_label("应用自定义颜色")
                 .disabled(!picker.valid)
                 .focusable(picker.valid)
                 .size(234.0, 30.0)
                 .center()
                 .radius(4.0)
                 .fill(color(ColorToken::SurfaceHover))
-                .child(zhiji_ui::regular_label(
+                .child(crate::i18n::regular_label(
                     "应用",
                     13.0,
                     if picker.valid {

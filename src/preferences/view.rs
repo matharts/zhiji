@@ -6,10 +6,12 @@ use rune::{
 
 use super::color_editor::view::{color_controls, color_reset};
 use super::settings::{
-    AppearanceMode, DateModePreference, ExportScale, MotionMode, PreferenceChange, UiScale,
+    AppearanceMode, ChineseVariant, DateModePreference, ExportScale, MotionMode, PreferenceChange,
+    UiScale,
 };
 use super::{AboutHost, Category, ColorEditorHost, PreferencesHost};
-use zhiji_ui::{Button, ChoiceOption, ColorToken, Segmented, color, regular_label};
+use crate::i18n::{LocalizedEl, label, regular_label, t};
+use zhiji_ui::{Button, ChoiceOption, ColorToken, Segmented, color};
 
 /// 创建返回排盘信息的按钮，关闭设置时由宿主结束临时编辑。
 pub(crate) fn close_button<S: PreferencesHost>() -> El {
@@ -30,7 +32,7 @@ pub(crate) fn close_button<S: PreferencesHost>() -> El {
         );
     zhiji_ui::IconButton::new(
         "settings-back",
-        "返回排盘信息",
+        t("返回排盘信息"),
         canvas(arrow).size(16.0, 16.0).a11y_hidden(),
     )
     .size(27.0)
@@ -103,7 +105,7 @@ fn categories<S: PreferencesHost>(state: &S) -> El {
         .radius(6.0)
         .fill(color(ColorToken::Canvas))
         .role("radiogroup")
-        .label("设置分类")
+        .local_label("设置分类")
         .focus_group()
         .transition(Transition::none())
         .child(
@@ -124,8 +126,9 @@ fn categories<S: PreferencesHost>(state: &S) -> El {
         (Category::About, "settings-category-about", "关于"),
     ] {
         let is_selected = state.settings_category() == category;
+        let title = t(title);
         categories = categories.child(
-            ChoiceOption::new(key, title, is_selected)
+            ChoiceOption::new(key, title.clone(), is_selected)
                 .neutral()
                 .size(48.0, 24.0)
                 .radius(5.0)
@@ -230,6 +233,30 @@ fn appearance_options<S: PreferencesHost + ColorEditorHost>(state: &S) -> El {
             preferences.ui_scale.index(),
             |state: &mut S, value| state.change_preference(PreferenceChange::UiScale(value)),
         ))
+        .child(option_row(
+            "界面简繁体",
+            "setting-chinese-variant",
+            &[
+                ("simplified", "简体", ChineseVariant::Simplified),
+                ("traditional", "繁体", ChineseVariant::Traditional),
+            ],
+            preferences.chinese_variant,
+            preferences.chinese_variant.index(),
+            |state: &mut S, value| state.change_preference(PreferenceChange::ChineseVariant(value)),
+        ))
+        .child(option_row(
+            "命盘简繁体",
+            "setting-chart-chinese-variant",
+            &[
+                ("simplified", "简体", ChineseVariant::Simplified),
+                ("traditional", "繁体", ChineseVariant::Traditional),
+            ],
+            preferences.chart_chinese_variant,
+            preferences.chart_chinese_variant.index(),
+            |state: &mut S, value| {
+                state.change_preference(PreferenceChange::ChartChineseVariant(value))
+            },
+        ))
         .child(
             row()
                 .instant_changes()
@@ -322,7 +349,7 @@ fn about_options<S: PreferencesHost + AboutHost>(state: &S, reduced_motion: bool
                 col()
                     .grow(1.0)
                     .gap(2.0)
-                    .child(zhiji_ui::label("知几", 13.0, ColorToken::InkHeading))
+                    .child(label("知几", 13.0, ColorToken::InkHeading))
                     .child(
                         row()
                             .gap(4.0)
@@ -335,7 +362,7 @@ fn about_options<S: PreferencesHost + AboutHost>(state: &S, reduced_motion: bool
                             .child(
                                 zhiji_ui::IconButton::new(
                                     "settings-copy-app-info",
-                                    "复制版本与系统信息",
+                                    t("复制版本与系统信息"),
                                     zhiji_ui::icon(
                                         zhiji_ui::Icon::Copy,
                                         14.0,
@@ -369,7 +396,7 @@ fn about_options<S: PreferencesHost + AboutHost>(state: &S, reduced_motion: bool
             .gap(8.0)
             .center_y()
             .role("status")
-            .label(message.clone())
+            .local_label(message.clone())
             .child(
                 regular_label(
                     message.clone(),
@@ -386,7 +413,7 @@ fn about_options<S: PreferencesHost + AboutHost>(state: &S, reduced_motion: bool
                 .grow(1.0)
                 .min_w(0.0)
                 .truncate()
-                .help(message),
+                .local_help(message),
             );
         if matches!(
             state.update_status(),
@@ -470,7 +497,8 @@ fn about_options<S: PreferencesHost + AboutHost>(state: &S, reduced_motion: bool
                         .gap(8.0)
                         .child(regular_label("配置目录", 13.0, ColorToken::InkHeading))
                         .child(
-                            regular_label(
+                            // 路径按原值显示，不能经过界面用字转换。
+                            zhiji_ui::regular_label(
                                 crate::preferences::settings::config_location_label(),
                                 12.0,
                                 ColorToken::InkMuted,
@@ -512,7 +540,7 @@ fn about_row_action<S: AboutHost>(
         .radius(5.0)
         .focus_ring(2.0, 1.0, color(ColorToken::Accent))
         .role("button")
-        .label(title)
+        .local_label(title)
         .focusable(!disabled)
         .disabled(disabled)
         .child(
@@ -553,7 +581,7 @@ fn about_action<S: AboutHost>(
         .radius(5.0)
         .focus_ring(2.0, 1.0, color(ColorToken::Accent))
         .role("button")
-        .label(title)
+        .local_label(title)
         .focusable(!disabled)
         .disabled(disabled)
         .center()
@@ -611,7 +639,7 @@ fn diagnostic_options<S: AboutHost>(state: &S) -> El {
                     .child(
                         zhiji_ui::IconButton::new(
                             "settings-copy-diagnostics",
-                            "复制诊断目录",
+                            t("复制诊断目录"),
                             zhiji_ui::icon(zhiji_ui::Icon::Copy, 14.0, ColorToken::InkMuted),
                         )
                         .size(24.0)
@@ -623,7 +651,7 @@ fn diagnostic_options<S: AboutHost>(state: &S) -> El {
     );
     if let Some(error) = diagnostics.error {
         content = content.child(
-            regular_label(error.to_owned(), 12.0, ColorToken::StatusDanger)
+            zhiji_ui::regular_label(crate::i18n::message(error), 12.0, ColorToken::StatusDanger)
                 .key("settings-diagnostics-error")
                 .w_full()
                 .px(10.0)
@@ -652,12 +680,12 @@ fn replay_button<S: AboutHost>(disabled: bool) -> El {
         canvas(icon).size(13.0, 13.0),
         S::replay_launch,
     )
-    .label(if disabled {
+    .local_label(if disabled {
         "重播开场动画（减少动态效果已开启）"
     } else {
         "重播开场动画"
     })
-    .help(if disabled {
+    .local_help(if disabled {
         "减少动态效果已开启"
     } else {
         "重播开场动画"
@@ -675,7 +703,7 @@ fn reset_action<S: PreferencesHost>(state: &S) -> El {
             .justify_between()
             .child(regular_label("恢复默认设置", 13.0, ColorToken::InkHeading))
             .child(
-                Button::new("settings-reset", "恢复")
+                Button::new("settings-reset", t("恢复"))
                     .size(64.0, 28.0)
                     .on_press_tx(|state: &mut S, tx| {
                         state.set_reset_confirmation(true);
@@ -692,7 +720,7 @@ fn reset_action<S: PreferencesHost>(state: &S) -> El {
                 .pb(10.0)
                 .gap(8.0)
                 .child(regular_label(
-                    "外观、动效、排盘规则与窗口布局将恢复默认，当前命盘数据不会清除。",
+                    "外观、动效、简繁体、排盘规则与窗口布局将恢复默认，当前命盘数据不会清除。",
                     12.0,
                     ColorToken::InkMuted,
                 ))
@@ -702,7 +730,7 @@ fn reset_action<S: PreferencesHost>(state: &S) -> El {
                         .justify_end()
                         .gap(8.0)
                         .child(
-                            Button::new("settings-reset-cancel", "取消")
+                            Button::new("settings-reset-cancel", t("取消"))
                                 .compact()
                                 .on_press_tx(|state: &mut S, tx| {
                                     state.set_reset_confirmation(false);
@@ -711,7 +739,7 @@ fn reset_action<S: PreferencesHost>(state: &S) -> El {
                                 .build(),
                         )
                         .child(
-                            Button::new("settings-reset-confirm", "恢复")
+                            Button::new("settings-reset-confirm", t("恢复"))
                                 .compact()
                                 .primary(true)
                                 .on_press_tx(|state: &mut S, tx| {
@@ -748,7 +776,8 @@ where
     } else {
         (112.0, 53.0, 53.0, 55.0)
     };
-    let mut segmented = Segmented::new(label)
+    let label = t(label);
+    let mut segmented = Segmented::new(label.clone())
         .neutral()
         .radius(6.0)
         .columns(options.len())
@@ -765,13 +794,14 @@ where
     for (key, title, value) in options {
         let value = *value;
         let is_selected = selected == value;
+        let title = t(*title);
         segmented = segmented.child(
-            ChoiceOption::new(format!("{key_prefix}-{key}"), *title, is_selected)
+            ChoiceOption::new(format!("{key_prefix}-{key}"), title.clone(), is_selected)
                 .neutral()
                 .size(item_width, 20.0)
                 .radius(4.0)
                 .content(regular_label(
-                    *title,
+                    title,
                     12.0,
                     if is_selected {
                         ColorToken::InkHeading

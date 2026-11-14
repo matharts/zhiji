@@ -1,9 +1,10 @@
 use std::collections::BTreeMap;
 
+use crate::i18n::{LocalizedEl, data_t, label, regular_label, t};
 use rune::{Align, El, Key, KeyEvent, LineCap, Shape, Side, TextEdit, Tx, canvas, col, el, row};
 use zhiji_ui::{
     Button, CascadeColumns, ChoiceOption, ColorToken, DropdownTrigger, IconButton, SearchField,
-    SelectList, color, label, regular_label,
+    SelectList, color,
 };
 
 use crate::workspace::input::{
@@ -25,12 +26,12 @@ pub(super) fn controls<S: InputEditorHost>(state: &S, width: f32) -> El {
     let mut trigger = el().size(trigger_width, 40.0).child(
         DropdownTrigger::new(
             "birthplace-trigger",
-            selected.map_or("选择出生地", |place| place.label.as_str()),
+            selected.map_or_else(|| t("选择出生地"), |place| data_t(&place.label)),
             domestic,
         )
         .size(trigger_width, 40.0)
         .trailing_space(if selected.is_some() { 28.0 } else { 0.0 })
-        .label("选择出生地")
+        .label(t("选择出生地"))
         .disabled(!available)
         .on_toggle_tx(|state: &mut S, _tx| {
             state.input_editor_mut().open_places(PlaceMode::Domestic);
@@ -65,8 +66,8 @@ pub(super) fn controls<S: InputEditorHost>(state: &S, width: f32) -> El {
                     .center()
                     .hover_group()
                     .role("button")
-                    .label("清除出生地")
-                    .help("清除出生地")
+                    .local_label("清除出生地")
+                    .local_help("清除出生地")
                     .focusable(true)
                     .focus_ring(2.0, 1.0, color(ColorToken::Accent))
                     .child(
@@ -99,7 +100,7 @@ pub(super) fn controls<S: InputEditorHost>(state: &S, width: f32) -> El {
         .items_center()
         .child(trigger)
         .child(
-            IconButton::new("birthplace-overseas", "选择海外出生地", globe())
+            IconButton::new("birthplace-overseas", t("选择海外出生地"), globe())
                 .size(40.0)
                 .radius(6.0)
                 .disabled(!available)
@@ -119,7 +120,7 @@ pub(super) fn controls<S: InputEditorHost>(state: &S, width: f32) -> El {
         .h(40.0)
         .px(12.0)
         .center_y()
-        .help("使用所选地区的代表点经度，可能与实际出生地点有差异")
+        .local_help("使用所选地区的代表点经度，可能与实际出生地点有差异")
         .grow(1.0)
         .child(
             regular_label(
@@ -160,18 +161,18 @@ pub(super) fn popup<S: InputEditorHost>(
     let overseas = source.draft.places.mode == PlaceMode::Overseas;
     let search = SearchField::new(
         "birthplace-search",
-        if overseas {
+        t(if overseas {
             "搜索海外城市"
         } else {
             "搜索城市、区县"
-        },
+        }),
         &source.search,
     )
-    .placeholder(if overseas {
+    .placeholder(t(if overseas {
         "搜索海外城市"
     } else {
         "搜索城市、区县"
-    })
+    }))
     .on_edit(|state: &mut S| &mut state.input_editor_mut().search)
     .on_input_key(|state: &mut S, event, tx| {
         if event.key == Key::Escape {
@@ -212,7 +213,7 @@ pub(super) fn popup<S: InputEditorHost>(
         .items_center()
         .justify_end()
         .child(
-            Button::new("birthplace-cancel", "取消")
+            Button::new("birthplace-cancel", t("取消"))
                 .compact()
                 .on_press_tx(|state: &mut S, _tx| {
                     state.input_editor_mut().dismiss_popup();
@@ -220,7 +221,7 @@ pub(super) fn popup<S: InputEditorHost>(
                 .build(),
         )
         .child(
-            Button::new("birthplace-confirm", "确定")
+            Button::new("birthplace-confirm", t("确定"))
                 .compact()
                 .primary(true)
                 .disabled(!confirmable)
@@ -249,7 +250,7 @@ pub(super) fn popup<S: InputEditorHost>(
         .fill(color(ColorToken::Canvas))
         .shadow(8.0, 28.0, rune::Color::BLACK.alpha(0.16))
         .role("group")
-        .label(if overseas {
+        .local_label(if overseas {
             "选择海外出生地"
         } else {
             "选择出生地"
@@ -449,11 +450,11 @@ fn choose_column(source: &mut InputEditor, column: usize, id: &str, tx: &mut Tx)
 /// 将三列地点数据绘制为可滚动、可键盘导航的列表。
 fn columns<S: InputEditorHost>(state: &S, width: f32, list_height: f32) -> El {
     let source = state.input_editor();
-    let mut columns = CascadeColumns::new("birthplace-columns", "出生地地区选择");
+    let mut columns = CascadeColumns::new("birthplace-columns", t("出生地地区选择"));
     let count = 3;
     for (column, data) in column_data(source).into_iter().take(count).enumerate() {
         let empty = data.values.is_empty();
-        let mut list = SelectList::new(format!("birthplace-list-{column}"), data.title).size(
+        let mut list = SelectList::new(format!("birthplace-list-{column}"), t(data.title)).size(
             (width - 8.0 * (count - 1) as f32) / count as f32,
             list_height,
         );
@@ -468,6 +469,7 @@ fn columns<S: InputEditorHost>(state: &S, width: f32, list_height: f32) -> El {
         } else {
             for (id, title) in data.values {
                 let selected = data.selected.as_deref() == Some(id.as_str());
+                let title = data_t(&title);
                 let key = format!("birthplace-option-{column}-{id}");
                 let terminal = column == 2;
                 let content = row()
@@ -475,7 +477,7 @@ fn columns<S: InputEditorHost>(state: &S, width: f32, list_height: f32) -> El {
                     .gap(4.0)
                     .items_center()
                     .child(
-                        regular_label(
+                        zhiji_ui::regular_label(
                             &title,
                             14.0,
                             if selected {
@@ -592,7 +594,7 @@ fn choose_result(source: &mut InputEditor, result: &PlaceSearchResult) {
 fn results<S: InputEditorHost>(state: &S, height: f32) -> El {
     let source = state.input_editor();
     let results = search_results(source);
-    let mut list = SelectList::new("birthplace-results", "城市搜索结果").height(height);
+    let mut list = SelectList::new("birthplace-results", t("城市搜索结果")).height(height);
     if results.is_empty() {
         return regular_label("没有找到城市", 13.0, ColorToken::InkHint)
             .key("birthplace-search-empty")
@@ -601,12 +603,14 @@ fn results<S: InputEditorHost>(state: &S, height: f32) -> El {
             .center();
     }
     for (index, result) in results.into_iter().enumerate() {
+        let name = data_t(&result.name);
+        let context = data_t(&result.context);
         list = list.option(
-            ChoiceOption::new(format!("birthplace-result-{index}"), &result.name, false)
+            ChoiceOption::new(format!("birthplace-result-{index}"), name.clone(), false)
                 .list_item()
                 .size(1.0, 40.0)
                 .fill_width()
-                .label(format!("{} / {}", result.name, result.context))
+                .label(format!("{name} / {context}"))
                 .content(
                     row()
                         .w_full()
@@ -614,13 +618,13 @@ fn results<S: InputEditorHost>(state: &S, height: f32) -> El {
                         .items_center()
                         .justify_between()
                         .child(
-                            label(&result.name, 14.0, ColorToken::InkBody)
+                            zhiji_ui::label(&name, 14.0, ColorToken::InkBody)
                                 .min_w(0.0)
                                 .shrink()
                                 .truncate(),
                         )
                         .child(
-                            regular_label(&result.context, 12.0, ColorToken::InkHint)
+                            zhiji_ui::regular_label(&context, 12.0, ColorToken::InkHint)
                                 .w_frac(0.55)
                                 .truncate(),
                         ),

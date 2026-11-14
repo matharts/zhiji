@@ -21,13 +21,3 @@ pub(crate) const fn label(value: Transformation) -> &'static str {
         Transformation::D => "忌",
     }
 }
-
-/// 返回命盘参考绘制使用的繁体四化标签。
-pub(crate) const fn traditional_label(value: Transformation) -> &'static str {
-    match value {
-        Transformation::A => "祿",
-        Transformation::B => "權",
-        Transformation::C => "科",
-        Transformation::D => "忌",
-    }
-}

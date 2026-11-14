@@ -4,12 +4,13 @@ use rune::{
 };
 
 use super::super::ColorEditorHost;
+use crate::i18n::{LocalizedEl, regular_label, t};
 use crate::preferences::color_editor::{
     Channel, ColorDrag, ColorField, ColorSlider, EditPhase, Format, FormatMenuAction,
 };
 use crate::transformation;
 use zhiji_core::Transformation;
-use zhiji_ui::{ColorToken, color, font, hover_feedback, input, regular_label};
+use zhiji_ui::{ColorToken, color, font, hover_feedback, input};
 
 // 此内边距使 Rune 的 12 点文字在 24 点颜色控件内垂直居中。
 const COLOR_INPUT_TOP_INSET: f32 = 6.0;
@@ -19,7 +20,7 @@ pub(crate) fn color_controls<S: ColorEditorHost>(state: &S) -> El {
     let mut choices = row().size(236.0, 26.0).gap(4.0);
     for value in Transformation::ALL {
         let index = transformation::index(value);
-        let title = transformation::traditional_label(value);
+        let title = t(transformation::label(value));
         let open = state
             .color_editor()
             .picker()
@@ -37,7 +38,7 @@ pub(crate) fn color_controls<S: ColorEditorHost>(state: &S) -> El {
                 .hover(color(ColorToken::SurfaceHoverStrong))
                 .center_y()
                 .role("button")
-                .label(format!("{title}飞宫颜色"))
+                .local_label(format!("{title}飞宫颜色"))
                 .expanded(open)
                 .focus_ring(2.0, 1.0, color(ColorToken::Accent))
                 .a11y_value(
@@ -99,7 +100,7 @@ pub(crate) fn color_reset<S: ColorEditorHost>() -> El {
             .radius(5.0)
             .center_y()
             .role("button")
-            .label("重置飞宫颜色")
+            .local_label("重置飞宫颜色")
             .focus_ring(2.0, 1.0, color(ColorToken::Accent))
             .focusable(true)
             .child(regular_label("重置", 12.0, ColorToken::InkMuted))
@@ -125,7 +126,7 @@ fn color_format_selector<S: ColorEditorHost>(
             .radius(4.0)
             .hover(color(ColorToken::SurfaceHoverSoft))
             .role("button")
-            .label(format!("颜色格式：{}", picker.format.name()))
+            .local_label(format!("颜色格式：{}", picker.format.name()))
             .expanded(picker.format_menu_open)
             .focusable(true)
             .child(regular_label(
@@ -219,7 +220,7 @@ fn color_stepper<S: ColorEditorHost>(field: NumberField, width: f32) -> El {
                 .size(16.0, 11.0)
                 .hover(color(ColorToken::Window))
                 .role("button")
-                .label(if delta > 0 { "增加" } else { "减少" })
+                .local_label(if delta > 0 { "增加" } else { "减少" })
                 .center()
                 .child(zhiji_ui::icon(
                     if delta > 0 {
@@ -272,7 +273,7 @@ fn color_channel_field<S: ColorEditorHost>(
             .border(1.0, color(ColorToken::Border))
             .color(color(ColorToken::InkTitle))
             .role("textbox")
-            .label(accessible),
+            .local_label(accessible),
         ColorField::Channel(channel),
         true,
     )
@@ -322,7 +323,7 @@ pub(crate) fn color_format_overlay<S: ColorEditorHost>(state: &S) -> Option<El> 
         .border(1.0, color(ColorToken::BorderSoft))
         .shadow(3.0, 12.0, rune::Color::BLACK.alpha(0.15))
         .role("listbox")
-        .label("颜色格式")
+        .local_label("颜色格式")
         .focus_group();
     for format in Format::ALL {
         menu = menu.child(hover_feedback(
@@ -339,7 +340,7 @@ pub(crate) fn color_format_overlay<S: ColorEditorHost>(state: &S) -> Option<El> 
                     color(ColorToken::Canvas)
                 })
                 .role("option")
-                .label(format.name())
+                .local_label(format.name())
                 .focusable(true)
                 .focus_selected(format == picker.format_highlight)
                 .focus_highlight(color(ColorToken::Window))
@@ -399,7 +400,7 @@ fn color_plane<S: ColorEditorHost>(
 ) -> El {
     zhiji_ui::ColorPlane::new(
         "color-plane",
-        "颜色饱和度和亮度",
+        t("颜色饱和度和亮度"),
         picker.plane,
         picker.saturation,
         picker.value,
@@ -415,7 +416,7 @@ fn color_plane<S: ColorEditorHost>(
 
 /// 绑定色相拖动和按角度步进。
 fn hue_slider<S: ColorEditorHost>(picker: &crate::preferences::color_editor::PickerView<'_>) -> El {
-    zhiji_ui::HueSlider::new("color-hue", "色相", picker.hue_strip, picker.hue)
+    zhiji_ui::HueSlider::new("color-hue", t("色相"), picker.hue_strip, picker.hue)
         .on_drag_tx(|state: &mut S, phase, cancelled, hue, tx| {
             state
                 .edit_colors()
@@ -434,18 +435,23 @@ fn opacity_slider<S: ColorEditorHost>(
     picker: &crate::preferences::color_editor::PickerView<'_>,
     rgb: crate::color::Rgb,
 ) -> El {
-    zhiji_ui::OpacitySlider::new("color-opacity", "透明度", Color::from(rgb), picker.opacity)
-        .on_drag_tx(|state: &mut S, phase, cancelled, opacity, tx| {
-            state
-                .edit_colors()
-                .drag(phase, cancelled, ColorDrag::Opacity(opacity));
-            tx.instant();
-        })
-        .on_step_tx(|state: &mut S, delta, tx| {
-            state.edit_colors().step_slider(ColorSlider::Opacity, delta);
-            tx.instant();
-        })
-        .build()
+    zhiji_ui::OpacitySlider::new(
+        "color-opacity",
+        t("透明度"),
+        Color::from(rgb),
+        picker.opacity,
+    )
+    .on_drag_tx(|state: &mut S, phase, cancelled, opacity, tx| {
+        state
+            .edit_colors()
+            .drag(phase, cancelled, ColorDrag::Opacity(opacity));
+        tx.instant();
+    })
+    .on_step_tx(|state: &mut S, delta, tx| {
+        state.edit_colors().step_slider(ColorSlider::Opacity, delta);
+        tx.instant();
+    })
+    .build()
 }
 
 /// 构建十六进制输入及固定井号装饰，编辑状态仍由业务层持有。
@@ -462,7 +468,7 @@ fn hex_input<S: ColorEditorHost>(picker: &crate::preferences::color_editor::Pick
             .border(1.0, color(ColorToken::Border))
             .color(color(ColorToken::InkTitle))
             .role("textbox")
-            .label("十六进制颜色")
+            .local_label("十六进制颜色")
             .child(
                 regular_label("#", 12.0, ColorToken::InkPlaceholder)
                     .absolute(8.0, 6.0)
@@ -490,7 +496,7 @@ fn opacity_input<S: ColorEditorHost>(
             .border(1.0, color(ColorToken::Border))
             .color(color(ColorToken::InkTitle))
             .role("textbox")
-            .label("透明度百分比"),
+            .local_label("透明度百分比"),
         ColorField::Opacity,
         true,
     )

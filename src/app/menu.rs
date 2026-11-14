@@ -11,6 +11,7 @@ pub(super) struct MenuState {
     two_columns: bool,
     has_path: bool,
     has_recent: bool,
+    chinese_variant: crate::i18n::ChineseVariant,
 }
 
 impl MenuState {
@@ -33,6 +34,7 @@ impl MenuState {
             two_columns: state.workspace.layout().two_columns,
             has_path: state.document.path().is_some(),
             has_recent: !state.document.recent().is_empty(),
+            chinese_variant: state.workspace.chinese_variant(),
         }
     }
 
@@ -99,7 +101,7 @@ impl MenuState {
                 AppState::show_recent,
             )
             .enabled(self.files_available && self.has_recent),
-            MenuItem::separator().menu("文件"),
+            MenuItem::separator().menu(crate::i18n::t("文件")),
             item(
                 "export",
                 "导出图片…",
@@ -148,9 +150,9 @@ fn item(
     shortcut: Option<&str>,
     action: fn(&mut AppState, &mut Tx),
 ) -> MenuItem<AppState> {
-    let mut item = MenuItem::new(title, action).id(id);
+    let mut item = MenuItem::new(crate::i18n::t(title), action).id(id);
     if let Some(menu) = menu {
-        item = item.menu(menu);
+        item = item.menu(crate::i18n::t(menu));
     }
     if let Some(shortcut) = shortcut {
         item = item.key_equivalent(shortcut.parse().expect("static menu shortcut is valid"));
@@ -179,6 +181,7 @@ impl AppState {
         if !cfg!(target_os = "macos") {
             return;
         }
+        let _locale = crate::i18n::scope(self.workspace.chinese_variant());
         let Some(handle) = &self.app_handle else {
             return;
         };

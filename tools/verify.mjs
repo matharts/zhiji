@@ -11,6 +11,8 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const exports = [
   'export::render::tests::export_contains_current_color_and_square_corners',
   'export::render::tests::rasterizer_honors_every_export_scale',
+  'export::render::tests::export_restores_the_interface_font_language',
+  'export::render::tests::export_uses_chart_variant_independently_of_interface',
   'export::tests::flow::chosen_path_exports_a_real_chart_via_the_background_worker',
   'export::tests::flow::flying_export_contains_the_four_default_colors',
   'export::tests::flow::export_matches_visual_fixture_after_worker_completes',

@@ -3,6 +3,7 @@
 use rune::{Align, Color, El, Side, Spring, SpringPair, Transition, el};
 
 use crate::app::AppState;
+use crate::i18n::{LocalizedEl, t};
 use zhiji_ui::{menu_item as entry, menu_panel as panel, regular_label};
 
 /// 更多菜单开启时组合复制、草稿和标注可见性操作。
@@ -11,9 +12,9 @@ pub(crate) fn more(state: &AppState) -> Option<El> {
         return None;
     }
     let visibility = if state.workspace.marking().visible() {
-        "隐藏标注"
+        t("隐藏标注")
     } else {
-        "显示标注"
+        t("显示标注")
     };
     Some(
         panel()
@@ -21,10 +22,10 @@ pub(crate) fn more(state: &AppState) -> Option<El> {
             .w(112.0)
             .instant_changes()
             .transition(zhiji_ui::popover_transition(false))
-            .label("更多标注操作")
+            .local_label("更多标注操作")
             .child(entry(
                 "mark-copy-image",
-                "复制图片",
+                t("复制图片"),
                 !state.tasks.copy_image.is_busy(),
                 AppState::request_copy_image,
             ))
@@ -39,19 +40,19 @@ pub(crate) fn more(state: &AppState) -> Option<El> {
             ))
             .child(entry(
                 "draft-save",
-                "保存草稿",
+                t("保存草稿"),
                 !state.document.is_busy() && !state.tasks.export.is_busy(),
                 AppState::request_save_draft,
             ))
             .child(entry(
                 "draft-save-as",
-                "另存为…",
+                t("另存为…"),
                 !state.document.is_busy() && !state.tasks.export.is_busy(),
                 AppState::request_save_as,
             ))
             .child(entry(
                 "draft-recent",
-                "打开最近…",
+                t("打开最近…"),
                 !state.document.is_busy()
                     && !state.tasks.export.is_busy()
                     && !state.document.recent().is_empty(),
@@ -59,7 +60,7 @@ pub(crate) fn more(state: &AppState) -> Option<El> {
             ))
             .child(entry(
                 "draft-open",
-                "打开草稿",
+                t("打开草稿"),
                 !state.document.is_busy() && !state.tasks.export.is_busy(),
                 AppState::request_open_draft,
             ))
@@ -106,7 +107,7 @@ pub(crate) fn feedback(state: &AppState) -> Option<El> {
             .shadow(2.0, 8.0, Color::BLACK.alpha(0.12))
             .role(if success { "status" } else { "alert" })
             .child(regular_label(
-                message.to_owned(),
+                crate::i18n::message(message),
                 13.0,
                 if success {
                     zhiji_ui::ColorToken::StatusSuccess

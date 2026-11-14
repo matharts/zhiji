@@ -490,7 +490,7 @@ fn filename(input: &Input) -> String {
     } else {
         "女"
     };
-    format!("{name}-{gender}盤.png")
+    format!("{name}-{gender}{}.png", crate::i18n::t("盘"))
 }
 
 /// 在缺少 PNG 扩展名时追加扩展名，不覆盖用户已有名称。
@@ -507,11 +507,11 @@ fn png_path(mut path: PathBuf) -> PathBuf {
 /// 配置系统保存面板的默认文件名和 PNG 类型过滤。
 pub(crate) fn dialog_options(input: &Input) -> FileDialogOptions {
     FileDialogOptions {
-        title: "导出图片".into(),
+        title: crate::i18n::t("导出图片"),
         file_name: Some(filename(input)),
         ..Default::default()
     }
-    .filter("PNG 图片", &["png"])
+    .filter(crate::i18n::t("PNG 图片"), &["png"])
 }
 
 #[cfg(test)]

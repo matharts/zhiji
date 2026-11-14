@@ -3,6 +3,7 @@
 use rune::{El, PointerPress};
 
 use super::Marking;
+use crate::i18n::{LocalizedEl, t};
 use zhiji_ui::{menu_item as entry, menu_panel as panel};
 
 #[derive(Clone, Copy)]
@@ -27,11 +28,11 @@ pub(crate) fn context<S: 'static>(
     Some(
         panel()
             .key("marking-context-menu")
-            .label("标注操作")
+            .local_label("标注操作")
             .absolute(x, y)
             .child(entry(
                 "mark-duplicate",
-                "复制标注",
+                t("复制标注"),
                 true,
                 move |state: &mut S, tx| {
                     dispatch(state, ContextAction::Duplicate);
@@ -40,7 +41,7 @@ pub(crate) fn context<S: 'static>(
             ))
             .child(entry(
                 "mark-layer-forward",
-                "上移一层",
+                t("上移一层"),
                 marking.can_move_layer(true),
                 move |state: &mut S, tx| {
                     dispatch(state, ContextAction::Forward);
@@ -49,7 +50,7 @@ pub(crate) fn context<S: 'static>(
             ))
             .child(entry(
                 "mark-layer-backward",
-                "下移一层",
+                t("下移一层"),
                 marking.can_move_layer(false),
                 move |state: &mut S, tx| {
                     dispatch(state, ContextAction::Backward);
@@ -58,7 +59,7 @@ pub(crate) fn context<S: 'static>(
             ))
             .child(entry(
                 "mark-delete",
-                "删除标注",
+                t("删除标注"),
                 true,
                 move |state: &mut S, tx| {
                     dispatch(state, ContextAction::Delete);

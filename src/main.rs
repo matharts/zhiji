@@ -8,6 +8,8 @@ mod color;
 mod diagnostics;
 mod draft;
 mod export;
+mod fonts;
+mod i18n;
 #[cfg(feature = "perf-probe")]
 mod perf_probe;
 mod platform;
@@ -68,8 +70,8 @@ fn restored_window_options(
 /// 注册字体、窗口回调和测试场景，普通构建不包含视觉场景入口。
 fn window_spec() -> AppSpec<AppState> {
     AppSpec {
-        fonts: assets::FONTS,
-        families: assets::FAMILIES,
+        fonts: fonts::FONTS.files,
+        families: fonts::FONTS.families,
         min_size: Some(WINDOW_SIZE),
         setup: Some(app::setup),
         on_key: Some(app::keyboard::on_key),
@@ -138,6 +140,7 @@ fn main() {
     if platform::update_install::finish_restart() {
         return;
     }
+    fonts::select_language(fonts::DEFAULT_LANGUAGE);
     #[cfg(feature = "perf-probe")]
     let started = std::time::Instant::now();
     // 与 Linux 打包器生成的桌面入口名称一致。
@@ -207,7 +210,9 @@ fn main() {
         .keep_running()
         .standard_menus()
         .on_close(AppState::on_close)
-        .on_reopen(AppState::on_reopen);
+        .on_reopen(AppState::on_reopen)
+        // Rune 的桌面帧在视图构建后还要排版和编码，必须等整帧提交完再释放语言锁。
+        .on_frame_encoded(|_| fonts::finish_frame());
     #[cfg(feature = "perf-probe")]
     let app = perf_probe::attach(app, started);
     rune::tooling::run_windows_with_args(rune::RunOptions::default(), rune_args, move |displays| {

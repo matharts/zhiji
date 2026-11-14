@@ -1,7 +1,8 @@
 //! 应用标题栏的业务组合。
 use crate::app::AppState;
+use crate::i18n::{label, t};
 use rune::{ChromeInsets, El, el, row};
-use zhiji_ui::{ColorToken, Icon, IconButton, color, icon, label, regular_label};
+use zhiji_ui::{ColorToken, Icon, IconButton, color, icon, regular_label};
 
 /// 按原生标题栏安全区组合应用名称、取数、布局及设置入口。
 pub(super) fn render(state: &AppState, chrome: ChromeInsets) -> El {
@@ -12,7 +13,7 @@ pub(super) fn render(state: &AppState, chrome: ChromeInsets) -> El {
             .child(
                 IconButton::new(
                     "date-source-toggle",
-                    "日期取数",
+                    t("日期取数"),
                     icon(Icon::Calendar, 16.0, ColorToken::InkNavigation),
                 )
                 .size(27.0)
@@ -25,7 +26,7 @@ pub(super) fn render(state: &AppState, chrome: ChromeInsets) -> El {
             .child(
                 IconButton::new(
                     "layout-toggle",
-                    "双列布局",
+                    t("双列布局"),
                     icon(
                         if workspace.presentation().two_columns() {
                             Icon::Columns
@@ -37,11 +38,11 @@ pub(super) fn render(state: &AppState, chrome: ChromeInsets) -> El {
                     ),
                 )
                 .size(27.0)
-                .help(if workspace.presentation().two_columns() {
+                .help(t(if workspace.presentation().two_columns() {
                     "切换为单列布局"
                 } else {
                     "切换为双列布局"
-                })
+                }))
                 .on_press_tx(|state: &mut AppState, tx| {
                     let two_columns = !state.workspace.presentation().two_columns();
                     state.workspace.set_columns(two_columns);
@@ -55,11 +56,11 @@ pub(super) fn render(state: &AppState, chrome: ChromeInsets) -> El {
     }
     let toggle = IconButton::new(
         "toggle-sidebar",
-        if workspace.presentation().sidebar_collapsed() {
+        t(if workspace.presentation().sidebar_collapsed() {
             "展开右侧面板"
         } else {
             "收起右侧面板"
-        },
+        }),
         icon(Icon::Sidebar, 16.0, ColorToken::InkNavigation),
     )
     .size(27.0)
@@ -73,11 +74,11 @@ pub(super) fn render(state: &AppState, chrome: ChromeInsets) -> El {
     actions = actions.child(toggle).child(
         IconButton::new(
             "night-mode",
-            if workspace.night_mode() {
+            t(if workspace.night_mode() {
                 "切换到日间模式"
             } else {
                 "切换到夜晚模式"
-            },
+            }),
             icon(
                 if workspace.night_mode() {
                     Icon::Sun
@@ -99,7 +100,7 @@ pub(super) fn render(state: &AppState, chrome: ChromeInsets) -> El {
     actions = actions.child(
         IconButton::new(
             "open-settings",
-            "设置",
+            t("设置"),
             icon(Icon::Settings, 16.0, ColorToken::InkNavigation),
         )
         .size(27.0)
@@ -164,7 +165,7 @@ pub(super) fn render(state: &AppState, chrome: ChromeInsets) -> El {
                                 .document
                                 .path()
                                 .map(|p| p.display().to_string())
-                                .unwrap_or_else(|| "知几".into()),
+                                .unwrap_or_else(|| t("知几")),
                         ),
                 )
                 .window_drag()

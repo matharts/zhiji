@@ -8,6 +8,7 @@ use rune::{Align, Cx, Edge, Effect, El, Side, Spring, SpringPair, Transition, co
 use crate::annotation::{menu as marking_menu, toolbar as marking_toolbar};
 use crate::app::AppState;
 use crate::chart;
+use crate::i18n::LocalizedEl;
 use crate::preferences::{color_editor::view as color_editor, view as preferences};
 use crate::workspace::view::{SIDEBAR_MOTION, chart_controls as settings, chart_workspace};
 use crate::{
@@ -60,7 +61,7 @@ fn chart_summary(state: &AppState) -> El {
     {
         parts.push(format!("来因在{}", palace.branch.name()));
     }
-    let summary = parts.join(" · ");
+    let summary = crate::i18n::t(parts.join(" · "));
     el().key("chart-summary")
         .motion(SIDEBAR_MOTION)
         .animate_layout()
@@ -72,7 +73,7 @@ fn chart_summary(state: &AppState) -> El {
         .fill(zhiji_ui::color(zhiji_ui::ColorToken::Canvas))
         .shadow(2.0, 8.0, rune::Color::BLACK.alpha(0.08))
         .role("text")
-        .label(summary.clone())
+        .local_label(summary.clone())
         .child(
             zhiji_ui::regular_label(summary, 13.0, zhiji_ui::ColorToken::InkHeading).a11y_hidden(),
         )
@@ -80,6 +81,8 @@ fn chart_summary(state: &AppState) -> El {
 
 /// 解析主题、字号和动效环境，组合工作区及各功能弹层。
 pub(crate) fn render(state: &AppState, cx: &mut Cx<AppState>) -> El {
+    crate::fonts::begin_frame(state.workspace.chinese_variant().tag());
+    let _locale = crate::i18n::scope(state.workspace.chinese_variant());
     let night = state.workspace.appearance().resolve(cx.system_dark());
     state.workspace.set_effective_night(night);
     let _theme = zhiji_ui::theme_scope(night);
@@ -285,13 +288,17 @@ pub(crate) fn render(state: &AppState, cx: &mut Cx<AppState>) -> El {
                 .radius(6.0)
                 .fill(zhiji_ui::color(zhiji_ui::ColorToken::Canvas))
                 .role("alert")
-                .label("设置未保存，重启后可能恢复默认值")
+                .local_label("设置未保存，重启后可能恢复默认值")
                 .child(
-                    zhiji_ui::regular_label("设置未保存", 13.0, zhiji_ui::ColorToken::StatusDanger)
-                        .a11y_hidden(),
+                    crate::i18n::regular_label(
+                        "设置未保存",
+                        13.0,
+                        zhiji_ui::ColorToken::StatusDanger,
+                    )
+                    .a11y_hidden(),
                 )
                 .child(
-                    zhiji_ui::Button::new("preferences-recovery-open", "处理")
+                    zhiji_ui::Button::new("preferences-recovery-open", crate::i18n::t("处理"))
                         .on_press_tx(|state: &mut AppState, tx| {
                             state.preferences_dialog = true;
                             tx.instant();

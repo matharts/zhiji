@@ -15,6 +15,13 @@ pub(crate) fn complete_menus() {
             return;
         };
         translate(&root);
+        if let Some(item) = root.itemAtIndex(0) {
+            let title = crate::i18n::t("知几");
+            item.setTitle(&NSString::from_str(&title));
+            if let Some(menu) = item.submenu() {
+                menu.setTitle(&NSString::from_str(&title));
+            }
+        }
         // 自定义退出入口负责执行应用的异步收尾协议。
         if let Some(menu) = root.itemAtIndex(0).and_then(|item| item.submenu()) {
             for index in (0..menu.numberOfItems()).rev() {
@@ -26,13 +33,15 @@ pub(crate) fn complete_menus() {
                     menu.removeItem(&item);
                 }
             }
-            if let Some(about) = menu.itemWithTitle(&NSString::from_str("关于知几"))
+            let about_title = crate::i18n::t("关于知几");
+            let quit_title = crate::i18n::t("退出知几");
+            if let Some(about) = menu.itemWithTitle(&NSString::from_str(&about_title))
                 && menu.indexOfItem(&about) != 0
             {
                 menu.removeItem(&about);
                 menu.insertItem_atIndex(&about, 0);
             }
-            if let Some(quit) = menu.itemWithTitle(&NSString::from_str("退出知几"))
+            if let Some(quit) = menu.itemWithTitle(&NSString::from_str(&quit_title))
                 && menu.indexOfItem(&quit) != menu.numberOfItems() - 1
             {
                 menu.removeItem(&quit);
@@ -44,8 +53,9 @@ pub(crate) fn complete_menus() {
                         menu.removeItem(&item);
                     }
                 }
-                for title in ["设置…", "服务", "隐藏知几", "退出知几"] {
-                    if let Some(item) = menu.itemWithTitle(&NSString::from_str(title)) {
+                for title in ["设置…", "服务", "隐藏知几", "退出知几"].map(crate::i18n::t)
+                {
+                    if let Some(item) = menu.itemWithTitle(&NSString::from_str(&title)) {
                         menu.insertItem_atIndex(
                             &NSMenuItem::separatorItem(mtm),
                             menu.indexOfItem(&item),
@@ -55,7 +65,10 @@ pub(crate) fn complete_menus() {
             }
         }
         // Rune 只按英文菜单名排序，本地化后显式恢复 macOS 标准顺序。
-        for (index, title) in ["文件", "编辑", "视图", "窗口", "帮助"].iter().enumerate()
+        for (index, title) in ["文件", "编辑", "视图", "窗口", "帮助"]
+            .map(crate::i18n::t)
+            .iter()
+            .enumerate()
         {
             let Some(item) = root.itemWithTitle(&NSString::from_str(title)) else {
                 continue;
@@ -79,28 +92,36 @@ unsafe fn translate(menu: &NSMenu) {
             };
             let title = item.title().to_string();
             let translated = match title.as_str() {
-                "Edit" => Some("编辑"),
-                "Window" => Some("窗口"),
-                "Undo" => Some("撤销"),
-                "Redo" => Some("重做"),
-                "Cut" => Some("剪切"),
-                "Copy" => Some("复制"),
-                "Paste" => Some("粘贴"),
-                "Select All" => Some("全选"),
-                "Minimize" => Some("最小化"),
-                "Close" | "Close Window" => Some("关闭窗口"),
-                "Services" => Some("服务"),
-                "Hide Others" => Some("隐藏其他"),
-                "Show All" => Some("显示全部"),
+                "File" | "文件" | "檔案" => Some("文件"),
+                "Edit" | "编辑" | "編輯" => Some("编辑"),
+                "View" | "视图" | "視圖" | "檢視" => Some("视图"),
+                "Window" | "窗口" | "視窗" => Some("窗口"),
+                "Help" | "帮助" | "幫助" | "說明" => Some("帮助"),
+                "Undo" | "撤销" | "撤銷" | "復原" => Some("撤销"),
+                "Redo" | "重做" => Some("重做"),
+                "Cut" | "剪切" | "剪下" => Some("剪切"),
+                "Copy" | "复制" | "複製" | "拷贝" | "拷貝" => Some("复制"),
+                "Paste" | "粘贴" | "粘貼" | "貼上" => Some("粘贴"),
+                "Select All" | "全选" | "全選" => Some("全选"),
+                "Minimize" | "最小化" | "縮到最小" => Some("最小化"),
+                "Close" | "Close Window" | "关闭窗口" | "關閉窗口" | "關閉視窗" => {
+                    Some("关闭窗口")
+                }
+                "Services" | "服务" | "服務" => Some("服务"),
+                "Hide Others" | "隐藏其他" | "隱藏其他" => Some("隐藏其他"),
+                "Show All" | "显示全部" | "顯示全部" => Some("显示全部"),
+                "关于知几" | "關於知幾" => Some("关于知几"),
+                "隐藏知几" | "隱藏知幾" => Some("隐藏知几"),
                 _ if title.starts_with("About ") => Some("关于知几"),
                 _ if title.starts_with("Hide ") => Some("隐藏知几"),
                 _ => None,
             };
-            if let Some(title) = translated {
+            let translated = translated.map(crate::i18n::menu_t);
+            if let Some(title) = &translated {
                 item.setTitle(&NSString::from_str(title));
             }
             if let Some(submenu) = item.submenu() {
-                if let Some(title) = translated {
+                if let Some(title) = &translated {
                     submenu.setTitle(&NSString::from_str(title));
                 }
                 translate(&submenu);

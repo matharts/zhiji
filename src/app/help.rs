@@ -1,7 +1,8 @@
 //! 编译时内嵌的使用帮助；与网站文档共用内容，不依赖网络或网页运行时。
 
+use crate::i18n::{LocalizedEl, label, regular_label, t};
 use rune::{Cx, El, ScrollSpec, Tx, col, el, row};
-use zhiji_ui::{ColorToken, color, regular_label};
+use zhiji_ui::{ColorToken, color};
 
 use super::AppState;
 
@@ -46,7 +47,7 @@ fn plain(line: &str) -> String {
 /// 阅读正文按面板宽度换行，行距随现有界面字号倍率缩放。
 fn paragraph(text: impl Into<String>, size: f32, ink: ColorToken) -> El {
     let font = zhiji_ui::font(size, 400.0);
-    rune::text(text)
+    rune::text(t(text.into()))
         .font(font.lh(font.size * 1.6))
         .color(color(ink))
         .w_full()
@@ -63,7 +64,7 @@ fn content(page: HelpPage) -> El {
             shortcuts = heading == "快捷键";
             if page == HelpPage::Guide && !shortcuts {
                 result = result.child(
-                    zhiji_ui::label(heading, 13.0, ColorToken::InkHeading)
+                    label(heading, 13.0, ColorToken::InkHeading)
                         .pt(8.0)
                         .w_full(),
                 );
@@ -116,8 +117,9 @@ pub(crate) fn overlay(state: &AppState, cx: &Cx<AppState>) -> Option<El> {
         ("help-guide", "使用帮助", HelpPage::Guide),
         ("help-shortcuts", "快捷键", HelpPage::Shortcuts),
     ] {
+        let title = t(title);
         tabs = tabs.child(
-            zhiji_ui::ChoiceOption::new(key, title, page == value)
+            zhiji_ui::ChoiceOption::new(key, title.clone(), page == value)
                 .neutral()
                 .size(88.0, 28.0)
                 .borderless()
@@ -142,11 +144,11 @@ pub(crate) fn overlay(state: &AppState, cx: &Cx<AppState>) -> Option<El> {
                 .w_full()
                 .center_y()
                 .justify_between()
-                .child(tabs.role("radiogroup").label("帮助分类"))
+                .child(tabs.role("radiogroup").local_label("帮助分类"))
                 .child(
                     zhiji_ui::IconButton::new(
                         "help-close",
-                        "关闭帮助",
+                        t("关闭帮助"),
                         zhiji_ui::icon(zhiji_ui::Icon::Close, 16.0, ColorToken::InkMuted),
                     )
                     .size(28.0)
@@ -180,7 +182,7 @@ pub(crate) fn overlay(state: &AppState, cx: &Cx<AppState>) -> Option<El> {
             .center()
             .fill(rune::Color::BLACK.alpha(0.32))
             .role("dialog")
-            .label("知几帮助")
+            .local_label("知几帮助")
             .child(panel)
             .modal(false, AppState::dismiss_help)
             .focus_return("settings-help"),

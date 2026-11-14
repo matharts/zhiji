@@ -12,6 +12,17 @@ fn one_pixel(_snapshot: render::Snapshot, _scale: u32) -> Result<render::Raster,
         rgba: vec![18, 52, 86, 255],
     })
 }
+
+#[test]
+/// 验证导出保存面板的标题和类型过滤跟随简繁体设置。
+fn dialog_options_follow_chinese_variant() {
+    let _locale = crate::i18n::scope(crate::i18n::ChineseVariant::Traditional);
+    let options = dialog_options(&Input::default());
+    assert_eq!(options.title, "匯出圖片");
+    assert_eq!(options.filters[0].0, "PNG 圖片");
+    assert_eq!(options.file_name.as_deref(), Some("-男盤.png"));
+}
+
 #[test]
 /// 验证保存完成与后台失败均进入正确终态。
 fn saving_tracks_completion_and_worker_failure() {
@@ -192,13 +203,13 @@ fn stale_worker_completion_cannot_finish_another_request() {
 fn names_match_the_reference_and_keep_png_extension() {
     assert_eq!(
         filename(&crate::scenes::sample_input(false)),
-        "甲子年紫微在辰-男盤.png"
+        "甲子年紫微在辰-男盘.png"
     );
     assert_eq!(
         filename(&crate::scenes::sample_input(true)),
-        "乙丑年紫微在酉-女盤.png"
+        "乙丑年紫微在酉-女盘.png"
     );
-    assert_eq!(filename(&Input::default()), "-男盤.png");
+    assert_eq!(filename(&Input::default()), "-男盘.png");
     assert_eq!(png_path("chart".into()), PathBuf::from("chart.png"));
     assert_eq!(png_path("chart.PNG".into()), PathBuf::from("chart.PNG"));
     assert_eq!(png_path("chart.jpg".into()), PathBuf::from("chart.jpg.png"));

@@ -19,7 +19,8 @@ fn decade_labels_match_static_output_at_desktop_scales() {
     for scale in [1.0, 1.25, 1.5, 1.75, 2.0] {
         let mut layouts = Vec::new();
         for animated in [false, true] {
-            let text = rune::text::TextSystem::new(crate::assets::FONTS, crate::assets::FAMILIES);
+            let _language = crate::fonts::language_scope(crate::fonts::DEFAULT_LANGUAGE);
+            let text = crate::fonts::text_system(crate::fonts::DEFAULT_LANGUAGE);
             let state = (
                 crate::app::AppState::with_input(crate::scenes::sample_input(false)),
                 animated,
@@ -124,7 +125,7 @@ fn display_controls_change_chart_content_and_single_character_alignment() {
     assert!(!full.seals.is_empty());
     assert!(contains(&full, "丙", 34.25, 589.0));
     assert!(contains(&full, "寅", 34.25, 607.0));
-    assert!(full.labels.iter().any(|label| label.value.ends_with('歲')));
+    assert!(full.labels.iter().any(|label| label.value.ends_with('岁')));
     assert!(
         full.labels
             .iter()
@@ -138,7 +139,7 @@ fn display_controls_change_chart_content_and_single_character_alignment() {
         !no_yearly
             .labels
             .iter()
-            .any(|label| label.value.ends_with('歲'))
+            .any(|label| label.value.ends_with('岁'))
     );
     display.yearly = true;
     display.laiyin = false;
@@ -154,7 +155,7 @@ fn display_controls_change_chart_content_and_single_character_alignment() {
         !hidden
             .labels
             .iter()
-            .any(|label| label.value.ends_with('歲'))
+            .any(|label| label.value.ends_with('岁'))
     );
     assert!(
         !hidden
@@ -168,6 +169,68 @@ fn display_controls_change_chart_content_and_single_character_alignment() {
     let stem_only = chart_drawing(&chart, None, &display, &palette, 1.0);
     assert!(contains(&stem_only, "丙", 34.25, 607.0));
     assert!(!contains(&stem_only, "寅", 34.25, 607.0));
+}
+
+#[test]
+/// 验证命盘星曜、宫职和年龄文字随简体、繁体设置真正换字。
+fn chart_labels_follow_chinese_variant() {
+    use crate::i18n::{ChineseVariant, scope};
+
+    let chart = zhiji_core::calculate(&crate::scenes::sample_input(false));
+    let display = Display::default();
+    let palette = Palette::default();
+
+    let traditional = {
+        let _locale = scope(ChineseVariant::Traditional);
+        chart_drawing(&chart, None, &display, &palette, 1.0)
+    };
+    assert!(
+        traditional
+            .labels
+            .iter()
+            .any(|label| label.value.ends_with('歲'))
+    );
+    assert!(traditional.labels.iter().any(|label| label.value == "財"));
+    assert!(traditional.labels.iter().any(|label| label.value == "機"));
+    assert!(traditional.labels.iter().any(|label| label.value == "丑"));
+    assert!(!traditional.labels.iter().any(|label| label.value == "醜"));
+
+    let simplified = chart_drawing(&chart, None, &display, &palette, 1.0);
+    assert!(
+        simplified
+            .labels
+            .iter()
+            .any(|label| label.value.ends_with('岁'))
+    );
+    assert!(simplified.labels.iter().any(|label| label.value == "财"));
+    assert!(simplified.labels.iter().any(|label| label.value == "机"));
+}
+
+#[test]
+/// 验证命盘标签按独立用字绘制，不受界面语言影响。
+fn chart_drawing_uses_chart_chinese_variant() {
+    use crate::i18n::{ChineseVariant, scope};
+
+    let chart = zhiji_core::calculate(&crate::scenes::sample_input(false));
+    let display = Display::default();
+    let palette = Palette::default();
+    let mixed = {
+        let _interface = scope(ChineseVariant::Traditional);
+        let _chart = scope(ChineseVariant::Simplified);
+        chart_drawing(&chart, None, &display, &palette, 1.0)
+    };
+    assert!(mixed.labels.iter().any(|label| label.value.ends_with('岁')));
+    assert!(mixed.labels.iter().any(|label| label.value == "财"));
+    assert!(!mixed.labels.iter().any(|label| label.value == "財"));
+
+    let mixed = {
+        let _interface = scope(ChineseVariant::Simplified);
+        let _chart = scope(ChineseVariant::Traditional);
+        chart_drawing(&chart, None, &display, &palette, 1.0)
+    };
+    assert!(mixed.labels.iter().any(|label| label.value.ends_with('歲')));
+    assert!(mixed.labels.iter().any(|label| label.value == "財"));
+    assert!(!mixed.labels.iter().any(|label| label.value == "财"));
 }
 
 #[test]

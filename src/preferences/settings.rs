@@ -6,6 +6,7 @@ use std::{
 };
 
 use crate::color::Palette;
+pub(crate) use crate::i18n::ChineseVariant;
 use crate::session::Display;
 
 pub(crate) const DEFAULT_WINDOW_SIZE: (f32, f32) = (1300.0, 800.0);
@@ -184,6 +185,8 @@ pub(crate) struct PreferenceValues {
     pub(crate) motion: MotionMode,
     pub(crate) date_mode: DateModePreference,
     pub(crate) ui_scale: UiScale,
+    pub(crate) chinese_variant: ChineseVariant,
+    pub(crate) chart_chinese_variant: ChineseVariant,
     pub(crate) restore_layout: bool,
     pub(crate) remember_display: bool,
     pub(crate) export_scale: ExportScale,
@@ -200,6 +203,8 @@ impl Default for PreferenceValues {
             motion: MotionMode::System,
             date_mode: DateModePreference::Solar,
             ui_scale: UiScale::Base,
+            chinese_variant: ChineseVariant::Simplified,
+            chart_chinese_variant: ChineseVariant::Simplified,
             restore_layout: true,
             remember_display: false,
             export_scale: ExportScale::High,
@@ -229,6 +234,8 @@ pub(crate) enum PreferenceChange {
     Motion(MotionMode),
     DateMode(DateModePreference),
     UiScale(UiScale),
+    ChineseVariant(ChineseVariant),
+    ChartChineseVariant(ChineseVariant),
     RestoreLayout(bool),
     RememberDisplay(bool),
     ExportScale(ExportScale),
@@ -238,13 +245,15 @@ pub(crate) enum PreferenceChange {
 
 impl PreferenceValues {
     /// 加载和恢复共用同一份字段到操作映射，新增设置只补这一处。
-    pub(crate) fn changes(self) -> [PreferenceChange; 10] {
+    pub(crate) fn changes(self) -> [PreferenceChange; 12] {
         [
             PreferenceChange::AutomaticUpdates(self.automatic_updates),
             PreferenceChange::Appearance(self.appearance),
             PreferenceChange::Motion(self.motion),
             PreferenceChange::DateMode(self.date_mode),
             PreferenceChange::UiScale(self.ui_scale),
+            PreferenceChange::ChineseVariant(self.chinese_variant),
+            PreferenceChange::ChartChineseVariant(self.chart_chinese_variant),
             PreferenceChange::RestoreLayout(self.restore_layout),
             PreferenceChange::RememberDisplay(self.remember_display),
             PreferenceChange::ExportScale(self.export_scale),
@@ -308,7 +317,15 @@ pub(crate) fn read(path: &Path) -> Result<Preferences, ReadError> {
     if bytes.len() > MAX_SETTINGS_BYTES as usize {
         return Err(ReadError::TooLarge);
     }
-    serde_json::from_slice(&bytes).map_err(|_| ReadError::Invalid)
+    let mut preferences: Preferences =
+        serde_json::from_slice(&bytes).map_err(|_| ReadError::Invalid)?;
+    // 旧设置同时控制界面和命盘；首次读取新增字段时沿用原选择，之后分别保存。
+    let fields: serde_json::Value =
+        serde_json::from_slice(&bytes).map_err(|_| ReadError::Invalid)?;
+    if fields.get("chart_chinese_variant").is_none() {
+        preferences.values.chart_chinese_variant = preferences.values.chinese_variant;
+    }
+    Ok(preferences)
 }
 
 /// 恢复前在同目录保留唯一命名的原始副本；备份失败时不替换原文件。

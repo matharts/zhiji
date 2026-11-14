@@ -4,6 +4,7 @@ use zhiji_core::Input;
 
 use crate::annotation::{Mark, Marking, ValidatedMarks};
 use crate::color::Palette;
+use crate::preferences::settings::ChineseVariant;
 use crate::session::{ChartSnapshot, ChartView, Display, Flying, Session};
 
 /// 转换为版本化草稿之前冻结的完整工作区内容。
@@ -124,6 +125,8 @@ pub(crate) struct ImageSnapshot {
     chart: ChartSnapshot,
     annotations: Vec<Mark>,
     night: bool,
+    chinese_variant: ChineseVariant,
+    chart_chinese_variant: ChineseVariant,
 }
 
 #[cfg(test)]
@@ -134,23 +137,43 @@ impl From<ChartSnapshot> for ImageSnapshot {
             chart,
             annotations: Vec::new(),
             night: false,
+            chinese_variant: ChineseVariant::default(),
+            chart_chinese_variant: ChineseVariant::default(),
         }
     }
 }
 
 impl ImageSnapshot {
-    /// 冻结命盘、可见标注和主题供后台图片任务独立使用。
-    pub(super) fn new(chart: ChartSnapshot, annotations: Vec<Mark>, night: bool) -> Self {
+    /// 冻结命盘、可见标注、主题和两套用字，图片字体沿用窗口的界面语言。
+    pub(super) fn new(
+        chart: ChartSnapshot,
+        annotations: Vec<Mark>,
+        night: bool,
+        chinese_variant: ChineseVariant,
+        chart_chinese_variant: ChineseVariant,
+    ) -> Self {
         Self {
             chart,
             annotations,
             night,
+            chinese_variant,
+            chart_chinese_variant,
         }
     }
 
     /// 返回发起任务时冻结的实际主题。
     pub(crate) fn night_mode(&self) -> bool {
         self.night
+    }
+
+    /// 返回发起任务时冻结的界面语言，保持窗口和图片的字体区域字形一致。
+    pub(crate) fn chinese_variant(&self) -> ChineseVariant {
+        self.chinese_variant
+    }
+
+    /// 返回发起任务时冻结的命盘用字标准。
+    pub(crate) fn chart_chinese_variant(&self) -> ChineseVariant {
+        self.chart_chinese_variant
     }
 
     #[cfg(test)]

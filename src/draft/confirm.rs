@@ -3,7 +3,8 @@
 use rune::{El, Tx, row};
 
 use crate::draft::Confirmation;
-use zhiji_ui::{ConfirmationDialog, dialog_button, regular_label};
+use crate::i18n::{regular_label, t};
+use zhiji_ui::{ConfirmationDialog, dialog_button};
 
 /// 将共享对话框按钮绑定到当前草稿确认动作。
 fn button<S: 'static>(title: &'static str, accept: bool, confirm: fn(&mut S, bool, &mut Tx)) -> El {
@@ -13,7 +14,7 @@ fn button<S: 'static>(title: &'static str, accept: bool, confirm: fn(&mut S, boo
         } else {
             "draft-cancel"
         },
-        title,
+        t(title),
         accept,
     )
     .on_press_tx(move |state: &mut S, tx| confirm(state, accept, tx))
@@ -50,13 +51,13 @@ pub(crate) fn render<S: 'static>(
     Some(
         ConfirmationDialog::new(
             "draft-confirmation",
-            title,
-            title,
+            t(title),
+            t(title),
             regular_label(detail, 14.0, zhiji_ui::ColorToken::InkBody).w(392.0),
             if matches!(confirmation, Confirmation::ExternalChange(_)) {
                 row()
                     .gap(12.0)
-                    .child(dialog_button("draft-save-as", "另存为…", false).on_press_tx(save_as))
+                    .child(dialog_button("draft-save-as", t("另存为…"), false).on_press_tx(save_as))
                     .child(button("取消", false, confirm))
             } else {
                 button("取消", false, confirm)
