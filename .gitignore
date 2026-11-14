@@ -6,5 +6,9 @@
 /.serena/
 /.unlazy/
 
+# 本地任务记录中的临时验证截图
+/.scratch/**/screenshots/
+/.scratch/*.png
+
 # macOS metadata
 .DS_Store

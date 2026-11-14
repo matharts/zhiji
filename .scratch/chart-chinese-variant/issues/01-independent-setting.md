@@ -25,3 +25,6 @@ Blocked by: none
 - 发布构建、macOS 打包及 `codesign --verify --deep --strict` 通过。
 - 在打包后的窗口中使用完整命盘分别检查“繁体界面＋简体命盘”和“简体界面＋繁体命盘”；
   命盘文字完整，设置互不联动。最终恢复界面、命盘均为繁体，动态效果为跟随系统。
+
+本次人工核对使用的临时截图已移至
+`output/scratch-evidence/chart-chinese-variant/`，仅作本机验证证据，不纳入版本库。

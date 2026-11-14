@@ -1,8 +1,9 @@
-# 项目现状
+# 项目现状快照
 
-核对日期：2026-11-13。本文是这一时点的工作区梳理，不代替各主题文档、任务记录或固定提交的验收结果。功能、源码或 Git 状态变化后应重新核对。
+核对日期：2026-11-13，任务状态于 2026-11-14 复核。本文是这一时点的历史梳理，
+不代替各主题文档、任务记录或固定提交的验收结果。
 
-## 当前基线
+## 历史基线
 
 - 梳理开始时，`main` 的 HEAD 和本地记录的 `origin/main` 均为 `1998c380de2121fad0d6c58493d6611e340dd815`，内容仍是早期桌面脚手架，不包含现在完整的应用。基线提交后本节会变为历史记录，应据实际提交更新。
 - 梳理开始时有 507 个已暂存文件：497 个新增、10 个修改；没有未暂存差异。它们包含桌面应用、内部 crate、资源、工具、测试、网站和本地任务记录。本文新增后，工作区还会出现本文这个未跟踪文件。
@@ -28,12 +29,20 @@
 
 仍需明确区分：Windows/Linux 原生桌面、Wayland、多显示器、中文输入法、长期运行、正式签名及公开发布未因本机自动化通过而完成验收。项目未以功能数量计算完成百分比。
 
+## 当前活动任务
+
+- 需人工或平台验收：设计重构的[原生验收](../design-refactor/issues/03-native-acceptance.md)、文件集成的 [macOS 验收](../file-integration/issues/02-native-acceptance.md)、[开场窗口拖拽](../launch-replay/issues/02-native-resize.md)。
+- 平台实现已补齐但验收未完：文件集成的 [Windows/Linux 任务](../file-integration/issues/03-windows-linux.md)。
+- 其余 16 个任务目录均无 `open` 或 `claimed` 记录；`copy-panic-feedback` 于
+  2026-11-14 复核后关闭。
+
 ## 任务如何阅读
 
 `.scratch` 的 `Status` 是分流标签，`Progress` 才是执行进度，见[任务约定](../../docs/agents/issue-tracker.md)。不能把 `ready-for-agent` 直接视为未完成。
 
 - `open` 且需人工：设计重构的[原生验收](../design-refactor/issues/03-native-acceptance.md)、文件集成的 [macOS 验收](../file-integration/issues/02-native-acceptance.md)、[开场窗口拖拽](../launch-replay/issues/02-native-resize.md)。
-- `claimed`：文件集成的 [Windows/Linux 任务](../file-integration/issues/03-windows-linux.md)明确保留该状态，原因是平台验收未完；复制反馈和 panic 诊断的[两个任务](../copy-panic-feedback/spec.md)也仍标记 `claimed`，尽管源码与测试文档已有相关实现和检查记录。后者应由后续核对结果后再决定是否改状态，不能仅凭标签推断有人正在工作。
+- `claimed`：文件集成的 [Windows/Linux 任务](../file-integration/issues/03-windows-linux.md)明确保留该状态，原因是平台实现已完成而实机验收未完。
+- 复制反馈和 panic 诊断的[两个任务](../copy-panic-feedback/spec.md)已改为 `resolved`；定向测试和验证边界记录在任务结果中。
 - 部分规格没有状态字段；具体任务和结果记录比规格标题更适合判断当前进度。历史记录中的依赖和环境可能已经变化，应以当前证据复核。
 
 ## 职责与待观察的摩擦

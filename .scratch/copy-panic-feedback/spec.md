@@ -1,5 +1,5 @@
 Status: ready-for-agent
-Progress: claimed
+Progress: resolved
 
 # 复制请求反馈与异常诊断
 
@@ -9,3 +9,8 @@ Progress: claimed
 - 检查默认／深色／大字号和小窗口的两处短暂反馈及对应剪贴板请求；通过隔离子进程核验真实 panic 落盘、载荷和路径脱敏、原 hook、捕获后继续、目录错误及文件锁竞争。运行 Rust、GPU、跨目标检查，不修改草稿。
 
 任务：[01 复制反馈](issues/01-copy-feedback.md)、[02 panic 诊断](issues/02-panic-diagnostics.md)。
+
+## Result
+
+两项任务均已完成并在 2026-11-14 复核，定向测试见各自结果。真实系统剪贴板写入与
+不可捕获的系统级异常仍不在自动化验证范围内。
