@@ -2,7 +2,9 @@ use super::*;
 
 use crate::preferences::PreferencesHost;
 use crate::preferences::color_editor::{ColorField, EditPhase};
-use crate::preferences::settings::{PreferenceChange, PreferenceValues, UiScale};
+use crate::preferences::settings::{
+    PreferenceChange, PreferenceValues, UiScale, WorkspacePreferences,
+};
 use crate::session::Action;
 use std::sync::mpsc;
 use std::time::Instant;
@@ -110,6 +112,7 @@ fn damaged_preferences_are_protected_until_recovery_is_confirmed() {
         crate::preferences::settings::read(&path)
             .unwrap()
             .values
+            .workspace
             .ui_scale,
         UiScale::Large
     );
@@ -136,15 +139,17 @@ fn preference_changes_share_loading_saving_and_defaults() {
     let path = directory.path().join("settings.json");
     let values = PreferenceValues {
         automatic_updates: false,
-        appearance: AppearanceMode::Dark,
-        motion: crate::preferences::settings::MotionMode::Off,
-        date_mode: crate::preferences::settings::DateModePreference::Pillars,
-        ui_scale: UiScale::Large,
-        chinese_variant: crate::preferences::settings::ChineseVariant::Traditional,
-        chart_chinese_variant: crate::preferences::settings::ChineseVariant::Traditional,
-        restore_layout: false,
-        remember_display: true,
-        export_scale: crate::preferences::settings::ExportScale::Ultra,
+        workspace: WorkspacePreferences {
+            appearance: AppearanceMode::Dark,
+            motion: crate::preferences::settings::MotionMode::Off,
+            date_mode: crate::preferences::settings::DateModePreference::Pillars,
+            ui_scale: UiScale::Large,
+            chinese_variant: crate::preferences::settings::ChineseVariant::Traditional,
+            chart_chinese_variant: crate::preferences::settings::ChineseVariant::Traditional,
+            restore_layout: false,
+            remember_display: true,
+            export_scale: crate::preferences::settings::ExportScale::Ultra,
+        },
         late_zi_next: true,
         pillar_day_start_zi: true,
     };
@@ -248,6 +253,7 @@ fn quit_waits_for_latest_preferences_without_blocking_ui_updates() {
         crate::preferences::settings::read(&path)
             .unwrap()
             .values
+            .workspace
             .ui_scale,
         UiScale::Large
     );
@@ -421,6 +427,7 @@ fn appearance_save_failure_is_reported_and_can_be_retried() {
         crate::preferences::settings::read(&path)
             .unwrap()
             .values
+            .workspace
             .appearance,
         crate::preferences::settings::AppearanceMode::Light
     );
@@ -486,7 +493,7 @@ fn preferences_persist_and_restore_workspace_layout() {
 fn disabling_layout_restore_keeps_stored_layout_but_starts_fresh() {
     let mut state = AppState::default();
     let mut preferences = crate::preferences::settings::Preferences::default();
-    preferences.values.restore_layout = false;
+    preferences.values.workspace.restore_layout = false;
     preferences.window = crate::preferences::settings::WindowLayout {
         size: Some([1480.0, 920.0]),
         position: Some([80.0, 60.0]),
@@ -513,7 +520,10 @@ fn remember_display_controls_whether_a_new_session_inherits_display_flags() {
     let preferences = crate::preferences::settings::Preferences {
         display: display.clone(),
         values: PreferenceValues {
-            remember_display: true,
+            workspace: WorkspacePreferences {
+                remember_display: true,
+                ..WorkspacePreferences::default()
+            },
             ..PreferenceValues::default()
         },
         ..crate::preferences::settings::Preferences::default()
@@ -525,7 +535,7 @@ fn remember_display_controls_whether_a_new_session_inherits_display_flags() {
     let preferences = crate::preferences::settings::Preferences {
         display,
         values: PreferenceValues {
-            remember_display: false,
+            workspace: WorkspacePreferences::default(),
             ..PreferenceValues::default()
         },
         ..crate::preferences::settings::Preferences::default()

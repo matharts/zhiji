@@ -1,14 +1,12 @@
-//! 日期编辑与确认流程；视图只能借用步骤，选择必须经校验操作提交。
+//! 日期编辑与确认流程；视图借用步骤和草稿状态，提交必须经校验操作完成。
 
-use std::{
-    collections::BTreeMap,
-    time::{Duration, Instant},
-};
+use std::collections::BTreeMap;
 
-use rune::{Key, KeyEvent, TextEdit, Tx, Waker};
+use rune::{TextEdit, Waker};
 use zhiji_core::{Gender, Input};
 
 use super::reverse::{ReverseOutcome, ReverseRequest, ReverseSearch};
+use super::solar_menu::SolarMenu;
 use super::{calculation, clock, model, places};
 use model::{CivilDate, DateMode, DatePopup, InputStatus, PillarKey, SolarSelect};
 use places::{PlaceCatalog, PlaceMode};
@@ -29,13 +27,20 @@ pub(super) enum InputStep {
     },
 }
 
+/// 一次提交的可见结果；校验失败由视图决定焦点目标。
+#[derive(Debug, PartialEq, Eq)]
+pub(crate) enum SubmitOutcome {
+    Applied(Input),
+    NeedsFocus(model::DateValidation),
+    Pending,
+    Failed,
+}
+
 /// 确认状态与后台请求私有持有，仅表单草稿和局部视图状态在输入模块内共享。
 pub(crate) struct InputEditor {
     pub(super) draft: model::InputDraft,
     pub(super) search: TextEdit,
-    pub(super) solar_active: u16,
-    typed: String,
-    typed_at: Option<Instant>,
+    solar_menu: SolarMenu,
     pub(super) today: CivilDate,
     pub(super) focus_versions: BTreeMap<String, u64>,
     rules: calculation::DateRules,
@@ -78,9 +83,7 @@ impl InputEditor {
         Self {
             draft: model::InputDraft::new(today, gender),
             search: TextEdit::new(""),
-            solar_active: 0,
-            typed: String::new(),
-            typed_at: None,
+            solar_menu: SolarMenu::default(),
             today,
             focus_versions: BTreeMap::new(),
             rules: calculation::DateRules::default(),
@@ -125,6 +128,16 @@ impl InputEditor {
     /// 只读借用当前确认步骤，视图不能改写步骤或候选集合。
     pub(super) fn step(&self) -> &InputStep {
         &self.step
+    }
+
+    /// 借用年月时分弹层的高亮状态，供视图只读展示。
+    pub(super) fn solar_menu(&self) -> &SolarMenu {
+        &self.solar_menu
+    }
+
+    /// 借用弹层键盘状态，由视图适配 Rune 按键。
+    pub(super) fn solar_menu_mut(&mut self) -> &mut SolarMenu {
+        &mut self.solar_menu
     }
 
     /// 返回是否采用返回上一步的过渡方向。
@@ -206,26 +219,20 @@ impl InputEditor {
         places::ensure_catalog().as_ref().ok()
     }
 
-    /// 面板打开时消费剩余按键；Escape 与返回按钮共用确认步骤的清理。
-    pub(crate) fn on_key(&mut self, event: &KeyEvent, tx: &mut Tx) -> bool {
+    /// 处理 Escape；返回是否有面板状态变化，按键消费由视图负责。
+    pub(crate) fn escape(&mut self) -> bool {
         if !self.is_open() {
             return false;
         }
-        if event.key == Key::Escape {
-            if !matches!(self.step, InputStep::Editing) {
-                self.back();
-            } else {
-                self.draft.escape();
-                if !self.is_open() {
-                    self.invalidate_reverse();
-                }
-            }
-            self.search.focused = false;
-            if self.is_open() {
-                tx.instant();
+        if !matches!(self.step, InputStep::Editing) {
+            self.back();
+        } else {
+            self.draft.escape();
+            if !self.is_open() {
+                self.invalidate_reverse();
             }
         }
-        // Rune 已先处理字段、模态 Tab 和局部按键，剩余按键不能穿透到后方命盘。
+        self.search.focused = false;
         true
     }
 
@@ -258,7 +265,7 @@ impl InputEditor {
         self.search.focused = false;
     }
 
-    /// 清除出生地及依赖它的时区、重复时刻和候选，焦点返回地点入口。
+    /// 清除出生地及依赖它的时区、重复时刻和候选；视图负责把焦点送回地点入口。
     pub(super) fn clear_birthplace(&mut self) {
         self.invalidate_reverse();
         self.dismiss_popup();
@@ -268,7 +275,6 @@ impl InputEditor {
         self.step = InputStep::Editing;
         self.last_result = None;
         self.draft.status.clear();
-        self.request_focus("birthplace-trigger");
     }
 
     /// 切换取数方式并作废旧后台请求。
@@ -396,15 +402,7 @@ impl InputEditor {
                     selected: None,
                 };
             }
-            ReverseOutcome::Finished(Err(zhiji_calendar::Error::UnsupportedDate(
-                zhiji_calendar::UnsupportedReason::SolarModelRange,
-            ))) => self.draft.status = InputStatus::ReverseSolarRange,
-            ReverseOutcome::Finished(Err(zhiji_calendar::Error::Cancelled)) => {
-                self.draft.status.clear();
-            }
-            ReverseOutcome::Finished(Err(_))
-            | ReverseOutcome::Panicked
-            | ReverseOutcome::SpawnFailed => self.draft.status = InputStatus::ReverseFailed,
+            outcome => self.draft.status = reverse_failure_status(outcome),
         }
         true
     }
@@ -436,24 +434,16 @@ impl InputEditor {
         self.draft.status.clear();
     }
 
-    /// 切换年月时分弹层，初始化键盘高亮并滚动到当前值。
-    pub(super) fn toggle_solar(&mut self, select: SolarSelect, tx: &mut Tx) {
+    /// 打开或收起年月时分弹层；视图负责焦点、滚动和重绘。
+    pub(super) fn open_solar(&mut self, select: SolarSelect) -> bool {
         if self.draft.popup == DatePopup::Solar(select) {
             self.dismiss_popup();
-            return;
+            return false;
         }
         self.dismiss_popup();
         self.draft.popup = DatePopup::Solar(select);
-        self.solar_active = match select {
-            SolarSelect::Year => self.draft.solar.year(),
-            SolarSelect::Month => u16::from(self.draft.solar.month()),
-            SolarSelect::Hour => u16::from(self.draft.solar.hour().unwrap_or(0)),
-            SolarSelect::Minute => u16::from(self.draft.solar.minute().unwrap_or(0)),
-        };
-        self.typed.clear();
-        self.typed_at = None;
-        self.request_focus("solar-select-list");
-        tx.scroll_center(format!("solar-option-{}", self.solar_active));
+        self.solar_menu.open(select, &self.draft.solar);
+        true
     }
 
     /// 应用可转换的年月时分选择，然后关闭子弹层和旧反馈。
@@ -488,28 +478,12 @@ impl InputEditor {
         *version = version.wrapping_add(1);
     }
 
-    /// 校验所选输入，依次处理时区、夏令时歧义和反推候选，确认完整才返回排盘参数。
-    pub(super) fn submit(&mut self) -> Option<Input> {
-        use model::{DateMode, DateValidation, PillarKey, PillarPart, SubmitFeedback};
+    /// 校验所选输入，依次处理时区、夏令时歧义和反推候选，完整时返回可应用参数。
+    pub(super) fn submit(&mut self) -> SubmitOutcome {
+        use model::SubmitFeedback;
         self.step_back = false;
         if let SubmitFeedback::Invalid(invalid) = self.draft.submit() {
-            let target = match invalid {
-                DateValidation::SolarTime if self.draft.solar.day().is_none() => "solar-days",
-                DateValidation::SolarTime if self.draft.solar.hour().is_none() => "solar-hour",
-                DateValidation::SolarTime => "solar-minute",
-                DateValidation::Pillar(key, part) => match (key, part) {
-                    (PillarKey::Year, PillarPart::Stem) => "pillar-year-stems",
-                    (PillarKey::Year, PillarPart::Branch) => "pillar-year-branches",
-                    (PillarKey::Month, PillarPart::Stem) => "pillar-month-stems",
-                    (PillarKey::Month, PillarPart::Branch) => "pillar-month-branches",
-                    (PillarKey::Day, PillarPart::Stem) => "pillar-day-stems",
-                    (PillarKey::Day, PillarPart::Branch) => "pillar-day-branches",
-                    (PillarKey::Hour, PillarPart::Stem) => "pillar-hour-stems",
-                    (PillarKey::Hour, PillarPart::Branch) => "pillar-hour-branches",
-                },
-            };
-            self.request_focus(target);
-            return None;
+            return SubmitOutcome::NeedsFocus(invalid);
         }
         match self.draft.mode {
             DateMode::Solar => self.submit_solar(),
@@ -519,7 +493,7 @@ impl InputEditor {
     }
 
     /// 按明确的农历生日和时辰取数，不引入公历地点或晚子时推日。
-    fn submit_lunar(&mut self) -> Option<Input> {
+    fn submit_lunar(&mut self) -> SubmitOutcome {
         use zhiji_calendar::{LunarDate, LunarMonth};
         let lunar = &self.draft.lunar;
         let result = LunarMonth::new(lunar.month(), lunar.leap())
@@ -533,17 +507,17 @@ impl InputEditor {
             )),
             Err(_) => {
                 self.draft.status = InputStatus::NonexistentLunarDate;
-                None
+                SubmitOutcome::Failed
             }
         }
     }
 
     /// 干支先查询再明确选择候选，地点始终为空且不应用真太阳时。
-    fn submit_pillars(&mut self) -> Option<Input> {
+    fn submit_pillars(&mut self) -> SubmitOutcome {
         if let InputStep::Candidates { values, selected } = &self.step {
             let Some(candidate) = selected.and_then(|index| values.get(index)).copied() else {
                 self.draft.status = InputStatus::CandidateRequired;
-                return None;
+                return SubmitOutcome::Failed;
             };
             let resolved = zhiji_calendar::ResolvedLocalTime {
                 local: candidate.local.start,
@@ -558,14 +532,19 @@ impl InputEditor {
             ));
         }
         match self.reverse_request() {
-            Ok(request) => self.start_reverse(request),
-            Err(status) => self.draft.status = status,
+            Ok(request) => {
+                self.start_reverse(request);
+                SubmitOutcome::Pending
+            }
+            Err(status) => {
+                self.draft.status = status;
+                SubmitOutcome::Failed
+            }
         }
-        None
     }
 
     /// 公历先确认地点时区，再解析钟表时间并处理夏令时重复或跳空。
-    fn submit_solar(&mut self) -> Option<Input> {
+    fn submit_solar(&mut self) -> SubmitOutcome {
         use zhiji_calendar::{LocalTimeResolution, Longitude};
         let place = self.draft.places.committed().cloned();
         let selection = place.as_ref().map(|p| p.selection.clone());
@@ -585,7 +564,7 @@ impl InputEditor {
                 self.step = InputStep::Zone(place);
             }
             self.draft.status = InputStatus::BirthplaceZoneRequired;
-            return None;
+            return SubmitOutcome::Failed;
         };
         if matches!(self.step, InputStep::Zone(_)) {
             self.step = InputStep::Editing;
@@ -596,22 +575,26 @@ impl InputEditor {
             .transpose()
         else {
             self.draft.status = InputStatus::BirthplaceLongitudeInvalid;
-            return None;
+            return SubmitOutcome::Failed;
         };
         let solar = &self.draft.solar;
-        let clock = calculation::solar_clock(
-            solar.year(),
-            solar.month(),
-            solar.day()?,
-            solar.hour()?,
-            solar.minute()?,
-        )
-        .ok()?;
+        let (Some(day), Some(hour), Some(minute)) = (solar.day(), solar.hour(), solar.minute())
+        else {
+            self.draft.status = InputStatus::SolarRequired;
+            return SubmitOutcome::Failed;
+        };
+        let clock = match calculation::solar_clock(solar.year(), solar.month(), day, hour, minute) {
+            Ok(clock) => clock,
+            Err(error) => {
+                self.draft.status = date_input_status(error);
+                return SubmitOutcome::Failed;
+            }
+        };
         let resolved = match zhiji_calendar::resolve_local_time(&zone, clock) {
             Ok(LocalTimeResolution::Unique(value)) => value,
             Ok(LocalTimeResolution::Nonexistent) => {
                 self.draft.status = InputStatus::LocalTimeNonexistent;
-                return None;
+                return SubmitOutcome::Failed;
             }
             Ok(LocalTimeResolution::Ambiguous { earlier, later }) => {
                 match self.fold_choice.as_ref().filter(|(selected, value)| {
@@ -624,13 +607,13 @@ impl InputEditor {
                             options: [earlier, later],
                         };
                         self.draft.status = InputStatus::LocalTimeAmbiguous;
-                        return None;
+                        return SubmitOutcome::Failed;
                     }
                 }
             }
             Err(_) => {
                 self.draft.status = InputStatus::LocalTimeInvalid;
-                return None;
+                return SubmitOutcome::Failed;
             }
         };
         self.finish(calculation::solar_input(
@@ -642,89 +625,56 @@ impl InputEditor {
     }
 
     /// 成功时保存追溯结果并关闭面板，失败时保留草稿供修正。
-    fn finish(&mut self, result: Result<calculation::DerivedInput, String>) -> Option<Input> {
+    fn finish(
+        &mut self,
+        result: Result<calculation::DerivedInput, calculation::DateInputError>,
+    ) -> SubmitOutcome {
         match result {
             Ok(value) => {
                 let input = value.input.clone();
                 self.last_result = Some(value);
                 self.close();
-                Some(input)
+                SubmitOutcome::Applied(input)
             }
-            Err(_) => {
-                self.draft.status = InputStatus::CalendarOutOfRange;
-                None
+            Err(error) => {
+                self.draft.status = date_input_status(error);
+                SubmitOutcome::Failed
             }
         }
     }
+}
 
-    /// 处理年月时分列表导航和数字前缀定位，仅确认时应用高亮值。
-    pub(super) fn solar_menu_key(&mut self, event: &KeyEvent, tx: &mut Tx) -> bool {
-        let DatePopup::Solar(select) = self.draft.popup else {
-            return false;
-        };
-        let (first, last) = match select {
-            SolarSelect::Year => (1, 9999),
-            SolarSelect::Month => (1, 12),
-            SolarSelect::Hour => (0, 23),
-            SolarSelect::Minute => (0, 59),
-        };
-        let target = match &event.key {
-            Key::Up => i32::from(self.solar_active) - 1,
-            Key::Down => i32::from(self.solar_active) + 1,
-            Key::PageUp => i32::from(self.solar_active) - 7,
-            Key::PageDown => i32::from(self.solar_active) + 7,
-            Key::Home => first,
-            Key::End => last,
-            Key::Enter => {
-                self.choose_solar(select, self.solar_active);
-                tx.instant();
-                return true;
-            }
-            Key::Text(text) if text == " " => {
-                self.choose_solar(select, self.solar_active);
-                tx.instant();
-                return true;
-            }
-            Key::Tab | Key::Escape => {
-                self.dismiss_popup();
-                tx.instant();
-                return true;
-            }
-            Key::Text(text)
-                if text.len() == 1 && text.bytes().all(|byte| byte.is_ascii_digit()) =>
-            {
-                let now = Instant::now();
-                if self
-                    .typed_at
-                    .is_none_or(|at| now.duration_since(at) > Duration::from_millis(800))
-                {
-                    self.typed.clear();
-                }
-                self.typed.push_str(text);
-                self.typed_at = Some(now);
-                let match_prefix = |prefix: &str| {
-                    (first..=last).find(|value| {
-                        let text = if matches!(select, SolarSelect::Hour | SolarSelect::Minute) {
-                            format!("{value:02}")
-                        } else {
-                            value.to_string()
-                        };
-                        text.starts_with(prefix)
-                    })
-                };
-                if let Some(value) = match_prefix(&self.typed) {
-                    value
-                } else {
-                    self.typed = text.clone();
-                    match_prefix(text).unwrap_or(i32::from(self.solar_active))
-                }
-            }
-            _ => return false,
-        };
-        self.solar_active = target.clamp(first, last) as u16;
-        tx.scroll_into_view(format!("solar-option-{}", self.solar_active));
-        tx.instant();
-        true
+/// 将换算错误映射到界面反馈；错误类别写入脱敏诊断，界面只保留可操作提示。
+fn date_input_status(error: calculation::DateInputError) -> InputStatus {
+    use calculation::DateInputError;
+    use zhiji_calendar::{Error, UnsupportedReason};
+
+    crate::diagnostics::record(format!("date input conversion failed: {error}"));
+    match error {
+        DateInputError::SolarTime(Error::UnsupportedDate(UnsupportedReason::SolarModelRange))
+        | DateInputError::Calendar(Error::UnsupportedDate(UnsupportedReason::SolarModelRange)) => {
+            InputStatus::SolarModelRange
+        }
+        DateInputError::InvalidHour
+        | DateInputError::MissingFiveElement
+        | DateInputError::SolarTime(_)
+        | DateInputError::Calendar(Error::BackendInconsistent) => {
+            InputStatus::CalendarCalculationFailed
+        }
+        DateInputError::Calendar(_) => InputStatus::CalendarOutOfRange,
+    }
+}
+
+/// 反推失败按历法范围、任务异常和普通查询失败分别反馈。
+fn reverse_failure_status(outcome: ReverseOutcome) -> InputStatus {
+    match outcome {
+        ReverseOutcome::Finished(Err(zhiji_calendar::Error::UnsupportedDate(
+            zhiji_calendar::UnsupportedReason::SolarModelRange,
+        ))) => InputStatus::ReverseSolarRange,
+        ReverseOutcome::Finished(Err(zhiji_calendar::Error::Cancelled)) => InputStatus::Clear,
+        ReverseOutcome::Finished(Err(_)) => InputStatus::ReverseFailed,
+        ReverseOutcome::Panicked | ReverseOutcome::SpawnFailed => InputStatus::ReverseTaskFailed,
+        ReverseOutcome::Finished(Ok(_)) => InputStatus::Clear,
     }
 }
 

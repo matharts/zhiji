@@ -7,7 +7,7 @@ use crate::color::Palette;
 use crate::preferences::color_editor::{ColorEdit, ColorEditor};
 use crate::preferences::settings::{
     AppearanceMode, ChineseVariant, DateModePreference, ExportScale, MotionMode, UiScale,
-    WindowLayout,
+    WindowLayout, WorkspacePreferences,
 };
 use crate::session::Display;
 use crate::session::{Action, Session};
@@ -17,7 +17,7 @@ pub(crate) mod input;
 mod keyboard;
 mod snapshot;
 mod state;
-use state::{WorkspaceLayout, WorkspacePreferences, WorkspaceUi};
+use state::{WorkspaceLayout, WorkspaceUi};
 pub(crate) mod view;
 pub(crate) use snapshot::{
     DraftSnapshot, ImageSnapshot, RestoreError, RestoredWorkspace, WorkspaceContent,
@@ -73,6 +73,11 @@ impl Workspace {
             settings_open: self.ui.settings_open,
             animate_chart_scale: self.ui.animate_chart_scale,
         }
+    }
+
+    /// 一次性借用工作区偏好，供应用层组装持久化投影。
+    pub(crate) fn preferences(&self) -> WorkspacePreferences {
+        self.preferences
     }
 
     /// 原生窗口调整尺寸时立即停止盘面布局动效。
@@ -136,17 +141,18 @@ impl Workspace {
         self.preferences.motion = motion;
     }
 
-    /// 读取日期取数面板的默认输入方式。
+    #[cfg(test)]
+    /// 读取日期取数面板的默认输入方式，供测试核对偏好应用结果。
     pub(crate) fn default_date_mode(&self) -> DateModePreference {
-        self.preferences.default_date_mode
+        self.preferences.date_mode
     }
 
     /// 默认方式变化时标记下次打开取数面板应用，不打断当前编辑。
     pub(crate) fn set_default_date_mode(&mut self, mode: DateModePreference) {
-        if self.preferences.default_date_mode != mode {
+        if self.preferences.date_mode != mode {
             self.ui.apply_default_date_mode_on_next_open = true;
         }
-        self.preferences.default_date_mode = mode;
+        self.preferences.date_mode = mode;
     }
 
     /// 读取界面字号倍率选项。
@@ -179,7 +185,8 @@ impl Workspace {
         self.preferences.chart_chinese_variant = variant;
     }
 
-    /// 判断启动时是否恢复上次布局。
+    #[cfg(test)]
+    /// 判断启动时是否恢复上次布局，供测试核对持久化结果。
     pub(crate) fn restore_layout(&self) -> bool {
         self.preferences.restore_layout
     }
@@ -189,7 +196,8 @@ impl Workspace {
         self.preferences.restore_layout = restore;
     }
 
-    /// 判断是否跨启动记忆命盘显示开关。
+    #[cfg(test)]
+    /// 判断是否跨启动记忆命盘显示开关，供测试核对持久化结果。
     pub(crate) fn remember_display(&self) -> bool {
         self.preferences.remember_display
     }
@@ -459,7 +467,7 @@ impl Workspace {
         if self.ui.apply_default_date_mode_on_next_open {
             self.ui.apply_default_date_mode_on_next_open = false;
             self.input_editor
-                .set_mode(self.preferences.default_date_mode.into());
+                .set_mode(self.preferences.date_mode.into());
         }
     }
 

@@ -131,6 +131,8 @@ fn persist_paths(path: PathBuf, paths: Vec<PathBuf>) -> Result<(), String> {
         let mut file = tempfile::NamedTempFile::new_in(parent)?;
         serde_json::to_writer(&mut file, &paths)?;
         file.flush()?;
+        // 先同步临时文件，再替换列表，避免崩溃后留下未落盘的路径记录。
+        file.as_file().sync_all()?;
         file.persist(path)?;
         Ok(())
     };

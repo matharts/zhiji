@@ -182,17 +182,19 @@ func moveMainWindow(_ application: AXUIElement) throws -> CGRect {
           AXUIElementSetAttributeValue(window, kAXSizeAttribute as CFString, size) == .success else {
         throw CheckFailure("无法调整主窗口尺寸")
     }
+    // 等尺寸稳定应用后再移动，避免连续几何请求互相覆盖。
+    _ = try waitForStableWindow(application, "窗口尺寸") {
+        abs($0.width - extent.width) <= 1 && abs($0.height - extent.height) <= 1
+    }
     var position = CGPoint(x: original.minX + 140,
                            y: original.minY > 100 ? original.minY - 40 : original.minY + 40)
     guard let value = AXValueCreate(.cgPoint, &position),
           AXUIElementSetAttributeValue(window, kAXPositionAttribute as CFString, value) == .success else {
         throw CheckFailure("无法移动主窗口")
     }
-    try waitFor("窗口移动") {
-        guard let actual = try? mainWindowFrame(application) else { return false }
-        return abs(actual.minX - position.x) <= 1 && abs(actual.minY - position.y) <= 1
+    return try waitForStableWindow(application, "窗口移动") {
+        abs($0.minX - position.x) <= 1 && abs($0.minY - position.y) <= 1
     }
-    return try mainWindowFrame(application)
 }
 
 // 操作必须保持用户移动后的矩形，允许系统坐标取整产生至多一点误差。
@@ -263,6 +265,27 @@ func waitFor(_ label: String, _ condition: () -> Bool) throws {
         RunLoop.current.run(until: Date().addingTimeInterval(0.05))
     }
     throw CheckFailure("等待失败：\(label)")
+}
+
+// 要求窗口几何连续稳定一段提交周期，避免读到过渡中的中间状态。
+func waitForStableWindow(_ application: AXUIElement, _ label: String, matching: (CGRect) -> Bool) throws -> CGRect {
+    let deadline = Date().addingTimeInterval(15)
+    var actual: CGRect?
+    var stableSince: Date?
+    while Date() < deadline {
+        actual = try? mainWindowFrame(application)
+        if let actual, matching(actual) {
+            let start = stableSince ?? Date()
+            stableSince = start
+            if Date().timeIntervalSince(start) >= 0.3 {
+                return actual
+            }
+        } else {
+            stableSince = nil
+        }
+        RunLoop.current.run(until: Date().addingTimeInterval(0.05))
+    }
+    throw CheckFailure("\(label)未稳定完成：实际 \(String(describing: actual))")
 }
 
 // 通过稳定标识符激活控件，查找或动作失败均中止当前检查。

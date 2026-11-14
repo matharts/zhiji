@@ -353,3 +353,16 @@ fn input_editor_escape_closes_nested_popup_before_date_panel() {
     source.set_mode(DateMode::Lunar);
     assert_eq!(source.popup, DatePopup::None);
 }
+
+#[test]
+/// 反推线程异常与查询年份错误使用不同反馈。
+fn reverse_task_failure_asks_for_retry_instead_of_changing_the_year() {
+    assert_eq!(
+        InputStatus::ReverseTaskFailed.message(),
+        "查询未能完成，请重试。"
+    );
+    assert_ne!(
+        InputStatus::ReverseTaskFailed.message(),
+        InputStatus::ReverseFailed.message()
+    );
+}

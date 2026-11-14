@@ -9,7 +9,9 @@ impl Workspace {
     /// 按模态优先级路由按键；标注有焦点时支持移动、缩放、编辑及删除。
     pub(crate) fn on_key(&mut self, event: &KeyEvent, tx: &mut Tx) -> bool {
         if self.input_editor.is_open() {
-            self.input_editor.on_key(event, tx);
+            if event.key == Key::Escape && self.input_editor.escape() {
+                tx.instant();
+            }
             return true;
         }
         if event.key == Key::Escape {

@@ -8,15 +8,17 @@ fn preferences_round_trip_and_fill_new_fields() {
     let preferences = Preferences {
         values: PreferenceValues {
             automatic_updates: false,
-            appearance: AppearanceMode::Dark,
-            motion: MotionMode::Off,
-            date_mode: DateModePreference::Pillars,
-            ui_scale: UiScale::Large,
-            chinese_variant: ChineseVariant::Traditional,
-            chart_chinese_variant: ChineseVariant::Simplified,
-            restore_layout: false,
-            remember_display: true,
-            export_scale: ExportScale::Ultra,
+            workspace: WorkspacePreferences {
+                appearance: AppearanceMode::Dark,
+                motion: MotionMode::Off,
+                date_mode: DateModePreference::Pillars,
+                ui_scale: UiScale::Large,
+                chinese_variant: ChineseVariant::Traditional,
+                chart_chinese_variant: ChineseVariant::Simplified,
+                restore_layout: false,
+                remember_display: true,
+                export_scale: ExportScale::Ultra,
+            },
             late_zi_next: true,
             pillar_day_start_zi: true,
         },
@@ -34,14 +36,17 @@ fn preferences_round_trip_and_fill_new_fields() {
 
     std::fs::write(&path, r#"{"appearance":"dark"}"#).unwrap();
     let partial = read(&path).unwrap();
-    assert_eq!(partial.values.appearance, AppearanceMode::Dark);
-    assert_eq!(partial.values.motion, MotionMode::System);
-    assert!(partial.values.restore_layout);
-    assert!(!partial.values.remember_display);
-    assert_eq!(partial.values.export_scale, ExportScale::High);
-    assert_eq!(partial.values.chinese_variant, ChineseVariant::Simplified);
+    assert_eq!(partial.values.workspace.appearance, AppearanceMode::Dark);
+    assert_eq!(partial.values.workspace.motion, MotionMode::System);
+    assert!(partial.values.workspace.restore_layout);
+    assert!(!partial.values.workspace.remember_display);
+    assert_eq!(partial.values.workspace.export_scale, ExportScale::High);
     assert_eq!(
-        partial.values.chart_chinese_variant,
+        partial.values.workspace.chinese_variant,
+        ChineseVariant::Simplified
+    );
+    assert_eq!(
+        partial.values.workspace.chart_chinese_variant,
         ChineseVariant::Simplified
     );
     assert_eq!(partial.palette, Palette::default());
@@ -56,10 +61,10 @@ fn chart_variant_migrates_old_settings_without_linking_new_values() {
     std::fs::write(&path, r#"{"chinese_variant":"traditional"}"#).unwrap();
     let mut migrated = read(&path).unwrap();
     assert_eq!(
-        migrated.values.chart_chinese_variant,
+        migrated.values.workspace.chart_chinese_variant,
         ChineseVariant::Traditional
     );
-    migrated.values.chinese_variant = ChineseVariant::Simplified;
+    migrated.values.workspace.chinese_variant = ChineseVariant::Simplified;
     write(&path, &migrated).unwrap();
     assert_eq!(read(&path).unwrap(), migrated);
     std::fs::write(

@@ -170,16 +170,16 @@ fn general_options<S: PreferencesHost>(state: &S) -> El {
                 ("high", "2×", ExportScale::High),
                 ("ultra", "3×", ExportScale::Ultra),
             ],
-            preferences.export_scale,
-            preferences.export_scale.index(),
+            preferences.workspace.export_scale,
+            preferences.workspace.export_scale.index(),
             |state: &mut S, value| state.change_preference(PreferenceChange::ExportScale(value)),
         ))
         .child(option_row(
             "恢复上次布局",
             "setting-restore-layout",
             &[("off", "关闭", false), ("on", "开启", true)],
-            preferences.restore_layout,
-            usize::from(preferences.restore_layout),
+            preferences.workspace.restore_layout,
+            usize::from(preferences.workspace.restore_layout),
             |state: &mut S, value| state.change_preference(PreferenceChange::RestoreLayout(value)),
         ));
     card.child(
@@ -205,8 +205,8 @@ fn appearance_options<S: PreferencesHost + ColorEditorHost>(state: &S) -> El {
                 ("light", "浅色", AppearanceMode::Light),
                 ("dark", "深色", AppearanceMode::Dark),
             ],
-            preferences.appearance,
-            preferences.appearance.index(),
+            preferences.workspace.appearance,
+            preferences.workspace.appearance.index(),
             |state: &mut S, value| state.change_preference(PreferenceChange::Appearance(value)),
         ))
         .child(option_row(
@@ -217,8 +217,8 @@ fn appearance_options<S: PreferencesHost + ColorEditorHost>(state: &S) -> El {
                 ("on", "开启", MotionMode::On),
                 ("off", "关闭", MotionMode::Off),
             ],
-            preferences.motion,
-            preferences.motion.index(),
+            preferences.workspace.motion,
+            preferences.workspace.motion.index(),
             |state: &mut S, value| state.change_preference(PreferenceChange::Motion(value)),
         ))
         .child(option_row(
@@ -229,8 +229,8 @@ fn appearance_options<S: PreferencesHost + ColorEditorHost>(state: &S) -> El {
                 ("medium", "110%", UiScale::Medium),
                 ("large", "125%", UiScale::Large),
             ],
-            preferences.ui_scale,
-            preferences.ui_scale.index(),
+            preferences.workspace.ui_scale,
+            preferences.workspace.ui_scale.index(),
             |state: &mut S, value| state.change_preference(PreferenceChange::UiScale(value)),
         ))
         .child(option_row(
@@ -240,8 +240,8 @@ fn appearance_options<S: PreferencesHost + ColorEditorHost>(state: &S) -> El {
                 ("simplified", "简体", ChineseVariant::Simplified),
                 ("traditional", "繁体", ChineseVariant::Traditional),
             ],
-            preferences.chinese_variant,
-            preferences.chinese_variant.index(),
+            preferences.workspace.chinese_variant,
+            preferences.workspace.chinese_variant.index(),
             |state: &mut S, value| state.change_preference(PreferenceChange::ChineseVariant(value)),
         ))
         .child(option_row(
@@ -251,8 +251,8 @@ fn appearance_options<S: PreferencesHost + ColorEditorHost>(state: &S) -> El {
                 ("simplified", "简体", ChineseVariant::Simplified),
                 ("traditional", "繁体", ChineseVariant::Traditional),
             ],
-            preferences.chart_chinese_variant,
-            preferences.chart_chinese_variant.index(),
+            preferences.workspace.chart_chinese_variant,
+            preferences.workspace.chart_chinese_variant.index(),
             |state: &mut S, value| {
                 state.change_preference(PreferenceChange::ChartChineseVariant(value))
             },
@@ -293,8 +293,8 @@ fn chart_options<S: PreferencesHost>(state: &S) -> El {
                 ("lunar", "农历", DateModePreference::Lunar),
                 ("pillars", "干支反推", DateModePreference::Pillars),
             ],
-            preferences.date_mode,
-            preferences.date_mode.index(),
+            preferences.workspace.date_mode,
+            preferences.workspace.date_mode.index(),
             |state: &mut S, value| state.change_preference(PreferenceChange::DateMode(value)),
         ))
         .child(option_row(
@@ -319,8 +319,8 @@ fn chart_options<S: PreferencesHost>(state: &S) -> El {
             "记住显示设置",
             "setting-remember-display",
             &[("off", "关闭", false), ("on", "开启", true)],
-            preferences.remember_display,
-            usize::from(preferences.remember_display),
+            preferences.workspace.remember_display,
+            usize::from(preferences.workspace.remember_display),
             |state: &mut S, value| {
                 state.change_preference(PreferenceChange::RememberDisplay(value))
             },

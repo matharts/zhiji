@@ -6,13 +6,15 @@ mod editor;
 pub(crate) mod model;
 pub(crate) mod places;
 mod reverse;
+mod solar_menu;
 mod view;
 
 use rune::{Cx, El};
 use zhiji_core::Input;
 
-pub(crate) use editor::InputEditor;
 use editor::InputStep;
+pub(crate) use editor::{InputEditor, SubmitOutcome};
+pub(crate) use solar_menu::{SolarMenuAction, SolarMenuKey};
 
 pub(crate) trait InputEditorHost: 'static {
     /// 借用供当前面板展示的编辑器。

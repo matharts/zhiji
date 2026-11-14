@@ -79,7 +79,7 @@ fn candidate_selection_checks_range_and_preserves_the_confirmed_input() {
         values: vec![candidate],
         selected: None,
     };
-    assert!(editor.submit().is_none());
+    assert!(matches!(editor.submit(), SubmitOutcome::Failed));
     assert_eq!(editor.draft.status, InputStatus::CandidateRequired);
     assert!(!editor.select_candidate(1));
     assert_eq!(editor.draft.status, InputStatus::CandidateRequired);
@@ -98,9 +98,31 @@ fn candidate_selection_checks_range_and_preserves_the_confirmed_input() {
         Gender::Male,
     )
     .unwrap();
-    assert_eq!(editor.submit(), Some(expected.input));
+    assert!(matches!(
+        editor.submit(),
+        SubmitOutcome::Applied(input) if input == expected.input
+    ));
     assert!(!editor.is_open());
     assert!(!editor.select_candidate(0));
+}
+
+#[test]
+/// 反推线程异常与普通查询失败使用不同反馈，避免误导用户检查年份。
+fn reverse_worker_failures_have_distinct_feedback() {
+    assert_eq!(
+        reverse_failure_status(ReverseOutcome::Panicked),
+        InputStatus::ReverseTaskFailed
+    );
+    assert_eq!(
+        reverse_failure_status(ReverseOutcome::SpawnFailed),
+        InputStatus::ReverseTaskFailed
+    );
+    assert_eq!(
+        reverse_failure_status(ReverseOutcome::Finished(Err(
+            zhiji_calendar::Error::InvalidSearchRange
+        ))),
+        InputStatus::ReverseFailed
+    );
 }
 
 #[test]
@@ -159,4 +181,29 @@ fn repeated_time_selection_rejects_unrelated_and_cancelled_choices() {
     assert!(!editor.select_fold(options[0]));
     assert!(!editor.fold_is_selected(options[1]));
     assert_eq!(editor.draft.status, InputStatus::SolarRequired);
+}
+
+#[test]
+/// 无效提交只报告校验结果，不把视图元素 id 写回状态机。
+fn invalid_submission_returns_a_focus_intent_without_view_keys() {
+    let mut editor = editor();
+    assert!(matches!(
+        editor.submit(),
+        SubmitOutcome::NeedsFocus(model::DateValidation::SolarTime)
+    ));
+    assert_eq!(editor.draft.status, InputStatus::SolarRequired);
+    assert!(editor.focus_versions.is_empty());
+}
+
+#[test]
+/// 不同换算错误保留独立反馈，不再混同为通用历法范围错误。
+fn date_input_errors_map_to_specific_feedback() {
+    let error = calculation::DateInputError::SolarTime(zhiji_calendar::Error::UnsupportedDate(
+        zhiji_calendar::UnsupportedReason::SolarModelRange,
+    ));
+    assert_eq!(date_input_status(error), InputStatus::SolarModelRange);
+    assert_eq!(
+        date_input_status(calculation::DateInputError::InvalidHour),
+        InputStatus::CalendarCalculationFailed
+    );
 }

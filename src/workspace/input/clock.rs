@@ -19,44 +19,25 @@ pub(crate) fn today() -> CivilDate {
 ))]
 /// 在受支持的 64 位 Unix 平台通过线程安全本地时间接口读取日期。
 fn local_today() -> Option<CivilDate> {
-    use std::os::raw::{c_char, c_int, c_long};
-    #[repr(C)]
-    struct LocalTime {
-        second: c_int,
-        minute: c_int,
-        hour: c_int,
-        day: c_int,
-        month: c_int,
-        year: c_int,
-        weekday: c_int,
-        yearday: c_int,
-        daylight: c_int,
-        utc_offset: c_long,
-        zone: *const c_char,
-    }
-    unsafe extern "C" {
-        // 同步写入调用方的本地时间结构，失败返回空指针；参数须指向有效内存。
-        fn localtime_r(time: *const c_long, result: *mut LocalTime) -> *mut LocalTime;
-    }
-    let seconds: c_long = SystemTime::now()
+    let seconds: libc::time_t = SystemTime::now()
         .duration_since(UNIX_EPOCH)
         .ok()?
         .as_secs()
         .try_into()
         .ok()?;
-    let mut result = std::mem::MaybeUninit::<LocalTime>::zeroed();
-    // 64 位 Darwin/Linux 的 time_t 和 tm 使用此 ABI。
-    // 指针在同步调用期间有效；读取结果前先检查空返回。
+    let mut result = std::mem::MaybeUninit::<libc::tm>::zeroed();
+    // SAFETY: localtime_r 同步写入调用方提供的 tm；指针在调用期间有效，
+    // 返回空表示失败，成功后才读取已初始化结构。
     let result = unsafe {
-        if localtime_r(&seconds, result.as_mut_ptr()).is_null() {
+        if libc::localtime_r(&seconds, result.as_mut_ptr()).is_null() {
             return None;
         }
         result.assume_init()
     };
     CivilDate::new(
-        (result.year + 1900).try_into().ok()?,
-        (result.month + 1).try_into().ok()?,
-        result.day.try_into().ok()?,
+        (result.tm_year + 1900).try_into().ok()?,
+        (result.tm_mon + 1).try_into().ok()?,
+        result.tm_mday.try_into().ok()?,
     )
 }
 

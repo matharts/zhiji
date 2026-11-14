@@ -1,9 +1,34 @@
 //! 从日期派生排盘参数，不负责编辑状态和当前会话的提交。
 
+use std::fmt;
+
 use zhiji_calendar::{
     Calendar, CivilDateTime, Longitude, LunarDate, ResolvedLocalTime, apparent_solar_time,
 };
 use zhiji_core::{Branch, Gender, Input, Month, Stem, calculate};
+
+/// 日期输入换算失败的原因；保留历法错误类别，供界面选择对应反馈。
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub(crate) enum DateInputError {
+    InvalidHour,
+    SolarTime(zhiji_calendar::Error),
+    Calendar(zhiji_calendar::Error),
+    MissingFiveElement,
+}
+
+impl fmt::Display for DateInputError {
+    /// 输出内部诊断文字；用户可见文案仍由输入状态统一生成。
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::InvalidHour => f.write_str("invalid hour for lunar input"),
+            Self::SolarTime(error) => write!(f, "apparent solar time: {error}"),
+            Self::Calendar(error) => write!(f, "calendar conversion: {error}"),
+            Self::MissingFiveElement => f.write_str("cannot determine the five-element bureau"),
+        }
+    }
+}
+
+impl std::error::Error for DateInputError {}
 
 /// 日期取数采用的换日选项，区分排盘日期与四柱日界。
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
@@ -31,7 +56,7 @@ fn build(
     lunar: LunarDate,
     year_index: u8,
     hour: u8,
-) -> Result<DerivedInput, String> {
+) -> Result<DerivedInput, DateInputError> {
     let mut month = lunar.month().number();
     // 闰月后半月按下月安星；另行保留实际农历日期供显示和追溯。
     if lunar.month().is_leap() && lunar.day() >= 16 {
@@ -47,7 +72,7 @@ fn build(
     };
     let bureau = calculate(&input)
         .five_element
-        .ok_or("无法计算五行局。")?
+        .ok_or(DateInputError::MissingFiveElement)?
         .number;
     let day = lunar.day();
     // 将日期补至局数的倍数，按补数奇偶调整，再从寅起位置换算为子起地支编号。
@@ -74,23 +99,28 @@ pub(crate) fn solar_input(
     longitude: impl Into<Option<Longitude>>,
     rules: DateRules,
     gender: Gender,
-) -> Result<DerivedInput, String> {
+) -> Result<DerivedInput, DateInputError> {
     let clock = match longitude.into() {
         Some(longitude) => {
             apparent_solar_time(resolved.local, longitude, resolved.offset)
-                .map_err(|e| e.to_string())?
+                .map_err(DateInputError::SolarTime)?
                 .apparent
         }
         None => resolved.local,
     };
     // 即使晚子时按次日计算，也保留原农历日期；两者可能跨农历年。
-    let actual_lunar = Calendar.to_lunar(clock.date).map_err(|e| e.to_string())?;
+    let actual_lunar = Calendar
+        .to_lunar(clock.date)
+        .map_err(DateInputError::Calendar)?;
     let date = if rules.late_zi_next && clock.time.hour() == 23 {
-        clock.date.checked_add_days(1).map_err(|e| e.to_string())?
+        clock
+            .date
+            .checked_add_days(1)
+            .map_err(DateInputError::Calendar)?
     } else {
         clock.date
     };
-    let lunar = Calendar.to_lunar(date).map_err(|e| e.to_string())?;
+    let lunar = Calendar.to_lunar(date).map_err(DateInputError::Calendar)?;
     let year = lunar_year_index(lunar.year());
     let hour = clock.time.hour().div_ceil(2) % 12;
     let mut derived = build(gender, lunar, year, hour)?;
@@ -106,13 +136,13 @@ pub(crate) fn lunar_input(
     hour: u8,
     _rules: DateRules,
     gender: Gender,
-) -> Result<DerivedInput, String> {
+) -> Result<DerivedInput, DateInputError> {
     if hour >= 12 {
-        return Err("无效时辰。".into());
+        return Err(DateInputError::InvalidHour);
     }
     Calendar
         .to_solar(lunar, zhiji_calendar::CivilCalendar::ProlepticGregorian)
-        .map_err(|e| e.to_string())?;
+        .map_err(DateInputError::Calendar)?;
     build(gender, lunar, lunar_year_index(lunar.year()), hour)
 }
 
@@ -123,7 +153,7 @@ pub(crate) fn solar_clock(
     day: u8,
     hour: u8,
     minute: u8,
-) -> Result<CivilDateTime, String> {
+) -> Result<CivilDateTime, DateInputError> {
     Ok(CivilDateTime {
         date: zhiji_calendar::SolarDate::new(
             i32::from(year),
@@ -131,8 +161,8 @@ pub(crate) fn solar_clock(
             day,
             zhiji_calendar::CivilCalendar::ProlepticGregorian,
         )
-        .map_err(|e| e.to_string())?,
-        time: zhiji_calendar::TimeOfDay::new(hour, minute, 0).map_err(|e| e.to_string())?,
+        .map_err(DateInputError::Calendar)?,
+        time: zhiji_calendar::TimeOfDay::new(hour, minute, 0).map_err(DateInputError::Calendar)?,
     })
 }
 

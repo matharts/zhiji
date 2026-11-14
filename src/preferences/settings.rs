@@ -166,6 +166,38 @@ pub(crate) struct WindowLayout {
     pub(crate) sidebar_collapsed: bool,
 }
 
+/// 工作区独占的偏好字段；Workspace 直接持有，避免再维护一份同义字段。
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(default)]
+pub(crate) struct WorkspacePreferences {
+    pub(crate) appearance: AppearanceMode,
+    pub(crate) motion: MotionMode,
+    pub(crate) date_mode: DateModePreference,
+    pub(crate) ui_scale: UiScale,
+    pub(crate) chinese_variant: ChineseVariant,
+    pub(crate) chart_chinese_variant: ChineseVariant,
+    pub(crate) restore_layout: bool,
+    pub(crate) remember_display: bool,
+    pub(crate) export_scale: ExportScale,
+}
+
+impl Default for WorkspacePreferences {
+    /// 首次启动和缺失字段使用的小值默认集合。
+    fn default() -> Self {
+        Self {
+            appearance: AppearanceMode::Light,
+            motion: MotionMode::System,
+            date_mode: DateModePreference::Solar,
+            ui_scale: UiScale::Base,
+            chinese_variant: ChineseVariant::Simplified,
+            chart_chinese_variant: ChineseVariant::Simplified,
+            restore_layout: true,
+            remember_display: false,
+            export_scale: ExportScale::High,
+        }
+    }
+}
+
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(default)]
 pub(crate) struct Preferences {
@@ -181,33 +213,18 @@ pub(crate) struct Preferences {
 #[serde(default)]
 pub(crate) struct PreferenceValues {
     pub(crate) automatic_updates: bool,
-    pub(crate) appearance: AppearanceMode,
-    pub(crate) motion: MotionMode,
-    pub(crate) date_mode: DateModePreference,
-    pub(crate) ui_scale: UiScale,
-    pub(crate) chinese_variant: ChineseVariant,
-    pub(crate) chart_chinese_variant: ChineseVariant,
-    pub(crate) restore_layout: bool,
-    pub(crate) remember_display: bool,
-    pub(crate) export_scale: ExportScale,
+    #[serde(flatten)]
+    pub(crate) workspace: WorkspacePreferences,
     pub(crate) late_zi_next: bool,
     pub(crate) pillar_day_start_zi: bool,
 }
 
 impl Default for PreferenceValues {
-    /// 为首次启动和旧配置缺失字段提供完整默认值。
+    /// 为首次启动和旧配置缺失字段提供完整默认值；工作区字段只在 WorkspacePreferences 维护。
     fn default() -> Self {
         Self {
             automatic_updates: true,
-            appearance: AppearanceMode::Light,
-            motion: MotionMode::System,
-            date_mode: DateModePreference::Solar,
-            ui_scale: UiScale::Base,
-            chinese_variant: ChineseVariant::Simplified,
-            chart_chinese_variant: ChineseVariant::Simplified,
-            restore_layout: true,
-            remember_display: false,
-            export_scale: ExportScale::High,
+            workspace: WorkspacePreferences::default(),
             late_zi_next: false,
             pillar_day_start_zi: false,
         }
@@ -215,7 +232,7 @@ impl Default for PreferenceValues {
 }
 
 impl Default for Preferences {
-    /// 普通设置默认值只在 PreferenceValues 定义一次，文件格式仍保持扁平 JSON。
+    /// 普通设置默认值由 PreferenceValues 与 WorkspacePreferences 共同定义，文件格式仍保持扁平 JSON。
     fn default() -> Self {
         Self {
             values: PreferenceValues::default(),
@@ -248,15 +265,15 @@ impl PreferenceValues {
     pub(crate) fn changes(self) -> [PreferenceChange; 12] {
         [
             PreferenceChange::AutomaticUpdates(self.automatic_updates),
-            PreferenceChange::Appearance(self.appearance),
-            PreferenceChange::Motion(self.motion),
-            PreferenceChange::DateMode(self.date_mode),
-            PreferenceChange::UiScale(self.ui_scale),
-            PreferenceChange::ChineseVariant(self.chinese_variant),
-            PreferenceChange::ChartChineseVariant(self.chart_chinese_variant),
-            PreferenceChange::RestoreLayout(self.restore_layout),
-            PreferenceChange::RememberDisplay(self.remember_display),
-            PreferenceChange::ExportScale(self.export_scale),
+            PreferenceChange::Appearance(self.workspace.appearance),
+            PreferenceChange::Motion(self.workspace.motion),
+            PreferenceChange::DateMode(self.workspace.date_mode),
+            PreferenceChange::UiScale(self.workspace.ui_scale),
+            PreferenceChange::ChineseVariant(self.workspace.chinese_variant),
+            PreferenceChange::ChartChineseVariant(self.workspace.chart_chinese_variant),
+            PreferenceChange::RestoreLayout(self.workspace.restore_layout),
+            PreferenceChange::RememberDisplay(self.workspace.remember_display),
+            PreferenceChange::ExportScale(self.workspace.export_scale),
             PreferenceChange::LateZiNext(self.late_zi_next),
             PreferenceChange::PillarDayStartZi(self.pillar_day_start_zi),
         ]
@@ -327,7 +344,8 @@ pub(crate) fn read(path: &Path) -> Result<Preferences, ReadError> {
     let fields: serde_json::Value =
         serde_json::from_slice(&bytes).map_err(|_| ReadError::Invalid)?;
     if fields.get("chart_chinese_variant").is_none() {
-        preferences.values.chart_chinese_variant = preferences.values.chinese_variant;
+        preferences.values.workspace.chart_chinese_variant =
+            preferences.values.workspace.chinese_variant;
     }
     Ok(preferences)
 }
@@ -345,6 +363,7 @@ pub(crate) fn write_recovered(path: &Path, preferences: &Preferences) -> std::io
                 .tempfile_in(parent)?;
             std::io::copy(&mut original, &mut backup)?;
             backup.flush()?;
+            backup.as_file().sync_all()?;
             backup.keep().map_err(|error| error.error)?;
         }
         Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
@@ -362,6 +381,8 @@ pub(crate) fn write(path: &Path, preferences: &Preferences) -> std::io::Result<(
     let mut file = tempfile::NamedTempFile::new_in(parent)?;
     file.write_all(&serde_json::to_vec_pretty(preferences)?)?;
     file.write_all(b"\n")?;
+    // 临时文件先落盘再原子替换，避免崩溃后留下未完成的内容。
+    file.as_file().sync_all()?;
     file.persist(path).map_err(|error| error.error)?;
     Ok(())
 }

@@ -155,15 +155,7 @@ impl PreferencesHost for AppState {
     fn preferences(&self) -> PreferenceValues {
         PreferenceValues {
             automatic_updates: self.updates.automatic(),
-            appearance: self.workspace.appearance(),
-            motion: self.workspace.motion(),
-            date_mode: self.workspace.default_date_mode(),
-            ui_scale: self.workspace.ui_scale(),
-            chinese_variant: self.workspace.chinese_variant(),
-            chart_chinese_variant: self.workspace.chart_chinese_variant(),
-            restore_layout: self.workspace.restore_layout(),
-            remember_display: self.workspace.remember_display(),
-            export_scale: self.workspace.export_scale(),
+            workspace: self.workspace.preferences(),
             late_zi_next: self.workspace.late_zi_next(),
             pillar_day_start_zi: self.workspace.pillar_day_start_zi(),
         }
@@ -305,11 +297,12 @@ impl AppState {
                 if let Some(path) = crate::preferences::appearance::path()
                     && path.exists()
                 {
-                    preferences.values.appearance = if crate::preferences::appearance::read(&path) {
-                        AppearanceMode::Dark
-                    } else {
-                        AppearanceMode::Light
-                    };
+                    preferences.values.workspace.appearance =
+                        if crate::preferences::appearance::read(&path) {
+                            AppearanceMode::Dark
+                        } else {
+                            AppearanceMode::Light
+                        };
                 }
                 (preferences, super::preferences::Recovery::Healthy)
             }
@@ -330,13 +323,13 @@ impl AppState {
             self.apply_preference(change);
         }
         self.workspace.set_palette(preferences.palette.clone());
-        if preferences.values.remember_display {
+        if preferences.values.workspace.remember_display {
             self.workspace.set_display(preferences.display);
         } else {
             self.workspace
                 .set_display(crate::session::Display::default());
         }
-        if preferences.values.restore_layout {
+        if preferences.values.workspace.restore_layout {
             self.workspace.apply_layout(preferences.window);
             self.pending_window_size = preferences.window.size.and_then(|[width, height]| {
                 (width.is_finite() && height.is_finite() && width >= 600.0 && height >= 400.0)

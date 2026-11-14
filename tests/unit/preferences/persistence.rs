@@ -42,7 +42,10 @@ fn coalesces_changes_and_serializes_file_replacement() {
             path.clone(),
             Preferences {
                 values: super::super::settings::PreferenceValues {
-                    ui_scale: scale,
+                    workspace: super::super::settings::WorkspacePreferences {
+                        ui_scale: scale,
+                        ..super::super::settings::WorkspacePreferences::default()
+                    },
                     ..super::super::settings::PreferenceValues::default()
                 },
                 ..Preferences::default()
@@ -55,7 +58,11 @@ fn coalesces_changes_and_serializes_file_replacement() {
     release.send(()).unwrap();
     settle(&mut writer);
     assert_eq!(
-        super::super::settings::read(&path).unwrap().values.ui_scale,
+        super::super::settings::read(&path)
+            .unwrap()
+            .values
+            .workspace
+            .ui_scale,
         super::super::settings::UiScale::Large
     );
     assert_eq!(writer.failure(), None);

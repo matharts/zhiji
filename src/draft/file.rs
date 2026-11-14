@@ -92,6 +92,7 @@ pub(super) fn save_checked(
     let mut file = tempfile::NamedTempFile::new_in(parent).map_err(|error| error.to_string())?;
     file.write_all(&output.bytes)
         .and_then(|_| file.flush())
+        .and_then(|_| file.as_file().sync_all())
         .map_err(|error| error.to_string())?;
     let fingerprint = blake3::hash(&output.bytes);
     if let Some(expected) = expected {
@@ -132,6 +133,10 @@ pub(super) fn persist_confirmed(
     fingerprint: blake3::Hash,
 ) -> Result<WorkOutcome, String> {
     let path = write_target(&document_path)?;
+    // 已确认覆盖的临时文件也必须先落盘，再原子替换目标。
+    file.as_file()
+        .sync_all()
+        .map_err(|error| error.to_string())?;
     file.persist(&path)
         .map_err(|error| error.error.to_string())?;
     Ok(WorkOutcome::Saved {

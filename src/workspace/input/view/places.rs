@@ -85,7 +85,9 @@ pub(super) fn controls<S: InputEditorHost>(state: &S, width: f32) -> El {
                             .a11y_hidden(),
                     )
                     .on_press_tx(|state: &mut S, tx| {
-                        state.input_editor_mut().clear_birthplace();
+                        let source = state.input_editor_mut();
+                        source.clear_birthplace();
+                        source.request_focus("birthplace-trigger");
                         tx.instant();
                     }),
             )
@@ -176,7 +178,10 @@ pub(super) fn popup<S: InputEditorHost>(
     .on_edit(|state: &mut S| &mut state.input_editor_mut().search)
     .on_input_key(|state: &mut S, event, tx| {
         if event.key == Key::Escape {
-            state.input_editor_mut().on_key(event, tx)
+            if state.input_editor_mut().escape() {
+                tx.instant();
+            }
+            true
         } else {
             search_key(state.input_editor_mut(), event, tx)
         }

@@ -587,6 +587,49 @@ fn date_input_editing_does_not_change_the_session() {
 }
 
 #[test]
+/// 验证日期模态不吞掉非 Escape 按键，焦点按钮仍能用空格激活。
+fn date_dialog_keeps_space_activation_for_focused_controls() {
+    let mut runtime = Runtime::new(
+        AppState::default(),
+        view,
+        (1300.0, 800.0),
+        Env::new(false, 1.0),
+    );
+    runtime.frame(0.0);
+    tap(&mut runtime, "date-source-toggle");
+    runtime.frame(0.1);
+    for _ in 0..64 {
+        if runtime
+            .elements()
+            .iter()
+            .any(|element| element.key.as_deref() == Some("date-source-close") && element.focused)
+        {
+            break;
+        }
+        runtime.key(KeyEvent {
+            key: Key::Tab,
+            mods: Mods::default(),
+        });
+        runtime.frame(0.0);
+    }
+    assert!(
+        runtime.elements().iter().any(|element| {
+            element.key.as_deref() == Some("date-source-close") && element.focused
+        }),
+        "日期面板应能通过 Tab 聚焦关闭按钮"
+    );
+    runtime.key(KeyEvent {
+        key: Key::Text(" ".into()),
+        mods: Mods::default(),
+    });
+    runtime.frame(0.0);
+    assert!(
+        !runtime.state.workspace.input_editor_open(),
+        "空格应激活焦点按钮，不能被日期模态吞掉"
+    );
+}
+
+#[test]
 /// 验证明确确认后农历取数结果才进入会话。
 fn date_input_confirmation_applies_lunar_parameters_to_the_session() {
     let mut runtime = Runtime::new(

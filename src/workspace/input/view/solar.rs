@@ -1,11 +1,11 @@
 use crate::i18n::{label, regular_label, t};
-use rune::{Align, El, GrowthSpec, Key, Side, col, el, row};
+use rune::{Align, El, GrowthSpec, Key, KeyEvent, Side, Tx, col, el, row};
 use zhiji_ui::{
     Button, CalendarGrid, ChoiceOption, ColorToken, DropdownTrigger, IconButton, SelectList, color,
 };
 
 use crate::workspace::input::{
-    InputEditorHost, clock,
+    InputEditorHost, SolarMenuAction, SolarMenuKey, clock,
     model::{DatePopup, SolarSelect},
 };
 
@@ -251,19 +251,26 @@ fn trigger<S: InputEditorHost>(state: &S, select: SolarSelect, text: String, wid
     )
     .size(width, 32.0)
     .label(t(format!("选择{}", select_title(select))))
-    .on_toggle_tx(move |state: &mut S, tx| {
-        state.input_editor_mut().toggle_solar(select, tx);
-    })
+    .on_toggle_tx(move |state: &mut S, tx| toggle(state, select, tx))
     .build()
     .on_key(move |state: &mut S, event, tx| {
         if event.key == Key::Enter {
-            state.input_editor_mut().toggle_solar(select, tx);
-            tx.instant();
+            toggle(state, select, tx);
             true
         } else {
             false
         }
     })
+}
+
+/// 切换弹层并在打开时把焦点交给列表。
+fn toggle<S: InputEditorHost>(state: &mut S, select: SolarSelect, tx: &mut Tx) {
+    let source = state.input_editor_mut();
+    if source.open_solar(select) {
+        source.request_focus("solar-select-list");
+        tx.scroll_center(format!("solar-option-{}", source.solar_menu().active()));
+    }
+    tx.instant();
 }
 
 /// 按字段有效范围构建选择弹层，长年份列表沿用虚拟化和键盘定位。
@@ -309,9 +316,11 @@ pub(super) fn popup<S: InputEditorHost>(state: &S, select: SolarSelect, below: b
                 })
                 .build()
                 .focusable(false)
-                .focus_selected(state.input_editor().solar_active == value)
+                .focus_selected(state.input_editor().solar_menu().active() == value)
                 .fill(color(
-                    if state.input_editor().solar_active == value && selected != Some(value) {
+                    if state.input_editor().solar_menu().active() == value
+                        && selected != Some(value)
+                    {
                         ColorToken::BorderSoft
                     } else if selected == Some(value) {
                         ColorToken::AccentSurface
@@ -328,10 +337,10 @@ pub(super) fn popup<S: InputEditorHost>(state: &S, select: SolarSelect, below: b
     .size(width - 12.0, 238.0)
     .build()
     .focusable(true)
-    .a11y_value(source.solar_active.to_string())
+    .a11y_value(source.solar_menu().active().to_string())
     .no_focus_ring()
     .child(rows)
-    .on_key(|state: &mut S, event, tx| state.input_editor_mut().solar_menu_key(event, tx));
+    .on_key(menu_key::<S>);
     col()
         .key("solar-select-popup")
         .instant_changes()
@@ -349,4 +358,51 @@ pub(super) fn popup<S: InputEditorHost>(state: &S, select: SolarSelect, below: b
         .anchored(select_key(select), Side::Bottom, Align::Start, 6.0)
         .on_press_tx(|_: &mut S, _| {})
         .focus_return(select_key(select))
+}
+
+/// 将 Rune 按键转换为弹层高亮、应用或关闭动作。
+fn menu_key<S: InputEditorHost>(state: &mut S, event: &KeyEvent, tx: &mut Tx) -> bool {
+    let Some(key) = menu_key_value(&event.key) else {
+        return false;
+    };
+    let source = state.input_editor_mut();
+    let DatePopup::Solar(select) = source.draft.popup else {
+        return false;
+    };
+    match source.solar_menu_mut().handle_key(select, key) {
+        SolarMenuAction::Move(active) => {
+            tx.scroll_into_view(format!("solar-option-{active}"));
+            tx.instant();
+            true
+        }
+        SolarMenuAction::Choose(value) => {
+            source.choose_solar(select, value);
+            tx.instant();
+            true
+        }
+        SolarMenuAction::Dismiss => {
+            source.dismiss_popup();
+            tx.instant();
+            true
+        }
+    }
+}
+
+/// 将 Rune 按键映射为与界面无关的弹层语义。
+fn menu_key_value(key: &Key) -> Option<SolarMenuKey> {
+    match key {
+        Key::Up => Some(SolarMenuKey::Up),
+        Key::Down => Some(SolarMenuKey::Down),
+        Key::PageUp => Some(SolarMenuKey::PageUp),
+        Key::PageDown => Some(SolarMenuKey::PageDown),
+        Key::Home => Some(SolarMenuKey::Home),
+        Key::End => Some(SolarMenuKey::End),
+        Key::Enter => Some(SolarMenuKey::Confirm),
+        Key::Tab | Key::Escape => Some(SolarMenuKey::Dismiss),
+        Key::Text(text) if text == " " => Some(SolarMenuKey::Confirm),
+        Key::Text(text) if text.len() == 1 && text.bytes().all(|byte| byte.is_ascii_digit()) => {
+            Some(SolarMenuKey::Digit(char::from(text.as_bytes()[0])))
+        }
+        _ => None,
+    }
 }

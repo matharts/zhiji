@@ -84,3 +84,17 @@ fn purple_star_known_reference_water_two_day_one_is_chou() {
     }
     assert!(found);
 }
+
+#[test]
+/// 无效时辰和历法拒绝保留可区分的错误，而不是在边界处压成字符串。
+fn date_input_errors_keep_their_category() {
+    let date = LunarDate::new(2024, LunarMonth::new(1, false).unwrap(), 1).unwrap();
+    assert_eq!(
+        lunar_input(date, 12, DateRules::default(), Gender::Male).unwrap_err(),
+        DateInputError::InvalidHour
+    );
+    assert!(matches!(
+        solar_clock(2024, 2, 30, 12, 0),
+        Err(DateInputError::Calendar(_))
+    ));
+}

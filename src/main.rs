@@ -35,7 +35,7 @@ const WINDOW_SIZE: (f32, f32) = preferences::settings::DEFAULT_WINDOW_SIZE;
 /// 仅在开启布局恢复且坐标、尺寸有效时返回原生窗口恢复矩形。
 fn restored_window_frame() -> Option<[f32; 4]> {
     let preferences = preferences::settings::read(&preferences::settings::path()?).ok()?;
-    if !preferences.values.restore_layout {
+    if !preferences.values.workspace.restore_layout {
         return None;
     }
     let [x, y] = preferences.window.position?;

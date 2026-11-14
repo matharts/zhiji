@@ -9,8 +9,8 @@ use zhiji_core::Gender;
 use zhiji_ui::{Button, ChoiceOption, ColorToken, IconButton, ModalDialog, Segmented};
 
 use super::{
-    InputEditorHost, InputStep,
-    model::{DateMode, DatePopup},
+    InputEditor, InputEditorHost, InputStep, SubmitOutcome,
+    model::{DateMode, DatePopup, DateValidation, PillarKey, PillarPart},
 };
 
 /// 创建保持内容立即可交互的缩放位移弹层过渡。
@@ -139,11 +139,17 @@ pub(super) fn render<S: InputEditorHost>(state: &S, cx: &mut Cx<S>) -> Option<El
         )
         .primary(true)
         .disabled(source.draft.popup != DatePopup::None)
-        .on_press_tx(|state: &mut S, _tx| {
-            if let Some(input) = state.input_editor_mut().submit() {
-                state.apply_date_input(input);
-            }
-        })
+        .on_press_tx(
+            |state: &mut S, tx| match state.input_editor_mut().submit() {
+                SubmitOutcome::Applied(input) => state.apply_date_input(input),
+                SubmitOutcome::NeedsFocus(invalid) => {
+                    let target = validation_focus(state.input_editor(), invalid);
+                    state.input_editor_mut().request_focus(target);
+                    tx.instant();
+                }
+                SubmitOutcome::Pending | SubmitOutcome::Failed => tx.instant(),
+            },
+        )
         .build()
         .default_button(),
     );
@@ -185,7 +191,13 @@ pub(super) fn render<S: InputEditorHost>(state: &S, cx: &mut Cx<S>) -> Option<El
     dialog = dialog
         .on_key(|state: &mut S, event, tx| {
             if event.key == Key::Escape {
-                state.input_editor_mut().on_key(event, tx)
+                let source = state.input_editor_mut();
+                if !source.is_open() {
+                    return false;
+                }
+                source.escape();
+                tx.instant();
+                true
             } else {
                 false
             }
@@ -268,6 +280,25 @@ pub(super) fn render<S: InputEditorHost>(state: &S, cx: &mut Cx<S>) -> Option<El
         );
     }
     Some(dialog)
+}
+
+/// 将校验结果映射到取数面板的稳定焦点目标。
+fn validation_focus(editor: &InputEditor, invalid: DateValidation) -> &'static str {
+    match invalid {
+        DateValidation::SolarTime if editor.draft.solar.day().is_none() => "solar-days",
+        DateValidation::SolarTime if editor.draft.solar.hour().is_none() => "solar-hour",
+        DateValidation::SolarTime => "solar-minute",
+        DateValidation::Pillar(key, part) => match (key, part) {
+            (PillarKey::Year, PillarPart::Stem) => "pillar-year-stems",
+            (PillarKey::Year, PillarPart::Branch) => "pillar-year-branches",
+            (PillarKey::Month, PillarPart::Stem) => "pillar-month-stems",
+            (PillarKey::Month, PillarPart::Branch) => "pillar-month-branches",
+            (PillarKey::Day, PillarPart::Stem) => "pillar-day-stems",
+            (PillarKey::Day, PillarPart::Branch) => "pillar-day-branches",
+            (PillarKey::Hour, PillarPart::Stem) => "pillar-hour-stems",
+            (PillarKey::Hour, PillarPart::Branch) => "pillar-hour-branches",
+        },
+    }
 }
 
 /// 以秒精度格式化民用时钟字段，不附加隐含时区。
