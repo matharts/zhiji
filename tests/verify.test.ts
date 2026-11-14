@@ -5,6 +5,7 @@ import { selected } from '../tools/checks/context.ts';
 
 test('检查参数只接受一个模式及完整的可选值', () => {
   assert.deepEqual(parseArguments(['rust']), { mode: 'rust', offline: false });
+  assert.deepEqual(parseArguments(['website']), { mode: 'website', offline: false });
   assert.deepEqual(parseArguments(['--offline', 'native', '--app-bundle', 'target/app']), {
     mode: 'native',
     offline: true,

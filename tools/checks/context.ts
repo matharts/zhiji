@@ -16,8 +16,13 @@ export function* files(dir: string): Generator<string> {
 
 /** 在仓库根目录执行命令，保留输出并将启动或退出失败向上报告。 */
 export function run(args: string[], env: NodeJS.ProcessEnv): string {
+  return runIn(root, args, env);
+}
+
+/** 在指定目录执行命令，供独立构建的网站复用同一输出与错误约定。 */
+export function runIn(cwd: string, args: string[], env: NodeJS.ProcessEnv): string {
   console.log('+ ' + args.map(s => JSON.stringify(s)).join(' '));
-  const result = spawnSync(args[0], args.slice(1), { cwd: root, env, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+  const result = spawnSync(args[0], args.slice(1), { cwd, env, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
   if (result.stdout) process.stdout.write(result.stdout);
   if (result.stderr) process.stderr.write(result.stderr);
   if (result.error) throw result.error;

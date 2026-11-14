@@ -1,4 +1,4 @@
-export const MODES = ['resources', 'types', 'rust', 'gpu', 'native', 'updates'] as const;
+export const MODES = ['resources', 'types', 'website', 'rust', 'gpu', 'native', 'updates'] as const;
 export type VerifyMode = typeof MODES[number];
 
 export interface VerifyOptions {

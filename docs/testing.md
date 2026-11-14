@@ -14,6 +14,9 @@ mise exec -- node tools/verify.ts resources
 # 资源、rustfmt、严格 Clippy、全工作区常规测试
 mise exec -- node tools/verify.ts rust
 
+# 产品网站：示例数据与下载状态、Astro 类型、静态构建
+mise exec -- node tools/verify.ts website
+
 # 需可用图形适配器：真实 PNG 导出与离屏视觉回归
 mise exec -- node tools/verify.ts gpu
 
@@ -40,6 +43,7 @@ mise exec -- node tools/verify.ts updates
 | 布局、绘制、字体、颜色、导出 | `rust`、`gpu`；真实窗口检查受影响交互 |
 | 草稿、历史、文件操作、关闭 | `rust`；格式拒绝、冲突、取消、失败和任务交错；涉及系统行为时原生验收 |
 | 资源或打包 | `resources`、对应平台构建与包检查；视觉资源另跑 `gpu` |
+| 网站源码、示例数据或下载逻辑 | `website` 的 `test`、`check`、`build`；WebGPU、动效与浏览器回退另做浏览器验收 |
 
 测试验证真实对外行为或稳定的模块边界，避免仅复述实现。异步测试使用可控任务交错和有界等待，不靠任意延长睡眠掩盖竞态。文件测试使用临时目录，配置和样例使用合成数据。
 

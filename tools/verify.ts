@@ -10,15 +10,20 @@ import { verifyResources } from './checks/resources.ts';
 import { verifyRust } from './checks/rust.ts';
 import { verifyTypes } from './checks/types.ts';
 import { verifyUpdates } from './checks/updates.ts';
+import { verifyWebsite } from './checks/website.ts';
 import { runCli } from './cli.ts';
 
 /** 先核验公共资源，再在隔离配置目录中执行对应检查并清理临时环境。 */
 function main(): void {
   const { mode, offline, appBundle } = parseArguments(process.argv.slice(2));
-  if (mode !== 'types') verifyResources();
+  if (mode !== 'types' && mode !== 'website') verifyResources();
   if (mode === 'resources') return;
   if (mode === 'types') {
     verifyTypes();
+    return;
+  }
+  if (mode === 'website') {
+    verifyWebsite(offline);
     return;
   }
   const directory = mkdtempSync(join(tmpdir(), 'zhiji-check-'));
