@@ -8,6 +8,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     strategy:
@@ -23,6 +27,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libxkbcommon-dev libwayland-dev libssl-dev pkg-config patchelf squashfs-tools desktop-file-utils xdg-utils libx11-xcb1 libxcursor1 libxi6 libxrandr2
       - uses: jdx/mise-action@v5
+      - name: Cache Rust build
+        uses: Swatinem/rust-cache@v2
+        with:
+          cache-on-failure: true
       - name: Install TypeScript tooling
         run: mise exec -- pnpm install --frozen-lockfile
       - name: Check TypeScript tooling
@@ -95,6 +103,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libxkbcommon-dev libwayland-dev libssl-dev pkg-config libvulkan1 mesa-vulkan-drivers xvfb xauth dbus-x11 libatspi2.0-dev libglib2.0-bin at-spi2-core libx11-6 libx11-xcb1 libxcursor1 libxi6 libxkbcommon-x11-0
       - uses: jdx/mise-action@v5
+      - name: Cache Rust build
+        uses: Swatinem/rust-cache@v2
+        with:
+          cache-on-failure: true
       - name: Check GPU rendering and visual regression
         shell: bash
         run: |
@@ -114,7 +126,8 @@ jobs:
           export XDG_CURRENT_DESKTOP=GNOME
           export WINIT_UNIX_BACKEND=x11
           # 隔离配置并跳过首次开场，避免模态动画屏蔽被测工作区。
-          export ZHIJI_CONFIG_DIR="$(mktemp -d "$RUNNER_TEMP/zhiji-a11y-XXXXXX")"
+          ZHIJI_CONFIG_DIR="$(mktemp -d "$RUNNER_TEMP/zhiji-a11y-XXXXXX")"
+          export ZHIJI_CONFIG_DIR
           trap 'rm -rf "$ZHIJI_CONFIG_DIR"' EXIT
           touch "$ZHIJI_CONFIG_DIR/first-launch-v1.done"
           for driver in /usr/share/vulkan/icd.d/lvp*.json; do
@@ -123,5 +136,7 @@ jobs:
             break
           done
           mise exec -- cargo build --locked -p zhiji
-          cc -std=c11 -D_POSIX_C_SOURCE=200809L -Wall -Wextra -Werror tests/linux_accessibility.c $(pkg-config --cflags --libs atspi-2 gobject-2.0) -o "$RUNNER_TEMP/ziwei-linux-accessibility"
+          # pkg-config 的每个参数需要原样传给编译器。
+          read -r -a atspi_flags <<< "$(pkg-config --cflags --libs atspi-2 gobject-2.0)"
+          cc -std=c11 -D_POSIX_C_SOURCE=200809L -Wall -Wextra -Werror tests/linux_accessibility.c "${atspi_flags[@]}" -o "$RUNNER_TEMP/ziwei-linux-accessibility"
           xvfb-run -a -s '-screen 0 1440x900x24' dbus-run-session -- "$RUNNER_TEMP/ziwei-linux-accessibility" target/debug/zhiji
