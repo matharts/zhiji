@@ -114,10 +114,10 @@ int main(int argc, char **argv) {
     child = fork();
     if (child == 0) { execl(argv[1], argv[1], (char *)NULL); _exit(127); }
     if (child < 0) { perror("fork"); atspi_exit(); return 1; }
-    gboolean ok = press("收起右侧面板") && check("性別 女", TRUE, FALSE) &&
+    gboolean ok = press("收起右侧面板") && check("性别 女", TRUE, FALSE) &&
         check("导出图片", FALSE, FALSE) && press("展开右侧面板") &&
-        check("性別 女", FALSE, FALSE) && check("导出图片", FALSE, FALSE) &&
-        press("设置") && press("外观") && press("祿飞宫颜色") &&
+        check("性别 女", FALSE, FALSE) && check("导出图片", FALSE, FALSE) &&
+        press("设置") && press("外观") && press("禄飞宫颜色") &&
         check("色相", FALSE, TRUE) && check("透明度", FALSE, TRUE) &&
         press("返回排盘信息") && check("导出图片", FALSE, FALSE);
     if (child > 0) {

@@ -107,6 +107,10 @@ jobs:
           export XDG_RUNTIME_DIR="$RUNNER_TEMP/zhiji-runtime"
           export XDG_CURRENT_DESKTOP=GNOME
           export WINIT_UNIX_BACKEND=x11
+          # 隔离配置并跳过首次开场，避免模态动画屏蔽被测工作区。
+          export ZHIJI_CONFIG_DIR="$(mktemp -d "$RUNNER_TEMP/zhiji-a11y-XXXXXX")"
+          trap 'rm -rf "$ZHIJI_CONFIG_DIR"' EXIT
+          touch "$ZHIJI_CONFIG_DIR/first-launch-v1.done"
           for driver in /usr/share/vulkan/icd.d/lvp*.json; do
             test -f "$driver" || exit 1
             export VK_ICD_FILENAMES="$driver"
