@@ -61,7 +61,7 @@ impl CivilDate {
 }
 
 /// 查询前推格里高利历月长，无效年份或月份返回空值。
-pub(crate) fn month_length(year: u16, month: u8) -> Option<u8> {
+fn month_length(year: u16, month: u8) -> Option<u8> {
     if !(1..=9999).contains(&year) {
         return None;
     }
@@ -634,7 +634,7 @@ impl PillarDraft {
         true
     }
     /// 按年到时、先干后支的顺序返回首个缺失字段。
-    pub(crate) fn first_missing(&self) -> Option<(PillarKey, PillarPart)> {
+    fn first_missing(&self) -> Option<(PillarKey, PillarPart)> {
         for key in PillarKey::ALL {
             let pillar = self.pillar(key);
             if pillar.stem.is_none() {

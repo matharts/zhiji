@@ -60,7 +60,7 @@ impl OverseasPlace {
         &self.1
     }
     /// 返回英文名称，供双语展示和搜索。
-    pub(crate) fn english_name(&self) -> &str {
+    fn english_name(&self) -> &str {
         &self.2
     }
     /// 返回一级地区名称，用于同名地点消歧。
@@ -132,13 +132,13 @@ pub(crate) enum PlaceMode {
 }
 
 /// 判断是否使用国内区划入口的中国及港澳台代码。
-pub(crate) fn is_domestic_code(code: &str) -> bool {
+fn is_domestic_code(code: &str) -> bool {
     matches!(code, "CN" | "HK" | "MO" | "TW")
 }
 
 impl PlaceCatalog {
     /// 加载内嵌地点、主要城市和时区映射，并检查所有可选地点的时区有效性。
-    pub(crate) fn load_embedded() -> Result<Self, String> {
+    fn load_embedded() -> Result<Self, String> {
         let mut catalog = Self::from_json(
             include_str!("../../../assets/data/birthplace-china.json"),
             include_str!("../../../assets/data/birthplace-regions.json"),
@@ -292,14 +292,14 @@ impl PlaceCatalog {
             .find(|item| item.id == county)
     }
     /// 返回国家名称，未知代码保留原文以避免空标签。
-    pub(crate) fn country_name<'a>(&'a self, code: &'a str) -> &'a str {
+    fn country_name<'a>(&'a self, code: &'a str) -> &'a str {
         self.all_countries
             .iter()
             .find(|country| country.code == code)
             .map_or(code, |country| country.name.as_str())
     }
     /// 返回国家所属洲的中文名，缺失时为空。
-    pub(crate) fn continent_name(&self, country: &str) -> &str {
+    fn continent_name(&self, country: &str) -> &str {
         self.country(country)
             .and_then(|country| {
                 CONTINENTS
@@ -334,12 +334,7 @@ impl PlaceCatalog {
             .is_none_or(|ids| ids.contains(place.id()))
     }
     /// 按国家、一级地区和稳定标识精确查找海外地点。
-    pub(crate) fn overseas_city(
-        &self,
-        country: &str,
-        region: &str,
-        city: &str,
-    ) -> Option<&OverseasPlace> {
+    fn overseas_city(&self, country: &str, region: &str, city: &str) -> Option<&OverseasPlace> {
         if is_domestic_code(country) {
             return None;
         }

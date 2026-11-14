@@ -11,7 +11,6 @@ pub enum Icon {
     Sun,
     Moon,
     Settings,
-    Reset,
     Export,
     Copy,
     Close,
@@ -134,22 +133,6 @@ fn icon_paths(kind: Icon) -> Vec<Vec<[f32; 2]>> {
             circle(7.6, 14.5, 1.6, 1.6),
             vec![[9.2, 14.5], [17., 14.5]],
         ]),
-        Icon::Reset => paths.extend([
-            vec![[5.5, 4.5], [2.75, 7.25], [5.5, 10.]],
-            vec![
-                [3., 7.25],
-                [5.3, 5.2],
-                [8., 4.2],
-                [11., 4.2],
-                [13.7, 5.5],
-                [15.4, 7.8],
-                [15.8, 10.5],
-                [15., 13.2],
-                [13., 15.1],
-                [10.3, 15.8],
-                [7.7, 15.2],
-            ],
-        ]),
         Icon::Export => paths.extend([
             vec![[10., 3.5], [10., 12.]],
             vec![[6.8, 8.8], [10., 12.], [13.2, 8.8]],
@@ -263,7 +246,6 @@ fn icon_paths(kind: Icon) -> Vec<Vec<[f32; 2]>> {
     // 按视觉重心修正：斜向工具和开放轮廓的感知中心与方形画布中心并不相同。
     let (dx, dy) = match kind {
         Icon::Moon => (0.0, 0.0),
-        Icon::Reset => (0.72, 0.0),
         Icon::Export => (0.0, 0.0),
         Icon::Select => (0.5, 0.0),
         Icon::Pen => (0.25, -0.25),

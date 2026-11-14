@@ -121,11 +121,7 @@ Rust 的 `EIGHT_CHAR_PROVIDER` 是私有静态对象，当前源码没有公开 
 | 2023、2033 两整年 | 共 730 天公→农→公断言全部通过 | **库内往返一致性**，不是 730 天独立历表准确性核对 |
 | 独立历表抽样 | 主任务在线核对香港天文台三个日期与 Tyme 一致：`2023-01-22` 正月初一，`2023-03-22` 闰二月初一，`2033-12-22` 闰十一月初一 | 仅 3 个独立样例；不外推为整个现代区间已验证 |
 
-探针已归档到 `target/calendar-library-evaluation/`，包括 [源码](../../target/calendar-library-evaluation/src/main.rs)、[固定版本 manifest](../../target/calendar-library-evaluation/Cargo.toml)、[运行结果](../../target/calendar-library-evaluation/results.tsv) 与 [复查说明](../../target/calendar-library-evaluation/README.md)。该目录是本地验证产物；原始独立工程位于 `/tmp/atlas-calendar-range-probe-20261110/`。复跑命令为：
-
-```sh
-mise exec -- cargo run --release --offline --manifest-path target/calendar-library-evaluation/Cargo.toml > target/calendar-library-evaluation/results.tsv
-```
+探针及原始独立工程曾保存在本地 `target/calendar-library-evaluation/` 和 `/tmp/atlas-calendar-range-probe-20261110/`，均未纳入版本控制，当前仓库没有可复跑的源码、manifest 或结果副本。因此上表只能作为当时的验证记录，不能从当前仓库独立复现。
 
 独立样例来源：[香港天文台 2023 年公农历对照表](https://www.hko.gov.hk/tc/gts/time/calendar/text/files/T2023c.txt)、[2033 年公农历对照表](https://www.hko.gov.hk/tc/gts/time/calendar/text/files/T2033c.txt)。两个整年数据文件因网络代理失败及直连超时未完成本地下载，因此未完成 730 天逐项独立比对。香港天文台[公农历对照表](https://www.hko.gov.hk/tc/gts/time/conversion.htm)覆盖 1901–2100，其说明另提示 2057、2089、2097 年若朔的计算时刻接近午夜，可能出现一日差异；历表的覆盖范围与这些说明均不能直接当作候选库全范围准确性证明。
 

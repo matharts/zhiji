@@ -45,7 +45,7 @@ impl AppState {
     }
 
     /// 外部修复后重新读取设置；失败保留当前内存设置和故障保护。
-    pub(crate) fn reload_preferences(&mut self, tx: &mut Tx) {
+    fn reload_preferences(&mut self, tx: &mut Tx) {
         if self.preference_writer.is_busy() {
             return;
         }

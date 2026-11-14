@@ -138,7 +138,14 @@ function main() {
       const count = selected(['cargo', 'test', ...locked, '-p', 'zhiji', '--bin', 'zhiji', 'updates::tests::packaged_update_signatures_match_client', '--', '--ignored', '--exact'], env, true);
       console.log(`Desktop update artifact checks passed: ${count} test.`);
     } else if (mode === 'rust') {
-      run([process.execPath, '--test', 'tests/font_tools.test.mjs', 'tests/updates.test.mjs', 'tests/verify.test.mjs', 'tests/architecture.test.mjs'], env);
+      run([process.execPath, '--test',
+        'tests/font_tools.test.mjs',
+        'tests/updates.test.mjs',
+        'tests/verify.test.mjs',
+        'tests/architecture.test.mjs',
+        'tests/overseas_candidate_audit.test.mjs',
+        'tests/overseas_priority_migration.test.mjs',
+      ], env);
       run(['cargo', 'fmt', '--all', '--', '--check'], env);
       run(['cargo', 'clippy', ...locked, '--workspace', '--all-targets', '--all-features', '--', '-D', 'warnings'], env);
       run(['cargo', 'test', ...locked, '-p', 'zhiji', '--test', 'scene_configuration'], env);

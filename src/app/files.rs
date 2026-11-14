@@ -251,7 +251,7 @@ impl AppState {
     }
 
     /// 撤回待执行文件意图，不中断已经发起的后台保存。
-    pub(crate) fn cancel_unsaved(&mut self) {
+    fn cancel_unsaved(&mut self) {
         self.file_flow.pending = None;
     }
 
@@ -420,7 +420,7 @@ impl AppState {
     }
 
     /// 关闭最近文件或尚待决定的未保存提示。
-    pub(crate) fn cancel_file_prompt(&mut self) {
+    fn cancel_file_prompt(&mut self) {
         self.file_flow.recent_open = false;
         if self.unsaved_prompt() {
             self.cancel_unsaved();
@@ -428,7 +428,7 @@ impl AppState {
     }
 
     /// 从有效最近文件项发起后台打开，沿用文件校验和未保存保护。
-    pub(crate) fn open_recent(&mut self, index: usize, tx: &mut Tx) {
+    fn open_recent(&mut self, index: usize, tx: &mut Tx) {
         let Some(path) = self.document.recent().get(index).cloned() else {
             return;
         };

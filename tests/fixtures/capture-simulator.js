@@ -101,6 +101,9 @@ async (page) => {
   const colorValue = () => colorTrigger.locator('.ant-color-picker-color-block-inner').evaluate(el => getComputedStyle(el).backgroundColor);
   const defaultColor = await colorValue();
   await colorTrigger.click();
+  await page.getByRole('textbox').waitFor({state: 'visible'});
+  await page.waitForTimeout(300);
+  await page.screenshot({path: `${out}/simulator-color-picker.png`});
   await page.getByRole('textbox').fill('123456');
   await page.getByRole('textbox').press('Enter');
   await page.waitForFunction(() => getComputedStyle(document.querySelector('.ant-color-picker-color-block-inner')).backgroundColor === 'rgb(18, 52, 86)');

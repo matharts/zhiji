@@ -31,6 +31,8 @@ jobs:
         run: mise exec -- node --test tests/updates.test.mjs
       - name: Check architecture and verification guards
         run: mise exec -- node --test tests/architecture.test.mjs tests/verify.test.mjs
+      - name: Check overseas data tooling
+        run: mise exec -- node --test tests/overseas_candidate_audit.test.mjs tests/overseas_priority_migration.test.mjs
       - name: Check formatting
         if: runner.os == 'macOS' && matrix.os == 'macos-15'
         run: mise exec -- cargo fmt --all -- --check

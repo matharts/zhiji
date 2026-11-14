@@ -15,7 +15,7 @@ export const readingDecadeRanges: Partial<Record<Branch, readonly [number, numbe
     辰: [26, 35], 卯: [16, 25], 寅: [6, 15],
 };
 
-export const flyingStarsByPalace: Record<Branch, readonly string[]> = {
+const flyingStarsByPalace: Record<Branch, readonly string[]> = {
     寅: ["天同", "天机", "文昌", "廉贞"],
     卯: ["太阴", "天同", "天机", "巨门"],
     辰: ["贪狼", "太阴", "右弼", "天机"],

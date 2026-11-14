@@ -145,7 +145,7 @@ pub(crate) fn text_system(language: &str) -> rune::text::TextSystem {
 
 #[cfg(test)]
 /// 读取当前界面语言，供语言作用域测试核对恢复结果。
-pub(crate) fn current_language() -> Option<&'static str> {
+fn current_language() -> Option<&'static str> {
     *LANGUAGE.lock().unwrap_or_else(|error| error.into_inner())
 }
 

@@ -23,7 +23,7 @@ mise exec -- node tools/verify.mjs updates
 
 `rust` 使用所有 targets 和 features，但不会执行标记为 ignored 的 GPU 或测量测试。`gpu` 和 `updates` 先检查测试选择，再核对执行数量；零项选择不能当作通过。`updates` 必须精确选中并通过一项客户端产物验签测试，产物准备见[发布约定](releasing.md)。
 
-`rust` 和桌面 CI 均运行 `tests/architecture.test.mjs` 与 `tests/verify.test.mjs`。前者检查内部 crate 的直接依赖，以及工作区、设置、更新和诊断生产源码中对 `AppState` 与显式应用模块路径的引用；源码检查是有限的文本哨兵，不替代 Rust 名称解析或完整依赖图分析。后者验证零项选择、多项选择、忽略及执行数量不符都会失败。外置单元测试仍可组合应用根视图。
+`rust` 和桌面 CI 运行字体工具、更新元数据、`tests/architecture.test.mjs`、`tests/verify.test.mjs`、海外候选审计及优先城市迁移六组 Node 测试。架构检查覆盖内部 crate 的直接依赖，以及工作区、设置、更新和诊断生产源码中对 `AppState` 与显式应用模块路径的引用；源码检查是有限的文本哨兵，不替代 Rust 名称解析或完整依赖图分析。校验入口测试验证零项选择、多项选择、忽略及执行数量不符都会失败。海外数据测试分别检查候选审计的冲突隔离、重复 ID 拒绝，以及迁移遇到非法人口值时不写入任何资源。外置单元测试仍可组合应用根视图。
 
 视觉回归需要 `visual-test` feature，统一 GPU 入口会启用它。单独运行时使用 `cargo test --locked -p zhiji --features visual-test --test visual_regression -- --ignored --test-threads=1`。普通构建不注册测试场景；`rust` 入口也会检查普通构建与测试构建的场景配置。
 
