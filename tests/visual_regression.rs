@@ -161,6 +161,25 @@ fn comparison_rejects_a_visible_change() {
 }
 
 #[test]
+/// 允许后端对整帧合成产生不可辨的舍入，但拒绝继续增大的通道偏移。
+fn comparison_limits_backend_rounding() {
+    let expected = Image::read(&fixture("help-guide-1x.png"));
+    let mut rounded = Image {
+        width: expected.width,
+        height: expected.height,
+        rgba: expected.rgba.clone(),
+    };
+    for channel in &mut rounded.rgba {
+        *channel = channel.saturating_add(2);
+    }
+    assert!(compare(&expected, &rounded).is_ok());
+    for channel in &mut rounded.rgba {
+        *channel = channel.saturating_add(1);
+    }
+    assert!(compare(&expected, &rounded).is_err());
+}
+
+#[test]
 #[ignore = "requires a GPU adapter for headless screenshots"]
 /// 验证单帧绘制匹配固定参考图。
 fn single_frame_matches_reference_fixture() {

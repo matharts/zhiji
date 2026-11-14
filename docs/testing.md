@@ -91,6 +91,8 @@ mise exec -- node tools/verify.mjs updates
 
 本轮执行 `mise exec -- node tools/verify.mjs rust`（568 项工作区测试通过，另有 14 项 Node 检查）及 `mise exec -- node tools/verify.mjs gpu`（10 项图片导出、13 项视觉回归通过）。保留现有参考图、比较容差和负向对照，未重生成基准；这些自动化结果不替代 Windows/Linux 原生验收。
 
+2026-11-14 修复 Desktop CI 的测试隔离问题：工作区测试改为与 `verify.mjs rust` 一样串行执行，避免多个测试线程同时改写 Rune 的进程级语言选择。无头截图固定使用 macOS 标题栏安全区和平台默认配置目录文案，使同一套窗口基准可在 Linux 软件 Vulkan 上比较；真实 Linux 窗口仍按自身平台显示。比较器仅在整幅图每个通道的最大差异不超过 2 时豁免后端合成舍入，原有变化像素、均值和分块阈值不变，并以通道差 3 的负向用例确认仍会拒绝；未重新生成参考图。资源文本通过 `.gitattributes` 固定 LF，避免 Windows 检出转换换行后与清单摘要不符。
+
 ## 原生与平台验证
 
 Windows/Linux 单实例协议的独立测试不启动图形窗口：

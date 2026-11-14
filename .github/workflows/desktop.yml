@@ -38,7 +38,7 @@ jobs:
         if: runner.os == 'macOS' && matrix.os == 'macos-15'
         run: mise exec -- cargo clippy --locked --workspace --all-targets --all-features -- -D warnings
       - name: Run tests
-        run: mise exec -- cargo test --locked --workspace --all-targets --all-features
+        run: mise exec -- cargo test --locked --workspace --all-targets --all-features -- --test-threads=1
       - name: Check release scene configuration
         run: mise exec -- cargo test --locked -p zhiji --test scene_configuration
       - name: Build release binary

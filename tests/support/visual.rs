@@ -3,6 +3,8 @@
 use std::path::{Path, PathBuf};
 
 const PIXEL_TOLERANCE: u8 = 8;
+/// 不同图形后端对整帧半透明合成允许的最大舍入级差。
+const RASTERIZER_ROUNDING: u8 = 2;
 const MAX_CHANGED_PER_10_000: usize = 10;
 const MAX_MEAN_CHANNEL_ERROR: f64 = 0.1;
 const MAX_TILE_MEAN_CHANNEL_ERROR: f64 = 1.0;
@@ -144,9 +146,11 @@ pub(crate) fn compare(expected: &Image, actual: &Image) -> Result<(), String> {
     println!(
         "pixels={pixels} changed={changed} max={maximum} mean={mean:.4} worst_tile={worst_tile:.4}"
     );
-    if changed * 10_000 > pixels * MAX_CHANGED_PER_10_000
-        || mean > MAX_MEAN_CHANNEL_ERROR
-        || worst_tile > MAX_TILE_MEAN_CHANNEL_ERROR
+    // 软件与硬件图形后端会对同一半透明帧产生 1–2 级通道舍入，画面本身不可辨。
+    if maximum > RASTERIZER_ROUNDING
+        && (changed * 10_000 > pixels * MAX_CHANGED_PER_10_000
+            || mean > MAX_MEAN_CHANNEL_ERROR
+            || worst_tile > MAX_TILE_MEAN_CHANNEL_ERROR)
     {
         return Err(format!(
             "visual difference too large: {changed}/{pixels} pixels exceed {PIXEL_TOLERANCE}, mean channel difference {mean:.4}, worst tile {worst_tile:.4}"

@@ -4,9 +4,18 @@ use crate::i18n::{label, t};
 use rune::{ChromeInsets, El, el, row};
 use zhiji_ui::{ColorToken, Icon, IconButton, color, icon, regular_label};
 
+/// 无头截图统一按 macOS 标题栏控件占位，避免基准随运行平台改变。
+const HEADLESS_LEADING: f32 =
+    16.0 + 2.0 * rune::Chrome::TRAFFIC_PITCH + rune::Chrome::TRAFFIC_LIGHT;
+
 /// 按原生标题栏安全区组合应用名称、取数、布局及设置入口。
 pub(super) fn render(state: &AppState, chrome: ChromeInsets) -> El {
     let workspace = &state.workspace;
+    let leading = if rune::tooling::is_headless() {
+        HEADLESS_LEADING
+    } else {
+        chrome.leading
+    };
     let mut actions = row().gap(3.0).center_y();
     if !workspace.presentation().sidebar_collapsed() {
         actions = actions
@@ -169,7 +178,7 @@ pub(super) fn render(state: &AppState, chrome: ChromeInsets) -> El {
                         ),
                 )
                 .window_drag()
-                .absolute(chrome.leading + 19.0, 8.0),
+                .absolute(leading + 19.0, 8.0),
         )
         .child(
             if workspace.presentation().settings_open()

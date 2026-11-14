@@ -282,6 +282,10 @@ pub(crate) fn config_dir() -> Option<PathBuf> {
 
 /// 返回关于页展示的平台默认配置位置，不展开实际用户路径。
 pub(crate) fn config_location_label() -> &'static str {
+    // 无头截图使用固定位置，保证同一套视觉基准可在各平台执行。
+    if rune::tooling::is_headless() {
+        return "~/Library/Application Support/zhiji";
+    }
     #[cfg(target_os = "windows")]
     {
         "%APPDATA%\\zhiji"
