@@ -354,7 +354,7 @@ pub(crate) fn render(state: &AppState, cx: &mut Cx<AppState>) -> El {
                 .radius(6.0)
                 .fill(zhiji_ui::color(zhiji_ui::ColorToken::Canvas))
                 .role("alert")
-                .local_label("设置未保存，重启后可能恢复默认值")
+                .local_label("设置未保存，重启后本次修改将丢失")
                 .child(
                     crate::i18n::regular_label(
                         "设置未保存",

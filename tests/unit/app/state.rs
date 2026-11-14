@@ -229,6 +229,27 @@ fn preferences_recovery_dialog_fits_small_windows_and_escape_cancels_exit() {
 }
 
 #[test]
+/// 恢复默认的后果说明在小窗口和大字号下换行，不超出窗口。
+fn reset_consequence_wraps_in_small_windows() {
+    let mut runtime = rune::Runtime::new(
+        AppState::default(),
+        crate::app::view::render,
+        (900.0, 600.0),
+        rune::Env::new(false, 1.0),
+    );
+    runtime.state.workspace.set_ui_scale(UiScale::Large);
+    runtime.update(AppState::show_settings);
+    runtime.state.workspace.set_reset_confirmation(true);
+    runtime.frame(0.0);
+    let ([left, top, width, height], _) = runtime
+        .presented("settings-reset-consequence")
+        .expect("恢复默认说明应可见");
+    assert!(left >= 0.0 && top >= 0.0, "left={left} top={top}");
+    assert!(left + width <= 900.0, "left={left} width={width}");
+    assert!(height >= 30.0, "height={height}");
+}
+
+#[test]
 /// 退出期间仍能提交新设置，必须等最新快照落盘后才能请求进程退出。
 fn quit_waits_for_latest_preferences_without_blocking_ui_updates() {
     let directory = tempfile::tempdir().unwrap();

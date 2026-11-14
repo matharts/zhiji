@@ -720,10 +720,13 @@ fn reset_action<S: PreferencesHost>(state: &S) -> El {
                 .pb(10.0)
                 .gap(8.0)
                 .child(regular_label(
-                    "外观、动效、简繁体、排盘规则与窗口布局将恢复默认，当前命盘数据不会清除。",
+                    "外观、配色、动效、简繁体、字号、显示与导出设置、排盘规则和窗口布局将恢复默认，当前命盘数据不会清除。",
                     12.0,
                     ColorToken::InkMuted,
-                ))
+                )
+                .key("settings-reset-consequence")
+                .w_full()
+                .wrap())
                 .child(
                     row()
                         .w_full()
