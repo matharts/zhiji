@@ -1,0 +1,67 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":dependencyDashboard",
+    ":timezone(Asia/Shanghai)"
+  ],
+  "semanticCommits": "enabled",
+  "schedule": ["before 9am on monday"],
+  "prConcurrentLimit": 3,
+  "prHourlyLimit": 2,
+  "rebaseWhen": "conflicted",
+  "rangeStrategy": "bump",
+  "ignorePaths": ["vendor/**"],
+  "lockFileMaintenance": {
+    "enabled": true
+  },
+  "packageRules": [
+    {
+      "description": "Rune 与 vendor 补丁必须同步升级，交由人工处理。",
+      "matchManagers": ["cargo"],
+      "matchSourceUrls": ["https://github.com/anomalyco/rune"],
+      "enabled": false
+    },
+    {
+      "description": "日历引擎在应用和校验工具中保持同一版本。",
+      "matchManagers": ["cargo"],
+      "matchPackageNames": ["tyme4rs"],
+      "groupName": "Rust calendar engine"
+    },
+    {
+      "description": "Rust 补丁与次版本合并验证。",
+      "matchManagers": ["cargo"],
+      "matchUpdateTypes": ["patch", "minor"],
+      "groupName": "Rust dependencies"
+    },
+    {
+      "description": "开发工具补丁与次版本合并验证。",
+      "matchFileNames": ["package.json"],
+      "matchUpdateTypes": ["patch", "minor"],
+      "groupName": "Development tooling"
+    },
+    {
+      "description": "网站依赖补丁与次版本合并验证。",
+      "matchFileNames": ["website/package.json"],
+      "matchUpdateTypes": ["patch", "minor"],
+      "groupName": "Website dependencies"
+    },
+    {
+      "description": "Mise 固定工具版本保持同一组升级。",
+      "matchManagers": ["mise"],
+      "matchUpdateTypes": ["patch", "minor"],
+      "groupName": "Mise tooling"
+    },
+    {
+      "description": "GitHub Actions 补丁与次版本合并验证。",
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["patch", "minor"],
+      "groupName": "GitHub Actions"
+    },
+    {
+      "description": "主版本升级需在依赖面板中手动确认。",
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": true
+    }
+  ]
+}
