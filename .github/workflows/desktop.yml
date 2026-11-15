@@ -45,6 +45,9 @@ jobs:
         run: mise exec -- node --test tests/architecture.test.ts tests/verify.test.ts
       - name: Check overseas data tooling
         run: mise exec -- node --test tests/overseas_candidate_audit.test.ts tests/overseas_priority_migration.test.ts tests/china_divisions.test.ts tests/places_pipeline.test.ts tests/name_assignments.test.ts
+      - name: Install Rust check components
+        if: runner.os == 'macOS' && matrix.os == 'macos-15'
+        run: mise exec -- rustup component add rustfmt clippy
       - name: Check formatting
         if: runner.os == 'macOS' && matrix.os == 'macos-15'
         run: mise exec -- cargo fmt --all -- --check

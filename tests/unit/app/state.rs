@@ -1251,6 +1251,15 @@ fn settle_document_work(runtime: &mut rune::Runtime<AppState>) {
     runtime.frame(0.0);
 }
 
+/// 有界推进到保存失败反馈出现，避免慢平台在额外一帧期间等到三秒提示过期。
+fn settle_document_failure(runtime: &mut rune::Runtime<AppState>) {
+    let deadline = Instant::now() + Duration::from_secs(5);
+    while !runtime.state.document.feedback().is_some_and(|(ok, _)| !ok) {
+        assert!(Instant::now() < deadline, "document failure timed out");
+        runtime.frame(0.0);
+    }
+}
+
 /// 创建用于文档意图和未保存提示的测试运行时。
 fn document_runtime() -> rune::Runtime<AppState> {
     let mut runtime = rune::Runtime::new(
@@ -1590,7 +1599,7 @@ fn a_failed_save_cancels_the_pending_quit_and_keeps_the_document_dirty() {
     std::fs::remove_dir_all(&parent).unwrap();
     runtime.update(AppState::request_quit);
     runtime.update(|s, tx| s.resolve_unsaved(crate::app::files::UnsavedChoice::Save, tx));
-    settle_document_work(&mut runtime);
+    settle_document_failure(&mut runtime);
     assert!(runtime.shell_request.is_none());
     assert!(!runtime.state.file_prompt_active());
     assert!(runtime.state.document_modified());

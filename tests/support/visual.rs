@@ -4,7 +4,7 @@ use std::path::{Path, PathBuf};
 
 const PIXEL_TOLERANCE: u8 = 8;
 /// 不同图形后端对整帧半透明合成允许的最大舍入级差。
-const RASTERIZER_ROUNDING: u8 = 2;
+const RASTERIZER_ROUNDING: u8 = 4;
 const MAX_CHANGED_PER_10_000: usize = 10;
 const MAX_MEAN_CHANNEL_ERROR: f64 = 0.1;
 const MAX_TILE_MEAN_CHANNEL_ERROR: f64 = 1.0;

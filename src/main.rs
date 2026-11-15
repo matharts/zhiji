@@ -32,6 +32,12 @@ use rune::{App, AppSpec, FontSmoothing};
 
 const WINDOW_SIZE: (f32, f32) = preferences::settings::DEFAULT_WINDOW_SIZE;
 
+/// macOS 使用 AppKit 原生图标，其他平台交给 Rune 的通用图片解码器。
+#[cfg(target_os = "macos")]
+const APP_ICON: &[u8] = include_bytes!("../assets/icons/app.icns");
+#[cfg(not(target_os = "macos"))]
+const APP_ICON: &[u8] = include_bytes!("../assets/icons/app.png");
+
 /// 仅在开启布局恢复且坐标、尺寸有效时返回原生窗口恢复矩形。
 fn restored_window_frame() -> Option<[f32; 4]> {
     let preferences = preferences::settings::read(&preferences::settings::path()?).ok()?;
@@ -149,8 +155,7 @@ fn main() {
     let started = std::time::Instant::now();
     // 与 Linux 打包器生成的桌面入口名称一致。
     rune::set_app_id("zhiji");
-    rune::set_app_icon(&include_bytes!("../assets/icons/app.icns")[..])
-        .expect("the bundled app icon must decode");
+    rune::set_app_icon(APP_ICON).expect("the bundled app icon must decode");
     let app = App::new(window_spec());
     let handle = app.handle();
     #[cfg(target_os = "macos")]

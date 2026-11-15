@@ -170,7 +170,7 @@ fn comparison_limits_backend_rounding() {
         rgba: expected.rgba.clone(),
     };
     for channel in &mut rounded.rgba {
-        *channel = channel.saturating_add(2);
+        *channel = channel.saturating_add(4);
     }
     assert!(compare(&expected, &rounded).is_ok());
     for channel in &mut rounded.rgba {

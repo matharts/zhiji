@@ -140,7 +140,7 @@ fn about_links_remain_reachable_and_open_the_expected_pages() {
             .workspace
             .set_settings_category(crate::preferences::Category::About);
         let before = state.session().snapshot();
-        let mut runtime = Runtime::new(state, view, size, Env::new(false, 1.0));
+        let mut runtime = runtime_with_app_fonts(state, size);
         let clipboard = rune::clipboard::memory();
         runtime.use_clipboard(&clipboard);
         runtime.on_key = Some(on_key);
@@ -1071,7 +1071,7 @@ fn controls_update_the_chart_and_disable_invalid_choices() {
 /// 验证设置分类切换保留值并关闭颜色编辑器。
 fn settings_categories_preserve_values_and_close_color_editor() {
     for size in [(1300.0, 800.0), (900.0, 600.0)] {
-        let mut runtime = Runtime::new(AppState::default(), view, size, Env::new(false, 1.0));
+        let mut runtime = runtime_with_app_fonts(AppState::default(), size);
         runtime.frame(0.0);
         tap(&mut runtime, "open-settings");
         for key in [

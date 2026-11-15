@@ -17,6 +17,17 @@ use crate::scenes::sample_input;
 use rune::{Env, FileDialogKind, Key, KeyEvent, Mods, Runtime};
 use zhiji_core::Gender;
 
+/// 创建使用桌面应用内嵌字体的 Runtime，避免布局测试受宿主机字体影响。
+fn runtime_with_app_fonts(state: AppState, size: (f32, f32)) -> Runtime<AppState> {
+    Runtime::with_text(
+        state,
+        view,
+        size,
+        Env::new(false, 1.0),
+        crate::fonts::text_system(crate::fonts::DEFAULT_LANGUAGE),
+    )
+}
+
 /// 按稳定键模拟工作区控件点击。
 fn tap(runtime: &mut Runtime<AppState>, key: &str) {
     let (x, y) = runtime
