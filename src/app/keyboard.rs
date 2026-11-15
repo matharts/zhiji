@@ -50,6 +50,7 @@ pub(crate) fn on_key(state: &mut AppState, event: &KeyEvent, tx: &mut Tx) -> boo
     }
     if !event.mods.alt {
         let action = match (&event.key, event.mods.shift) {
+            (Key::Command('n'), false) => Some(AppState::menu_new as fn(&mut AppState, &mut Tx)),
             (Key::Command('o'), false) => Some(AppState::menu_open as fn(&mut AppState, &mut Tx)),
             (Key::Command('s'), true) => Some(AppState::menu_save_as as fn(&mut AppState, &mut Tx)),
             (Key::Command('s'), false) => Some(AppState::menu_save as fn(&mut AppState, &mut Tx)),

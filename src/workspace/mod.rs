@@ -426,6 +426,32 @@ impl Workspace {
         self.session.apply_date_input(value);
     }
 
+    /// 清空当前排盘、飞宫和标注，保留全局配色、显示与工作区偏好。
+    pub(crate) fn start_new_document(&mut self) -> DraftSnapshot {
+        self.finish_transient_edits();
+        let palette = self.session.palette().clone();
+        let display = self.session.display().clone();
+        let input = Input::default();
+        let gender = input.gender;
+        let late_zi_next = self.input_editor.late_zi_next();
+        let pillar_day_start_zi = self.input_editor.pillar_day_start_zi();
+        let mut session = Session::with_input(input);
+        session.set_palette(palette);
+        session.set_display(display);
+        self.session = session;
+        self.marking = Marking::default();
+        self.color_editor = ColorEditor::default();
+        let mut input_editor = crate::workspace::input::InputEditor::new(
+            crate::workspace::input::clock::today(),
+            gender,
+        );
+        input_editor.set_late_zi_next(late_zi_next);
+        input_editor.set_pillar_day_start_zi(pillar_day_start_zi);
+        self.input_editor = input_editor;
+        self.ui.reset_confirmation = false;
+        DraftSnapshot::capture(&self.session, &self.marking)
+    }
+
     /// 清空排盘选项，保留配色和标注。
     pub(crate) fn reset_chart_input(&mut self) {
         self.commit_edits_for_chart_change();

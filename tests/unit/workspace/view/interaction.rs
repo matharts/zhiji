@@ -1727,6 +1727,7 @@ fn export_busy_disables_draft_actions_but_not_copy_in_more_menu() {
             .unwrap()
             .focusable
     };
+    assert!(!focusable(&runtime, "draft-new"));
     assert!(!focusable(&runtime, "draft-save"));
     assert!(!focusable(&runtime, "draft-open"));
     assert!(focusable(&runtime, "mark-copy-image"));
@@ -1735,6 +1736,7 @@ fn export_busy_disables_draft_actions_but_not_copy_in_more_menu() {
     state.workspace.toggle_marking_menu();
     let mut runtime = Runtime::new(state, view, (1300.0, 800.0), Env::new(false, 1.0));
     runtime.frame(0.0);
+    assert!(focusable(&runtime, "draft-new"));
     assert!(focusable(&runtime, "draft-save"));
     assert!(focusable(&runtime, "draft-open"));
 }

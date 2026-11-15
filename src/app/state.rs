@@ -519,6 +519,13 @@ impl AppState {
         self.save_draft_with_path(false, tx);
     }
 
+    /// 按当前草稿提示的剩余时间安排重绘；失败提示保留更久。
+    pub(crate) fn wake_draft_feedback(&self, tx: &mut Tx) {
+        if let Some(remaining) = self.document.feedback_remaining() {
+            tx.wake_after(remaining);
+        }
+    }
+
     /// 冻结草稿后选择直接保存或另存为，并协调保存后的待执行动作。
     pub(super) fn save_draft_with_path(&mut self, save_as: bool, tx: &mut Tx) {
         if self.closing.is_some()
@@ -556,7 +563,7 @@ impl AppState {
         tx.save_file(options, |state: &mut Self, answer, tx| {
             state.document.save_answer(answer, state.waker.clone());
             state.poll_files(tx);
-            tx.wake_after(Duration::from_secs(3));
+            state.wake_draft_feedback(tx);
             tx.instant();
         });
         tx.instant();
@@ -580,7 +587,7 @@ impl AppState {
         .filter(crate::i18n::t("命盘草稿"), &["ziwei"]);
         tx.open_file(options, |state: &mut Self, answer, tx| {
             state.document.open_answer(answer, state.waker.clone());
-            tx.wake_after(Duration::from_secs(3));
+            state.wake_draft_feedback(tx);
             tx.instant();
         });
         tx.instant();
@@ -595,7 +602,7 @@ impl AppState {
         } else {
             tx.instant();
         }
-        tx.wake_after(Duration::from_secs(3));
+        self.wake_draft_feedback(tx);
     }
 
     /// 取消当前草稿确认，不安装恢复结果。
@@ -647,7 +654,7 @@ impl AppState {
         let was_saving = self.document.is_saving();
         let draft_changed = self.document.poll();
         if draft_changed && self.document.feedback().is_some() {
-            tx.wake_after(Duration::from_secs(3));
+            self.wake_draft_feedback(tx);
         }
         let copy_changed = self.tasks.copy_image.poll(tx);
         self.note_copy_completion(copy_changed);

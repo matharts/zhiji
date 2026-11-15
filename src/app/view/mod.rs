@@ -338,7 +338,10 @@ pub(crate) fn render(state: &AppState, cx: &mut Cx<AppState>) -> El {
     ) {
         root = root.child(menu);
     }
-    if let Some(feedback) = menu::feedback(state) {
+    if let Some(feedback) = menu::marking_feedback(state) {
+        root = root.child(feedback);
+    }
+    if let Some(feedback) = menu::document_feedback(state) {
         root = root.child(feedback);
     }
     let show_update_notice = !state.workspace.presentation().settings_open()

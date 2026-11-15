@@ -18,6 +18,9 @@ use document::Draft;
 pub(crate) use file::OpenedDraft;
 use file::{WorkOutcome, open_file, save_file};
 
+const SUCCESS_FEEDBACK: Duration = Duration::from_secs(3);
+const FAILURE_FEEDBACK: Duration = Duration::from_secs(8);
+
 #[derive(Clone, Copy, PartialEq, Eq)]
 enum WorkKind {
     Save,
@@ -81,6 +84,17 @@ impl DraftState {
 
     /// 将给定快照设为未修改比较基线。
     pub(crate) fn mark_clean(&mut self, snapshot: DraftSnapshot) {
+        self.baseline = Some(snapshot);
+    }
+
+    /// 清除当前文件身份，并把新建后的空白文档设为未修改基线。
+    pub(crate) fn start_new(&mut self, snapshot: DraftSnapshot) {
+        self.pending = None;
+        self.path = None;
+        self.fingerprint = None;
+        self.saving_snapshot = None;
+        self.save_result = None;
+        self.feedback = None;
         self.baseline = Some(snapshot);
     }
 
@@ -172,9 +186,22 @@ impl DraftState {
             false
         }
     }
-    /// 设置三秒反馈，不改变文件任务阶段。
+    /// 返回当前反馈剩余时间；保存失败保留更久，便于读取原因。
+    pub(crate) fn feedback_remaining(&self) -> Option<Duration> {
+        self.feedback.as_ref().map(|(_, _, until)| {
+            until
+                .saturating_duration_since(Instant::now())
+                .max(Duration::from_millis(16))
+        })
+    }
+    /// 设置带结果区分的反馈，不改变文件任务阶段。
     fn set_feedback(&mut self, ok: bool, text: String) {
-        self.feedback = Some((ok, text, Instant::now() + Duration::from_secs(3)));
+        let duration = if ok {
+            SUCCESS_FEEDBACK
+        } else {
+            FAILURE_FEEDBACK
+        };
+        self.feedback = Some((ok, text, Instant::now() + duration));
     }
     /// 对话框、后台任务及确认阶段均占用草稿流程。
     pub(crate) fn is_busy(&self) -> bool {
@@ -187,6 +214,10 @@ impl DraftState {
     /// 仅在草稿写入线程运行时为真，不包含等待覆盖确认。
     pub(crate) fn is_saving(&self) -> bool {
         matches!(self.pending, Some(Pending::Working(WorkKind::Save, _)))
+    }
+    /// 仅在草稿读取线程运行时为真。
+    pub(crate) fn is_opening(&self) -> bool {
+        matches!(self.pending, Some(Pending::Working(WorkKind::Open, _)))
     }
     /// 启动捕获异常的后台草稿操作，完成后发送结果并唤醒窗口。
     fn start_work(

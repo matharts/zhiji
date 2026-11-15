@@ -319,6 +319,59 @@ fn saving_and_opening_a_draft_restores_every_right_panel_value_and_the_chart() {
 }
 
 #[test]
+/// 验证更多菜单可直接新建草稿，并在新建前处理未保存修改。
+fn more_menu_starts_a_new_draft_after_the_unsaved_decision() {
+    let mut runtime = Runtime::new(
+        AppState::default(),
+        view,
+        (1300.0, 800.0),
+        Env::new(false, 1.0),
+    );
+    runtime.poll = Some(AppState::poll);
+    runtime.frame(0.0);
+    tap(&mut runtime, "gender-1");
+    tap(&mut runtime, "stem-0");
+    tap(&mut runtime, "mark-more");
+    tap(&mut runtime, "draft-new");
+    assert!(runtime.presented("document-unsaved").is_some());
+    assert_eq!(runtime.state.session().input().gender, Gender::Female);
+
+    tap(&mut runtime, "document-discard");
+    assert_eq!(runtime.state.session().input(), &Input::default());
+    assert_eq!(runtime.state.document_label(), "知几");
+    assert!(!runtime.state.document_modified());
+
+    tap(&mut runtime, "mark-more");
+    tap(&mut runtime, "draft-new");
+    assert!(runtime.presented("document-unsaved").is_none());
+    assert_eq!(runtime.state.document_label(), "知几");
+}
+
+#[test]
+/// 新建前选择保存但取消系统面板时，保留当前文档且不执行新建。
+fn canceling_the_save_before_new_draft_keeps_the_current_document() {
+    let mut runtime = Runtime::new(
+        AppState::default(),
+        view,
+        (1300.0, 800.0),
+        Env::new(false, 1.0),
+    );
+    runtime.poll = Some(AppState::poll);
+    runtime.frame(0.0);
+    tap(&mut runtime, "gender-1");
+    tap(&mut runtime, "mark-more");
+    tap(&mut runtime, "draft-new");
+    assert!(runtime.presented("document-unsaved").is_some());
+    tap(&mut runtime, "document-save");
+    assert_eq!(runtime.file_dialog().unwrap().0, FileDialogKind::Save);
+    runtime.resolve_file_dialog(None).unwrap();
+    wait_draft(&mut runtime);
+    assert_eq!(runtime.state.session().input().gender, Gender::Female);
+    assert!(runtime.state.document_modified());
+    assert!(runtime.presented("document-unsaved").is_none());
+}
+
+#[test]
 /// 验证无效草稿不替换当前工作区。
 fn invalid_draft_does_not_replace_current_workspace() {
     let directory = tempfile::tempdir().unwrap();
@@ -372,6 +425,8 @@ fn invalid_draft_does_not_replace_current_workspace() {
             runtime.state.document.feedback(),
             Some((false, _))
         ));
+        let ([_, top, _, _], _) = runtime.presented("document-feedback").unwrap();
+        assert!(top < 100.0, "草稿失败反馈应靠近文件名");
         assert_eq!(values(runtime.state.session().input()), input);
         assert_eq!(runtime.state.session().chart(), &chart);
         assert_eq!(runtime.state.workspace.marking.marks(), marks);

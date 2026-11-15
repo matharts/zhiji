@@ -27,7 +27,7 @@ struct MenuCheck {
         NSRunningApplication(processIdentifier: process.processIdentifier)?.activate(options: [.activateAllWindows])
         try wait("主窗口") { windows(app).count >= 1 }
         try wait("系统菜单") { find(app, title: "文件") != nil }
-        for title in ["编辑", "视图", "窗口", "帮助", "关于知几", "设置…", "打开草稿…", "保存草稿…", "导出图片…", "退出知几"] {
+        for title in ["编辑", "视图", "窗口", "帮助", "关于知几", "设置…", "新建草稿", "打开草稿…", "保存草稿…", "导出图片…", "退出知几"] {
             guard find(app, title: title) != nil else { throw Failure("缺少菜单：\(title)") }
         }
         try press(app, title: "双列布局")

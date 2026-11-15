@@ -66,6 +66,14 @@ impl MenuState {
                 AppState::request_quit,
             ),
             item(
+                "new",
+                "新建草稿",
+                Some("文件"),
+                Some("cmd+n"),
+                AppState::menu_new,
+            )
+            .enabled(self.files_available),
+            item(
                 "open",
                 "打开草稿…",
                 Some("文件"),
@@ -218,6 +226,16 @@ impl AppState {
         }
         self.workspace.set_columns(two_columns);
         tx.animated();
+    }
+
+    /// 菜单可用时显示窗口并新建空白草稿。
+    pub(crate) fn menu_new(&mut self, tx: &mut Tx) {
+        if MenuState::capture(self).files_available {
+            if let Some(handle) = &self.app_handle {
+                handle.open();
+            }
+            self.request_new_draft(tx);
+        }
     }
 
     /// 菜单可用时显示窗口并调用打开草稿入口。

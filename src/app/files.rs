@@ -1,13 +1,14 @@
 //! 文档切换决策独立于文件读写，后台成功不能丢弃之后产生的新编辑。
 use crate::i18n::{regular_label, t};
-use rune::{El, Tx, col, row};
+use rune::{El, ScrollSpec, Tx, col, el, row};
 use std::{collections::VecDeque, path::PathBuf};
-use zhiji_ui::{ColorToken, ConfirmationDialog, dialog_button};
+use zhiji_ui::{ColorToken, ConfirmationDialog, color, dialog_button, hover_feedback};
 
 use super::AppState;
 use crate::draft::OpenedDraft;
 
 enum Intent {
+    New,
     Open(Box<OpenedDraft>),
     Quit,
     Update,
@@ -87,7 +88,7 @@ impl AppState {
             }
         }
         self.poll_external_files(tx);
-        tx.wake_after(std::time::Duration::from_secs(3));
+        self.wake_draft_feedback(tx);
         tx.instant();
     }
 
@@ -131,7 +132,7 @@ impl AppState {
         }
         if let Some(error) = self.file_flow.external_error.take() {
             self.document.report_open_error(&error);
-            tx.wake_after(std::time::Duration::from_secs(3));
+            self.wake_draft_feedback(tx);
             return true;
         }
         while let Some(path) = self.file_flow.external.pop_front() {
@@ -211,6 +212,30 @@ impl AppState {
         self.poll_files(tx);
     }
 
+    /// 结束临时编辑并新建空白草稿；有未保存修改时先进入保存决策。
+    pub(crate) fn request_new_draft(&mut self, tx: &mut Tx) {
+        if self.closing.is_some()
+            || self.file_prompt_active()
+            || self.document.is_busy()
+            || self.tasks.export.is_busy()
+        {
+            return;
+        }
+        self.workspace.commit_document_edits();
+        self.workspace.close_marking_more_menu();
+        self.tasks.copy_image.clear_feedback();
+        if self.document_modified() {
+            self.file_flow.pending = Some((Intent::New, Stage::Decide));
+            if let Some(handle) = &self.app_handle {
+                handle.open();
+            }
+            tx.instant();
+            return;
+        }
+        self.complete_file_intent(Intent::New, tx);
+        tx.instant();
+    }
+
     /// 执行保存、放弃或取消决定；保存成功后仍需重查期间产生的新修改。
     pub(crate) fn resolve_unsaved(&mut self, choice: UnsavedChoice, tx: &mut Tx) {
         if !self.unsaved_prompt() {
@@ -258,6 +283,12 @@ impl AppState {
     /// 安装已校验文档或进入退出收尾；复制刚完成时保留窗口反馈。
     fn complete_file_intent(&mut self, intent: Intent, tx: &mut Tx) {
         match intent {
+            Intent::New => {
+                let snapshot = self.workspace.start_new_document();
+                self.document.start_new(snapshot);
+                self.tasks.export.clear_finished();
+                tx.animated();
+            }
             Intent::Open(draft) => {
                 let workspace = self.document.accept_opened(*draft);
                 self.workspace.restore(workspace);
@@ -446,19 +477,17 @@ pub(crate) fn recent_dialog(state: &AppState) -> Option<El> {
     if !state.file_flow.recent_open {
         return None;
     }
-    let mut list = col().w(392.0).gap(4.0);
+    let list_height = (state.document.recent().len() as f32 * 48.0).clamp(44.0, 360.0);
+    let mut list = col()
+        .w(392.0)
+        .h(list_height)
+        .min_h(0.0)
+        .gap(4.0)
+        .scroll(ScrollSpec {
+            stick_bottom: false,
+        });
     for (index, path) in state.document.recent().iter().enumerate() {
-        let title = path.to_string_lossy().into_owned();
-        list = list.child(
-            zhiji_ui::menu_item(
-                format!("recent-file-{index}"),
-                title.clone(),
-                true,
-                move |s: &mut AppState, tx| s.open_recent(index, tx),
-            )
-            .w(392.0)
-            .help(title),
-        );
+        list = list.child(recent_item(index, path));
     }
     Some(
         ConfirmationDialog::new(
@@ -479,5 +508,48 @@ pub(crate) fn recent_dialog(state: &AppState) -> Option<El> {
             }),
         )
         .modal("app-identity", AppState::cancel_file_prompt),
+    )
+}
+
+/// 以文件名和所在目录组成最近文件项，完整路径留给提示和可访问名称。
+fn recent_item(index: usize, path: &std::path::Path) -> El {
+    let full = path.to_string_lossy().into_owned();
+    let name = path
+        .file_name()
+        .map(|name| name.to_string_lossy().into_owned())
+        .unwrap_or_else(|| full.clone());
+    let directory = path
+        .parent()
+        .map(|parent| parent.to_string_lossy().into_owned())
+        .filter(|directory| !directory.is_empty())
+        .unwrap_or_else(|| t("未知位置"));
+    let content = col()
+        .w_full()
+        .min_w(0.0)
+        .gap(1.0)
+        .child(
+            regular_label(name, 13.0, ColorToken::InkBody)
+                .w_full()
+                .truncate_middle(),
+        )
+        .child(
+            regular_label(directory, 11.0, ColorToken::InkMuted)
+                .w_full()
+                .truncate_middle(),
+        );
+    hover_feedback(
+        el().key(format!("recent-file-{index}"))
+            .w_full()
+            .h(44.0)
+            .px(10.0)
+            .center_y()
+            .radius(4.0)
+            .role("button")
+            .label(full.clone())
+            .help(full)
+            .focusable(true)
+            .hover(color(ColorToken::SurfaceHover))
+            .child(content)
+            .on_press_tx(move |state: &mut AppState, tx| state.open_recent(index, tx)),
     )
 }

@@ -235,10 +235,10 @@ fn command_button<S: 'static>(
 fn more_button<S: 'static>(dispatch: Dispatch<S>) -> El {
     IconButton::new(
         "mark-more",
-        t("更多标注操作"),
+        t("更多操作"),
         zhiji_ui::icon(zhiji_ui::Icon::More, 20.0, ColorToken::InkIcon),
     )
-    .help(t("更多操作"))
+    .help(t("草稿、复制与标注操作"))
     .on_press_tx(move |state: &mut S, _tx| {
         dispatch(state, ToolbarAction::More);
     })
