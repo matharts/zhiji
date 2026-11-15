@@ -60,6 +60,19 @@ fn wait_draft(runtime: &mut Runtime<AppState>) {
     runtime.frame(0.0);
 }
 
+/// 等待草稿失败反馈出现，避免慢平台在额外帧期间等到三秒提示过期。
+fn wait_draft_failure(runtime: &mut Runtime<AppState>) {
+    let deadline = std::time::Instant::now() + std::time::Duration::from_secs(10);
+    while !runtime.state.document.feedback().is_some_and(|(ok, _)| !ok) {
+        assert!(
+            std::time::Instant::now() < deadline,
+            "draft failure timed out"
+        );
+        runtime.frame(0.0);
+        std::thread::sleep(std::time::Duration::from_millis(2));
+    }
+}
+
 #[test]
 /// 验证 Escape 依次处理菜单、草稿确认和调色器。
 fn escape_resolves_menu_then_draft_confirmation_then_color_editor() {
@@ -352,7 +365,7 @@ fn invalid_draft_does_not_replace_current_workspace() {
         tap(&mut runtime, "mark-more");
         tap(&mut runtime, "draft-open");
         runtime.resolve_file_dialog(Some(path.clone())).unwrap();
-        wait_draft(&mut runtime);
+        wait_draft_failure(&mut runtime);
 
         assert!(runtime.state.document.confirmation().is_none());
         assert!(matches!(
