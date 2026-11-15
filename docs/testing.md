@@ -31,7 +31,7 @@ mise exec -- node tools/verify.ts updates
 
 `rust` 和桌面 CI 运行字体、更新、架构、校验入口及地点数据 Node 测试。地点测试检查候选审计的冲突隔离、重复 ID 拒绝、国内目录确定性重建、批次配置一致性，以及迁移和完整重放在输入或清单故障时不写入任何资源。架构检查覆盖内部 crate 的直接依赖，以及工作区、设置、更新和诊断生产源码中对 `AppState` 与显式应用模块路径的引用；源码检查是有限的文本哨兵，不替代 Rust 名称解析或完整依赖图分析。校验入口测试验证零项选择、多项选择、忽略及执行数量不符都会失败。外置单元测试仍可组合应用根视图。
 
-视觉回归需要 `visual-test` feature，统一 GPU 入口会启用它。单独运行时使用 `cargo test --locked -p zhiji --features visual-test --test visual_regression -- --ignored --test-threads=1`。普通构建不注册测试场景；`rust` 入口也会检查普通构建与测试构建的场景配置。
+视觉回归需要 `visual-test` feature，统一 GPU 入口会启用它。该 feature 同时启用 Rune 的 `tooling`，以提供 `--snap` 等离屏参数；普通 release 不启用它。单独运行时使用 `cargo test --locked -p zhiji --features visual-test --test visual_regression -- --ignored --test-threads=1`。普通构建不注册测试场景；`rust` 入口也会检查普通构建与测试构建的场景配置。
 
 ## 按修改范围验收
 

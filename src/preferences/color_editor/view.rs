@@ -80,9 +80,8 @@ pub(crate) fn color_controls<S: ColorEditorHost>(state: &S) -> El {
                 )
                 .on_press_tx(move |state: &mut S, tx| {
                     state.edit_colors().open_color(value);
-                    if tx.focused().is_some() {
-                        tx.instant();
-                    }
+                    // 新版 Rune 会先聚焦触发按钮；打开弹层仍需明确保留淡入。
+                    tx.animated();
                 }),
         );
         choices = choices.child(choice);

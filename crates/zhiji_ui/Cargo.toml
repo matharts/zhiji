@@ -5,7 +5,7 @@ edition.workspace = true
 license = "MIT"
 
 [dependencies]
-rune = { git = "https://github.com/anomalyco/rune", rev = "d03349e25189ce1edc8c26ada6bf6d4aac72c826", default-features = false }
+rune = { workspace = true }
 
 [dev-dependencies]
 serde_json = "1"

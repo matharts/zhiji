@@ -10,7 +10,7 @@ license = "MIT"
 # Opt-in native-window measurement; ordinary builds retain the normal lifecycle.
 perf-probe = []
 # Opt-in fixtures for headless visual regression; never enabled for releases.
-visual-test = []
+visual-test = ["rune/tooling"]
 
 [package.metadata.packager]
 product-name = "知几"
@@ -30,6 +30,11 @@ resources = [
     { src = "assets/icons/README.md", target = "licenses/icons/README.md" },
     { src = "assets/data/README.md", target = "licenses/data/README.md" },
     { src = "assets/data/LICENSE-*.txt", target = "licenses/data" },
+    { src = "vendor/README.md", target = "licenses/rune-patches/README.md" },
+    { src = "vendor/LICENSE-AccessKit-MIT", target = "licenses/rune-patches/LICENSE-AccessKit-MIT" },
+    { src = "vendor/wgpu-hal/LICENSE.*", target = "licenses/rune-patches/wgpu-hal" },
+    { src = "vendor/winit/LICENSE", target = "licenses/rune-patches/winit/LICENSE" },
+    { src = "vendor/parley_engine/LICENSE-*", target = "licenses/rune-patches/parley_engine" },
 ]
 
 [package.metadata.packager.macos]
@@ -92,7 +97,7 @@ blake3 = "1.8"
 zhiji_core = { path = "crates/zhiji_core" }
 zhiji_ui = { path = "crates/zhiji_ui" }
 zhiji_calendar = { path = "crates/zhiji_calendar" }
-rune = { git = "https://github.com/anomalyco/rune", rev = "d03349e25189ce1edc8c26ada6bf6d4aac72c826", default-features = false, features = ["accessibility", "svg", "native-file-dialog"] }
+rune = { workspace = true, features = ["accessibility", "svg", "native-file-dialog"] }
 # Enable CJK-aware segmentation for Rune's Parley dependency.
 parley = { version = "0.12", default-features = false, features = ["complex-scripts"] }
 png = "0.18"
@@ -139,6 +144,17 @@ minisign = "0.7"
 [workspace]
 members = [".", "crates/zhiji_core", "crates/zhiji_ui", "crates/zhiji_calendar"]
 resolver = "3"
+
+[workspace.dependencies]
+rune = { git = "https://github.com/anomalyco/rune", rev = "ec9260605a8a135b448a5d0b2211cc4e8a066c79", default-features = false }
+
+# Cargo 不继承依赖的补丁表；以下源码与固定 Rune 提交同步，来源见 vendor/README.md。
+[patch.crates-io]
+wgpu-hal = { path = "vendor/wgpu-hal" }
+winit = { path = "vendor/winit" }
+parley_engine = { path = "vendor/parley_engine" }
+accesskit_macos = { path = "vendor/accesskit_macos" }
+accesskit_windows = { path = "vendor/accesskit_windows" }
 
 [workspace.package]
 edition = "2024"

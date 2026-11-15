@@ -174,7 +174,7 @@ fn annotation_toolbar_and_chart_bind_to_another_root() {
     runtime.pointer_up(x, y);
     runtime.frame(0.0);
     assert!(runtime.state.workspace().marking.text().unwrap().1.focused);
-    runtime.ime(rune::Ime::Preedit("ming".into(), Some((4, 4))));
+    runtime.ime(rune::Ime::Preedit("ming".into(), Some((4, 4)), Vec::new()));
     runtime.ime(rune::Ime::Commit("命宫".into()));
     runtime.key(KeyEvent {
         key: Key::Enter,

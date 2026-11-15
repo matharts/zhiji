@@ -179,7 +179,7 @@ pub(crate) fn render_interactive<S: WorkspaceHost>(
             .on_input_change(|_: &mut S, tx| tx.instant())
             .on_input_key(|state: &mut S, event, tx| {
                 if event.key == rune::Key::Escape
-                    && marking_mut(state).text_edit().preedit.is_none()
+                    && marking_mut(state).text_edit().preedit().is_none()
                 {
                     marking_mut(state).cancel_text();
                     tx.blur();
@@ -197,7 +197,7 @@ pub(crate) fn render_interactive<S: WorkspaceHost>(
         // 保留 Rune 的光标和输入法几何，仅用白色遮罩实现光标脉冲；
         // 选择文本或组合输入期间不覆盖光标。
         if edit.focused
-            && edit.preedit.is_none()
+            && edit.preedit().is_none()
             && edit.range().0 == edit.range().1
             && let (Some(caret), Some(field)) = (
                 cx.caret("annotation-text"),

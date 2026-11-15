@@ -615,7 +615,7 @@ fn text_supports_ime_color_and_commits_before_export() {
     runtime.frame(0.0);
     assert!(!runtime.state.workspace.marking.palette_open());
     assert!(runtime.state.workspace.marking.text().unwrap().1.focused);
-    runtime.ime(rune::Ime::Preedit("ming".into(), Some((4, 4))));
+    runtime.ime(rune::Ime::Preedit("ming".into(), Some((4, 4)), Vec::new()));
     runtime.ime(rune::Ime::Commit("命宫".into()));
     runtime.frame(0.0);
     assert_eq!(
@@ -1112,10 +1112,10 @@ fn annotation_caret_is_centered_and_blinks_without_disrupting_editing() {
             after_moving[0] < after_typing[0],
             "caret must follow the insertion point"
         );
-        runtime.ime(rune::Ime::Preedit("ming".into(), Some((4, 4))));
+        runtime.ime(rune::Ime::Preedit("ming".into(), Some((4, 4)), Vec::new()));
         runtime.frame(0.0);
         assert!(runtime.find("annotation-caret-blink").is_none());
-        runtime.ime(rune::Ime::Preedit(String::new(), None));
+        runtime.ime(rune::Ime::Preedit(String::new(), None, Vec::new()));
         runtime.key(KeyEvent {
             key: Key::Enter,
             mods: Mods::default(),
