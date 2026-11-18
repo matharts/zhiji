@@ -1,0 +1,4 @@
+---
+const options = [{href:'/',name:'新版首页'}, {href:'/exhibition/',name:'产品展厅'}, {href:'/journey/',name:'沉浸长页'}, {href:'/portal/',name:'产品门户'}];
+---
+<div class="variant-picker"><span>设计方案</span><nav aria-label="切换网站设计方案">{options.map(option=><a href={option.href} aria-current={Astro.url.pathname===option.href?'page':undefined}>{option.name}</a>)}</nav></div>

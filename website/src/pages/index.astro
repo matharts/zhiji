@@ -1,204 +1,49 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SceneArt from '../components/site/SceneArt.astro';
+import WorkspaceStory from '../components/site/WorkspaceStory.astro';
+import DesktopTools from '../components/site/DesktopTools.astro';
+import BeforeDownload from '../components/site/BeforeDownload.astro';
+import BirthWorkflow from '../components/site/BirthWorkflow.astro';
+import SelfTransformation from '../components/site/SelfTransformation.astro';
 import Icon from '../components/Icon.astro';
-import '../styles/homepage.css';
-import { chartExample } from '../data/chart-example.ts';
-import { palaceStems, readingDecadeRanges, selfTransformationExample } from '../data/flight-example.ts';
-
-const exampleParameters = [
-  ['生年干支', '甲子'], ['性别', '男'], ['月份', '正月'], ['时辰', '子时'],
-  ['紫微位置', '辰'], ['命宫', '寅'], ['大限', '寅'], ['流年', '未设置'],
-];
-const readingCells = ['辰', '卯', '寅'].map((branch) => chartExample.cells.find((cell) => cell?.branch === branch));
+import '../styles/reference-home.css';
+import '../styles/product-stories.css';
+import '../styles/workspace-story.css';
 ---
-<BaseLayout title="知几 Zhiji — 紫微斗数排盘与研习" description="知几（Zhiji）是面向专业命理师的紫微斗数桌面排盘软件，支持日期取数、四化飞宫、盘面标注与导出。">
-    <main id="main">
-      <section class="hero relative overflow-hidden" id="top" aria-labelledby="hero-title">
-        <div class="hero-art pointer-events-none absolute inset-0 overflow-hidden" data-hero-art aria-hidden="true">
-          <div class="hero-poster">
-            <div class="poster-chart">
-              {chartExample.cells.map((cell) => cell ? (
-                <div class:list={['poster-cell', { 'poster-cell-origin': cell.branch === chartExample.origin }]}>
-                  <span>{cell.palace} · {cell.branch}</span>
-                  <strong>{cell.stars.join('  ')}</strong>
-                </div>
-              ) : <div class="poster-void"></div>)}
-              <div class="poster-center">
-                <span>{chartExample.origin}宫飞化</span>
-                <div>{chartExample.transformations.map((item) => <span>{item.kind} <b>{item.star}</b></span>)}</div>
-              </div>
-            </div>
-          </div>
-          <canvas class="hero-canvas" data-hero-canvas></canvas>
-        </div>
-        <div class="hero-inner wrap relative z-[1] flex h-full items-center">
-          <div class="hero-copy">
-            <h1 id="hero-title" class="hero-title"><span>知几</span><span>紫微斗数排盘软件</span></h1>
-            <p>为专业命理师打造的桌面工具。<br />起盘、飞化、标注，一处完成。</p>
-            <div class="hero-actions flex flex-wrap items-center">
-              <a class="action" href="/download/">下载桌面版 <Icon name="arrow-right" /></a>
-              <a class="quiet-link" href="#setup">了解产品 <Icon name="arrow-down" /></a>
-            </div>
-            <p class="hero-release" data-release-summary role="status" aria-live="polite">查看版本与平台信息</p>
-          </div>
-          <div class="hero-meta">
-            <span class="hero-caption">{chartExample.year}示例 · {chartExample.origin}宫飞化</span>
-            <button class="motion-toggle" type="button" data-motion-toggle hidden>
-              <span class="motion-icon" data-motion-icon data-state="playing" aria-hidden="true"><Icon name="pause" class="motion-pause" /><Icon name="play" class="motion-play" /></span>
-              <span data-motion-label>暂停动画</span>
-            </button>
-          </div>
-        </div>
-        <a class="scroll-hint" href="#setup">向下了解 <Icon name="arrow-down" /></a>
-      </section>
+<BaseLayout title="知几 — 紫微斗数专业排盘软件" description="知几是面向命理师的紫微斗数桌面排盘软件，支持日期取数与校时、飞宫四化、盘面标注、草稿保存与 PNG 导出。">
+ <main id="main" class="launch-page reference-home">
+  <section class="hero ray-hero relative overflow-hidden" aria-labelledby="hero-title">
+   <div class="hero-intro wrap">
+    <div class="hero-copy">
+     <h1 id="hero-title">紫微斗数<br />专业排盘</h1>
+     <p>知几是面向命理师的桌面排盘软件。<br />点选宫位，查看禄、权、科、忌的落点。</p>
+     <div class="hero-primary-actions"><a class="action" href="/download/">下载知几 <Icon name="arrow-down" /></a><a class="hero-demo-link" href="#exhibit-flight">体验飞宫四化 <Icon name="arrow-right" /></a></div>
+     <p class="hero-release" data-release-summary role="status" aria-live="polite">查看版本与平台信息</p>
+     <nav class="hero-platforms" aria-label="桌面平台"><a href="/download/#platform-macos">macOS</a><span aria-hidden="true">/</span><a href="/download/#platform-windows">Windows</a><span aria-hidden="true">/</span><a href="/download/#platform-linux">Linux</a></nav>
+    </div>
+   </div>
+   <div class="hero-scene" data-centered-scene><SceneArt /></div>
+   <div class="hero-bottom wrap">
+    <a class="hero-explore" href="#workspace"><span>查看工作流程</span><Icon name="arrow-down" /></a>
+    <div class="ray-hero-caption"><span>天地人三盘 · 飞化示意</span><button class="motion-toggle" type="button" data-scene-replay hidden aria-label="重播混沌开场" title="重播混沌开场"><Icon name="replay" /></button><button class="motion-toggle" type="button" data-motion-toggle hidden><span class="motion-icon" data-motion-icon data-state="playing" aria-hidden="true"><Icon name="pause" class="motion-pause" /><Icon name="play" class="motion-play" /></span><span data-motion-label>暂停动画</span></button></div>
+   </div>
+  </section>
 
-      <nav class="workflow-index wrap grid grid-cols-2 lg:grid-cols-4" aria-label="产品功能">
-        <a href="#setup"><strong>输入与起盘</strong><small>日期取数 · 手动调整</small><Icon name="arrow-up-right" class="index-arrow" /></a>
-        <a href="#transformations"><strong>宫位飞化</strong><small>飞宫 · 自化</small><Icon name="arrow-up-right" class="index-arrow" /></a>
-        <a href="#notes"><strong>盘面标注</strong><small>圈画 · 连线 · 文字</small><Icon name="arrow-up-right" class="index-arrow" /></a>
-        <a href="#save"><strong>保存与导出</strong><small>草稿 · 图片</small><Icon name="arrow-up-right" class="index-arrow" /></a>
-      </nav>
+  <nav class="product-outline wrap" aria-label="产品章节">{[{id:'workspace',name:'完整工作区'},{id:'self-transformations',name:'向心与离心'},{id:'date-workflow',name:'取数与校时'},{id:'annotation',name:'盘面标注'},{id:'save-and-export',name:'保存与导出'}].map(item=><a href={`#${item.id}`}>{item.name}<Icon name="arrow-down-right" /></a>)}</nav>
 
-      <section class="section setup-section wrap" id="setup" aria-labelledby="setup-title">
-        <div class="section-heading">
-          <div><h2 id="setup-title">日期取数，<br />手动起盘。</h2></div>
-          <p>支持公历、农历与干支反推；<br />排盘参数可随时调整。</p>
-        </div>
-        <div class="chart-stage">
-          <div class="stage-heading"><span>命盘示例</span><span>{chartExample.year} · 男 · 正月 · 子时</span></div>
-          <div class="chart-stage-body grid lg:grid-cols-[240px_minmax(0,1fr)]">
-            <div class="stage-parameters">
-              <h3>排盘参数 <span>固定示例</span></h3>
-              <dl>{exampleParameters.map(([label, value]) => <div><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
-            </div>
-            <div class="overview-wrap">
-              <div class="overview-chart grid aspect-square grid-cols-4 grid-rows-4" aria-label="甲子年固定示例命盘，显示十二宫和部分星曜">
-                {chartExample.cells.map((cell) => cell ? (
-                  <div class:list={['overview-cell', { 'overview-cell-origin': cell.branch === chartExample.origin }]}>
-                    <span>{cell.palace}<small>{palaceStems[cell.branch]}{cell.branch}</small></span>
-                    <strong>{cell.stars.map((star) => <span class="chart-star">{star}</span>)}</strong>
-                  </div>
-                ) : <span class="overview-void" aria-hidden="true"></span>)}
-                <div class="overview-center" aria-hidden="true"><span>命盘示例</span><strong>甲子</strong><small>命宫 · 寅</small></div>
-              </div>
-            </div>
-          </div>
-            <div class="stage-methods grid min-[561px]:grid-cols-2">
-              <article><h3>日期取数</h3><p>公历、农历、干支反推。公历与反推可按出生地校正真太阳时。</p></article>
-              <article><h3>手动设置</h3><p>生年、紫微位置、命宫、大限等参数可逐项调整。</p></article>
-            </div>
-        </div>
-      </section>
+  <WorkspaceStory />
 
-      <section class="section reading-section wrap" id="reading" aria-labelledby="reading-title">
-        <div class="reading-layout grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
-          <div class="reading-copy">
-            <h2 id="reading-title">一盘之内，<br />细看每一宫。</h2>
-            <p>宫位、星曜、大限与流年，同盘查看。显示内容、布局与配色都可调整。</p>
-            <div class="reading-options"><span>显示项目</span><span>单双列布局</span><span>盘面配色</span></div>
-          </div>
-          <div class="reading-visual">
-            <div class="example-heading"><span>宫位摘录</span><span>{chartExample.year}固定示例</span></div>
-            <div class="reading-cells grid grid-cols-3">
-              {readingCells.map((cell) => cell && <div class="reading-cell"><span>{cell.palace}<small>{palaceStems[cell.branch]}{cell.branch}</small></span><strong>{cell.stars.map((star) => <span>{star}</span>)}</strong><small class="reading-decade">大限 {readingDecadeRanges[cell.branch]?.join('–')} 岁</small></div>)}
-            </div>
-          </div>
-        </div>
-      </section>
+  <SelfTransformation />
+  <BirthWorkflow />
 
-      <section class="section flight-section wrap" id="transformations" aria-labelledby="flight-title">
-        <div class="section-heading">
-          <div><h2 id="flight-title">从一宫出发，<br />看四化去向。</h2></div>
-          <p>选择宫位与禄、权、科、忌，<br />沿飞化查看星曜和宫位的联系。</p>
-        </div>
-        <div class="flight-module" data-flight-demo>
-          <div class="flight-title"><h3>试一试飞宫</h3><p>{chartExample.year}固定示例 · 选择宫位与四化</p></div>
-          <div class="flight-layout grid items-center gap-8 min-[701px]:grid-cols-[minmax(0,1.35fr)_minmax(240px,0.65fr)] lg:gap-16">
-            <div class="flight-chart relative grid aspect-square w-full grid-cols-4 grid-rows-4" role="group" aria-label="十二宫示例，选择宫位查看飞化">
-              {chartExample.cells.map((cell) => cell ? (
-                <button type="button" class:list={['flight-cell', { 'is-target': cell.branch === '亥' }]} data-palace={cell.branch} aria-pressed={cell.branch === chartExample.origin ? 'true' : 'false'} aria-label={`${cell.palace}，${palaceStems[cell.branch]}${cell.branch}宫`} disabled>
-                  <span>{cell.palace}<small>{palaceStems[cell.branch]}{cell.branch}</small></span>
-                  <strong>{cell.stars.map((star) => <span class="chart-star">{star}</span>)}</strong>
-                </button>
-              ) : <span class="flight-void" aria-hidden="true"></span>)}
-              <div class="flight-center" aria-hidden="true"><span>紫微斗数</span><strong>甲子</strong><small>固定示例</small></div>
-              <svg class="flight-overlay" viewBox="0 0 400 400" fill="none" aria-hidden="true">
-                <defs><marker id="flight-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="currentColor" stroke-width="1.5" /></marker></defs>
-                <path data-flight-path pathLength="1" d="M92 308 Q200 288 308 308" marker-end="url(#flight-arrow)" />
-              </svg>
-            </div>
-            <div class="flight-aside">
-              <p class="flight-origin-label">当前宫位</p>
-              <h4 data-flight-origin>寅 · 命宫</h4><p class="flight-stem" data-flight-stem>宫干 丙</p>
-              <fieldset class="flight-controls">
-                <legend>选择四化</legend>
-                {chartExample.transformations.map((item, index) => (
-                  <label class="flight-choice">
-                    <input type="radio" name="transformation" value={item.kind} checked={index === 0} disabled />
-                    <span><b>{item.kind}</b><strong data-flight-star>{item.star}</strong><small data-flight-destination>{item.palace} · {item.branch}宫</small></span>
-                  </label>
-                ))}
-              </fieldset>
-              <p class="flight-result" data-flight-result role="status" aria-live="polite">寅宫化禄，落入亥宫天同。</p>
-            </div>
-          </div>
-        </div>
-      </section>
+  <DesktopTools />
 
-      <section class="section self-section wrap" id="self-transformations" aria-labelledby="self-title">
-        <div class="self-band grid gap-10 lg:grid-cols-2 lg:gap-20">
-          <div class="self-copy">
-            <h2 id="self-title">向心、离心，<br />分别查看。</h2>
-            <p>生年四化与自化可分别筛选禄、权、科、忌；自化的向心与离心也可单独显示。</p>
-          </div>
-          <div class="self-example">
-            <div class="example-heading"><span>自化示例 · {selfTransformationExample.branch}宫{selfTransformationExample.palace}</span><span>宫干 {palaceStems[selfTransformationExample.branch]}</span></div>
-            <div class="self-example-body">
-              <div class="self-star"><span>星曜</span><strong>{selfTransformationExample.star}</strong></div>
-              <dl class="self-directions">
-                <div><dt><Icon name="arrow-down-right" class="direction-icon" />向心自化</dt><dd>{selfTransformationExample.inward}</dd></div>
-                <div><dt><Icon name="arrow-up-right" class="direction-icon" />离心自化</dt><dd>{selfTransformationExample.outward}</dd></div>
-              </dl>
-            </div>
-          </div>
-        </div>
-      </section>
+  <section class="ray-resources wrap" aria-labelledby="resources-title"><div class="ray-section-head"><div><h2 id="resources-title">让下一次使用，更顺手。</h2><p>操作指南、版本记录和问题反馈。</p></div></div><div class="resource-pair"><a href="/guide/"><div class="resource-glyph" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 4h6c2 0 2 1 2 2v15c0-2-1-3-3-3H4zM20 4h-6c-2 0-2 1-2 2v15c0-2 1-3 3-3h5z"/></svg></div><div><h3>使用指南</h3><p>从起盘到保存，按任务查阅操作。</p></div><Icon name="arrow-up-right" /></a><a href="https://github.com/matharts/zhiji/releases"><div class="resource-glyph" aria-hidden="true"><Icon name="replay" /></div><div><h3>版本记录</h3><p>查看实际发布版本与更新内容。</p></div><Icon name="arrow-up-right" /></a></div><div class="resource-links"><a href="/guide/#start">开始一张命盘 <Icon name="arrow-right" /></a><a href="/guide/#shortcuts">查看全部快捷键 <Icon name="arrow-right" /></a><a href="https://github.com/matharts/zhiji/issues">反馈使用问题 <Icon name="arrow-up-right" /></a></div></section>
 
-      <section class="section notes-section wrap" id="notes" aria-labelledby="notes-title">
-        <div class="notes-layout grid items-center gap-8 min-[701px]:grid-cols-[1.15fr_0.85fr] min-[701px]:gap-12 xl:gap-28">
-          <div class="notes-copy">
-            <h2 id="notes-title">在命盘上，<br />标注和记录。</h2>
-            <p>圈画重点、连接宫位、补充文字。标注可以移动、调整，也可以撤销与重做。</p>
-            <ul class="marking-tools" aria-label="支持的标注类型"><li>线条</li><li>箭头</li><li>形状</li><li>文字</li></ul>
-          </div>
-          <div class="marking-sample">
-            <div class="example-heading"><span>盘面标注 · 示意</span><button class="replay-marks" type="button" data-replay-marks hidden>重播 <Icon name="replay" /></button></div>
-            <div class="marking-chart relative grid aspect-square w-full grid-cols-4 grid-rows-4" aria-label="示意：在固定示例命盘上圈画星曜并连接宫位">
-              {chartExample.cells.map((cell) => cell ? <div class="marking-cell"><span>{cell.palace} · {cell.branch}</span><strong>{cell.stars.map((star) => <span class:list={['chart-star', { 'marked-star': cell.branch === '寅' && star === '贪狼' }]}>{star}{cell.branch === '寅' && star === '贪狼' && <svg class="mark-circle" viewBox="0 0 80 40" preserveAspectRatio="none" fill="none" aria-hidden="true"><ellipse cx="40" cy="20" rx="36" ry="16" transform="rotate(-7 40 20)" /></svg>}</span>)}</strong></div> : <span class="marking-void"></span>)}
-              <div class="marking-center" aria-hidden="true">甲子年<br /><span>命盘示例</span></div>
-              <svg viewBox="0 0 400 400" fill="none" aria-hidden="true"><path d="M58 346C90 280 205 231 320 254M312 249L321 254L315 263"/><path d="M122 167C165 153 212 157 247 174"/></svg>
-            </div>
-          </div>
-        </div>
-      </section>
+  <BeforeDownload />
 
-      <section class="section output-section wrap" id="save" aria-labelledby="save-title">
-        <div class="output-heading"><h2 id="save-title">保存草稿，<br />导出图片。</h2></div>
-        <div class="output-list">
-          <article>
-            <div class="output-document" aria-hidden="true"><svg viewBox="0 0 180 210" fill="none"><path d="M26 9h90l38 38v154H26Z"/><path d="M116 9v38h38M46 77h64M46 91h87M46 105h72M46 119h45"/><path class="document-accent" d="m99 149 10 10 24-26"/></svg><span>.ziwei</span></div>
-            <div class="output-description"><div class="output-format">.ziwei</div><h3>保存为草稿</h3><p>保存当前命盘、显示设置和标注，之后可以继续编辑。</p></div>
-          </article>
-          <article>
-            <div class="output-document output-image" aria-hidden="true"><svg viewBox="0 0 180 210" fill="none"><path d="M16 31h148v148H16Z M16 68h148M16 142h148M53 31v148M127 31v148M90 31v37M90 142v37M16 105h37M127 105h37"/><path class="document-accent" d="M35 160Q90 95 145 86m-13-3 13 3-5 12"/></svg><span>.png</span></div>
-            <div class="output-description"><div class="output-format">.png</div><h3>导出或复制图片</h3><p>导出当前盘面，也可以直接将图片复制到剪贴板。</p></div>
-          </article>
-        </div>
-      </section>
-
-      <section class="download-callout" aria-labelledby="callout-title">
-        <div class="wrap callout-inner"><img class="callout-icon" src="/images/app.png" alt="" width="76" height="76" loading="lazy" /><h2 id="callout-title">下载知几</h2><p>目标平台：macOS、Windows、Linux</p><a class="action" href="/download/">查看下载 <Icon name="arrow-right" /></a><p class="callout-release" data-release-summary>查看版本与平台信息</p></div>
-      </section>
-    </main>
-    <script>import '../scripts/home.ts';</script>
+  <section class="ray-download wrap" aria-labelledby="download-title"><img src="/images/app.png" alt="" width="64" height="64" /><h2 id="download-title">开始使用知几。</h2><p>紫微斗数专业排盘软件。</p><a class="action" href="/download/">下载知几 <Icon name="arrow-down" /></a><nav aria-label="选择下载平台"><a href="/download/#platform-macos">macOS</a><a href="/download/#platform-windows">Windows</a><a href="/download/#platform-linux">Linux</a></nav><p class="hero-release" data-release-summary role="status" aria-live="polite">查看版本与平台信息</p></section>
+ </main>
+ <script>import '../scripts/home.ts'; import '../scripts/launch.ts'; import '../scripts/product-stories.ts'; import '../scripts/workspace-story.ts';</script>
 </BaseLayout>

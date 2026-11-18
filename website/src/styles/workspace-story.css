@@ -1,0 +1,108 @@
+/* 主展示用同一张完整命盘贯穿四步，界面密度高于周围的产品文字。 */
+html:has(.reference-home) { scroll-padding-top: 108px; }
+.workspace-story { padding-top: 80px; scroll-margin-top: 112px; }
+.workspace-heading { display: flex; justify-content: space-between; align-items: end; gap: 32px; margin-bottom: 36px; }
+.workspace-heading h2 { max-width: 650px; }
+.workspace-heading p { margin-top: 20px; color: #b8aec8; font-size: 15px; }
+.workspace-heading .text-link { white-space: nowrap; }
+.workspace-window { overflow: hidden; background: #100e16f5; border: 1px solid #ffffff24; border-radius: 16px; scroll-margin-top: 0; }
+.workspace-titlebar { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 54px; padding-inline: 28px; border-bottom: 1px solid #ffffff0e; color: #e0d8eb; font-size: 13px; }
+.workspace-titlebar>span:last-child { font-size: 11px; color: #aea2bd; }
+.workspace-document { margin-left: 20px; padding-left: 20px; border-left: 1px solid #ffffff26; color: #aaa0ba; font-size: 12px; }
+.workspace-steps { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); padding-inline: 20px; border-bottom: 1px solid #ffffff12; }
+.workspace-steps button { position: relative; display: flex; align-items: center; justify-content: center; gap: 12px; min-height: 66px; padding: 12px 8px; color: #a69bad; font-size: 14px; background: none; border: 0; transition: color 180ms ease; scroll-margin-top: 0; }
+.workspace-steps button>span { color: #867b97; font-size: 12px; }
+.workspace-steps button::after { content: ''; position: absolute; inset: auto 18px -1px; height: 2px; background: #c4a5f0; transform: scaleX(0); transition: transform 220ms ease; }
+.workspace-steps button[aria-pressed="true"],.workspace-steps button:hover { color: #f4ecff; }
+.workspace-steps button[aria-pressed="true"]::after { transform: scaleX(1); }
+.workspace-story:not([data-ready]) .workspace-steps button::after { transition: none; }
+.workspace-story .flight-module { border: 0; padding: 0; }
+.workspace-story .flight-title { display: none; }
+.workspace-story .flight-layout { grid-template-columns: minmax(0,1fr) 320px; gap: 44px; padding: 32px; min-height: 580px; }
+.workspace-story .flight-chart { max-width: 516px; border-radius: 0; }
+.workspace-story .flight-cell { background: #15121d; border-color: #71617e70; }
+.workspace-story .flight-cell:not(:disabled):hover { background: #2b2237; }
+.workspace-story .flight-cell[aria-pressed="true"] { background: #30253f; }
+.workspace-story .flight-aside { align-self: stretch; display: flex; align-items: center; border-left: 1px solid #ffffff10; padding-left: 30px; min-width: 0; }
+.workspace-panel { width: 100%; }
+.workspace-panel[hidden] { display: none; }
+.workspace-panel h3 { font-size: 25px; line-height: 1.5; letter-spacing: -.02em; color: #f1e8fc; }
+.workspace-panel>p { font-size: 13px; line-height: 1.9; color: #b7a9c7; margin-top: 22px; }
+.workspace-panel>small { display: block; margin-top: 24px; color: #a395b5; font-size: 11px; line-height: 1.8; }
+.workspace-parameters { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 30px; }
+.workspace-parameters>div { padding-bottom: 14px; border-bottom: 1px solid #ffffff12; }
+.workspace-parameters dt { font-size: 11px; color: #afa0c0; }
+.workspace-parameters dd { margin: 8px 0 0; font-size: 18px; color: #eee3fa; }
+.workspace-story .flight-play { margin: 0 0 20px; }
+.workspace-story .flight-aside h4 { font-size: 27px; margin-block: 6px; }
+.workspace-story .flight-controls { margin-top: 18px; }
+.workspace-story .flight-choice>span { min-height: 52px; padding-inline: 8px; gap: 8px; }
+.workspace-story .flight-choice strong { font-size: 14px; }.workspace-story .flight-choice small { font-size: 11px; }
+.workspace-story .flight-result { min-height: 44px; margin-top: 16px; }
+.workspace-ink { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 4; pointer-events: none; stroke: #c4a5f0; stroke-width: 2; stroke-linecap: round; opacity: 0; }
+.workspace-note { position: absolute; left: 33%; top: 61%; color: #d2b8f1; font-size: 12px; z-index: 4; pointer-events: none; opacity: 0; }
+.workspace-story:is([data-step="annotation"],[data-step="save"]) :is(.workspace-ink,.workspace-note) { opacity: 1; }
+.workspace-story:is([data-step="input"],[data-step="annotation"],[data-step="save"]) .flight-overlay { opacity: 0; }
+.workspace-story[data-step="input"] .flight-cell:is([aria-pressed="true"],.is-target) { box-shadow: none; background: #15121d; }
+.workspace-mark-tools { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+.workspace-mark-tools button { min-height: 44px; padding: 8px 16px; border: 1px solid #9f85ba4d; border-radius: 6px; color: #afa0bf; background: none; }
+.workspace-mark-tools button[aria-pressed="true"] { color: #ede0ff; background: #2a2037; border-color: #a68bc67a; }
+.workspace-output { display: flex; gap: 16px; align-items: center; padding: 24px 0; border-bottom: 1px solid #ffffff14; }
+.workspace-output>span { display: grid; place-items: center; min-width: 60px; height: 60px; background: #30263f; border-radius: 8px; color: #e7d6fa; font-size: 14px; }
+.workspace-output strong { font-size: 15px; font-weight: 500; }.workspace-output p { margin-top: 6px; font-size: 12px; color: #b1a3c0; line-height: 1.8; }
+.workspace-scales { display: flex; gap: 8px; border: 0; padding: 0; margin-top: 24px; }
+.workspace-scales legend { font-size: 12px; color: #b8aac8; margin-bottom: 12px; }
+.workspace-scales button { min-height: 44px; min-width: 48px; border: 1px solid #ffffff1c; border-radius: 6px; background: none; color: #bcaecc; }
+.workspace-scales button[aria-pressed="true"] { background: #ded0f0; color: #21152d; border-color: transparent; }
+/* 输出步骤直接把同一张盘切换为纸面，保留当前宫位与标注。 */
+.workspace-story[data-step="save"] .flight-chart { background: #efedf2; }
+.workspace-story[data-step="save"] .flight-cell { background: none; border-color: #4938573d; box-shadow: none; }
+.workspace-story[data-step="save"] .flight-cell :is(strong,span),.workspace-story[data-step="save"] .flight-center { color: #34213f; }
+.workspace-story[data-step="save"] .flight-center strong { color: #34213f; }
+.workspace-story[data-step="save"] :is(.flight-overlay,.workspace-ink,.workspace-note) { color: #75459e; stroke: #75459e; }
+.workspace-footer { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 52px; padding: 12px 28px; border-top: 1px solid #ffffff12; color: #a79bb6; font-size: 11px; }
+.workspace-footer a { display: inline-flex; align-items: center; gap: 8px; color: #d4c2e9; }
+.workspace-footer .ui-icon { width: 14px; height: 14px; }
+/* 辅助能力收紧为一个桌面章节，避免再次重复草稿、导出和飞化。 */
+.desktop-tools { padding-top: var(--section-gap); }
+.desktop-tools-heading { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 40px; }
+.desktop-tools-grid { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 80px; }
+.desktop-appearance .appearance-scene { min-height: 320px; }
+.desktop-shortcuts h3 { font-size: 23px; margin-bottom: 24px; }
+.desktop-shortcuts table { width: 100%; font-size: 12px; border-collapse: collapse; }
+.desktop-shortcuts th,.desktop-shortcuts td { padding: 17px 4px; border-bottom: 1px solid #ffffff14; text-align: left; white-space: nowrap; font-weight: 400; }
+.desktop-shortcuts thead { color: #b5a5c5; font-size: 11px; }.desktop-shortcuts td { color: #d5c5e5; }
+.desktop-shortcuts .text-link { margin-top: 24px; }
+@media(max-width:1000px) {
+ .workspace-story .flight-layout { grid-template-columns: minmax(0,1fr) 270px; gap: 24px; padding: 24px; min-height: 470px; }
+ .workspace-story .flight-aside { padding-left: 20px; }
+ .workspace-panel h3 { font-size: 22px; }
+ .workspace-story .flight-cell { padding: 8px; }.workspace-story .flight-cell strong { font-size: 13px; gap: 0 4px; }
+ .workspace-story .flight-cell>span { font-size: 10px; }
+ .desktop-tools-grid { gap: 36px; }
+}
+@media(width < 701px) {
+ .workspace-story { padding-top: 48px; }
+ .workspace-heading,.desktop-tools-heading { display: block; }
+ .workspace-heading .text-link,.desktop-tools-heading .text-link { display: inline-flex; margin-top: 20px; }
+ .workspace-heading p { font-size: 14px; line-height: 1.8; }
+ .workspace-titlebar { padding-inline: 16px; font-size: 12px; }
+ .workspace-document { margin-left: 10px; padding-left: 10px; font-size: 10px; }
+ .workspace-titlebar>span:last-child { font-size: 10px; }
+ .workspace-steps { padding-inline: 4px; }
+ .workspace-steps button { min-height: 62px; flex-direction: column; gap: 5px; font-size: 11px; padding-inline: 2px; }
+ .workspace-steps button::after { left: 8px; right: 8px; }
+ .workspace-story .flight-layout { grid-template-columns: 1fr; padding: 16px; gap: 24px; }
+ .workspace-story .flight-aside { border: 0; border-top: 1px solid #ffffff14; padding: 24px 0 8px; min-height: 420px; align-items: flex-start; }
+ .workspace-story .flight-cell { padding: 5px; }.workspace-story .flight-cell strong { font-size: clamp(10px,2.8vw,14px); margin-top: 8px; gap: 0 3px; }
+ .workspace-story .flight-cell>span { font-size: 9px; }.workspace-story .flight-center { gap: 8px; }.workspace-story .flight-center strong { font-size: 28px; }
+ .workspace-note { font-size: 10px; left: 30%; }
+ .workspace-parameters { gap: 20px; }
+ .workspace-panel>small { margin-top: 18px; }
+ .workspace-footer { padding: 14px 16px; align-items: start; flex-direction: column; gap: 10px; }
+ .desktop-tools-grid { grid-template-columns: 1fr; gap: 40px; }
+ .desktop-shortcuts table { font-size: 11px; }.desktop-shortcuts thead { font-size: 10px; }
+}
+@media(prefers-reduced-motion:reduce) {
+ .workspace-steps button,.workspace-steps button::after { transition: none; }
+}

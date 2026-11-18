@@ -1,0 +1,8 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { guideTopics, shortcuts } from '../data/product.ts';
+---
+<BaseLayout title="使用指南 — 知几" description="从第一次排盘到保存、导出与更新。知几的任务式使用说明与完整常用快捷键。">
+ <main id="main" class="reference-page"><header class="reference-intro wrap"><h1>从这里开始。</h1><p>选择你现在要完成的事。应用内也能离线查看使用帮助。</p></header><div class="reference-layout wrap"><nav class="reference-nav" aria-label="指南目录">{guideTopics.map(topic=><a href={`#${topic.id}`}>{topic.title}</a>)}<a href="#shortcuts">键盘快捷键</a></nav><div class="reference-body">{guideTopics.map(topic=><section id={topic.id}><h2>{topic.title}</h2><p class="reference-summary">{topic.intro}</p><ol>{topic.steps.map(step=><li>{step}</li>)}</ol>{topic.note&&<p class="guide-note">{topic.note}</p>}{topic.link&&<a class="text-link" href={`https://github.com/matharts/zhiji/blob/main/${topic.link}`}>{topic.linkLabel}<Icon name="arrow-up-right" /></a>}</section>)}<section id="shortcuts"><h2>键盘快捷键</h2><p class="reference-summary">弹窗或文字编辑中，按键优先作用于当前操作。</p><div class="shortcut-table-wrap"><table class="shortcut-table"><thead><tr><th scope="col">操作</th><th scope="col">macOS</th><th scope="col">Windows / Linux</th></tr></thead><tbody>{shortcuts.map(item=><tr><th scope="row">{item.action}</th><td>{item.mac.join(' ')}</td><td>{item.other.join(' + ')}</td></tr>)}</tbody></table></div></section></div></div></main>
+</BaseLayout>

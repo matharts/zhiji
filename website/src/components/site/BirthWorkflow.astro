@@ -1,0 +1,23 @@
+---
+import Icon from '../Icon.astro';
+// 三种资料分别展示其实际取数口径，流程图不在浏览器中执行历法计算。
+const modes = [
+ {id:'solar',name:'公历日期',intro:'有明确的出生日期与钟表时间。',fields:[['日期','年 / 月 / 日'],['时间','时 / 分'],['出生地','可选']],steps:[['输入资料','公历日期与出生时间'],['处理时间','选填出生地，解析时区与真太阳时'],['确认回填','确认结果，再落到排盘参数']],result:['出生地可选；不选时按固定北京时间 UTC+8 取数。','选填出生地后，结合代表点经度与离线时区规则校时。']},
+ {id:'lunar',name:'农历生日',intro:'已有农历日期与出生时辰。',fields:[['农历日期','年 / 月 / 日'],['月份','平月 / 闰月'],['时辰','十二时辰']],steps:[['输入资料','农历生日与出生时辰'],['核对月份','区分平月、闰月及生日'],['确认回填','直接使用所选生日与时辰']],result:['保留十二时辰，不补写钟表分钟。','直接按所选农历生日与时辰取数，不额外套用晚子时推日。']},
+ {id:'ganzhi',name:'干支反推',intro:'手边资料是四柱干支。',fields:[['四柱','年 / 月 / 日 / 时'],['查询年份','年份组或范围'],['候选时间','由你选择']],steps:[['输入资料','四柱干支与查询年份'],['查询候选','按固定北京时间 UTC+8 反推'],['选择并确认','选择候选时间后回填参数']],result:['使用固定北京时间，不应用出生地或真太阳时修正。','先查看候选，再选择并确认；查询范围以实际计算支持为准。']},
+];
+---
+<section class="birth-story wrap" aria-labelledby="birth-title" data-birth-story>
+ <div class="birth-story-grid" id="date-workflow">
+ <div class="birth-copy"><h2 id="birth-title">日期取数与校时</h2><p>从手边的资料出发，<br />确认结果后回填命盘。</p>
+  <div class="birth-modes" role="group" aria-label="预览取数流程">{modes.map((mode,index)=><button type="button" disabled data-birth-mode={mode.id} aria-pressed={index===0} aria-controls={`birth-panel-${mode.id}`}><span>{mode.name}</span><small>{mode.intro}</small><Icon name="arrow-right" /></button>)}</div>
+  <a class="text-link" href="/guide/#start">查看取数规则 <Icon name="arrow-up-right" /></a>
+ </div>
+ <div class="birth-visual">{modes.map((mode,index)=><section class="birth-panel" id={`birth-panel-${mode.id}`} data-birth-panel={mode.id} hidden={index!==0} aria-label={`${mode.name}取数流程示意`}>
+  <header><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>{mode.name}</span><small>流程示意</small></header>
+  <div class="birth-fields">{mode.fields.map(([label,value])=><div><span>{label}</span><strong>{value}</strong></div>)}</div>
+  <ol class="birth-path">{mode.steps.map(([title,text],step)=><li><span class="birth-step-number" aria-hidden="true">{step+1}</span><div><h3>{title}</h3><p>{text}</p></div>{step<mode.steps.length-1&&<Icon name="arrow-down" />}</li>)}</ol>
+  <div class="birth-notes">{mode.result.map(text=><p>{text}</p>)}</div>
+ </section>)}</div>
+ </div>
+</section>

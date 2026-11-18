@@ -4,12 +4,20 @@ import '../styles/zhiji.css';
 import Cosmos from '../components/Cosmos.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
+import VariantPicker from '../components/site/VariantPicker.astro';
+import '../styles/scene.css';
+import '../styles/demos.css';
+import '../styles/homepage.css';
+import '../styles/launch.css';
+import '../styles/navigation.css';
 
 interface Props {
   title: string;
   description: string;
 }
 const { title, description } = Astro.props;
+// 未采用的探索稿继续保留，但不让方案切换条进入正式首页。
+const exploration = ['/exhibition/', '/journey/', '/portal/'].includes(Astro.url.pathname);
 ---
 <!doctype html>
 <html lang="zh-CN">
@@ -21,9 +29,10 @@ const { title, description } = Astro.props;
     <link rel="icon" href="/images/app.ico" />
     <title>{title}</title>
   </head>
-  <body>
+  <body class:list={{ 'site-launch': !exploration }}>
     <Cosmos />
     <a class="skip-link" href="#main">跳至正文</a>
+    {exploration && <VariantPicker />}
     <SiteHeader />
     <slot />
     <SiteFooter />

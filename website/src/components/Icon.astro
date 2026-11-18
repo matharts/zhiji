@@ -1,5 +1,5 @@
 ---
-type IconName = 'arrow-right' | 'arrow-left' | 'arrow-down' | 'arrow-up-right' | 'arrow-down-right' | 'chevron-down' | 'replay' | 'pause' | 'play';
+type IconName = 'arrow-right' | 'arrow-left' | 'arrow-down' | 'arrow-up-right' | 'arrow-down-right' | 'chevron-down' | 'menu' | 'close' | 'replay' | 'pause' | 'play';
 
 interface Props {
   name: IconName;
@@ -13,6 +13,8 @@ const paths: Record<IconName, string> = {
   'arrow-up-right': 'M6 18 18 6M8 6h10v10',
   'arrow-down-right': 'M6 6l12 12m0-10v10H8',
   'chevron-down': 'm6 9 6 6 6-6',
+  menu: 'M4 8h16M4 16h16',
+  close: 'm6 6 12 12M6 18 18 6',
   replay: 'M4 4v5h5M5 9a8 8 0 1 1 0 6',
   pause: 'M9 5v14m6-14v14',
   play: 'M8 5v14l11-7-11-7Z',

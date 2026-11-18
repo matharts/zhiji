@@ -1,0 +1,29 @@
+---
+import Icon from '../Icon.astro';
+import { chartExample } from '../../data/chart-example.ts';
+import { palaceStems, readingDecadeRanges } from '../../data/flight-example.ts';
+interface Props { kind: 'input' | 'chart' | 'annotation' | 'files' | 'settings'; }
+const { kind } = Astro.props;
+const cells = ['辰','卯','寅'].map(branch=>chartExample.cells.find(cell=>cell?.branch===branch));
+---
+{kind==='input' && <div class="input-visual" aria-label="日期取数流程示意">
+ <div class="source-choices"><span>公历</span><span>农历</span><span>干支反推</span></div>
+ <div class="input-connector"><span></span><Icon name="arrow-down" /><span></span></div>
+ <!-- 三种入口分别处理，避免把农历和干支反推误画成出生地校时。 -->
+ <div class="input-rule-columns"><div><span>出生地可选</span><strong>时区、经度与真太阳时</strong></div><div><span>农历生日</span><strong>平闰月与十二时辰</strong></div><div><span>查询候选</span><strong>固定北京时间</strong></div></div>
+ <div class="input-confirm"><Icon name="arrow-down" /><span>校验 · 选择候选 · 确认</span><Icon name="arrow-down" /></div>
+ <div class="parameter-result"><span>生年干支</span><span>月份</span><span>时辰</span><span>紫微位置</span></div>
+ <p class="visual-caption">公历取数可选填出生地校时；干支反推使用固定北京时间。图为流程示意。</p>
+</div>}
+{kind==='chart' && <div class="palace-detail" data-palace-view="full">
+ <div class="visual-bar"><span>宫位摘录 · 甲子年固定示例</span><fieldset data-detail-switch hidden><legend class="sr-only">示例显示内容</legend><label><input type="radio" name="detail-view" value="full" checked /><span>全部</span></label><label><input type="radio" name="detail-view" value="stars" /><span>星曜</span></label></fieldset></div>
+ <div class="palace-triptych">{cells.map(cell=>cell&&<div><header>{cell.palace}<span>{palaceStems[cell.branch]}{cell.branch}</span></header><strong>{cell.stars.map(star=><span>{star}</span>)}</strong><footer>大限 {readingDecadeRanges[cell.branch]?.join('–')} 岁</footer></div>)}</div>
+ <div class="detail-settings"><span>显示项目</span><span>单双列布局</span><span>盘面配色</span></div>
+</div>}
+{kind==='annotation' && <div class="annotation-visual">
+ <div class="visual-bar"><span>标注示意 · 甲子年命宫</span><button type="button" class="replay-marks" data-replay-marks hidden>重播 <Icon name="replay" /></button></div>
+ <div class="marking-chart annotation-crop"><span class="annotation-palace">命宫 <small>丙寅</small></span><strong>贪狼</strong><span class="annotation-age">大限 6–15 岁</span><div class="annotation-note">在盘上，记录观察。</div><svg viewBox="0 0 600 360" fill="none" aria-hidden="true"><ellipse cx="120" cy="150" rx="71" ry="40" transform="rotate(-9 120 150)" /><path d="M186 154C282 101 342 136 375 196M367 184l8 12-14-3"/></svg></div>
+ <div class="annotation-tools"><span>线条</span><span>箭头</span><span>形状</span><span>文字</span><span>撤销 / 重做</span></div>
+</div>}
+{kind==='files' && <div class="file-visual"><div class="file-origin"><span>当前盘面</span><strong>命盘 + 显示 + 标注</strong></div><div class="file-branches"><article><span class="file-extension">.ziwei</span><h4>继续编辑</h4><p>保存、另存为、打开最近</p></article><article><span class="file-extension">.png</span><h4>查看与分享</h4><p>导出图片或复制到剪贴板</p></article></div><div class="export-scales"><span>PNG 导出倍率</span><b>1×</b><b>2×</b><b>3×</b></div></div>}
+{kind==='settings' && <div class="settings-visual"><div><span>外观</span><strong>日间 / 夜晚</strong></div><div><span>界面与命盘</span><strong>简体 / 繁體</strong></div><div><span>布局</span><strong>单列 / 双列</strong></div><div><span>显示</span><strong>字号 · 配色 · 动效</strong></div><p class="visual-caption">在桌面应用设置中，调整你的工作环境。</p></div>}

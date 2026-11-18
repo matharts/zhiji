@@ -1,8 +1,47 @@
 import { fetchLatestRelease } from "./release.ts";
 import { isPlatform } from "./download-data.ts";
+import type { Platform } from "./download-data.ts";
 
 const status = document.querySelector<HTMLElement>("[data-release-status]");
 const containers = document.querySelectorAll<HTMLElement>("[data-platform]");
+const retry = document.querySelector<HTMLButtonElement>("[data-release-retry]");
+
+/** 深链接优先于设备提示；切换平台只改变当前展示，不自动发起下载。 */
+const picker = document.querySelector<HTMLElement>('[data-platform-picker]');
+if (picker) {
+    const buttons = [...picker.querySelectorAll<HTMLButtonElement>('[data-select-platform]')];
+    const fromHash = (): Platform | null => {
+        const value = window.location.hash.replace(/^#platform-/, '');
+        return isPlatform(value) ? value : null;
+    };
+    const userAgent = navigator.userAgent;
+    const detected: Platform = /Windows/i.test(userAgent) ? 'windows'
+        : /Linux/i.test(userAgent) && !/Android/i.test(userAgent) ? 'linux' : 'macos';
+    const selectPlatform = (platform: Platform, animate: boolean): void => {
+        buttons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.selectPlatform === platform)));
+        containers.forEach(container => {
+            container.hidden = container.dataset.platform !== platform;
+            // 只为用户切换的可见面板播放一次短过渡，减少动态效果时立即展示。
+            container.getAnimations().forEach(animation => animation.cancel());
+            if (!container.hidden && animate && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                container.animate([{opacity:.65,transform:'translateY(6px)'},{opacity:1,transform:'translateY(0)'}], {duration:240,easing:'cubic-bezier(.16,1,.3,1)'});
+            }
+        });
+    };
+    picker.hidden = false;
+    document.querySelector('.platform-grid')?.classList.add('is-filtered');
+    selectPlatform(fromHash() ?? detected, false);
+    buttons.forEach(button => button.addEventListener('click', () => {
+        const platform = button.dataset.selectPlatform;
+        if (!isPlatform(platform)) return;
+        selectPlatform(platform, true);
+        history.replaceState(null, '', `#platform-${platform}`);
+    }));
+    window.addEventListener('hashchange', () => {
+        const platform = fromHash();
+        if (platform) selectPlatform(platform, false);
+    });
+}
 
 /** 为各平台统一设置查询状态，必要时提供发布页回退链接。 */
 function setPlatformMessage(message: string, linkToReleases = false): void {
@@ -23,6 +62,7 @@ function setPlatformMessage(message: string, linkToReleases = false): void {
 
 /** 将发布查询结果渲染为分平台下载列表，未发布和失败均保留明确下一步。 */
 async function loadRelease(status: HTMLElement): Promise<void> {
+    if (retry) { retry.hidden = true; retry.disabled = true; }
     status.textContent = "正在查询最新版本…";
     setPlatformMessage("正在查询…");
     const release = await fetchLatestRelease();
@@ -34,6 +74,7 @@ async function loadRelease(status: HTMLElement): Promise<void> {
     if (release.state === "unavailable") {
         status.textContent = "暂时无法获取版本信息，请前往 GitHub 发布页查看。";
         setPlatformMessage("请查看 GitHub 发布页", true);
+        if (retry) { retry.hidden = false; retry.disabled = false; }
         return;
     }
     const groups = release.groups;
@@ -68,3 +109,4 @@ async function loadRelease(status: HTMLElement): Promise<void> {
 }
 
 if (status && containers.length) void loadRelease(status);
+retry?.addEventListener('click', () => { if (status && !retry.disabled) void loadRelease(status); });

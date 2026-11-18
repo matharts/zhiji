@@ -1,0 +1,17 @@
+---
+import { chartExample } from '../../data/chart-example.ts';
+import Icon from '../Icon.astro';
+interface Props { playback?: boolean; }
+const { playback = false } = Astro.props;
+---
+{playback && <button class="flight-play" type="button" data-flight-play aria-pressed="false" hidden><Icon name="play" class="flight-play-icon" /><Icon name="pause" class="flight-stop-icon" /><span data-flight-play-label>演示四化</span></button>}
+<p class="flight-origin-label">当前宫位</p>
+<h4 data-flight-origin>寅 · 命宫</h4><p class="flight-stem" data-flight-stem>宫干 丙</p>
+<fieldset class="flight-controls">
+ <legend>选择四化</legend>
+ {chartExample.transformations.map((item, index) => <label class="flight-choice">
+  <input type="radio" name="transformation" value={item.kind} checked={index === 0} disabled />
+  <span><b>{item.kind}</b><strong data-flight-star>{item.star}</strong><small data-flight-destination>{item.palace} · {item.branch}宫</small></span>
+ </label>)}
+</fieldset>
+<p class="flight-result" data-flight-result role="status" aria-live="polite">寅宫化禄，落入亥宫天同。</p>

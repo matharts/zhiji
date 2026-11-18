@@ -21,6 +21,11 @@ let replayMarks = () => {};
 let sceneRevision = 0;
 
 replayButton?.addEventListener("click", () => replayMarks());
+// 展厅切换后重测滚动触发位置，标注主题从完整笔迹重新播放。
+window.addEventListener("zhiji:panel-change", (event) => {
+    ScrollTrigger.refresh();
+    if (event instanceof CustomEvent && event.detail === "annotation") replayMarks();
+});
 
 /** 将发布状态同步到首页所有版本摘要，不把失败显示为已有安装包。 */
 async function updateReleaseSummary() {
@@ -51,26 +56,6 @@ function setupMotion() {
             duration: 0.85,
             stagger: 0.09,
             ease: "power3.out",
-        });
-        gsap.from(".overview-cell", {
-            y: 6,
-            opacity: 0.75,
-            duration: 0.6,
-            stagger: 0.035,
-            ease: "power2.out",
-            scrollTrigger: { trigger: ".overview-chart", start: "top 82%", once: true },
-        });
-        gsap.from(".reading-cell", {
-            y: 10,
-            opacity: 0.8,
-            stagger: 0.15,
-            ease: "none",
-            scrollTrigger: {
-                trigger: ".reading-visual",
-                start: "top 88%",
-                end: "bottom 68%",
-                scrub: 0.5,
-            },
         });
         const marks = document.querySelectorAll<SVGGeometryElement>(".marking-chart svg ellipse, .marking-chart svg path");
         const marksTimeline = gsap.timeline({ paused: true });

@@ -5,6 +5,7 @@ export interface Transformation { kind: TransformationKind; star: string; branch
 
 interface ChartExample {
     year: string;
+    parameters: { gender: string; month: number; hour: Branch; ziwei: Branch };
     origin: Branch;
     originStem: string;
     cells: (ChartCell | null)[];
@@ -15,6 +16,7 @@ interface ChartExample {
 // 此处保持固定参考值，不执行实时排盘计算。
 export const chartExample: ChartExample = {
     year: "甲子年",
+    parameters: { gender: "男", month: 1, hour: "子", ziwei: "辰" },
     origin: "寅",
     originStem: "丙",
     cells: [

@@ -1,0 +1,20 @@
+---
+import { chartExample } from '../../data/chart-example.ts';
+---
+        <div class="hero-art pointer-events-none absolute inset-0 overflow-hidden" data-hero-art aria-hidden="true">
+          <div class="hero-poster">
+            <div class="poster-chart">
+              {chartExample.cells.map((cell) => cell ? (
+                <div class:list={['poster-cell', { 'poster-cell-origin': cell.branch === chartExample.origin }]}>
+                  <span>{cell.palace} · {cell.branch}</span>
+                  <strong>{cell.stars.join('  ')}</strong>
+                </div>
+              ) : <div class="poster-void"></div>)}
+              <div class="poster-center">
+                <span>{chartExample.origin}宫飞化</span>
+                <div>{chartExample.transformations.map((item) => <span>{item.kind} <b>{item.star}</b></span>)}</div>
+              </div>
+            </div>
+          </div>
+          <canvas class="hero-canvas" data-hero-canvas></canvas>
+        </div>

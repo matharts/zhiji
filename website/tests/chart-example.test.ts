@@ -9,7 +9,7 @@ type TransformationCode = "A" | "B" | "C" | "D";
 interface ReferenceStar { name: string; inwardTransformation: TransformationCode | null; outwardTransformation: TransformationCode | null; }
 interface ReferencePalace { branch: Branch; stem: string; name: string; decadeRange: [number, number]; stars: ReferenceStar[]; }
 interface ReferenceCase {
-    input: { id: string; stem: string; branch: string };
+    input: { id: string; stem: string; branch: string; gender: string; month: number; hour: Branch; ziwei: Branch };
     expected: { mainBranch: Branch; palaces: ReferencePalace[]; flyingStarsByPalace: Record<Branch, string[]> };
 }
 interface Fixture { cases: ReferenceCase[]; reference: { transformationCodes: Record<TransformationCode, TransformationKind> }; }
@@ -51,6 +51,10 @@ test("website chart and flying transformations match the project reference case"
         `${example.input.stem}${example.input.branch}年`,
     );
     assert.equal(chartExample.origin, example.expected.mainBranch);
+    // 工作流展示的参数也来自独立参考样例，避免为视觉演示编造出生资料。
+    for (const key of ['gender', 'month', 'hour', 'ziwei'] as const) {
+        assert.equal(chartExample.parameters[key], example.input[key]);
+    }
 
     const palaces = new Map(
         example.expected.palaces.map((palace) => [palace.branch, palace]),

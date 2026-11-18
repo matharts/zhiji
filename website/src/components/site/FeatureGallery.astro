@@ -1,0 +1,17 @@
+---
+import ProductScenes from './ProductScenes.astro';
+import Icon from '../Icon.astro';
+const cards = [
+ {id:'input', name:'日期取数', text:'公历、农历与干支反推。以手边的资料开始一张命盘。', group:'chart', kind:'input', icon:'M5 5h14v15H5zM8 3v4m8-4v4M5 10h14m-10 4h2m2 0h2m-6 3h2'},
+ {id:'time', name:'出生地校时', text:'结合时区、经度和真太阳时，确认后回填排盘参数。', group:'chart', kind:'time', icon:'M12 3v2m0 14v2M3 12h2m14 0h2M5.6 5.6 7 7m10 10 1.4 1.4M5.6 18.4 7 17M17 7l1.4-1.4M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0'},
+ {id:'draft', name:'草稿文件', text:'保存命盘、显示与标注。打开最近的草稿，继续推敲。', group:'record', kind:'files', icon:'M6 3h8l4 4v14H6zM14 3v5h4M9 13h6m-6 4h6'},
+ {id:'export', name:'图片导出', text:'以 1×、2×、3× 导出 PNG，或直接复制盘面图片。', group:'record', kind:'export', icon:'M4 4h16v16H4zM4 16l5-5 4 4 3-3 4 4M9 8h.01'},
+ {id:'workspace', name:'外观与布局', text:'日间、夜晚，单列、双列。按你的习惯整理工作区。', group:'desktop', kind:'appearance', icon:'M3 5h18v14H3zM3 9h18m-6 0v10'},
+ {id:'shortcuts', name:'键盘快捷键', text:'新建、保存、撤销。熟悉的桌面动作，随手就能完成。', group:'desktop', kind:'keyboard', icon:'M9 9h6v6H9zM9 9H6a3 3 0 1 1 3-3v3Zm6 0V6a3 3 0 1 1 3 3h-3Zm0 6h3a3 3 0 1 1-3 3v-3Zm-6 0v3a3 3 0 1 1-3-3h3Z'},
+] as const;
+---
+<section class="ray-gallery wrap" id="tools" aria-labelledby="tools-title" data-gallery>
+ <div class="ray-section-head"><div><h2 id="tools-title">从起盘到记录，都有顺手的工具。</h2><p>把需要的能力，放在同一个工作区。</p></div><div class="ray-tabs" role="group" aria-label="筛选功能" data-gallery-filters hidden>{[{id:'all',label:'全部'},{id:'chart',label:'排盘'},{id:'record',label:'记录'},{id:'desktop',label:'桌面'}].map((item,index)=><button type="button" data-gallery-filter={item.id} aria-pressed={index===0}>{item.label}</button>)}</div></div>
+ <div class="ray-card-track" data-gallery-track role="region" tabindex="0" aria-label="功能卡片，可横向滚动">{cards.map(card=><article class:list={['ray-feature-card',`ray-card-${card.kind}`]} data-gallery-group={card.group}><header><span class="ray-app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d={card.icon}/></svg></span><h3>{card.name}</h3><a href={card.id==='shortcuts'?'/guide/#shortcuts':`/features/#${card.id==='time'?'input':card.id}`} aria-label={`了解${card.name}`}><Icon name="arrow-right" /></a></header><p>{card.text}</p><div class="ray-card-art"><ProductScenes kind={card.kind} /></div></article>)}</div>
+ <div class="ray-gallery-footer"><a href="/features/">浏览全部功能 <Icon name="arrow-right" /></a><div class="gallery-position" data-gallery-arrows hidden><span class="gallery-count" data-gallery-count aria-hidden="true"></span><div class="gallery-buttons"><button type="button" data-gallery-prev aria-label="上一组功能"><Icon name="arrow-left" /></button><button type="button" data-gallery-next aria-label="下一组功能"><Icon name="arrow-right" /></button></div></div></div>
+</section>

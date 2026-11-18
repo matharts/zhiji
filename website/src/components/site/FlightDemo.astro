@@ -1,0 +1,29 @@
+---
+import { chartExample } from '../../data/chart-example.ts';
+import { palaceStems } from '../../data/flight-example.ts';
+import FlightControls from './FlightControls.astro';
+interface Props { playback?: boolean; }
+const { playback = false } = Astro.props;
+---
+        <div class="flight-module" data-flight-demo>
+          <div class="flight-title"><h3>试一试飞宫</h3><p>{chartExample.year}固定示例 · 选择宫位与四化</p></div>
+          <div class="flight-layout grid items-center gap-8 min-[701px]:grid-cols-[minmax(0,1.35fr)_minmax(240px,0.65fr)] lg:gap-16">
+            <div class="flight-chart relative grid aspect-square w-full grid-cols-4 grid-rows-4" role="group" aria-label="十二宫示例，选择宫位查看飞化">
+              {chartExample.cells.map((cell) => cell ? (
+                <button type="button" class:list={['flight-cell', { 'is-target': cell.branch === '亥' }]} data-palace={cell.branch} aria-pressed={cell.branch === chartExample.origin ? 'true' : 'false'} aria-label={`${cell.palace}，${palaceStems[cell.branch]}${cell.branch}宫`} disabled>
+                  <span>{cell.palace}<small>{palaceStems[cell.branch]}{cell.branch}</small></span>
+                  <strong>{cell.stars.map((star) => <span class="chart-star">{star}</span>)}</strong>
+                </button>
+              ) : <span class="flight-void" aria-hidden="true"></span>)}
+              <div class="flight-center" aria-hidden="true"><span>紫微斗数</span><strong>甲子</strong><small>固定示例</small></div>
+              <svg class="flight-overlay" viewBox="0 0 400 400" fill="none" aria-hidden="true">
+                <defs><marker id="flight-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="currentColor" stroke-width="1.5" /></marker></defs>
+                <path data-flight-path pathLength="1" d="M92 308 Q200 288 308 308" marker-end="url(#flight-arrow)" />
+              </svg>
+              <slot name="chart-overlay" />
+            </div>
+            <div class="flight-aside">
+              <slot name="inspector"><FlightControls playback={playback} /></slot>
+            </div>
+          </div>
+        </div>

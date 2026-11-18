@@ -1,0 +1,49 @@
+---
+import FlightDemo from './FlightDemo.astro';
+import FlightControls from './FlightControls.astro';
+import Icon from '../Icon.astro';
+import { chartExample } from '../../data/chart-example.ts';
+const steps = [
+ {id:'input',name:'确认参数',guide:'start'},
+ {id:'flight',name:'观察飞化',guide:'view'},
+ {id:'annotation',name:'盘面标注',guide:'annotate'},
+ {id:'save',name:'保存与导出',guide:'save'},
+];
+// 首次渲染也圈注默认四化的落宫，不依赖脚本事件已经绑定。
+const destinationIndex = chartExample.cells.findIndex(cell => cell?.branch === chartExample.transformations[0]?.branch);
+const annotationX = (destinationIndex % 4) * 100 + 50;
+const annotationY = Math.floor(destinationIndex / 4) * 100 + 50;
+---
+<section class="workspace-story wrap" aria-labelledby="workspace-title" data-workspace data-step="input">
+ <div class="workspace-heading" id="workspace"><div><h2 id="workspace-title">一张命盘，<br />贯穿整个工作过程。</h2><p>确认参数、观察四化、记下判断，再留存这次工作。</p></div><a class="text-link" href="/guide/">查看使用指南 <Icon name="arrow-up-right" /></a></div>
+ <div class="workspace-window" id="exhibit-flight" data-stage-reveal>
+  <header class="workspace-titlebar"><span>知几 <span class="workspace-document">甲子年参考盘</span></span><span>工作区示意</span></header>
+  <div class="workspace-steps" role="group" aria-label="查看完整工作流程">{steps.map((step,index)=><button type="button" data-workspace-step={step.id} data-guide={step.guide} aria-pressed={index===0} aria-controls={`workspace-panel-${step.id}`} disabled id={step.id==='annotation'?'annotation':step.id==='save'?'save-and-export':undefined}><span aria-hidden="true">{index+1}</span>{step.name}</button>)}</div>
+  <FlightDemo>
+   <Fragment slot="chart-overlay">
+    <svg class="workspace-ink" viewBox="0 0 400 400" fill="none" aria-hidden="true"><ellipse data-workspace-mark="circle" cx={annotationX} cy={annotationY} rx="37" ry="17"/><path data-workspace-mark="line" d={`M${annotationX + (annotationX < 200 ? 40 : -40)} ${annotationY - 15} Q200 220 265 245m-12-6 12 6-12 8`} /></svg>
+    <span class="workspace-note" data-workspace-mark="text">观察四化落点</span>
+   </Fragment>
+   <Fragment slot="inspector">
+    <section class="workspace-panel" id="workspace-panel-input" data-workspace-panel="input" aria-labelledby="workspace-input-title">
+     <h3 id="workspace-input-title">从确认后的参数开始。</h3>
+     <dl class="workspace-parameters"><div><dt>生年</dt><dd>{chartExample.year}</dd></div><div><dt>性别</dt><dd>{chartExample.parameters.gender}</dd></div><div><dt>月份</dt><dd>{chartExample.parameters.month} 月</dd></div><div><dt>时辰</dt><dd>{chartExample.parameters.hour}时</dd></div><div><dt>紫微位置</dt><dd>{chartExample.parameters.ziwei}宫</dd></div><div><dt>命宫</dt><dd>{chartExample.origin}宫</dd></div></dl>
+     <p>日期取数确认后，一次性回填排盘参数；之后仍可手动调整。</p><small>此处使用固定参数参考盘，不执行日期换算。</small>
+    </section>
+    <section class="workspace-panel" id="workspace-panel-flight" data-workspace-panel="flight" hidden aria-label="飞宫四化操作"><FlightControls playback /></section>
+    <section class="workspace-panel" id="workspace-panel-annotation" data-workspace-panel="annotation" hidden aria-labelledby="workspace-annotation-title">
+     <h3 id="workspace-annotation-title">接着刚才的落点，<br />留下观察。</h3><p data-workspace-observation>寅宫化禄，落入亥宫天同。</p>
+     <div class="workspace-mark-tools" role="group" aria-label="预览盘面标注">{[{id:'circle',label:'圈注'},{id:'line',label:'连线'},{id:'text',label:'文字'}].map(mark=><button type="button" data-workspace-toggle={mark.id} aria-pressed="true" disabled>{mark.label}</button>)}</div>
+     <p>标注与命盘保留在同一工作区，支持移动、调整、撤销与重做。</p><small>点击工具切换固定标注示意。</small>
+    </section>
+    <section class="workspace-panel" id="workspace-panel-save" data-workspace-panel="save" hidden aria-labelledby="workspace-save-title">
+     <h3 id="workspace-save-title">这次工作，<br />有两种留存方式。</h3>
+     <div class="workspace-output"><span>.ziwei</span><div><strong>继续编辑</strong><p>命盘参数、显示状态与标注。</p></div></div>
+     <div class="workspace-output"><span>PNG</span><div><strong>查看与分享</strong><p>图片包含输出时可见的标注。</p></div></div>
+     <fieldset class="workspace-scales"><legend>导出倍率示意</legend>{[1,2,3].map(scale=><button type="button" data-workspace-scale={scale} aria-pressed={scale===2} disabled>{scale}×</button>)}</fieldset><small data-workspace-output-status role="status">2× 图片示意 · 复制图片固定使用 2×</small>
+    </section>
+   </Fragment>
+  </FlightDemo>
+  <footer class="workspace-footer"><span>固定参考盘 · 操作与输出示意</span><a href="/guide/#start" data-workspace-guide>查看这一步的操作 <Icon name="arrow-up-right" /></a></footer>
+ </div>
+</section>
