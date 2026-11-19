@@ -22,4 +22,24 @@ fn bundled_artwork_decodes_with_transparency() {
     let art = Artwork::load(std::sync::Arc::new(|| {})).unwrap();
     assert_eq!(art.logo.size(), Some([1024, 1024]));
     assert_eq!(art.haze.size(), Some([384, 384]));
+    assert_eq!(art.star.size(), Some([64, 64]));
+}
+
+#[test]
+/// 验证亮星离开图标后原处没有第二个亮点，裁出的贴图边缘保持透明。
+fn split_star_detaches_core_without_changing_surroundings() {
+    let width = 128;
+    let side = 8;
+    let [x, y] = LOGO_STAR.map(|p| (p * width as f32).round() as usize);
+    let mut pixels = [68, 18, 100, 255].repeat(width * width);
+    let center = (y * width + x) * 4;
+    pixels[center..center + 4].fill(255);
+
+    let star = split_star(&mut pixels, width, width, side);
+    let patch_center = (side / 2 * side + side / 2) * 4;
+
+    assert_eq!(&pixels[center..center + 4], &[68, 18, 100, 255]);
+    assert_eq!(&pixels[..4], &[68, 18, 100, 255]);
+    assert_eq!(&star[patch_center..patch_center + 4], &[255; 4]);
+    assert_eq!(star[3], 0);
 }

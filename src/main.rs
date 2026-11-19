@@ -98,19 +98,22 @@ fn window_spec() -> AppSpec<AppState> {
             }),
             ("update-error", |state| scenes::update_preview(state, true)),
             ("launch-stars", |s| {
-                s.launch = app::launch::Launch::fixture(1.25)
+                s.launch = app::launch::Launch::fixture(0.50)
             }),
-            ("launch-lights", |s| {
-                s.launch = app::launch::Launch::fixture(2.7)
+            ("launch-polarity", |s| {
+                s.launch = app::launch::Launch::fixture(2.96)
+            }),
+            ("launch-logo-transition", |s| {
+                s.launch = app::launch::Launch::fixture(3.68)
             }),
             ("launch-logo", |s| {
-                s.launch = app::launch::Launch::fixture(4.8)
+                s.launch = app::launch::Launch::fixture(4.4)
             }),
             ("launch-grid", |s| {
-                s.launch = app::launch::Launch::fixture(6.35)
+                s.launch = app::launch::Launch::fixture(5.95)
             }),
             ("launch-landing", |s| {
-                s.launch = app::launch::Launch::fixture(7.8)
+                s.launch = app::launch::Launch::fixture(7.4)
             }),
         ],
         ..AppSpec::new("知几", WINDOW_SIZE, AppState::default, app::view::render)

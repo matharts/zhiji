@@ -1,11 +1,19 @@
 //! 在 UI 线程外一次性生成图标和星云纹理，避免逐帧解码。
+use super::opening::Opening;
+use super::paint::{ease, mix};
 use rune::{Image, ImageCache, Waker};
 use std::io::Cursor;
 
+// 应用图标中亮星的位置和独立贴图的宽度，以图标边长归一化。
+pub(super) const LOGO_STAR: [f32; 2] = [568.0 / 1024.0, 444.0 / 1024.0];
+pub(super) const STAR_FRACTION: f32 = 1.0 / 16.0;
+
 pub(super) struct Artwork {
     pub logo: Image,
+    pub star: Image,
     pub haze: Image,
     pub glow: Image,
+    pub opening: Opening,
 }
 
 impl Artwork {
@@ -25,14 +33,66 @@ impl Artwork {
         }
         pixels.truncate(info.buffer_size());
         remove_background(&mut pixels, info.width as usize, info.height as usize);
+        let star_side = (info.width as f32 * STAR_FRACTION) as u32;
+        let star = cache.rgba(
+            star_side,
+            star_side,
+            split_star(
+                &mut pixels,
+                info.width as usize,
+                info.height as usize,
+                star_side as usize,
+            ),
+        );
         let logo = cache.rgba(info.width, info.height, pixels);
         let haze = cache.rgba(384, 384, texture(384, false));
         let glow = cache.rgba(128, 128, texture(128, true));
-        for image in [&logo, &haze, &glow] {
+        let opening = Opening::new();
+        for image in [&logo, &star, &haze, &glow] {
             image.wait().map_err(|error| error.to_string())?;
         }
-        Ok(Self { logo, haze, glow })
+        Ok(Self {
+            logo,
+            star,
+            haze,
+            glow,
+            opening,
+        })
     }
+}
+
+/// 将图标内的亮星裁成软边贴图，用周边底色补全图标副本，可独立移动亮星。
+fn split_star(pixels: &mut [u8], width: usize, height: usize, side: usize) -> Vec<u8> {
+    let x = (LOGO_STAR[0] * width as f32).round() as usize;
+    let y = (LOGO_STAR[1] * height as f32).round() as usize;
+    let half = side / 2;
+    let rim = [
+        (y * width + x - half) * 4,
+        (y * width + x + half - 1) * 4,
+        ((y - half) * width + x) * 4,
+        ((y + half - 1) * width + x) * 4,
+    ];
+    let surround: [f32; 3] = std::array::from_fn(|channel| {
+        rim.iter()
+            .map(|i| f32::from(pixels[i + channel]))
+            .sum::<f32>()
+            / 4.0
+    });
+    let radius = side as f32 / 2.0;
+    let mut star = Vec::with_capacity(side * side * 4);
+    for row in 0..side {
+        for col in 0..side {
+            let i = ((y - half + row) * width + x - half + col) * 4;
+            let distance = (col as f32 + 0.5 - radius).hypot(row as f32 + 0.5 - radius);
+            let mask = 1.0 - ease(distance, radius * 0.44, radius);
+            star.extend_from_slice(&pixels[i..i + 3]);
+            star.push((f32::from(pixels[i + 3]) * mask).round() as u8);
+            for (channel, fill) in surround.into_iter().enumerate() {
+                pixels[i + channel] = mix(f32::from(pixels[i + channel]), fill, mask).round() as u8;
+            }
+        }
+    }
+    star
 }
 
 /// 仅移除与边缘连通的近白背景和透明区域，保留图标内部星体。

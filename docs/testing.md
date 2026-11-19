@@ -199,5 +199,5 @@ macOS 的 `valid_mac_archive_replaces_and_restarts_an_isolated_bundle` 在临时
 ## 首次启动验收
 设置 → 关于 → 重播开场动画：验证连续重播、按钮跳过和 Escape 返回原设置页，命盘与首次运行记录保持；减少动态效果时按钮禁用。动画中调整窗口尺寸，检查跳过按钮仍可见且十二宫最终对齐当前命盘。
 重播入口新增时，仅更新 `settings-about-1x.png` 的按钮与卡片延伸区域（`x=745..1281, y=205..262`）；已审阅新旧截图，区域外像素逐字节保持不变，比较容差不变。
-`visual-test` 构建提供 `launch-stars`、`launch-lights`、`launch-logo`、`launch-grid`、`launch-landing` 固定关键帧和 `launch-play` 完整播放场景。例如 `cargo run --features visual-test -- --scene launch-logo --snap /tmp/launch-logo.png --at 0 --size 1300x800 --scale 1`。这些场景不写首次运行记录；普通离屏命盘样例始终绕过开场。
+`visual-test` 构建提供 `launch-stars`（混沌）、`launch-polarity`（阴阳）、`launch-logo-transition`（阴阳收束至图标）、`launch-logo`、`launch-grid`、`launch-landing` 固定关键帧和 `launch-play` 完整播放场景。例如 `cargo run --features visual-test -- --scene launch-polarity --snap /tmp/launch-polarity.png --at 0 --size 1300x800 --scale 1`。这些场景不写首次运行记录；普通离屏命盘样例始终绕过开场。
 原生首次运行用独立的 `ZHIJI_CONFIG_DIR` 验证：首次启动显示动画，完成/跳过/Escape/关闭后生成 `first-launch-v1.done`，第二次启动直达工作区；减少动态效果时直接进入工作区；动画中菜单不得修改命盘，结束后恢复交互。不要删除真实用户配置来测试首次安装。

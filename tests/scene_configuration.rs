@@ -19,7 +19,8 @@ fn registered_scenes_match_build_configuration() {
                 "update-available",
                 "update-error",
                 "launch-stars",
-                "launch-lights",
+                "launch-polarity",
+                "launch-logo-transition",
                 "launch-logo",
                 "launch-grid",
                 "launch-landing"

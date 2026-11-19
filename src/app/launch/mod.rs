@@ -1,5 +1,6 @@
 //! 首次启动呈现，其时间轴和完成标记独立于用户偏好。
 mod artwork;
+mod opening;
 mod paint;
 
 use std::cell::Cell;
@@ -11,7 +12,7 @@ use std::time::Duration;
 use super::AppState;
 use rune::{Cx, El, Tx, Waker};
 
-pub(crate) const DURATION: f32 = 8.2;
+pub(crate) const DURATION: f32 = 7.8;
 
 #[derive(Default)]
 pub(crate) struct Launch {
