@@ -377,7 +377,6 @@ mod tests {
         assert_eq!(t("保存草稿"), "儲存草稿");
         assert_eq!(t("导出图片"), "匯出圖片");
         assert_eq!(t("默认取数方式"), "預設取數方式");
-        assert_eq!(t("打开最近"), "開啟最近");
         assert_eq!(t("窗口"), "視窗");
         assert_eq!(t("帮助"), "說明");
         assert_eq!(t("撤销标记"), "復原標記");

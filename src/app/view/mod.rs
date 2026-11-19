@@ -434,9 +434,6 @@ pub(crate) fn render(state: &AppState, cx: &mut Cx<AppState>) -> El {
     if let Some(dialog) = crate::app::help::overlay(state, cx) {
         root = root.child(dialog);
     }
-    if let Some(dialog) = crate::app::files::recent_dialog(state) {
-        root = root.child(dialog);
-    }
     if let Some(dialog) = crate::app::files::unsaved_dialog(state) {
         root = root.child(dialog);
     }

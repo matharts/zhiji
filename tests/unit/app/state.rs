@@ -1298,7 +1298,7 @@ fn external_open_loads_a_document_and_cancel_preserves_current_edits() {
 }
 
 #[test]
-/// 新建草稿先处理未保存修改，并保留全局显示偏好及最近文件记录。
+/// 新建草稿先处理未保存修改，并保留全局显示偏好。
 fn new_draft_requires_a_choice_and_preserves_workspace_preferences() {
     let directory = tempfile::tempdir().unwrap();
     let path = directory.path().join("当前.ziwei");
@@ -1334,7 +1334,7 @@ fn new_draft_requires_a_choice_and_preserves_workspace_preferences() {
     assert_eq!(runtime.state.session().display(), &display);
     assert!(runtime.state.workspace.late_zi_next());
     assert!(runtime.state.workspace.pillar_day_start_zi());
-    assert!(runtime.state.document.recent().contains(&path));
+    assert!(path.is_file());
     assert_eq!(runtime.state.document_label(), "知几");
 }
 
@@ -1361,35 +1361,6 @@ fn new_draft_shortcut_waits_for_the_unsaved_decision() {
     );
     runtime.update(|state, tx| state.resolve_unsaved(crate::app::files::UnsavedChoice::Cancel, tx));
     assert_eq!(runtime.state.session().input().gender, Gender::Female);
-}
-
-#[test]
-/// 最近文件较多时在小窗口中滚动，不把关闭按钮或首项挤出视口。
-fn recent_file_dialog_fits_small_windows_with_a_long_list() {
-    let directory = tempfile::tempdir().unwrap();
-    let recent_path = directory.path().join("recent-files.json");
-    let paths: Vec<_> = (0..10)
-        .map(|index| directory.path().join(format!("命盘{index}.ziwei")))
-        .collect();
-    std::fs::write(&recent_path, serde_json::to_vec(&paths).unwrap()).unwrap();
-    for scale in [1.0, 1.25] {
-        let mut runtime = document_runtime();
-        runtime.set_viewport((900.0, 600.0), scale);
-        runtime
-            .state
-            .document
-            .configure_recent(Some(recent_path.clone()));
-        runtime.update(AppState::show_recent);
-        runtime.frame(0.0);
-
-        for key in ["recent-file-0", "recent-clear", "recent-close"] {
-            let ([left, top, width, height], _) = runtime.presented(key).unwrap();
-            assert!(
-                left >= 0.0 && top >= 0.0 && left + width <= 900.0 && top + height <= 600.0,
-                "{key} 在 {scale} 倍字号下超出小窗口"
-            );
-        }
-    }
 }
 
 #[test]

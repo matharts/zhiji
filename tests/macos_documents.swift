@@ -114,12 +114,6 @@ struct DocumentCheck {
             throw CheckFailure("冲突另存为未完成：文件 \(files)，窗口 \(titles)，反馈 \(alerts)")
         }
         guard try Data(contentsOf: second) == Data("external".utf8) else { throw CheckFailure("另存为破坏了外部文件") }
-        try pressMenu(application, title: "打开最近…")
-        try waitFor("最近文件") { find(application, identifier: "recent-file-2") != nil }
-        try assertMainWindowFrame(application, frame, "最近文件菜单")
-        try press(application, identifier: "recent-file-2")
-        try waitFor("从最近文件打开") { titleContains(application, first.lastPathComponent) }
-        try assertMainWindowFrame(application, frame, "最近文件打开完成")
         try key(application, 0x0d, flags: .maskCommand)
         try waitFor("关闭后保留会话") {
             (attribute(application, kAXWindowsAttribute) as? [AXUIElement] ?? []).isEmpty && process.isRunning
@@ -135,7 +129,7 @@ struct DocumentCheck {
         try waitFor("重开后键盘前台") {
             NSWorkspace.shared.frontmostApplication?.processIdentifier == process.processIdentifier
         }
-        try press(application, identifier: "gender-1")
+        try press(application, identifier: "gender-0")
         try waitFor("重开后文档已修改") { titleContains(application, "•") }
         try key(application, 0x0c, flags: .maskCommand)
         try waitFor("退出保存提示") { find(application, identifier: "document-cancel") != nil }
@@ -149,9 +143,12 @@ struct DocumentCheck {
         try waitFor("再次退出提示") { find(application, identifier: "document-save") != nil }
         try press(application, identifier: "document-save")
         try waitFor("保存后退出") { !process.isRunning }
-        let saved = try JSONSerialization.jsonObject(with: Data(contentsOf: first)) as? [String: Any]
-        guard (saved?["input"] as? [String: Any])?["female"] as? Bool == true else { throw CheckFailure("退出前没有保存最后修改") }
-        print("PASS: 启动恢复及移动缩放后，设置、帮助、打开、保存、重复保存、另存为、导出、最近文件和 Dock 重开保持窗口矩形；文件冲突、取消及保存后退出正常")
+        let saved = try JSONSerialization.jsonObject(with: Data(contentsOf: third)) as? [String: Any]
+        guard (saved?["input"] as? [String: Any])?["female"] as? Bool == false else { throw CheckFailure("退出前没有保存最后修改") }
+        guard !FileManager.default.fileExists(atPath: directory.appendingPathComponent("recent-files.json").path) else {
+            throw CheckFailure("保存草稿后仍写入最近文件记录")
+        }
+        print("PASS: 启动恢复及移动缩放后，设置、帮助、打开、保存、重复保存、另存为、导出和 Dock 重开保持窗口矩形；文件冲突、取消及保存后退出正常")
     }
 }
 

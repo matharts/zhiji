@@ -10,7 +10,6 @@ pub(super) struct MenuState {
     export_available: bool,
     two_columns: bool,
     has_path: bool,
-    has_recent: bool,
     chinese_variant: crate::i18n::ChineseVariant,
 }
 
@@ -33,7 +32,6 @@ impl MenuState {
                 && !state.tasks.export.is_busy(),
             two_columns: state.workspace.layout().two_columns,
             has_path: state.document.path().is_some(),
-            has_recent: !state.document.recent().is_empty(),
             chinese_variant: state.workspace.chinese_variant(),
         }
     }
@@ -101,14 +99,6 @@ impl MenuState {
                 AppState::menu_save_as,
             )
             .enabled(self.files_available),
-            item(
-                "recent",
-                "打开最近…",
-                Some("文件"),
-                None,
-                AppState::show_recent,
-            )
-            .enabled(self.files_available && self.has_recent),
             MenuItem::separator().menu(crate::i18n::t("文件")),
             item(
                 "export",

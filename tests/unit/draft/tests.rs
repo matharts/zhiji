@@ -442,24 +442,19 @@ fn saving_again_uses_the_current_path_and_detects_external_changes() {
 }
 
 #[test]
-/// 验证成功路径记入最近文件，保存快照不清除新编辑。
-fn successful_files_are_recent_and_saved_snapshot_does_not_clear_new_edits() {
+/// 保存成功更新路径，且保存快照不清除之后的新编辑。
+fn saved_snapshot_does_not_clear_new_edits() {
     let dir = tempfile::tempdir().unwrap();
     let path = dir.path().join("saved.ziwei");
-    let recent = dir.path().join("recent.json");
     let mut workspace = Workspace::with_input(Default::default());
     let mut store = DraftState::default();
-    store.configure_recent(Some(recent.clone()));
     store.mark_clean(workspace.draft_snapshot());
     assert!(store.begin_save(workspace.capture_draft()));
     store.save_answer(Ok(Some(path.clone())), None);
     workspace.apply(Action::Toggle(Visibility::Palace));
     wait(&mut store);
     assert!(store.is_modified(&workspace));
-    assert_eq!(store.recent(), std::slice::from_ref(&path));
-    let mut reloaded = DraftState::default();
-    reloaded.configure_recent(Some(recent));
-    assert_eq!(reloaded.recent(), std::slice::from_ref(&path));
+    assert_eq!(store.path(), Some(path.as_path()));
     assert!(store.begin_save(workspace.capture_draft()));
     store.save_answer(Ok(None), None);
     assert_eq!(store.path(), Some(path.as_path()));
@@ -496,7 +491,6 @@ fn deleted_current_file_requires_confirmation_and_save_as_adopts_only_successful
     store.save_answer(Ok(Some(new.clone())), None);
     wait(&mut store);
     assert_eq!(store.path(), Some(new.as_path()));
-    assert_eq!(store.recent(), &[new, old]);
 }
 
 #[cfg(unix)]

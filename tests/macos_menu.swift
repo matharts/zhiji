@@ -30,6 +30,7 @@ struct MenuCheck {
         for title in ["编辑", "视图", "窗口", "帮助", "关于知几", "设置…", "新建草稿", "打开草稿…", "保存草稿…", "导出图片…", "退出知几"] {
             guard find(app, title: title) != nil else { throw Failure("缺少菜单：\(title)") }
         }
+        guard find(app, title: "打开最近…") == nil else { throw Failure("文件菜单仍显示打开最近") }
         try press(app, title: "双列布局")
         try wait("菜单状态更新") { process.isRunning && marked(app, title: "双列布局") }
         try press(app, title: "单列布局")

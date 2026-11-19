@@ -240,7 +240,7 @@ impl AppState {
         tx.instant();
     }
 
-    /// 安装应用句柄、读取偏好和最近文件，并按运行模式准备首次启动流程。
+    /// 安装应用句柄、读取偏好，并按运行模式准备首次启动流程。
     pub(crate) fn with_handle(handle: rune::AppHandle<Self>, headless: bool) -> Self {
         let mut state = Self {
             app_handle: Some(handle),
@@ -248,12 +248,6 @@ impl AppState {
         };
         state.preferences_path = crate::preferences::settings::path();
         state.load_preferences();
-        state.document.configure_recent(
-            state
-                .preferences_path
-                .as_ref()
-                .map(|p| p.with_file_name("recent-files.json")),
-        );
         state.document.mark_clean(state.workspace.draft_snapshot());
         if !headless {
             crate::diagnostics::enable();
@@ -721,7 +715,6 @@ impl crate::workspace::view::WorkspaceHost for AppState {
 
 /// 安装平台退出回调、后台唤醒和图像资源，不改变文档内容。
 pub(crate) fn setup(state: &mut AppState, wake: Waker) {
-    state.document.set_waker(wake.clone());
     #[cfg(target_os = "macos")]
     if let Some(handle) = state.app_handle.clone()
         && let Err(error) = crate::platform::macos::install_quit_handler(move || {

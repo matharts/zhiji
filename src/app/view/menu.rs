@@ -42,12 +42,6 @@ pub(crate) fn more(state: &AppState) -> Option<El> {
                 AppState::request_open_draft,
             ))
             .child(entry(
-                "draft-recent",
-                t("打开最近…"),
-                files_enabled && !state.document.recent().is_empty(),
-                AppState::show_recent,
-            ))
-            .child(entry(
                 "draft-save",
                 save_title,
                 files_enabled,

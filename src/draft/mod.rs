@@ -12,7 +12,6 @@ use crate::workspace::{DraftSnapshot, RestoredWorkspace};
 
 mod document;
 mod file;
-mod recent;
 
 use document::Draft;
 pub(crate) use file::OpenedDraft;
@@ -51,7 +50,6 @@ pub(crate) enum Confirmation<'a> {
 pub(crate) struct DraftState {
     pending: Option<Pending>,
     path: Option<PathBuf>,
-    recent: recent::Recent,
     fingerprint: Option<blake3::Hash>,
     baseline: Option<DraftSnapshot>,
     saving_snapshot: Option<DraftSnapshot>,
@@ -60,23 +58,6 @@ pub(crate) struct DraftState {
 }
 
 impl DraftState {
-    /// 为最近文件的后台持久化安装窗口唤醒器。
-    pub(crate) fn set_waker(&mut self, wake: Waker) {
-        self.recent.set_waker(wake);
-    }
-    /// 从指定配置文件加载最近路径列表。
-    pub(crate) fn configure_recent(&mut self, storage: Option<PathBuf>) {
-        self.recent = recent::Recent::load(storage);
-    }
-    /// 按最近使用顺序借用路径。
-    pub(crate) fn recent(&self) -> &[PathBuf] {
-        self.recent.paths()
-    }
-    /// 清空最近文件列表，不删除文件本身。
-    pub(crate) fn clear_recent(&mut self) {
-        self.recent.clear();
-    }
-
     /// 返回最后成功打开或保存的文档路径。
     pub(crate) fn path(&self) -> Option<&Path> {
         self.path.as_deref()
@@ -138,11 +119,10 @@ impl DraftState {
         Some(*draft)
     }
 
-    /// 接受已校验文档，更新路径、指纹、最近文件和保存基线。
+    /// 接受已校验文档，更新路径、指纹和保存基线。
     pub(crate) fn accept_opened(&mut self, draft: OpenedDraft) -> RestoredWorkspace {
         let (workspace, path, fingerprint) = draft.into_parts();
         self.baseline = Some(workspace.snapshot());
-        self.recent.record(path.clone());
         self.path = Some(path);
         self.fingerprint = Some(fingerprint);
         self.set_feedback(true, "草稿已打开".into());
@@ -207,9 +187,9 @@ impl DraftState {
     pub(crate) fn is_busy(&self) -> bool {
         self.pending.is_some()
     }
-    /// 判断草稿或最近文件是否仍有后台工作。
+    /// 判断草稿是否仍有后台读写任务。
     pub(crate) fn is_working(&self) -> bool {
-        self.recent.is_working() || matches!(self.pending, Some(Pending::Working(..)))
+        matches!(self.pending, Some(Pending::Working(..)))
     }
     /// 仅在草稿写入线程运行时为真，不包含等待覆盖确认。
     pub(crate) fn is_saving(&self) -> bool {
@@ -227,9 +207,6 @@ impl DraftState {
         work: impl FnOnce() -> Result<WorkOutcome, String> + Send + 'static,
     ) {
         let (sender, receiver) = mpsc::channel();
-        if let Some(wake) = &wake {
-            self.recent.set_waker(wake.clone());
-        }
         let wake = wake.unwrap_or_else(|| Arc::new(|| {}));
         match std::thread::Builder::new()
             .name("chart-draft".into())
@@ -245,20 +222,18 @@ impl DraftState {
     }
     /// 轮询后台结果；仅成功保存对应的冻结快照成为新基线，不清除之后的新编辑。
     pub(crate) fn poll(&mut self) -> bool {
-        let recent_changed = self.recent.poll();
         let Some(Pending::Working(_, receiver)) = &self.pending else {
-            return recent_changed;
+            return false;
         };
         let result = match receiver.try_recv() {
             Ok(result) => result,
-            Err(mpsc::TryRecvError::Empty) => return recent_changed,
+            Err(mpsc::TryRecvError::Empty) => return false,
             Err(mpsc::TryRecvError::Disconnected) => Err("草稿处理任务已中断".into()),
         };
         let was_save = self.is_saving();
         self.pending = None;
         match result {
             Ok(WorkOutcome::Saved { path, fingerprint }) => {
-                self.recent.record(path.clone());
                 self.path = Some(path);
                 self.fingerprint = Some(fingerprint);
                 if let Some(snapshot) = self.saving_snapshot.take() {
