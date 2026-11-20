@@ -370,11 +370,14 @@ fn update_restart_can_be_cancelled_without_losing_the_document() {
 /// 更新重启时保存失败，当前工作区及尚未保存状态必须保留。
 fn failed_document_save_cancels_update_restart() {
     let directory = tempfile::tempdir().unwrap();
-    let path = directory.path().join("current.ziwei");
+    let parent = directory.path().join("drafts");
+    std::fs::create_dir(&parent).unwrap();
+    let path = parent.join("current.ziwei");
     let mut runtime = document_runtime();
     save_document_at(&mut runtime, path.clone());
     std::fs::remove_file(&path).unwrap();
-    std::fs::create_dir(&path).unwrap();
+    // 移除父目录使临时文件创建失败，直接触发保存错误。
+    std::fs::remove_dir(&parent).unwrap();
     runtime
         .state
         .workspace
@@ -382,9 +385,13 @@ fn failed_document_save_cancels_update_restart() {
     runtime.update(AppState::request_update_restart);
     runtime.update(|state, tx| state.resolve_unsaved(crate::app::files::UnsavedChoice::Save, tx));
     settle_document_work(&mut runtime);
+    assert!(runtime.state.document.feedback().is_some_and(|(ok, _)| !ok));
+    assert!(!runtime.state.file_prompt_active());
     assert!(runtime.shell_request.is_none());
     assert!(runtime.state.document_modified());
     assert!(runtime.state.closing.is_none());
+    assert_eq!(runtime.state.document.path(), Some(path.as_path()));
+    assert_eq!(runtime.state.session().input().gender, Gender::Female);
 }
 
 #[test]
@@ -1240,23 +1247,16 @@ fn quitting_modified_document_requires_a_choice_and_cancel_keeps_it() {
     assert!(!runtime.state.document_modified());
 }
 
-/// 有界推进文档后台任务供文件流程测试断言。
+/// 直接轮询应用状态，避免慢帧消耗后台任务的等待预算或错过反馈。
 fn settle_document_work(runtime: &mut rune::Runtime<AppState>) {
     let deadline = Instant::now() + Duration::from_secs(5);
-    while runtime.state.document.is_working() {
+    loop {
+        runtime.update_if(|state, tx| state.poll(0.0, tx));
+        if !runtime.state.document.is_working() {
+            return;
+        }
         assert!(Instant::now() < deadline, "document work timed out");
-        runtime.frame(0.0);
         std::thread::yield_now();
-    }
-    runtime.frame(0.0);
-}
-
-/// 有界推进到保存失败反馈出现，避免慢平台在额外一帧期间等到三秒提示过期。
-fn settle_document_failure(runtime: &mut rune::Runtime<AppState>) {
-    let deadline = Instant::now() + Duration::from_secs(5);
-    while !runtime.state.document.feedback().is_some_and(|(ok, _)| !ok) {
-        assert!(Instant::now() < deadline, "document failure timed out");
-        runtime.frame(0.0);
     }
 }
 
@@ -1665,7 +1665,7 @@ fn a_failed_save_cancels_the_pending_quit_and_keeps_the_document_dirty() {
     std::fs::remove_dir_all(&parent).unwrap();
     runtime.update(AppState::request_quit);
     runtime.update(|s, tx| s.resolve_unsaved(crate::app::files::UnsavedChoice::Save, tx));
-    settle_document_failure(&mut runtime);
+    settle_document_work(&mut runtime);
     assert!(runtime.shell_request.is_none());
     assert!(!runtime.state.file_prompt_active());
     assert!(runtime.state.document_modified());
