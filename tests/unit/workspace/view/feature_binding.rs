@@ -239,7 +239,18 @@ fn switching_workspaces_keeps_rendering_and_events_on_the_same_chart() {
         tx.instant();
     });
     runtime.frame(0.0);
-    assert!(runtime.presented(&palace_key).is_none());
+    // 未排出宫干时仍有右键命中区，左键不触发飞化。
+    assert!(runtime.elements().iter().any(|element| {
+        element.key.as_deref() == Some(palace_key.as_str()) && !element.focusable
+    }));
+    tap(&mut runtime, &palace_key);
+    assert!(
+        runtime.state.workspaces[1]
+            .session()
+            .view()
+            .flying
+            .is_none()
+    );
     assert!(runtime.presented("annotation-object-0").is_none());
     tap(&mut runtime, "mark-tool-ellipse");
     let (start_x, start_y) = chart_point(&runtime, 200.0, 200.0);

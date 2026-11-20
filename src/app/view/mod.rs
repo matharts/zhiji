@@ -314,7 +314,7 @@ pub(crate) fn render(state: &AppState, cx: &mut Cx<AppState>) -> El {
             )
             .anchored("chart-toolbar-anchor", Side::Top, Align::Center, 0.0),
         );
-    if state.workspace.marking_menu_open() || state.workspace.marking_context_menu().is_some() {
+    if state.workspace.menu_open() && state.workspace.divination_menu().is_none() {
         root = root.child(
             el().key("dismiss-marking-menu")
                 .absolute(0.0, 0.0)
@@ -322,7 +322,11 @@ pub(crate) fn render(state: &AppState, cx: &mut Cx<AppState>) -> El {
                 .h_full()
                 .role("none")
                 .on_press_tx(|state: &mut AppState, tx| {
-                    state.workspace.dismiss_marking_menus();
+                    state.workspace.dismiss_menus();
+                    tx.instant();
+                })
+                .on_secondary_press(|state: &mut AppState, _, tx| {
+                    state.workspace.dismiss_menus();
                     tx.instant();
                 }),
         );
@@ -339,6 +343,11 @@ pub(crate) fn render(state: &AppState, cx: &mut Cx<AppState>) -> El {
         state.workspace.marking(),
         context_action,
     ) {
+        root = root.child(menu);
+    }
+    if let Some(menu) =
+        chart_workspace::palace_context::<AppState>(&state.workspace, state.window_size)
+    {
         root = root.child(menu);
     }
     if let Some(feedback) = menu::marking_feedback(state) {

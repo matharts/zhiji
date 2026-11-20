@@ -814,17 +814,132 @@ fn more_menu_hides_marks_without_discarding_them_and_restores_them() {
 }
 
 #[test]
+/// 验证十二宫右键按实际宫支设置大限，同时更新侧栏且不改动本命或流年输入。
+fn palace_context_sets_decade_for_each_palace() {
+    for size in [(1300.0, 800.0), (900.0, 600.0)] {
+        let mut runtime = Runtime::new(
+            AppState::with_input(sample_input(true)),
+            view,
+            size,
+            Env::new(false, 1.0),
+        );
+        runtime.frame(0.0);
+        let before = runtime.state.session().input().clone();
+        for index in 0..12 {
+            let branch = runtime.state.session().chart().palaces[index].branch;
+            let (x, y) = runtime.find(&format!("palace-{index}")).unwrap();
+            runtime.secondary_down(x, y);
+            runtime.secondary_up(x, y);
+            runtime.frame(0.0);
+            let ([x, y, width, height], _) = runtime.presented("palace-context-menu").unwrap();
+            assert!(x >= 0.0 && y >= 0.0 && x + width <= size.0 && y + height <= size.1);
+            tap(&mut runtime, "palace-set-decade");
+            assert!(
+                !runtime.state.workspace.menu_open(),
+                "宫位 {index} 的菜单未关闭"
+            );
+            assert_eq!(runtime.state.session().chart().decade, Some(branch));
+            assert_eq!(runtime.state.session().input().decade, Some(branch));
+            assert_eq!(runtime.state.session().input().main, before.main);
+            assert_eq!(runtime.state.session().input().yearly, before.yearly);
+            assert!(runtime.state.session().view().flying.is_none());
+            runtime.frame(0.3);
+            assert!(runtime.presented("palace-context-menu").is_none());
+            assert_selected_indicator(&runtime, "decade", &branch.index().to_string());
+        }
+    }
+}
+
+#[test]
+/// 验证中央空白、命宫前置条件、键盘打开与关闭，以及关闭后的宫位焦点。
+fn palace_context_respects_incomplete_input_and_keyboard_focus() {
+    let mut incomplete = Runtime::new(
+        AppState::default(),
+        view,
+        (1300.0, 800.0),
+        Env::new(false, 1.0),
+    );
+    incomplete.frame(0.0);
+    let (x, y) = chart_point(&incomplete, 330.0, 330.0);
+    incomplete.secondary_down(x, y);
+    incomplete.secondary_up(x, y);
+    incomplete.frame(0.0);
+    assert!(incomplete.presented("palace-context-menu").is_none());
+    let (x, y) = incomplete.find("palace-0").unwrap();
+    incomplete.secondary_down(x, y);
+    incomplete.secondary_up(x, y);
+    incomplete.frame(0.0);
+    assert!(incomplete.elements().iter().any(|element| {
+        element.key.as_deref() == Some("palace-set-decade") && !element.focusable
+    }));
+    tap(&mut incomplete, "palace-set-decade");
+    assert!(incomplete.state.session().input().decade.is_none());
+
+    let mut runtime = runtime();
+    let before = runtime.state.session().chart().decade;
+    runtime.update(|_, tx| tx.focus("palace-1", true));
+    for (key, mods) in [
+        (Key::ContextMenu, Mods::default()),
+        (Key::Escape, Mods::default()),
+        (
+            Key::Function(10),
+            Mods {
+                shift: true,
+                ..Mods::default()
+            },
+        ),
+        (Key::Enter, Mods::default()),
+    ] {
+        runtime.key(KeyEvent {
+            key: key.clone(),
+            mods,
+        });
+        runtime.frame(0.0);
+        match key {
+            Key::ContextMenu | Key::Function(10) => {
+                assert!(runtime.elements().iter().any(|element| {
+                    element.key.as_deref() == Some("palace-set-decade") && element.focused
+                }))
+            }
+            Key::Escape => {
+                assert!(runtime.presented("palace-context-menu").is_none());
+                assert_eq!(runtime.state.session().chart().decade, before);
+            }
+            _ => {
+                let chart = runtime.state.session().chart();
+                assert_eq!(chart.decade, Some(chart.palaces[1].branch));
+            }
+        }
+    }
+    assert!(
+        runtime
+            .elements()
+            .iter()
+            .any(|element| { element.key.as_deref() == Some("palace-1") && element.focused })
+    );
+}
+
+#[test]
 /// 验证右键复制、层级、删除和重做操作。
 fn context_menu_duplicates_reorders_and_deletes_with_redo() {
     let mut runtime = runtime();
     tap(&mut runtime, "mark-tool-rectangle");
     draw(&mut runtime, (200.0, 200.0), (300.0, 260.0));
     tap(&mut runtime, "mark-tool-select");
+    // 标注交互层覆盖整个盘面，未命中标注时仍可打开宫位菜单。
+    let (x, y) = chart_point(&runtime, 40.0, 40.0);
+    runtime.secondary_down(x, y);
+    runtime.secondary_up(x, y);
+    runtime.frame(0.0);
+    assert!(runtime.presented("palace-context-menu").is_some());
+    tap_blank(&mut runtime);
+    assert!(runtime.presented("palace-context-menu").is_none());
     let (x, y) = chart_point(&runtime, 240.0, 200.0);
     runtime.secondary_down(x, y);
     runtime.secondary_up(x, y);
     runtime.frame(0.0);
     assert!(runtime.presented("marking-context-menu").is_some());
+    assert!(runtime.presented("palace-context-menu").is_none());
     tap(&mut runtime, "mark-duplicate");
     assert_eq!(runtime.state.workspace.marking.marks().len(), 2);
     let before = runtime.state.workspace.marking.marks().to_vec();

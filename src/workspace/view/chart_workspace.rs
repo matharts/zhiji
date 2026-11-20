@@ -1,10 +1,16 @@
-//! 屏幕命盘的宫位点击区、标注交互及文字编辑层。
+//! 屏幕命盘的宫位操作、标注交互及文字编辑层。
 
-use rune::{Curve, Cx, El, Image, LoopSpec, el};
+use rune::{Curve, Cx, El, Image, LoopSpec, PointerPress, Tx, el};
+use zhiji_ui::{ColorToken, color, input, menu_item, menu_panel};
 
 use super::WorkspaceHost;
 use crate::annotation::{Marking, Tool, selection::SelectionAction};
-use crate::i18n::LocalizedEl;
+use crate::chart::{Layout, SIZE, palace_rect, render_with_motion};
+use crate::i18n::{LocalizedEl, t};
+use crate::session::Action;
+use crate::workspace::Workspace;
+
+const SET_DECADE: &str = "palace-set-decade";
 
 /// 将 Rune 标注交互绑定到宿主当前工作区。
 fn marking_mut<S: WorkspaceHost>(state: &mut S) -> &mut Marking {
@@ -16,8 +22,64 @@ fn selection_action<S: WorkspaceHost>(state: &mut S, action: SelectionAction) ->
     state.workspace_mut().selection_action(action)
 }
 
-use crate::chart::{Layout, SIZE, palace_rect, render_with_motion};
-use zhiji_ui::{ColorToken, color, input};
+/// 使用盘面局部坐标命中宫位，中央和外边距不属于任何一宫。
+fn palace_at([x, y]: [f32; 2]) -> Option<usize> {
+    (0..12).find(|&index| {
+        let [left, top, width, height] = palace_rect(index);
+        x >= left && x < left + width && y >= top && y < top + height
+    })
+}
+
+/// 打开目标宫位的菜单，并将键盘焦点交给可用操作。
+fn open_palace_menu<S: WorkspaceHost>(
+    state: &mut S,
+    index: usize,
+    point: PointerPress,
+    tx: &mut Tx,
+) {
+    let workspace = state.workspace_mut();
+    workspace.open_palace_context_menu(index, point);
+    if workspace.session().chart().main.is_some() {
+        tx.focus(SET_DECADE, tx.focus_visible());
+    }
+    tx.instant();
+}
+
+/// 在窗口内定位宫位菜单，使用与侧栏相同的大限选择动作。
+pub(crate) fn palace_context<S: WorkspaceHost>(
+    workspace: &Workspace,
+    window_size: Option<(f32, f32)>,
+) -> Option<El> {
+    let (index, point) = workspace.palace_context_menu()?;
+    let chart = workspace.session().chart();
+    let branch = chart.palaces[index].branch;
+    let (width, height) = window_size.unwrap_or(crate::preferences::settings::DEFAULT_WINDOW_SIZE);
+    let x = point.x.clamp(0.0, (width - 164.0).max(0.0));
+    let y = point.y.clamp(0.0, (height - 40.0).max(0.0));
+    Some(
+        menu_panel()
+            .key("palace-context-menu")
+            .local_label("宫位操作")
+            .absolute(x, y)
+            .focus_group()
+            .focus_return(format!("palace-{index}"))
+            .child(
+                menu_item(
+                    SET_DECADE,
+                    t("设为大命"),
+                    chart.main.is_some(),
+                    move |state: &mut S, tx| {
+                        let workspace = state.workspace_mut();
+                        workspace.dismiss_menus();
+                        let already_selected = workspace.session().chart().decade == Some(branch);
+                        workspace.select_chart_option(Action::Decade(branch), already_selected);
+                        tx.animated();
+                    },
+                )
+                .role("menuitem"),
+            ),
+    )
+}
 
 /// 在命盘绘制上叠加宫位点击、标注手势、文字输入和选择层。
 pub(crate) fn render_interactive<S: WorkspaceHost>(
@@ -43,24 +105,30 @@ pub(crate) fn render_interactive<S: WorkspaceHost>(
         )
     };
     for (i, palace) in view.chart.palaces.iter().enumerate() {
+        let [x, y, width, height] = palace_rect(i);
+        let mut area = el()
+            .key(format!("palace-{i}"))
+            .transition(rune::Transition::none())
+            .size(width, height)
+            .absolute(x, y)
+            .on_secondary_press(move |state: &mut S, point, tx| {
+                open_palace_menu(state, i, point, tx)
+            });
         if palace.stem.is_some() {
             let branch = palace.branch;
-            let [x, y, width, height] = palace_rect(i);
-            board = board.child(
-                el().key(format!("palace-{i}"))
-                    .transition(rune::Transition::none())
-                    .role("button")
-                    .local_label(format!("{}宫飞化", branch.name()))
-                    .checked(view.flying.is_some_and(|flying| flying.branch == branch))
-                    .focusable(true)
-                    .size(width, height)
-                    .absolute(x, y)
-                    .on_press_tx(move |state: &mut S, tx| {
-                        state.workspace_mut().toggle_flying(branch);
-                        tx.instant();
-                    }),
-            );
+            area = area
+                .role("button")
+                .local_label(format!("{}宫飞化", branch.name()))
+                .checked(view.flying.is_some_and(|flying| flying.branch == branch))
+                .focusable(true)
+                .on_press_tx(move |state: &mut S, tx| {
+                    state.workspace_mut().toggle_flying(branch);
+                    tx.instant();
+                });
+        } else {
+            area = area.a11y_hidden();
         }
+        board = board.child(area);
     }
     let marks = marking
         .visible_marks()
@@ -105,38 +173,28 @@ pub(crate) fn render_interactive<S: WorkspaceHost>(
                     }
                 })
                 .on_secondary_press_local(|state: &mut S, pointer, tx| {
-                    if marking_mut(state).select_at([pointer.x, pointer.y]) {
+                    let position = [pointer.x, pointer.y];
+                    if marking_mut(state).select_at(position) {
                         state
                             .workspace_mut()
                             .open_marking_context_menu(pointer.window());
                         tx.instant();
+                    } else if let Some(index) = palace_at(position) {
+                        open_palace_menu(state, index, pointer.window(), tx);
                     }
                 })
                 .on_drag(|state: &mut S, drag, tx| {
-                    if let Some([x, y]) = marking_mut(state).interact(
+                    if let Some(position) = marking_mut(state).interact(
                         drag.phase,
                         drag.cancelled(),
                         [drag.x, drag.y],
                         drag.clicks,
                         tx.mods().shift,
-                    ) {
-                        let branch = state
-                            .workspace()
-                            .session()
-                            .chart()
-                            .palaces
-                            .iter()
-                            .enumerate()
-                            .find_map(|(i, palace)| {
-                                let [left, top, width, height] = palace_rect(i);
-                                (palace.stem.is_some()
-                                    && x >= left
-                                    && x < left + width
-                                    && y >= top
-                                    && y < top + height)
-                                    .then_some(palace.branch)
-                            });
-                        if let Some(branch) = branch {
+                    ) && let Some(index) = palace_at(position)
+                    {
+                        let palace = &state.workspace().session().chart().palaces[index];
+                        if palace.stem.is_some() {
+                            let branch = palace.branch;
                             state.workspace_mut().toggle_flying(branch);
                         }
                     }

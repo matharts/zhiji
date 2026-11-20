@@ -66,7 +66,7 @@ pub(crate) fn on_key(state: &mut AppState, event: &KeyEvent, tx: &mut Tx) -> boo
         }
     }
     if event.key == Key::Escape {
-        if state.workspace.dismiss_marking_menus() {
+        if state.workspace.dismiss_menus() {
             tx.instant();
             return true;
         }

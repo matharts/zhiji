@@ -17,8 +17,8 @@ fn marking_menus_are_exclusive_and_dismiss_idempotently() {
     workspace.toggle_marking_menu();
     assert!(workspace.marking_menu_open());
     assert!(workspace.marking_context_menu().is_none());
-    assert!(workspace.dismiss_marking_menus());
-    assert!(!workspace.dismiss_marking_menus());
+    assert!(workspace.dismiss_menus());
+    assert!(!workspace.dismiss_menus());
 }
 
 #[test]

@@ -15,7 +15,7 @@ pub(super) struct WorkspaceUi {
     pub(super) settings_open: bool,
     pub(super) settings_category: crate::preferences::Category,
     pub(super) animate_chart_scale: bool,
-    pub(super) marking_menu: super::actions::MarkingMenu,
+    pub(super) menu: super::actions::WorkspaceMenu,
 }
 
 impl Default for WorkspaceUi {
@@ -28,7 +28,7 @@ impl Default for WorkspaceUi {
             settings_open: false,
             settings_category: crate::preferences::Category::General,
             animate_chart_scale: false,
-            marking_menu: super::actions::MarkingMenu::default(),
+            menu: super::actions::WorkspaceMenu::default(),
         }
     }
 }

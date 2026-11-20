@@ -429,6 +429,7 @@ impl Workspace {
     /// 清空当前排盘、飞宫和标注，保留全局配色、显示与工作区偏好。
     pub(crate) fn start_new_document(&mut self) -> DraftSnapshot {
         self.finish_transient_edits();
+        self.dismiss_menus();
         let palette = self.session.palette().clone();
         let display = self.session.display().clone();
         let input = Input::default();
@@ -513,6 +514,7 @@ impl Workspace {
 
     /// 一次性安装已校验草稿，并清理旧会话的编辑器和设置面板状态。
     pub(crate) fn restore(&mut self, restored: RestoredWorkspace) {
+        self.dismiss_menus();
         let (session, marks, visible) = restored.into_parts();
         self.session = session;
         self.marking.restore(marks, visible);

@@ -1,4 +1,4 @@
-//! 工作区动作，协调临时编辑、标注菜单及布局状态。
+//! 工作区动作，协调临时编辑、菜单及布局状态。
 
 use crate::annotation::{menu::ContextAction, selection::SelectionAction, toolbar::ToolbarAction};
 use crate::session::Action;
@@ -7,27 +7,31 @@ use super::Workspace;
 use super::input::divination::Divination;
 
 #[derive(Default)]
-pub(super) enum MarkingMenu {
+pub(super) enum WorkspaceMenu {
     #[default]
     Closed,
     More,
     Divination {
         failed: bool,
     },
-    Context(rune::PointerPress),
+    MarkingContext(rune::PointerPress),
+    PalaceContext {
+        index: usize,
+        point: rune::PointerPress,
+    },
 }
 
 impl Workspace {
     /// 提交暂存编辑，再打开与工作区其他菜单互斥的紫占菜单。
     pub(crate) fn open_divination_menu(&mut self) {
         self.finish_transient_edits();
-        self.ui.marking_menu = MarkingMenu::Divination { failed: false };
+        self.ui.menu = WorkspaceMenu::Divination { failed: false };
     }
 
     /// 菜单打开时返回起盘失败状态，供菜单原地提示和重试。
     pub(crate) fn divination_menu(&self) -> Option<bool> {
-        match self.ui.marking_menu {
-            MarkingMenu::Divination { failed } => Some(failed),
+        match self.ui.menu {
+            WorkspaceMenu::Divination { failed } => Some(failed),
             _ => None,
         }
     }
@@ -38,10 +42,10 @@ impl Workspace {
             return;
         }
         if let Some(input) = method.input(self.session.input().gender, self.late_zi_next()) {
-            self.dismiss_marking_menus();
+            self.dismiss_menus();
             self.apply_date_input(input);
         } else {
-            self.ui.marking_menu = MarkingMenu::Divination { failed: true };
+            self.ui.menu = WorkspaceMenu::Divination { failed: true };
         }
     }
 
@@ -129,7 +133,7 @@ impl Workspace {
 
     /// 先关闭菜单，再执行复制、层级移动或删除标注。
     pub(crate) fn marking_context_action(&mut self, action: ContextAction) {
-        self.dismiss_marking_menus();
+        self.dismiss_menus();
         match action {
             ContextAction::Duplicate => self.marking.duplicate_selected(),
             ContextAction::Forward => self.marking.move_layer(true),
@@ -141,55 +145,74 @@ impl Workspace {
     /// 关闭工具调色板并切换更多菜单，与右键菜单保持互斥。
     pub(super) fn toggle_marking_menu(&mut self) {
         self.marking.close_palette();
-        self.ui.marking_menu = if self.marking_menu_open() {
-            MarkingMenu::Closed
+        self.ui.menu = if self.marking_menu_open() {
+            WorkspaceMenu::Closed
         } else {
-            MarkingMenu::More
+            WorkspaceMenu::More
         };
     }
 
     /// 判断更多标注菜单是否显示。
     pub(crate) fn marking_menu_open(&self) -> bool {
-        matches!(self.ui.marking_menu, MarkingMenu::More)
+        matches!(self.ui.menu, WorkspaceMenu::More)
     }
 
     /// 返回右键菜单的原始指针定位信息。
     pub(crate) fn marking_context_menu(&self) -> Option<rune::PointerPress> {
-        match self.ui.marking_menu {
-            MarkingMenu::Context(point) => Some(point),
+        match self.ui.menu {
+            WorkspaceMenu::MarkingContext(point) => Some(point),
             _ => None,
         }
     }
 
-    /// 打开右键菜单并替换其他标注菜单状态。
+    /// 打开标注右键菜单并替换当前菜单。
     pub(super) fn open_marking_context_menu(&mut self, point: rune::PointerPress) {
-        self.ui.marking_menu = MarkingMenu::Context(point);
+        self.ui.menu = WorkspaceMenu::MarkingContext(point);
     }
 
-    /// 关闭任意标注菜单并报告是否有菜单被关闭。
-    pub(crate) fn dismiss_marking_menus(&mut self) -> bool {
-        let was_open = !matches!(self.ui.marking_menu, MarkingMenu::Closed);
-        self.ui.marking_menu = MarkingMenu::Closed;
+    /// 返回右键命中的宫位下标及窗口坐标。
+    pub(super) fn palace_context_menu(&self) -> Option<(usize, rune::PointerPress)> {
+        match self.ui.menu {
+            WorkspaceMenu::PalaceContext { index, point } => Some((index, point)),
+            _ => None,
+        }
+    }
+
+    /// 打开宫位菜单前先结束暂存编辑，使菜单接管焦点。
+    pub(super) fn open_palace_context_menu(&mut self, index: usize, point: rune::PointerPress) {
+        self.finish_transient_edits();
+        self.ui.menu = WorkspaceMenu::PalaceContext { index, point };
+    }
+
+    /// 判断工作区当前是否有菜单打开。
+    pub(crate) fn menu_open(&self) -> bool {
+        !matches!(self.ui.menu, WorkspaceMenu::Closed)
+    }
+
+    /// 关闭当前菜单并报告是否有菜单被关闭。
+    pub(crate) fn dismiss_menus(&mut self) -> bool {
+        let was_open = self.menu_open();
+        self.ui.menu = WorkspaceMenu::Closed;
         was_open
     }
 
     /// 仅关闭更多菜单，不影响独立的右键菜单。
     pub(crate) fn close_marking_more_menu(&mut self) {
         if self.marking_menu_open() {
-            self.ui.marking_menu = MarkingMenu::Closed;
+            self.ui.menu = WorkspaceMenu::Closed;
         }
     }
 
     /// 关闭标注菜单后切换标注整体可见性。
     pub(crate) fn toggle_marking_visibility(&mut self) {
-        self.dismiss_marking_menus();
+        self.dismiss_menus();
         self.marking.toggle_visibility();
     }
 
     /// 收尾相关编辑后切换侧栏，并启用此次命盘尺寸过渡。
     pub(crate) fn toggle_sidebar(&mut self) {
         if self.divination_menu().is_some() {
-            self.dismiss_marking_menus();
+            self.dismiss_menus();
         }
         self.marking.commit_text();
         self.marking.close_palette();
@@ -204,7 +227,7 @@ impl Workspace {
 impl Workspace {
     /// 收起标注菜单，必要时展开侧栏后显示设置。
     pub(crate) fn show_settings(&mut self) {
-        self.dismiss_marking_menus();
+        self.dismiss_menus();
         if self.layout.sidebar_collapsed {
             self.toggle_sidebar();
         }

@@ -18,7 +18,7 @@ pub(super) fn divination(state: &AppState) -> Option<El> {
         .focus_group()
         .focus_return(super::titlebar::DIVINATION_TRIGGER)
         .modal_tx(true, |state: &mut AppState, tx| {
-            state.workspace.dismiss_marking_menus();
+            state.workspace.dismiss_menus();
             tx.instant();
         })
         .child(
@@ -142,10 +142,7 @@ pub(crate) fn more(state: &AppState) -> Option<El> {
 
 /// 更多菜单关闭时显示复制或历史错误反馈。
 pub(crate) fn marking_feedback(state: &AppState) -> Option<El> {
-    if state.workspace.marking_menu_open()
-        || state.workspace.marking_context_menu().is_some()
-        || state.workspace.divination_menu().is_some()
-    {
+    if state.workspace.menu_open() {
         return None;
     }
     let (success, message) = if state.tasks.copy_image.is_busy() {
