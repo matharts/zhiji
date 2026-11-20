@@ -1601,7 +1601,12 @@ fn titlebar_actions_align_and_sidebar_toggle_keeps_its_position() {
     );
     runtime.frame(0.0);
     let mut last_right = 0.0;
-    for key in ["date-source-toggle", "layout-toggle", "toggle-sidebar"] {
+    for key in [
+        "date-source-toggle",
+        "divination-toggle",
+        "layout-toggle",
+        "toggle-sidebar",
+    ] {
         let ([x, y, w, h], _) = runtime.presented(key).unwrap();
         assert!(x >= last_right);
         assert_eq!((y, w, h), (8.0, 27.0, 27.0));
@@ -1617,10 +1622,91 @@ fn titlebar_actions_align_and_sidebar_toggle_keeps_its_position() {
     runtime.frame(0.8);
     assert_eq!(runtime.presented("toggle-sidebar").unwrap().0, before);
     assert!(runtime.find("date-source-toggle").is_none());
+    assert!(runtime.find("divination-toggle").is_none());
     assert!(runtime.find("reset-chart-input").is_none());
     tap(&mut runtime, "toggle-sidebar");
     runtime.frame(0.8);
     assert!(runtime.find("date-source-toggle").is_some());
+}
+
+#[test]
+/// 在最小布局中验证紫占的键盘操作、取消及两种方式的排盘回填。
+fn divination_menu_can_cancel_or_cast_by_pointer_and_keyboard() {
+    use crate::preferences::settings::UiScale;
+    use crate::workspace::input::divination::Divination;
+
+    let mut state = AppState::with_input(zhiji_core::Input {
+        gender: Gender::Female,
+        ..Default::default()
+    });
+    state.workspace.set_ui_scale(UiScale::Large);
+    let mut runtime = runtime_with_app_fonts(state, (900.0, 600.0));
+    runtime.on_key = Some(on_key);
+    runtime.frame(0.0);
+    let initial = runtime.state.session().input().clone();
+
+    tap(&mut runtime, "divination-toggle");
+    let ([x, y, w, h], _) = runtime.presented("divination-menu").unwrap();
+    assert!(x >= 0.0 && y >= 35.0 && x + w <= 900.0 && y + h <= 600.0);
+    assert!(
+        runtime.elements().iter().any(|element| {
+            element.key.as_deref() == Some("divination-random") && element.focused
+        })
+    );
+    runtime.key(KeyEvent {
+        key: Key::Escape,
+        mods: Mods::default(),
+    });
+    runtime.frame(0.0);
+    assert!(runtime.find("divination-menu").is_none());
+    assert!(
+        runtime.elements().iter().any(|element| {
+            element.key.as_deref() == Some("divination-toggle") && element.focused
+        })
+    );
+    tap(&mut runtime, "divination-toggle");
+    tap_blank(&mut runtime);
+    assert!(runtime.find("divination-menu").is_none());
+    assert_eq!(runtime.state.session().input(), &initial);
+
+    tap(&mut runtime, "divination-toggle");
+    tap(&mut runtime, "divination-random");
+    assert!(runtime.find("divination-menu").is_none());
+    let random = runtime.state.session().input();
+    assert_eq!(random.gender, Gender::Female);
+    assert!(random.stem.is_some() && random.branch.is_some());
+    assert!(random.month.is_some() && random.hour.is_some() && random.ziwei.is_some());
+    assert!(runtime.state.session().chart().main.is_some());
+
+    tap(&mut runtime, "divination-toggle");
+    let before = Divination::Now.input(Gender::Female, false).unwrap();
+    for key in [Key::Down, Key::Enter] {
+        runtime.key(KeyEvent {
+            key,
+            mods: Mods::default(),
+        });
+        runtime.frame(0.0);
+    }
+    let after = Divination::Now.input(Gender::Female, false).unwrap();
+    let mut expected_before = crate::session::Session::default();
+    expected_before.apply_date_input(before);
+    let mut expected_after = crate::session::Session::default();
+    expected_after.apply_date_input(after);
+    assert!(runtime.find("divination-menu").is_none());
+    // 同一命宫的日期回填保留当前大限，因此只对照完成排盘的输入字段。
+    let actual = runtime.state.session().input();
+    assert!(
+        [expected_before.input(), expected_after.input()]
+            .into_iter()
+            .any(|expected| {
+                actual.stem == expected.stem
+                    && actual.branch == expected.branch
+                    && actual.month == expected.month
+                    && actual.hour == expected.hour
+                    && actual.ziwei == expected.ziwei
+                    && actual.gender == expected.gender
+            })
+    );
 }
 
 #[test]

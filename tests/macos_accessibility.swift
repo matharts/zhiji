@@ -318,7 +318,20 @@ do {
     try requireValue(app, "stem-0", 0)
     try requireValue(app, "show-stem", 0)
     try requireValue(app, "show-location-stars", 0)
-    print("macOS accessibility: export, markup, sidebar, app menu, color sliders, chart reset, date draft, city search and nested keyboard dismissal passed")
+    try pressRequired(app, "divination-toggle")
+    _ = try required(app, "divination-random")
+    _ = try required(app, "divination-now")
+    try keyPress(0x35) // Escape dismisses the divination menu.
+    guard waitUntilAbsent(app, identifier: "divination-random") else {
+        throw SmokeError.stillPresent("divination-random")
+    }
+    try pressRequired(app, "divination-toggle")
+    try pressRequired(app, "divination-now")
+    guard waitUntilAbsent(app, identifier: "divination-now") else {
+        throw SmokeError.stillPresent("divination-now")
+    }
+    try requireValue(app, "gender-0", 1)
+    print("macOS accessibility: export, markup, sidebar, app menu, color sliders, chart reset, date draft, city search, keyboard dismissal and divination passed")
 } catch {
     fputs("native accessibility smoke test failed: \(error)\n", stderr)
     exit(1)

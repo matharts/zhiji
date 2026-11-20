@@ -2,6 +2,7 @@
 
 mod calculation;
 pub(crate) mod clock;
+pub(crate) mod divination;
 mod editor;
 pub(crate) mod model;
 pub(crate) mod places;

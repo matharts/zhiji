@@ -1,24 +1,27 @@
-//! 读取系统本地民用日期，不涉及农历计算引擎。
+//! 读取系统本地民用日期和时间，不涉及农历计算引擎。
 use super::model::CivilDate;
 use std::time::{SystemTime, UNIX_EPOCH};
 
 /// 优先读取平台本地日期，失败时回退 UTC 整日及有效常量日期。
 pub(crate) fn today() -> CivilDate {
-    local_today().unwrap_or_else(|| {
-        let days = SystemTime::now()
-            .duration_since(UNIX_EPOCH)
-            .map_or(0, |elapsed| (elapsed.as_secs() / 86_400) as i64);
-        CivilDate::from_unix_days(days)
-            .unwrap_or_else(|| CivilDate::new(1970, 1, 1).expect("valid fallback date"))
-    })
+    local_time().map_or_else(
+        || {
+            let days = SystemTime::now()
+                .duration_since(UNIX_EPOCH)
+                .map_or(0, |elapsed| (elapsed.as_secs() / 86_400) as i64);
+            CivilDate::from_unix_days(days)
+                .unwrap_or_else(|| CivilDate::new(1970, 1, 1).expect("valid fallback date"))
+        },
+        |(date, _, _)| date,
+    )
 }
 
 #[cfg(all(
     any(target_os = "macos", target_os = "linux"),
     target_pointer_width = "64"
 ))]
-/// 在受支持的 64 位 Unix 平台通过线程安全本地时间接口读取日期。
-fn local_today() -> Option<CivilDate> {
+/// 在受支持的 64 位 Unix 平台一次读取本地日期、小时和分钟。
+pub(super) fn local_time() -> Option<(CivilDate, u8, u8)> {
     let seconds: libc::time_t = SystemTime::now()
         .duration_since(UNIX_EPOCH)
         .ok()?
@@ -34,27 +37,37 @@ fn local_today() -> Option<CivilDate> {
         }
         result.assume_init()
     };
-    CivilDate::new(
+    let date = CivilDate::new(
         (result.tm_year + 1900).try_into().ok()?,
         (result.tm_mon + 1).try_into().ok()?,
         result.tm_mday.try_into().ok()?,
-    )
+    )?;
+    Some((
+        date,
+        result.tm_hour.try_into().ok()?,
+        result.tm_min.try_into().ok()?,
+    ))
 }
 
 #[cfg(target_os = "windows")]
-/// 通过 Windows 系统本地时间读取民用日期。
-fn local_today() -> Option<CivilDate> {
+/// 通过 Windows 系统本地时间一次读取日期、小时和分钟。
+pub(super) fn local_time() -> Option<(CivilDate, u8, u8)> {
     let mut time = std::mem::MaybeUninit::zeroed();
     // GetLocalTime 同步填充调用方拥有的 SYSTEMTIME，且没有失败返回值。
     let time = unsafe {
         windows_sys::Win32::System::SystemInformation::GetLocalTime(time.as_mut_ptr());
         time.assume_init()
     };
-    CivilDate::new(
+    let date = CivilDate::new(
         time.wYear,
         time.wMonth.try_into().ok()?,
         time.wDay.try_into().ok()?,
-    )
+    )?;
+    Some((
+        date,
+        time.wHour.try_into().ok()?,
+        time.wMinute.try_into().ok()?,
+    ))
 }
 
 #[cfg(not(any(
@@ -64,7 +77,7 @@ fn local_today() -> Option<CivilDate> {
         target_pointer_width = "64"
     )
 )))]
-/// 未适配平台返回空值，由统一入口采用 UTC 日期回退。
-fn local_today() -> Option<CivilDate> {
+/// 未适配平台返回空值，由各调用方处理。
+pub(super) fn local_time() -> Option<(CivilDate, u8, u8)> {
     None
 }

@@ -108,24 +108,36 @@ pub(crate) fn solar_input(
         }
         None => resolved.local,
     };
+    let mut derived = civil_input(clock, rules.late_zi_next, gender)?;
+    derived.original = Some(resolved);
+    Ok(derived)
+}
+
+/// 从已确定的钟表时间派生排盘输入，按晚子时设置处理农历日期。
+pub(super) fn civil_input(
+    clock: CivilDateTime,
+    late_zi_next: bool,
+    gender: Gender,
+) -> Result<DerivedInput, DateInputError> {
     // 即使晚子时按次日计算，也保留原农历日期；两者可能跨农历年。
     let actual_lunar = Calendar
         .to_lunar(clock.date)
         .map_err(DateInputError::Calendar)?;
-    let date = if rules.late_zi_next && clock.time.hour() == 23 {
-        clock
+    let lunar = if late_zi_next && clock.time.hour() == 23 {
+        let next_day = clock
             .date
             .checked_add_days(1)
+            .map_err(DateInputError::Calendar)?;
+        Calendar
+            .to_lunar(next_day)
             .map_err(DateInputError::Calendar)?
     } else {
-        clock.date
+        actual_lunar
     };
-    let lunar = Calendar.to_lunar(date).map_err(DateInputError::Calendar)?;
     let year = lunar_year_index(lunar.year());
     let hour = clock.time.hour().div_ceil(2) % 12;
     let mut derived = build(gender, lunar, year, hour)?;
     derived.actual_lunar = actual_lunar;
-    derived.original = Some(resolved);
     Ok(derived)
 }
 

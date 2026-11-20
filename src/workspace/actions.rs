@@ -4,16 +4,47 @@ use crate::annotation::{menu::ContextAction, selection::SelectionAction, toolbar
 use crate::session::Action;
 
 use super::Workspace;
+use super::input::divination::Divination;
 
 #[derive(Default)]
 pub(super) enum MarkingMenu {
     #[default]
     Closed,
     More,
+    Divination {
+        failed: bool,
+    },
     Context(rune::PointerPress),
 }
 
 impl Workspace {
+    /// 提交暂存编辑，再打开与工作区其他菜单互斥的紫占菜单。
+    pub(crate) fn open_divination_menu(&mut self) {
+        self.finish_transient_edits();
+        self.ui.marking_menu = MarkingMenu::Divination { failed: false };
+    }
+
+    /// 菜单打开时返回起盘失败状态，供菜单原地提示和重试。
+    pub(crate) fn divination_menu(&self) -> Option<bool> {
+        match self.ui.marking_menu {
+            MarkingMenu::Divination { failed } => Some(failed),
+            _ => None,
+        }
+    }
+
+    /// 沿用日期取数的原子提交；取时或计算失败时保留原盘。
+    pub(crate) fn cast_divination(&mut self, method: Divination) {
+        if self.divination_menu().is_none() {
+            return;
+        }
+        if let Some(input) = method.input(self.session.input().gender, self.late_zi_next()) {
+            self.dismiss_marking_menus();
+            self.apply_date_input(input);
+        } else {
+            self.ui.marking_menu = MarkingMenu::Divination { failed: true };
+        }
+    }
+
     /// 点击已选选项只提交颜色编辑，新选项才应用领域动作。
     pub(super) fn select_chart_option(&mut self, action: Action, already_selected: bool) {
         if already_selected {
@@ -157,6 +188,9 @@ impl Workspace {
 
     /// 收尾相关编辑后切换侧栏，并启用此次命盘尺寸过渡。
     pub(crate) fn toggle_sidebar(&mut self) {
+        if self.divination_menu().is_some() {
+            self.dismiss_marking_menus();
+        }
         self.marking.commit_text();
         self.marking.close_palette();
         if !self.layout.sidebar_collapsed {

@@ -4,6 +4,8 @@ use crate::i18n::{label, t};
 use rune::{ChromeInsets, El, el, row};
 use zhiji_ui::{ColorToken, Icon, IconButton, color, icon, regular_label};
 
+pub(super) const DIVINATION_TRIGGER: &str = "divination-toggle";
+
 /// 无头截图统一按 macOS 标题栏控件占位，避免基准随运行平台改变。
 const HEADLESS_LEADING: f32 =
     16.0 + 2.0 * rune::Chrome::TRAFFIC_PITCH + rune::Chrome::TRAFFIC_LIGHT;
@@ -38,6 +40,21 @@ pub(super) fn render(
             )
             .child(
                 IconButton::new(
+                    DIVINATION_TRIGGER,
+                    t("紫占"),
+                    icon(Icon::Sparkles, 16.0, ColorToken::InkNavigation),
+                )
+                .size(27.0)
+                .on_press_tx(|state: &mut AppState, tx| {
+                    state.workspace.open_divination_menu();
+                    tx.instant();
+                })
+                .build()
+                .tab_index(3)
+                .expanded(workspace.divination_menu().is_some()),
+            )
+            .child(
+                IconButton::new(
                     "layout-toggle",
                     t("双列布局"),
                     icon(
@@ -63,7 +80,7 @@ pub(super) fn render(
                 })
                 .build()
                 .role("checkbox")
-                .tab_index(3)
+                .tab_index(4)
                 .checked(workspace.presentation().two_columns()),
             );
     }

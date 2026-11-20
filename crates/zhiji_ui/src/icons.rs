@@ -5,6 +5,7 @@ use rune::{El, LineCap, Shape, canvas};
 #[derive(Clone, Copy)]
 pub enum Icon {
     Calendar,
+    Sparkles,
     Columns,
     List,
     Sidebar,
@@ -71,6 +72,23 @@ fn icon_paths(kind: Icon) -> Vec<Vec<[f32; 2]>> {
             vec![[6.5, 11.5], [7.5, 11.5]],
             vec![[12.5, 11.5], [13.5, 11.5]],
             vec![[6.5, 14.], [7.5, 14.]],
+        ]),
+        Icon::Sparkles => paths.extend([
+            vec![
+                [8., 4.],
+                [9.6, 8.4],
+                [14., 10.],
+                [9.6, 11.6],
+                [8., 16.],
+                [6.4, 11.6],
+                [2., 10.],
+                [6.4, 8.4],
+                [8., 4.],
+            ],
+            vec![[15.5, 2.5], [15.5, 7.5]],
+            vec![[13., 5.], [18., 5.]],
+            vec![[16., 13.5], [16., 17.5]],
+            vec![[14., 15.5], [18., 15.5]],
         ]),
         Icon::Columns => paths.extend([
             rounded_box(3., 4., 17., 16., 1.5),

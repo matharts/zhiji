@@ -330,6 +330,9 @@ pub(crate) fn render(state: &AppState, cx: &mut Cx<AppState>) -> El {
     if let Some(menu) = menu::more(state) {
         root = root.child(menu);
     }
+    if let Some(menu) = menu::divination(state) {
+        root = root.child(menu);
+    }
     if let Some(menu) = marking_menu::context(
         state.workspace.marking_context_menu(),
         state.window_size,
