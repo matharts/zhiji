@@ -34,6 +34,7 @@ resources = [
     { src = "vendor/LICENSE-AccessKit-MIT", target = "licenses/rune-patches/LICENSE-AccessKit-MIT" },
     { src = "vendor/wgpu-hal/LICENSE.*", target = "licenses/rune-patches/wgpu-hal" },
     { src = "vendor/winit/LICENSE", target = "licenses/rune-patches/winit/LICENSE" },
+    { src = "vendor/sctk-adwaita/LICENSE", target = "licenses/rune-patches/sctk-adwaita/LICENSE" },
     { src = "vendor/parley_engine/LICENSE-*", target = "licenses/rune-patches/parley_engine" },
 ]
 
@@ -128,7 +129,7 @@ version = "1"
 raw-window-handle = "0.6"
 windows-sys = { version = "0.61", features = ["Win32_Foundation", "Win32_System_LibraryLoader", "Win32_System_SystemInformation", "Win32_UI_WindowsAndMessaging", "Win32_UI_Shell"] }
 
-# Reuse Rune's AppKit bindings to localize standard menus without replacing responder routing.
+# 使用 AppKit 本地化标准菜单，保留系统响应者路由。
 [target.'cfg(target_os = "macos")'.dependencies]
 raw-window-handle = "0.6"
 objc2 = "0.5.2"
@@ -146,12 +147,13 @@ members = [".", "crates/zhiji_core", "crates/zhiji_ui", "crates/zhiji_calendar"]
 resolver = "3"
 
 [workspace.dependencies]
-rune = { git = "https://github.com/anomalyco/rune", rev = "ec9260605a8a135b448a5d0b2211cc4e8a066c79", default-features = false }
+rune = { git = "https://github.com/anomalyco/rune", rev = "b8470260385b39c98d39e3d203306ef4b9f63fc5", default-features = false }
 
 # Cargo 不继承依赖的补丁表；以下源码与固定 Rune 提交同步，来源见 vendor/README.md。
 [patch.crates-io]
 wgpu-hal = { path = "vendor/wgpu-hal" }
 winit = { path = "vendor/winit" }
+sctk-adwaita = { path = "vendor/sctk-adwaita" }
 parley_engine = { path = "vendor/parley_engine" }
 accesskit_macos = { path = "vendor/accesskit_macos" }
 accesskit_windows = { path = "vendor/accesskit_windows" }

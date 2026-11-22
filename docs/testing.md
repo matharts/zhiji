@@ -110,6 +110,10 @@ mise exec -- node tools/verify.ts updates
 
 同日补强草稿交互：“更多操作”先列新建、打开、最近、保存和另存为，再以分隔线隔开复制与标注可见性；首次保存显示“保存草稿…”，已保存文档显示“保存草稿”。新建草稿复用未保存保护，清空排盘、飞宫和标注，保留配色、显示、排盘规则及布局偏好；保存或打开进度与结果移到文件名下方，失败提示保留八秒。最近文件改为文件名加所在目录，十项列表在 900×600、1×／125% 字号下滚动且不挤出操作按钮。Runtime 回归覆盖菜单与快捷键新建、取消/放弃、保存面板取消、偏好保留、导出期间禁用、失败反馈位置及最近文件小窗口边界。视觉回归仅更新 `marking-more-1x.png`（差异 `x=485..596, y=495..722`）和因帮助正文增加的 `help-guide-1x.png`（差异 `x=348..940, y=493..661`），区域外像素一致。`mise exec -- node tools/verify.ts rust` 通过（586 项工作区测试），`gpu` 通过（24 项，其中 13 项视觉回归）。macOS 菜单原生检查通过并确认“新建草稿”入口；文档流程原生检查在“启动矩形恢复”处失败，未进入草稿交互步骤，启动窗口恢复原因尚未定位。Windows/Linux 原生窗口和真实系统保存面板未复核。
 
+2026-11-22 将 Rune 固定到上游 `dev` 提交 `b8470260`，配套补丁按同一提交同步。`mise exec -- node tools/verify.ts rust` 通过（590 项工作区测试、30 项 Node 检查），`mise exec -- node tools/verify.ts gpu` 通过（24 项，含 13 项离屏视觉回归）。本次检查使用工作树已有参考图，升级未修改参考图或比较容差。
+
+使用 `mise exec -- cargo check --locked --workspace --all-targets --all-features --target <目标>` 对 `x86_64-pc-windows-gnu`（MinGW）及 `x86_64-unknown-linux-gnu`（Zig）执行交叉检查，均通过。macOS arm64 release 构建、应用包临时签名校验及包内新增的 `sctk-adwaita` 许可证字节核对通过。`verify.ts native`、系统菜单及草稿文件流程原生检查通过。草稿文件流程前两次分别停在启动矩形恢复和保存面板，第三次完整通过。Windows/Linux 原生交互未运行。
+
 ## 原生与平台验证
 
 Windows/Linux 单实例协议的独立测试不启动图形窗口：
