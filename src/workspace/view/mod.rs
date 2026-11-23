@@ -2,6 +2,7 @@
 
 pub(crate) mod chart_controls;
 pub(crate) mod chart_workspace;
+pub(crate) mod comments;
 
 use super::Workspace;
 

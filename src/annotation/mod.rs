@@ -23,7 +23,7 @@ use geometry::Handle;
 use interaction::Interaction;
 pub(crate) use model::{Ink, Mark, MarkKind, Point, Tool, Weight};
 pub(crate) use render::{annotate, text_style as annotation_text_style};
-pub(crate) use validation::{ValidatedMarks, ValidationError, validate};
+pub(crate) use validation::{ValidatedMarks, ValidationError, validate_layers};
 
 impl Ink {
     /// 返回内置墨色的语义颜色，自定义 RGB 不映射到主题 token。
@@ -126,6 +126,14 @@ impl Marking {
     pub(crate) fn close_palette(&mut self) {
         self.palette_open = false;
         self.custom_color.open = false;
+    }
+
+    /// 离开标注组前提交文字，撤销未完成的拖动并清除指针反馈。
+    pub(crate) fn finish_layer_edit(&mut self) {
+        self.commit_text();
+        self.cancel_interaction();
+        self.close_palette();
+        self.hover_cursor = None;
     }
     /// 借用全部已提交标注，包含当前隐藏的对象。
     pub(crate) fn marks(&self) -> &[Mark] {

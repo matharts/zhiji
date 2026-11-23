@@ -46,7 +46,7 @@ pub(super) fn values(input: &Input) -> InputValues {
 }
 
 /// 在有界循环内推进草稿后台任务。
-fn wait_draft(runtime: &mut Runtime<AppState>) {
+pub(super) fn wait_draft(runtime: &mut Runtime<AppState>) {
     let deadline = std::time::Instant::now() + std::time::Duration::from_secs(10);
     runtime.frame(0.0);
     while runtime.state.document.is_working() {

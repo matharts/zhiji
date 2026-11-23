@@ -48,6 +48,10 @@ pub(crate) fn on_key(state: &mut AppState, event: &KeyEvent, tx: &mut Tx) -> boo
     if state.workspace.input_editor_open() {
         return state.workspace.on_key(event, tx);
     }
+    if state.workspace.comment_dialog_open() {
+        // 文本、输入法和 Escape 由当前批注模态层处理。
+        return false;
+    }
     if !event.mods.alt {
         let action = match (&event.key, event.mods.shift) {
             (Key::Command('n'), false) => Some(AppState::menu_new as fn(&mut AppState, &mut Tx)),

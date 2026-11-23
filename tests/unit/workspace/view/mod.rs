@@ -3,6 +3,7 @@ mod color_drag;
 mod color_inputs;
 mod color_panel;
 mod color_sliders;
+mod comments;
 mod draft;
 mod feature_binding;
 mod interaction;

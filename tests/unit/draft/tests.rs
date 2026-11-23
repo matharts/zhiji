@@ -102,6 +102,32 @@ fn previously_saved_v4_draft_remains_readable_and_round_trips() {
 }
 
 #[test]
+/// 拒绝无法定位、空白主题、过长正文、无效组内标注和未知批注字段。
+fn draft_rejects_invalid_comment_data_on_read_and_save() {
+    let (session, marking) = example();
+    for comment in [
+        serde_json::json!({"position": [-1.0, 40.0], "title": "财富", "body": "判断"}),
+        serde_json::json!({"position": [10.0, 40.0], "title": " ", "body": "判断"}),
+        serde_json::json!({"position": [10.0, 40.0], "title": "财富", "body": "中".repeat(4001)}),
+        serde_json::json!({"position": [10.0, 40.0], "title": "财富", "body": "判断", "marks": [
+            {"ink": "Indigo", "weight": "Medium", "stroke_width": 2.5,
+             "kind": {"Rectangle": [[-1.0, 40.0], [40.0, 60.0]]}}
+        ]}),
+    ] {
+        let mut data = serde_json::to_value(Draft::capture(&session, &marking)).unwrap();
+        data["comments"] = serde_json::json!([comment]);
+        let invalid = serde_json::from_value::<Draft>(data).unwrap();
+        assert!(invalid.validate_for_save().is_err());
+        assert!(invalid.restore().is_err());
+    }
+    let mut data = serde_json::to_value(Draft::capture(&session, &marking)).unwrap();
+    data["comments"] = serde_json::json!([
+        {"position": [10.0, 40.0], "title": "财富", "body": "判断", "extra": 1}
+    ]);
+    assert!(serde_json::from_value::<Draft>(data).is_err());
+}
+
+#[test]
 /// 验证保存的飞宫保持原样直到输入变化。
 fn saved_flying_is_preserved_until_input_changes() {
     let (session, marking) = example();

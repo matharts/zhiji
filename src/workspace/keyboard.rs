@@ -15,8 +15,12 @@ impl Workspace {
             return true;
         }
         if event.key == Key::Escape {
-            if self.marking.custom_color.open {
-                self.marking.custom_color.open = false;
+            if self.comments.preview.take().is_some() {
+                tx.instant();
+                return true;
+            }
+            if self.marking_mut().custom_color.open {
+                self.marking_mut().custom_color.open = false;
                 tx.instant();
                 return true;
             }
@@ -34,38 +38,38 @@ impl Workspace {
                 tx.animated();
                 return true;
             }
-            if self.marking.cancel_text() {
+            if self.marking_mut().cancel_text() {
                 tx.blur();
                 tx.instant();
                 return true;
             }
-            if self.marking.deselect() {
+            if self.marking_mut().deselect() {
                 tx.instant();
                 return true;
             }
-            if self.marking.tool() != Tool::Select {
-                self.marking.select(Tool::Select);
+            if self.marking().tool() != Tool::Select {
+                self.marking_mut().select(Tool::Select);
                 tx.instant();
                 return true;
             }
         }
         if matches!(event.key, Key::Command('z'))
             && !event.mods.shift
-            && self.marking.text().is_none()
+            && self.marking().text().is_none()
             && self.color_editor.active_color().is_none()
-            && self.marking.can_undo()
+            && self.marking().can_undo()
         {
-            self.marking.undo();
+            self.marking_mut().undo();
             tx.instant();
             return true;
         }
         if (matches!(event.key, Key::Command('z')) && event.mods.shift
             || matches!(event.key, Key::Command('y')))
-            && self.marking.text().is_none()
+            && self.marking().text().is_none()
             && self.color_editor.active_color().is_none()
-            && self.marking.can_redo()
+            && self.marking().can_redo()
         {
-            self.marking.redo();
+            self.marking_mut().redo();
             tx.instant();
             return true;
         }
@@ -74,7 +78,7 @@ impl Workspace {
             .and_then(|key| key.strip_prefix("annotation-object-"))
             .and_then(|index| index.parse::<usize>().ok());
         if (tx.focused() == Some("annotation-surface") || focused_object.is_some())
-            && self.marking.text().is_none()
+            && self.marking().text().is_none()
         {
             if let Some(index) = focused_object
                 && matches!(
@@ -82,11 +86,11 @@ impl Workspace {
                     Key::Left | Key::Right | Key::Up | Key::Down | Key::Backspace | Key::Delete
                 )
             {
-                self.marking.select_index(index);
+                self.marking_mut().select_index(index);
             }
             let handled = match event.key {
-                Key::Enter => self.marking.edit_selected_text(),
-                Key::Backspace | Key::Delete => self.marking.delete_selected(),
+                Key::Enter => self.marking_mut().edit_selected_text(),
+                Key::Backspace | Key::Delete => self.marking_mut().delete_selected(),
                 Key::Left | Key::Right | Key::Up | Key::Down => {
                     let step = if event.mods.shift { 10.0 } else { 1.0 };
                     let delta = match event.key {
@@ -99,9 +103,9 @@ impl Workspace {
                     if event.mods.cmd || event.mods.ctrl || event.mods.logo {
                         false
                     } else if event.mods.alt {
-                        self.marking.resize_selected(delta)
+                        self.marking_mut().resize_selected(delta)
                     } else {
-                        self.marking.nudge_selected(delta)
+                        self.marking_mut().nudge_selected(delta)
                     }
                 }
                 _ => false,

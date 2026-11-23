@@ -23,30 +23,37 @@ impl TryFrom<Vec<Mark>> for ValidatedMarks {
 
     /// 校验全部标注后取得所有权，失败时不产生可恢复集合。
     fn try_from(marks: Vec<Mark>) -> Result<Self, Self::Error> {
-        validate(&marks)?;
+        validate_layers([marks.as_slice()])?;
         Ok(Self(marks))
     }
 }
 
 impl ValidatedMarks {
+    /// 借用通用标注参与整份草稿的资源校验。
+    pub(crate) fn as_slice(&self) -> &[Mark] {
+        &self.0
+    }
+
     /// 取出已校验标注，供恢复事务安装。
     pub(crate) fn into_inner(self) -> Vec<Mark> {
         self.0
     }
 }
 
-/// 检查总数、累计路径点、文字长度、有限数值和盘面范围，遇错立即拒绝。
-pub(crate) fn validate(marks: &[Mark]) -> Result<(), ValidationError> {
-    if marks.len() > MAX_MARKS {
-        return Err(ValidationError::TooManyMarks);
-    }
+/// 按整份草稿累计标注和路径点，并检查每个对象的文字、数值和范围。
+pub(crate) fn validate_layers<'a>(
+    layers: impl IntoIterator<Item = &'a [Mark]>,
+) -> Result<(), ValidationError> {
     let valid_point = |point: Point| {
         point
             .iter()
             .all(|p| p.is_finite() && (0.0..=crate::chart::SIZE).contains(p))
     };
     let mut point_count = 0usize;
-    for mark in marks {
+    for (index, mark) in layers.into_iter().flatten().enumerate() {
+        if index == MAX_MARKS {
+            return Err(ValidationError::TooManyMarks);
+        }
         if !mark.stroke_width.is_finite() || !(0.1..=128.0).contains(&mark.stroke_width) {
             return Err(ValidationError::InvalidStroke);
         }

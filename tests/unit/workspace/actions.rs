@@ -11,9 +11,12 @@ fn marking_menus_are_exclusive_and_dismiss_idempotently() {
     let point = rune::PointerPress { x: 20.0, y: 30.0 };
     workspace.toggle_marking_menu();
     assert!(workspace.marking_menu_open());
-    workspace.open_marking_context_menu(point);
+    workspace.open_marking_context_menu(point, [10.0, 20.0]);
     assert!(!workspace.marking_menu_open());
-    assert_eq!(workspace.marking_context_menu(), Some(point));
+    assert_eq!(
+        workspace.marking_context_menu(),
+        Some((point, [10.0, 20.0]))
+    );
     workspace.toggle_marking_menu();
     assert!(workspace.marking_menu_open());
     assert!(workspace.marking_context_menu().is_none());

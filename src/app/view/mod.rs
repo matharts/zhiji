@@ -10,7 +10,9 @@ use crate::app::AppState;
 use crate::chart;
 use crate::i18n::LocalizedEl;
 use crate::preferences::{color_editor::view as color_editor, view as preferences};
-use crate::workspace::view::{SIDEBAR_MOTION, chart_controls as settings, chart_workspace};
+use crate::workspace::view::{
+    SIDEBAR_MOTION, chart_controls as settings, chart_workspace, comments,
+};
 use crate::{
     draft::confirm as draft_confirm,
     export::{confirm as export_confirm, control as export_control},
@@ -314,6 +316,28 @@ pub(crate) fn render(state: &AppState, cx: &mut Cx<AppState>) -> El {
             )
             .anchored("chart-toolbar-anchor", Side::Top, Align::Center, 0.0),
         );
+    if state.workspace.comments_visible() {
+        // 索引和预览叠在已有留白上，批注状态不参与命盘布局计算。
+        let side = chart_layout.side();
+        let chart_left = (columns.chart_width() - side) / 2.0;
+        let (rail, preview_side) = comments::rail::<AppState>(
+            &state.workspace,
+            [chart_left, chart_top + chart_shift],
+            side,
+            marking_toolbar::RESERVED_HEIGHT - marking_toolbar::HEIGHT,
+        );
+        root = root.child(rail);
+        if let Some(preview) = comments::preview::<AppState>(
+            &state.workspace,
+            [window_width, pane_height],
+            preview_side,
+        ) {
+            root = root.child(preview);
+        }
+        if let Some(menu) = comments::actions_menu::<AppState>(&state.workspace) {
+            root = root.child(menu);
+        }
+    }
     if state.workspace.menu_open() && state.workspace.divination_menu().is_none() {
         root = root.child(
             el().key("dismiss-marking-menu")
@@ -337,16 +361,21 @@ pub(crate) fn render(state: &AppState, cx: &mut Cx<AppState>) -> El {
     if let Some(menu) = menu::divination(state) {
         root = root.child(menu);
     }
-    if let Some(menu) = marking_menu::context(
-        state.workspace.marking_context_menu(),
-        state.window_size,
-        state.workspace.marking(),
-        context_action,
-    ) {
-        root = root.child(menu);
+    if let Some((point, position)) = state.workspace.marking_context_menu() {
+        root = root.child(marking_menu::context(
+            point,
+            state.window_size,
+            state.workspace.marking(),
+            context_action,
+            chart_workspace::comment_entry::<AppState>(
+                &state.workspace,
+                position,
+                "annotation-surface".to_owned(),
+            ),
+        ));
     }
     if let Some(menu) =
-        chart_workspace::palace_context::<AppState>(&state.workspace, state.window_size)
+        chart_workspace::chart_context::<AppState>(&state.workspace, state.window_size)
     {
         root = root.child(menu);
     }
@@ -439,6 +468,9 @@ pub(crate) fn render(state: &AppState, cx: &mut Cx<AppState>) -> El {
         AppState::save_conflict_as,
     ) {
         root = root.child(confirmation);
+    }
+    if let Some(dialog) = comments::dialog::<AppState>(&state.workspace) {
+        root = root.child(dialog);
     }
     if let Some(dialog) = crate::workspace::input::render(state, cx) {
         root = root.child(dialog);

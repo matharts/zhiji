@@ -10,6 +10,7 @@ use crate::color::Palette;
 #[cfg(test)]
 use crate::session::Session;
 use crate::session::{Display, Flying};
+use crate::workspace::comments::{self, Comment};
 use crate::workspace::{DraftSnapshot, RestoreError, RestoredWorkspace, WorkspaceContent};
 
 pub(super) const VERSION: u32 = 4;
@@ -24,6 +25,8 @@ pub(super) struct Draft {
     pub(super) flying: Option<DraftFlying>,
     pub(super) marks: Vec<Mark>,
     pub(super) visible: bool,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub(super) comments: Vec<Comment>,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -143,6 +146,7 @@ impl Draft {
             flying,
             marks,
             visible,
+            comments,
         } = snapshot.into_content();
         Self {
             version: VERSION,
@@ -155,6 +159,7 @@ impl Draft {
             }),
             marks,
             visible,
+            comments,
         }
     }
 
@@ -164,12 +169,17 @@ impl Draft {
         Self::from_snapshot(DraftSnapshot::for_test(session, marking))
     }
 
-    /// 保存前校验版本、标注资源限制、年干支及飞宫，避免写出无法恢复的草稿。
+    /// 保存前校验版本、标注、批注、年干支及飞宫，避免写出无法恢复的草稿。
     pub(super) fn validate_for_save(&self) -> Result<(), String> {
         if self.version != VERSION {
             return Err("不支持此草稿版本".into());
         }
-        crate::annotation::validate(&self.marks).map_err(annotation_save_error)?;
+        comments::validate(&self.comments)?;
+        crate::annotation::validate_layers(
+            std::iter::once(self.marks.as_slice())
+                .chain(self.comments.iter().map(|comment| comment.marks.as_slice())),
+        )
+        .map_err(annotation_save_error)?;
         let input: Input = self.input.try_into()?;
         if !crate::session::valid_birth_branch(&input) {
             return Err("请选择匹配的天干和地支后重试".into());
@@ -195,10 +205,13 @@ impl Draft {
             flying,
             marks,
             visible: self.visible,
+            comments: self.comments,
         })
         .map_err(|error| match error {
             RestoreError::InvalidBirthPair => "草稿中的排盘参数无效".to_owned(),
             RestoreError::InvalidFlying => "草稿中的飞宫星曜无效".to_owned(),
+            RestoreError::Comments(message) => message.to_owned(),
+            RestoreError::Annotations(error) => annotation_read_error(error).to_owned(),
         })
     }
 }

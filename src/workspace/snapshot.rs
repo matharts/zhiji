@@ -2,7 +2,8 @@
 
 use zhiji_core::Input;
 
-use crate::annotation::{Mark, Marking, ValidatedMarks};
+use super::comments::{self, Comment, Entry};
+use crate::annotation::{Mark, Marking, ValidatedMarks, ValidationError};
 use crate::color::Palette;
 use crate::preferences::settings::ChineseVariant;
 use crate::session::{ChartSnapshot, ChartView, Display, Flying, Session};
@@ -22,6 +23,7 @@ pub(crate) struct WorkspaceContent<Marks> {
     pub(crate) flying: Option<Flying>,
     pub(crate) marks: Marks,
     pub(crate) visible: bool,
+    pub(crate) comments: Vec<Comment>,
 }
 
 /// 导入操作准备的已校验工作区，只在完整成功后安装。
@@ -29,6 +31,7 @@ pub(crate) struct RestoredWorkspace {
     session: Session,
     marks: Vec<Mark>,
     visible: bool,
+    comments: Vec<Comment>,
 }
 
 impl RestoredWorkspace {
@@ -45,6 +48,18 @@ impl RestoredWorkspace {
         {
             return Err(RestoreError::InvalidFlying);
         }
+        comments::validate(&content.comments).map_err(RestoreError::Comments)?;
+        if !content.comments.is_empty() {
+            crate::annotation::validate_layers(
+                std::iter::once(content.marks.as_slice()).chain(
+                    content
+                        .comments
+                        .iter()
+                        .map(|comment| comment.marks.as_slice()),
+                ),
+            )
+            .map_err(RestoreError::Annotations)?;
+        }
         Ok(Self {
             session: Session::restore(
                 content.input,
@@ -54,6 +69,7 @@ impl RestoredWorkspace {
             ),
             marks: content.marks.into_inner(),
             visible: content.visible,
+            comments: content.comments,
         })
     }
 
@@ -67,13 +83,14 @@ impl RestoredWorkspace {
                 flying: self.session.view().flying,
                 marks: self.marks.clone(),
                 visible: self.visible,
+                comments: self.comments.clone(),
             },
         }
     }
 
-    /// 消费恢复结果，将会话和标注一起交给工作区安装。
-    pub(super) fn into_parts(self) -> (Session, Vec<Mark>, bool) {
-        (self.session, self.marks, self.visible)
+    /// 消费恢复结果，将会话、标注和批注交给工作区一次性安装。
+    pub(super) fn into_parts(self) -> (Session, Vec<Mark>, bool, Vec<Comment>) {
+        (self.session, self.marks, self.visible, self.comments)
     }
 }
 
@@ -81,11 +98,13 @@ impl RestoredWorkspace {
 pub(crate) enum RestoreError {
     InvalidBirthPair,
     InvalidFlying,
+    Comments(&'static str),
+    Annotations(ValidationError),
 }
 
 impl DraftSnapshot {
-    /// 冻结会话、全部标注和可见性，不包含窗口偏好。
-    pub(super) fn capture(session: &Session, marking: &Marking) -> Self {
+    /// 冻结会话、全部标注及批注，不包含窗口偏好。
+    pub(super) fn capture(session: &Session, marking: &Marking, comments: &[Entry]) -> Self {
         Self {
             content: WorkspaceContent {
                 input: session.input().clone(),
@@ -94,18 +113,24 @@ impl DraftSnapshot {
                 flying: session.view().flying,
                 marks: marking.marks().to_vec(),
                 visible: marking.visible(),
+                comments: comments.iter().map(Entry::snapshot).collect(),
             },
         }
     }
 
     /// 按文档内容比较保存基线，不因界面临时状态变化而变脏。
-    pub(super) fn matches(&self, session: &Session, marking: &Marking) -> bool {
+    pub(super) fn matches(&self, session: &Session, marking: &Marking, comments: &[Entry]) -> bool {
         self.content.input == *session.input()
             && self.content.display == *session.display()
             && self.content.palette == *session.palette()
             && self.content.flying == session.view().flying
             && self.content.visible == marking.visible()
             && self.content.marks == marking.marks()
+            && self.content.comments.len() == comments.len()
+            && comments
+                .iter()
+                .zip(&self.content.comments)
+                .all(|(entry, saved)| entry.matches(saved))
     }
 
     /// 消费快照并转移原始内容，避免序列化前重复克隆。
@@ -116,7 +141,7 @@ impl DraftSnapshot {
     #[cfg(test)]
     /// 为测试提供与生产捕获相同的数据边界。
     pub(crate) fn for_test(session: &Session, marking: &Marking) -> Self {
-        Self::capture(session, marking)
+        Self::capture(session, marking, &[])
     }
 }
 
