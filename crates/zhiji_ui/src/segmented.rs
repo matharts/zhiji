@@ -137,6 +137,7 @@ pub struct SegmentedOption {
     borderless: bool,
     role: &'static str,
     neutral: bool,
+    selection_fill: ColorToken,
 }
 
 impl SegmentedOption {
@@ -161,6 +162,7 @@ impl SegmentedOption {
             borderless: false,
             role: "radio",
             neutral: false,
+            selection_fill: ColorToken::AccentSurface,
         }
     }
 
@@ -222,6 +224,12 @@ impl SegmentedOption {
     /// 与中性色分段容器使用一致的文字和悬停颜色。
     pub fn neutral(mut self) -> Self {
         self.neutral = true;
+        self
+    }
+
+    /// 指定选中背景的语义颜色，悬停色保持统一。
+    pub fn selection_fill(mut self, fill: ColorToken) -> Self {
+        self.selection_fill = fill;
         self
     }
 
@@ -315,7 +323,7 @@ impl SegmentedOption {
                     .key(selection_key)
                     .size(width, self.height)
                     .radius(self.radius)
-                    .fill(color(ColorToken::AccentSurface))
+                    .fill(color(self.selection_fill))
                     .absolute(0.0, 0.0)
                     .opacity(if self.selected { 1.0 } else { 0.0 })
                     .opacity_motion(Curve::tween(0.12, Easing::EASE))
@@ -345,7 +353,7 @@ impl SegmentedOption {
             item.child(content)
         };
         if self.selected && !self.group_indicator && self.selection_width.is_none() {
-            item = item.fill(color(ColorToken::AccentSurface));
+            item = item.fill(color(self.selection_fill));
             if !self.borderless {
                 item = item.border(1.0, color(ColorToken::BorderSoft));
             }

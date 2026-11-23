@@ -45,7 +45,7 @@ mise exec -- cargo test --locked -p zhiji_ui
 
 日期与地区选择器的展示部件同样由调用方控制，不依赖日期计算、地区数据或应用状态：
 
-- `ChoiceOption` 复用 `SegmentedOption`，可通过 `size`、`fill_width`、`subtitle` 与 `content` 组织网格选项；新网格使用 `borderless`，列表使用 `list_item`。`Segmented::columns` 提供等宽多行布局，容器尺寸由 `size` 指定。默认选中配色为浅紫底与深紫字。
+- `ChoiceOption` 复用 `SegmentedOption`，可通过 `size`、`fill_width`、`subtitle`、`content` 与 `selection_fill` 组织网格选项；`selection_fill` 只替换选中背景，悬停反馈保持共享样式。新网格使用 `borderless`，列表使用 `list_item`。`Segmented::columns` 提供等宽多行布局，容器尺寸由 `size` 指定。默认选中配色为浅紫底与深紫字。
 - `LegendOption` 接收调用方绘制的符号和选中状态；`selection_fill`、`hover_fill` 与 `ink` 支持白底编码图例等外观，组件自身不解释符号。可用选项提供悬停过渡和轻微按压缩放；减少动态效果时取消缩放，禁用时无指针反馈。选中颜色的过渡由调用方的动画事务控制。
 - `CalendarGrid` 只排列调用方提供的单元，支持自定列数与间距；空白日期由普通 `El` 表示。日期选项使用 `ChoiceOption::calendar_cell`，方向键移动焦点，Return/Space 选择日期。`SelectList` 提供滚动和焦点组；上下键、Home/End、键入查找移动焦点，Return/Space 触发选项动作。`CascadeColumns` 排列三级列，各列的标题、选项和关联由调用方提供。
 - `DropdownTrigger` 由 `expanded` 控制，点击、Space 和上下键请求打开或关闭；`trailing_space` 可为外部叠放的独立控件预留文字与箭头之间的空间。列表的位置与 Escape 关闭路径由调用方组合。
