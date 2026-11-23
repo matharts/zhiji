@@ -7,6 +7,15 @@
 /.serena/
 /.unlazy/
 
+# 官网本地评审截图
+/.impeccable/review/
+
+# 官网改版的本地中间快照
+/.scratch/website-redesign/navigation-baseline/
+/.scratch/website-redesign/reference-polish-baseline/
+/.scratch/website-redesign/rejected-five-point/
+/.scratch/website-redesign/workflow-baseline/
+
 # 本地任务记录中的临时验证截图
 /.scratch/**/screenshots/
 /.scratch/*.png
