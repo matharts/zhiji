@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>知几 · 命例库布局原型</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="desktop.css">
+  <script src="app.js" defer></script>
+</head>
+<body data-variant="1">
+  <div id="stage"></div>
+  <nav class="proto-picker" aria-label="切换布局原型">
+    <span class="proto-picker-highlight" aria-hidden="true"></span>
+    <button class="proto-picker-item" data-active aria-current="true">目录列表</button>
+    <button class="proto-picker-item">盘面卡片</button>
+    <button class="proto-picker-item">分组目录</button>
+    <button class="proto-picker-item">专题书架</button>
+  </nav>
+  <div id="toast" role="status"></div>
+</body>
+</html>
