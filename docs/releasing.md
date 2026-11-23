@@ -58,6 +58,14 @@ mise exec -- node tools/verify.ts updates
 
 首次正式发布后须分别在三端用公开源完成真实升级，检查原路径替换、版本、草稿与偏好保持、取消及错误恢复。隔离源和篡改拒绝测试不能替代公开链路验收，交叉编译不等于 Windows/Linux 安装及重启验收。更新包签名不替代 macOS Developer ID/公证或 Windows 系统分发信任。Unix 安装要求目标目录可写，并保留回滚备份；非常规受保护目录的更新失败须明确报告，不能删除用户数据后重试。
 
+## 官网部署
+
+[Website 工作流](../.github/workflows/website.yml) 在 `main` 推送或从 `main` 手动运行时，使用通过检查的 Astro 静态产物部署腾讯云 COS。部署先上传资源，再更新 HTML，保留桶中的已有对象。发布后通过官网的 HTTPS 地址访问首页和下载页，核对返回的 HTML 是否与本次构建一致。
+
+1. 在 COS 存储桶启用静态网站，索引文档设为 `index.html`，并允许访客读取网站对象。将官网域名绑定到静态网站源站，按腾讯云控制台给出的 CNAME 配置 DNS，并为该域名绑定 HTTPS 证书。[静态网站配置](https://cloud.tencent.com/document/product/436/32670) · [自定义源站域名](https://cloud.tencent.com/document/product/436/36638)
+2. 为 CI 创建专用 CAM 凭据，授权写入工作流指定的存储桶。当前官网产物只需对象上传权限 `name/cos:PutObject`。将 SecretId 和 SecretKey 分别存入 GitHub 的 `website-production` 环境 Secrets，名称为 `TENCENT_SECRET_ID` 和 `TENCENT_SECRET_KEY`。该环境仅允许 `main` 部署。[CAM 用户策略](https://cloud.tencent.com/document/product/436/68280)
+3. 到 GitHub Actions 的 [Website 工作流](https://github.com/matharts/zhiji/actions/workflows/website.yml) 选择 `Run workflow`，使用 `main` 执行首次部署并查看结果。域名或证书修复后也可从这里重新运行。
+
 ## 数据格式与诊断
 
 当前草稿格式不支持旧版本，见[领域规则](domain.md)。不自动删除用户配置目录或已有草稿。

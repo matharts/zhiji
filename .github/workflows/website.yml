@@ -10,7 +10,8 @@ permissions:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  # 主分支可能正在写入 COS，等本次部署完成再开始下一次。
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
   verify:
@@ -22,3 +23,111 @@ jobs:
           install_args: "node pnpm"
       - name: Verify website
         run: mise exec -- node tools/verify.ts website
+      - name: Save verified website
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@v7
+        with:
+          name: website-dist
+          path: website/dist/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 7
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: verify
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    environment:
+      name: website-production
+      url: ${{ env.WEBSITE_URL }}
+    env:
+      COS_BUCKET: zhiji-1257461956
+      COS_REGION: ap-guangzhou
+      WEBSITE_URL: https://zhiji.0x219.com
+    steps:
+      - name: Check deployment revision
+        id: revision
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          # GitHub 可以重跑历史任务；只发布仍是主分支最新提交的构建。
+          current_sha="$(gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/main" --jq .object.sha)"
+          if [[ "$current_sha" == "$GITHUB_SHA" ]]; then
+            echo "current=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::main 已有更新的提交，本次构建跳过发布。"
+          fi
+      - name: Download verified website
+        if: steps.revision.outputs.current == 'true'
+        uses: actions/download-artifact@v8
+        with:
+          name: website-dist
+          path: dist
+      - name: Install COSCLI
+        if: steps.revision.outputs.current == 'true'
+        shell: bash
+        run: |
+          # 固定腾讯云官方工具版本和 Linux x64 发布包的 SHA-256。
+          coscli="$RUNNER_TEMP/coscli"
+          curl --fail --silent --show-error --location --retry 3 \
+            --output "$coscli" \
+            https://github.com/tencentyun/coscli/releases/download/v1.0.9/coscli-v1.0.9-linux-amd64
+          printf '%s  %s\n' a07de5ba2800147a700ed29036b0c76a4229088cee68e1682d0eae19b638a915 "$coscli" | sha256sum --check
+          chmod +x "$coscli"
+      - name: Upload website to Tencent Cloud COS
+        if: steps.revision.outputs.current == 'true'
+        env:
+          TENCENT_SECRET_ID: ${{ secrets.TENCENT_SECRET_ID }}
+          TENCENT_SECRET_KEY: ${{ secrets.TENCENT_SECRET_KEY }}
+        shell: bash
+        run: |
+          : "${TENCENT_SECRET_ID:?请在 website-production 环境配置 TENCENT_SECRET_ID}"
+          : "${TENCENT_SECRET_KEY:?请在 website-production 环境配置 TENCENT_SECRET_KEY}"
+          test -s dist/index.html
+          test -s dist/download/index.html
+
+          # 只在当前步骤把密钥写入权限受限的临时配置，避免作为命令行参数传递。
+          umask 077
+          config_dir="$(mktemp -d "$RUNNER_TEMP/cos.XXXXXXXX")"
+          config="$config_dir/cos.yaml"
+          trap 'rm -f -- "$config"; rmdir -- "$config_dir"' EXIT
+          jq -n --arg bucket "$COS_BUCKET" --arg endpoint "cos.$COS_REGION.myqcloud.com" '{
+            cos: {
+              base: {
+                secretid: env.TENCENT_SECRET_ID,
+                secretkey: env.TENCENT_SECRET_KEY,
+                disableencryption: "true",
+                protocol: "https"
+              },
+              buckets: [{name: $bucket, alias: $bucket, endpoint: $endpoint}]
+            }
+          }' > "$config"
+          unset TENCENT_SECRET_ID TENCENT_SECRET_KEY
+
+          # 先上传页面引用的资源，再更新 HTML。保留已有对象，供旧页面继续加载。
+          coscli=("$RUNNER_TEMP/coscli" --config-path "$config" --bucket-type COS)
+          destination="cos://$COS_BUCKET/"
+          "${coscli[@]}" cp ./dist/ "$destination" --recursive --skip-dir --exclude '\.(html|js|css)$'
+          # 浏览器会校验模块脚本和样式的 MIME 类型，上传时明确指定。
+          "${coscli[@]}" cp ./dist/ "$destination" --recursive --skip-dir --include '\.js$' \
+            --meta 'Content-Type:text/javascript; charset=utf-8'
+          "${coscli[@]}" cp ./dist/ "$destination" --recursive --skip-dir --include '\.css$' \
+            --meta 'Content-Type:text/css; charset=utf-8'
+          "${coscli[@]}" cp ./dist/ "$destination" --recursive --skip-dir --include '\.html$' \
+            --meta 'Cache-Control:no-cache#Content-Type:text/html; charset=utf-8'
+      - name: Verify public website
+        if: steps.revision.outputs.current == 'true'
+        shell: bash
+        run: |
+          # 从公开域名校验首页和子目录路由，确保返回本次构建的页面。
+          for route in / /download/; do
+            curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' \
+              --retry 3 --max-time 30 --header 'Cache-Control: no-cache' \
+              --output "$RUNNER_TEMP/zhiji-page.html" "$WEBSITE_URL$route"
+            if ! cmp -s "$RUNNER_TEMP/zhiji-page.html" "dist${route}index.html"; then
+              echo "::error::官网 $route 返回的内容与本次构建不一致。"
+              exit 1
+            fi
+          done
