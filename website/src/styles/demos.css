@@ -1,11 +1,4 @@
 .flight-module { padding: 32px 0 0; border-top: 1px solid #403548; }
-/* 三种取数入口各用自己的规则，确认后才汇入共同排盘参数。 */
-.input-rule-columns { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; text-align: center; }
-.input-rule-columns>div { display: flex; flex-direction: column; gap: 12px; padding: 16px 4px; }
-.input-rule-columns span { font-size: 11px; color: #b9a9c9; }
-.input-rule-columns strong { font-size: 13px; font-weight: 500; line-height: 1.8; color: #e7dcf0; }
-.flight-title { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; margin-bottom: 36px; }
-.flight-title h3 { font-size: 17px; font-weight: 500; }.flight-title p { font-size: 12px; color: var(--muted); }
 .flight-layout { grid-template-columns: minmax(0,1.35fr) minmax(250px,.65fr); gap: 70px; }
 .flight-chart { max-width: 600px; margin-inline: auto; }
 .flight-cell { display: flex; flex-direction: column; align-items: stretch; transition: border-color 160ms ease,background 160ms ease; }
@@ -27,8 +20,3 @@
 .flight-choice input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
 .flight-choice b { font: 500 25px var(--display-font); color: #dfc4f7; }.flight-choice strong { font-size: 15px; font-weight: 500; }.flight-choice small { font-size: 12px; color: #b5a6c1; white-space: nowrap; }
 .flight-result { font-size: 13px; color: #ceb5e1; margin-top: 22px; }
-.self-band { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; margin-top: 64px; padding-top: 38px; border-top: 1px solid var(--line); align-items: center; }
-.self-band h3 { font: 500 27px/1.5 var(--display-font); }.self-band p { color: var(--muted); font-size: 13px; margin-top: 14px; }
-.example-heading { display: flex; justify-content: space-between; align-items: center; gap: 14px; font-size: 11px; color: #b7a6c6; }
-.self-example-body { display: flex; gap: 42px; align-items: center; margin-top: 24px; }.self-star { display: flex; flex-direction: column; gap: 8px; }.self-star span { font-size: 11px; color: var(--muted); }.self-star strong { font: 500 38px var(--display-font); }
-.self-directions { flex: 1; margin: 0; }.self-directions > div { display: flex; justify-content: space-between; gap: 20px; padding-block: 10px; }.self-directions dt { display: inline-flex; align-items: center; gap: 10px; font-size: 12px; color: #bba9cb; }.self-directions dd { margin: 0; font: 500 23px var(--display-font); }

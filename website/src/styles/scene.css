@@ -1,7 +1,3 @@
-.hero {
-    min-height: 680px;
-    height: min(100svh, 1060px);
-}
 .hero-canvas {
     position: absolute;
     inset: 0;

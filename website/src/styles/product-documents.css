@@ -1,0 +1,64 @@
+/* 四组能力各自可直达，宽屏双列排开。 */
+.feature-groups { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(28px, 6vw, 86px) clamp(26px, 5vw, 72px); }
+.function-group h2 { margin-bottom: 18px; color: var(--product-accent); }
+.function-item { min-width: 0; }
+.function-item + .function-item { margin-top: 24px; }
+.function-item-heading { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 3px 14px; }
+.function-item h3 { font-size: clamp(16px, 1.65vw, 22px); font-weight: 600; }
+.function-item-heading .product-link { color: var(--product-accent); }
+.function-item ul { display: grid; gap: 9px; margin: 10px 0 0; padding-inline-start: 1.1em; color: var(--product-soft); font-size: 14px; list-style: disc; }
+.function-item li::marker { color: var(--product-accent); }
+
+/* 指南依靠标题与留白定位，提示只用一层底色。 */
+.guide-sheets { max-width: 760px; }
+.guide-topic + .guide-topic { margin-top: clamp(36px, 7vw, 78px); }
+.guide-topic p { max-width: 45em; margin-top: 15px; color: var(--product-soft); font-size: 14px; }
+.guide-topic ol { display: grid; gap: 10px; margin: 17px 0 0; padding-inline-start: 1.65em; color: #e0d6e9; font-size: 14px; line-height: 1.85; list-style: decimal; }
+.guide-topic li { padding-inline-start: 6px; }
+.guide-topic li::marker { color: var(--product-accent); font-size: 13px; font-weight: 650; }
+.guide-topic .guide-aside { margin-top: 21px; padding: 10px 12px; background: #a086b721; font-size: 13px; }
+.guide-topic > .product-link { margin-top: 8px; color: var(--product-accent); }
+.guide-keys { margin-top: 24px; width: 100%; border-collapse: collapse; color: #e0d6e9; font-size: 13px; }
+.guide-keys th, .guide-keys td { padding: 10px 4px; text-align: start; font-weight: 500; }
+.guide-keys thead { color: var(--product-accent); }
+.guide-keys kbd { display: inline-block; margin: 2px 2px 2px 0; padding: 1px 5px; border-radius: 3px; background: #ab8bc528; font: 500 11px/1.6 system-ui, sans-serif; }
+
+/* 安装入口先显示查询结果，再让用户选择平台对应的包。 */
+.download-heading { padding-top: clamp(17px, 4vw, 58px); }
+.install-section { border-radius: 8px; overflow: clip; background: #14101eea; }
+.install-header, .install-platforms, .install-panel, .install-footer { padding-inline: clamp(17px, 4.4vw, 62px); }
+.install-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px 20px; padding-block: 22px; }
+.install-header h2 { font: 650 clamp(20px, 3vw, 34px)/1.25 var(--product-serif); }
+.install-header p, .install-footer p { color: #c9b9d6; font-size: 13px; }
+.install-header p { margin-top: 8px; }
+.install-retry { display: inline-flex; align-items: center; min-height: 44px; gap: 6px; color: #e7cff4; font-size: 13px; }
+.install-retry svg { width: 15px; }
+.install-platforms { display: flex; flex-wrap: wrap; gap: 4px clamp(13px, 3vw, 40px); }
+.install-platforms button { min-height: 46px; padding-inline: 13px; border-radius: 4px; color: #c4b5d1; font-size: 14px; font-weight: 650; }
+.install-platforms button[aria-pressed="true"] { color: #f5eefa; background: #ab8bc53b; }
+.install-panel { display: grid; grid-template-columns: minmax(0, .65fr) minmax(0, 1fr); gap: 20px 44px; padding-block: clamp(24px, 4.6vw, 58px); }
+.install-format h3 { font: 650 clamp(24px, 4vw, 45px)/1.2 var(--product-serif); }
+.install-format code { display: block; margin-top: 7px; color: #cbb1e0; font-size: 13px; }
+.install-format p { margin-top: 12px; color: #c3b4cc; font-size: 13px; }
+.install-files { align-self: center; min-width: 0; padding: 18px clamp(14px, 3vw, 32px); }
+.install-files h4 { margin: 0 0 12px; color: #eee3f6; font-size: 14px; font-weight: 650; }
+.install-files [data-assets] { color: #c9bad4; font-size: 14px; overflow-wrap: anywhere; }
+.install-files .download-list a { border-radius: 4px; background: #38224e; color: #f8eefc; }
+.install-files .download-list a:hover { background: #442961; }
+.install-footer { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0 18px; padding-block: 10px; }
+.install-footer .product-link { color: #d8bbef; }
+.download-help { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 28px 50px; margin-top: clamp(52px, 8vw, 106px); }
+.download-help summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 53px; font-size: 14px; list-style: none; }
+.download-help summary svg { width: 15px; }
+.download-help details[open] summary svg { transform: rotate(180deg); }
+.download-help details p { padding-block: 0 19px; color: var(--product-soft); font-size: 13px; }
+.download-help details a { text-decoration: underline; text-underline-offset: 4px; }
+
+@media (width < 701px) {
+  .feature-groups { grid-template-columns: minmax(0, 1fr); }
+  .function-item + .function-item { margin-top: 4px; padding-top: 12px; }
+  .install-panel, .download-help { grid-template-columns: minmax(0, 1fr); }
+  .install-files { align-self: start; padding: 12px 0 0; }
+  .guide-keys { font-size: 12px; }
+  .guide-keys kbd { padding-inline: 3px; font-size: 10px; }
+}

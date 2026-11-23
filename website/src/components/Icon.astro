@@ -1,5 +1,8 @@
 ---
-type IconName = 'arrow-right' | 'arrow-left' | 'arrow-down' | 'arrow-up-right' | 'arrow-down-right' | 'chevron-down' | 'menu' | 'close' | 'replay' | 'pause' | 'play';
+type IconName =
+  | 'arrow-right' | 'arrow-left' | 'arrow-down' | 'arrow-up-right' | 'arrow-down-right' | 'chevron-down'
+  | 'menu' | 'close' | 'replay' | 'pause' | 'play'
+  | 'book-open' | 'code' | 'download' | 'laptop' | 'window-grid' | 'terminal';
 
 interface Props {
   name: IconName;
@@ -18,6 +21,12 @@ const paths: Record<IconName, string> = {
   replay: 'M4 4v5h5M5 9a8 8 0 1 1 0 6',
   pause: 'M9 5v14m6-14v14',
   play: 'M8 5v14l11-7-11-7Z',
+  'book-open': 'M12 6.5v14m0-14C9 4 6 4 3 4.5v14c3-.5 6-.5 9 2 3-2.5 6-2.5 9-2v-14C18 4 15 4 12 6.5Z',
+  code: 'm8 7-5 5 5 5m8-10 5 5-5 5m-3-13-2 16',
+  download: 'M12 3v12m-4-4 4 4 4-4M4 15v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4',
+  laptop: 'M4 17V6a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v11M2 17h20v1a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2Z',
+  'window-grid': 'M4.5 4.5h15v15h-15zM12 4.5v15m-7.5-7.5h15',
+  terminal: 'M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm3 4 3 3-3 3m6 0h4',
 };
 const { name, class: className } = Astro.props;
 ---

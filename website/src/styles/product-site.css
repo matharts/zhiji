@@ -1,0 +1,80 @@
+/* 官网页面沿用星空，工作区域用更明确的黑白明暗关系。 */
+html:has(.product-site) { scroll-padding-top: 100px; }
+.product-site {
+  --product-gutter: clamp(18px, 4.4vw, 80px);
+  --product-width: 1320px;
+  --product-ink: #f3eff8;
+  --product-soft: #c9c0d4;
+  --product-accent: #c9b3ef;
+  --product-surface: #13101b;
+  --product-serif: "Zhiji Display", "Songti SC", "Noto Serif CJK SC", serif;
+  color: var(--product-ink);
+}
+.product-wrap { width: calc(100% - 2 * var(--product-gutter)); max-width: var(--product-width); margin-inline: auto; }
+.product-site h1, .product-site h2 { text-wrap: balance; }
+.product-site .product-link { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; color: inherit; font-size: 13px; }
+.product-link .ui-icon { width: 15px; height: 15px; }
+.product-link:hover { text-decoration: underline; text-underline-offset: 5px; }
+.product-primary { display: inline-flex; min-height: 50px; align-items: center; justify-content: space-between; gap: 24px; padding-inline: 18px; border-radius: 5px; background: #f4f0f8; color: #171324; font-weight: 650; font-size: 14px; transition: background-color 160ms ease; }
+.product-primary:hover { background: #e3d6fb; }
+.product-primary .ui-icon { width: 17px; height: 17px; }
+.product-site :focus-visible { outline: 2px solid #c9a9f4; outline-offset: 4px; }
+
+.product-header { transition: background-color 180ms ease; }
+.product-header[data-scrolled], .product-header:has(details[open]) { background: #0a0811f2; }
+.product-header-inner { min-height: 72px; display: grid; grid-template-columns: 1fr auto 1fr; gap: clamp(12px, 2.5vw, 30px); }
+.product-brand { display: inline-flex; align-items: center; gap: 10px; white-space: nowrap; }
+.product-brand img { border-radius: 7px; }
+.product-brand span { font: 700 23px/1 var(--product-serif); }
+.product-nav { gap: clamp(22px, 3.2vw, 48px); padding-inline: 8px; }
+.product-nav a, .product-header-download { position: relative; display: inline-flex; align-items: center; min-height: 44px; color: var(--product-soft); white-space: nowrap; font-size: 13px; }
+.product-nav a:hover, .product-nav a[aria-current], .product-header-download:hover, .product-header-download[aria-current] { color: white; }
+.product-header-download { gap: 10px; margin-inline-start: auto; font-weight: 600; }
+.product-header-download .ui-icon { width: 16px; height: 16px; color: var(--product-accent); }
+.product-mobile-menu summary { display: grid; width: 44px; height: 44px; place-items: center; list-style: none; }
+.product-mobile-menu [class*="menu-close"], .product-mobile-menu[open] .menu-open { display: none; }
+.product-mobile-menu[open] .menu-close { display: inline-block; }
+.product-mobile-links { position: absolute; inset: 100% 0 auto; display: grid; padding: 8px var(--product-gutter) 18px; background: #0a0811; }
+.product-mobile-links > a { min-height: 50px; display: flex; align-items: center; font-size: 14px; }
+.product-mobile-links > a[aria-current] { color: var(--product-accent); }
+.product-footer { display: grid; grid-template-columns: minmax(130px, .6fr) 1.4fr; gap: 26px; align-items: end; padding-block: clamp(30px, 5vw, 68px); }
+.product-footer-brand { font: 700 38px/1.2 var(--product-serif); }
+.product-footer p { margin-top: 6px; color: var(--product-soft); font-size: 12px; }
+.product-footer nav { display: flex; justify-content: end; flex-wrap: wrap; gap: 4px clamp(14px, 2vw, 28px); color: var(--product-soft); }
+.product-footer nav a { display: inline-flex; align-items: center; gap: 5px; min-height: 38px; font-size: 13px; white-space: nowrap; }
+.product-footer nav a:hover { color: white; }
+.product-footer nav .ui-icon { width: 13px; height: 13px; }
+.product-heading { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .8fr); align-items: end; justify-content: space-between; gap: 24px 64px; }
+.product-heading h2, .product-subheading { font: 650 clamp(29px, 4vw, 52px)/1.22 var(--product-serif); letter-spacing: -.035em; }
+.product-heading p { max-width: 32em; color: inherit; font-size: clamp(13px, 1.35vw, 16px); line-height: 1.85; }
+
+.product-document { padding-block: 148px 104px; }
+.document-title { padding-block: clamp(16px, 3vw, 35px) clamp(24px, 4vw, 47px); }
+.document-title h1 { font: 650 clamp(38px, 6vw, 82px)/1.1 var(--product-serif); letter-spacing: -.05em; }
+.document-title p { max-width: 40em; margin-top: 14px; color: var(--product-soft); font-size: clamp(14px, 1.5vw, 16px); }
+.document-title .product-link { margin-top: 8px; }
+.document-layout { display: grid; grid-template-columns: minmax(160px, .31fr) minmax(0, 1fr); align-items: start; gap: clamp(20px, 6vw, 108px); }
+.document-nav { position: sticky; top: 100px; display: grid; gap: 0; }
+.document-nav a { display: flex; align-items: center; min-height: 43px; gap: 10px; padding-inline: 3px; font-size: 13px; color: var(--product-soft); }
+.document-nav a:hover, .document-nav a[aria-current] { color: white; }
+.document-nav a[aria-current] { padding-inline-start: 10px; }
+.document-content { min-width: 0; }
+.document-content h2 { font: 650 clamp(22px, 3vw, 39px)/1.25 var(--product-serif); letter-spacing: -.035em; }
+.document-content section { scroll-margin-top: 8px; }
+.document-content section:target :is(h2,h3) { color: var(--product-accent); }
+.document-end { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 18px; margin-top: 45px; }
+.document-end p { color: var(--product-soft); font-size: 14px; }
+@media (width < 701px) {
+  html:has(.product-site) { scroll-padding-top: 76px; }
+  .product-header-inner { min-height: 62px; grid-template-columns: 1fr auto auto; gap: 9px; }
+  .product-brand img { width: 25px; height: 25px; }
+  .product-brand span { font-size: 20px; }
+  .product-header-download { padding-inline: 7px; }
+  .product-footer { grid-template-columns: minmax(0, 1fr); gap: 15px; }
+  .product-footer nav { justify-content: start; }
+  .product-heading { grid-template-columns: 1fr; gap: 12px; }
+  .product-document { padding-block: 92px 64px; }
+  .document-layout { grid-template-columns: 1fr; }
+  .document-nav { position: static; display: flex; flex-wrap: wrap; gap: 0 14px; padding-block: 6px; }
+  .document-nav a { min-height: 38px; }
+}

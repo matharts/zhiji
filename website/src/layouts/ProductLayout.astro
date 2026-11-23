@@ -1,0 +1,99 @@
+---
+import '../styles/global.css';
+import '../styles/zhiji.css';
+import '../styles/product-site.css';
+import Cosmos from '../components/Cosmos.astro';
+import Icon from '../components/Icon.astro';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const pathname = Astro.url.pathname;
+const links = [
+  { href: '/features/', label: '功能' },
+  { href: '/#workspace', label: '参考盘' },
+  { href: '/guide/', label: '使用指南' },
+];
+const repository = 'https://github.com/matharts/zhiji';
+---
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#07060c" />
+    <link rel="icon" href="/images/app.ico" />
+    <title>{title}</title>
+  </head>
+  <body class="product-site">
+    <Cosmos />
+    <a class="skip-link" href="#main">跳至正文</a>
+    <header class="product-header fixed inset-x-0 top-0 z-50" data-product-header>
+      <div class="product-header-inner product-wrap flex items-center">
+        <a class="product-brand" href="/" aria-label="知几，返回首页" aria-current={pathname === '/' ? 'page' : undefined}>
+          <img src="/images/app.png" width="29" height="29" alt="" />
+          <span>知几</span>
+        </a>
+        <nav class="product-nav hidden min-[701px]:flex items-center" aria-label="主导航">
+          {links.map(({ href, label }) => <a href={href} aria-current={pathname === href ? 'page' : undefined}>{label}</a>)}
+        </nav>
+        <a class="product-header-download" href="/download/" aria-current={pathname === '/download/' ? 'page' : undefined}>下载 <Icon name="arrow-down" /></a>
+        <details class="product-mobile-menu min-[701px]:hidden" data-product-menu>
+          <summary aria-label="导航菜单"><Icon name="menu" class="menu-open" /><Icon name="close" class="menu-close" /></summary>
+          <nav class="product-mobile-links" aria-label="移动导航">
+            {links.map(({ href, label }) => <a href={href} aria-current={pathname === href ? 'page' : undefined}>{label}</a>)}
+          </nav>
+        </details>
+      </div>
+    </header>
+    <slot />
+    <footer class="product-footer product-wrap">
+      <div>
+        <a class="product-footer-brand" href="/">知几</a>
+        <p>紫微斗数专业排盘软件</p>
+      </div>
+      <nav aria-label="页脚导航">
+        <a href="/features/">功能</a>
+        <a href="/guide/">使用指南</a>
+        <a href="/download/">下载</a>
+        <a href={`${repository}/releases`}>版本记录</a>
+        <a href={`${repository}/issues`}>问题反馈</a>
+        <a href={repository}>GitHub <Icon name="arrow-up-right" /></a>
+      </nav>
+    </footer>
+  </body>
+</html>
+<script>
+  const header = document.querySelector<HTMLElement>('[data-product-header]');
+  const menu = header?.querySelector<HTMLDetailsElement>('[data-product-menu]');
+  if (header) {
+    // 页面顶部让星空透进来，滚动后提高导航文字对比度。
+    const updateHeader = () => header.toggleAttribute('data-scrolled', window.scrollY > 24);
+    window.addEventListener('scroll', updateHeader, { passive: true });
+    window.addEventListener('pageshow', updateHeader);
+    updateHeader();
+  }
+  if (menu) {
+    // 保留原生菜单开合与键盘行为，并在同页跳转时收起。
+    const summary = menu.querySelector('summary');
+    document.addEventListener('click', event => {
+      if (event.target instanceof Element && (!menu.contains(event.target) || event.target.closest('a'))) menu.open = false;
+    });
+    menu.addEventListener('focusout', event => {
+      if (event.relatedTarget instanceof Node && !menu.contains(event.relatedTarget)) menu.open = false;
+    });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && menu.open) {
+        menu.open = false;
+        summary?.focus();
+      }
+    });
+    window.matchMedia('(min-width: 701px)').addEventListener('change', event => {
+      if (event.matches) menu.open = false;
+    });
+  }
+</script>

@@ -3,11 +3,11 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { chartExample } from "../src/data/chart-example.ts";
 import type { Branch, ChartCell, TransformationKind } from "../src/data/chart-example.ts";
-import { palaceStems, readingDecadeRanges, selfTransformationExample, transformationsFor } from "../src/data/flight-example.ts";
+import { palaceStems, readingDecadeRanges, readingYearlyAges, selfTransformationExample, transformationsFor } from "../src/data/flight-example.ts";
 
 type TransformationCode = "A" | "B" | "C" | "D";
 interface ReferenceStar { name: string; inwardTransformation: TransformationCode | null; outwardTransformation: TransformationCode | null; }
-interface ReferencePalace { branch: Branch; stem: string; name: string; decadeRange: [number, number]; stars: ReferenceStar[]; }
+interface ReferencePalace { branch: Branch; stem: string; name: string; decadeRange: [number, number]; yearlyAge: string | null; stars: ReferenceStar[]; }
 interface ReferenceCase {
     input: { id: string; stem: string; branch: string; gender: string; month: number; hour: Branch; ziwei: Branch };
     expected: { mainBranch: Branch; palaces: ReferencePalace[]; flyingStarsByPalace: Record<Branch, string[]> };
@@ -148,10 +148,11 @@ test("the self-transformation example matches the reference star", () => {
     assert.equal(sample.outward, fixture.reference.transformationCodes[star.outwardTransformation]);
 });
 
-// 展示的大限年龄区间必须与参考命盘保持一致。
-test("the displayed decade ranges match the reference chart", () => {
+// 盘面对照里的大限区间与流年年龄必须和同一参考盘一致。
+test("the displayed decade ranges and yearly ages match the reference chart", () => {
     for (const palace of example.expected.palaces) {
-        const range = readingDecadeRanges[palace.branch];
-        if (range) assert.deepEqual(range, palace.decadeRange);
+        assert.deepEqual(readingDecadeRanges[palace.branch], palace.decadeRange);
+        const age = readingYearlyAges[palace.branch];
+        assert.equal(age === undefined ? null : `${age} 歲`, palace.yearlyAge);
     }
 });

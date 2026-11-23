@@ -29,7 +29,6 @@ if (picker) {
         });
     };
     picker.hidden = false;
-    document.querySelector('.platform-grid')?.classList.add('is-filtered');
     selectPlatform(fromHash() ?? detected, false);
     buttons.forEach(button => button.addEventListener('click', () => {
         const platform = button.dataset.selectPlatform;

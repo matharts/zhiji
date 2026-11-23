@@ -1,4 +1,0 @@
----
-import { shortcuts } from '../../data/product.ts';
----
-<div class="shortcut-panel"><div class="visual-bar"><span>常用快捷键</span><fieldset data-shortcut-switch hidden><legend class="sr-only">快捷键平台</legend><label><input type="radio" name="shortcut-platform" value="mac" checked /><span>macOS</span></label><label><input type="radio" name="shortcut-platform" value="other" /><span>Windows / Linux</span></label></fieldset></div><div class="shortcut-rows" data-shortcut-platform="mac">{shortcuts.slice(0,6).map(item=><div><span>{item.action}</span><span class="shortcut-mac">{item.mac.map(key=><kbd>{key}</kbd>)}</span><span class="shortcut-other">{item.other.map(key=><kbd>{key}</kbd>)}</span></div>)}</div></div>

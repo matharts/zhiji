@@ -1,0 +1,195 @@
+/* 以三盘为中心，标题、功能入口和控制分布在星空的留白里。 */
+.product-cover { position: relative; min-height: clamp(660px, 100svh, 880px); display: grid; align-items: stretch; }
+.cover-stage { position: absolute; inset: 63px calc(-1 * var(--product-gutter)) 51px; pointer-events: none; }
+.cover-stage .hero-poster .poster-chart { top: 51%; right: auto; left: 50%; width: min(70%, 450px); transform: translate(-50%,-50%) perspective(1000px) rotateX(28deg) rotateZ(-9deg); }
+.cover-layout { position: relative; z-index: 1; display: grid; grid-template-rows: minmax(0, 1fr) auto; align-items: center; padding-top: 89px; pointer-events: none; }
+.cover-masthead { position: relative; z-index: 1; width: min(43%, 525px); pointer-events: auto; }
+.cover-masthead h1 { color: #f7f3fb; font: 650 clamp(51px, 7.1vw, 104px)/1.04 var(--product-serif); letter-spacing: -.08em; }
+.cover-masthead h1 span { display: block; white-space: nowrap; }
+.cover-masthead h1 span:first-child { font-size: .84em; }
+.cover-masthead p { margin-top: 24px; color: #d4cbde; font-size: 14px; line-height: 1.8; }
+.cover-actions { gap: 8px 18px; margin-top: 22px; }
+.cover-baseline { position: relative; z-index: 1; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px 14px; min-height: 58px; padding-block: 7px; }
+.cover-platforms, .cover-caption { display: flex; flex-wrap: wrap; align-items: center; gap: 7px 14px; color: #c6bdcf; font-size: 12px; pointer-events: auto; }
+.cover-platforms a { min-height: 37px; display: inline-flex; align-items: center; }
+.cover-platforms a:hover { color: white; }
+.cover-motion { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-width: 39px; min-height: 40px; padding-inline: 8px; color: #e7dff0; background: transparent; border-radius: 4px; font-size: 12px; }
+.cover-motion .ui-icon { width: 14px; height: 14px; }
+.cover-motion-icon { display: inline-flex; }
+.cover-motion-icon[data-state='playing'] .cover-play, .cover-motion-icon[data-state='paused'] .cover-pause { display: none; }
+
+.chart-experience { position: relative; margin-top: clamp(44px, 6vw, 86px); }
+.experience-anchor { position: absolute; top: 0; left: 0; }
+.experience-anchor span { display: block; height: 0; }
+.experience-heading { display: flex; justify-content: space-between; align-items: end; flex-wrap: wrap; gap: 12px 30px; margin-bottom: 20px; }
+.experience-heading h2, .source-heading h2, .desktop-section h2, .home-release h2 { font: 650 clamp(29px, 4vw, 58px)/1.18 var(--product-serif); letter-spacing: -.045em; }
+.experience-heading p, .source-heading p, .desktop-section header p, .home-release p { margin-top: 10px; color: #c8c0d0; font-size: 14px; line-height: 1.8; }
+.experience-stage { position: relative; background: #100e15; border-radius: 8px; overflow: clip; }
+.experience-modes { display: flex; flex-wrap: wrap; justify-content: flex-start; padding-inline: clamp(12px, 3vw, 38px); gap: 0 clamp(15px, 3vw, 34px); background: #17131c; }
+.experience-modes a { position: relative; display: inline-flex; align-items: center; min-height: 53px; color: #c4b9cd; white-space: nowrap; font-size: 13px; }
+.experience-modes a:hover, .experience-modes a[aria-current] { color: #fff; }
+.experience-stage .flight-module { padding: 0; border: 0; }
+.experience-stage .flight-layout { grid-template-columns: minmax(0, 1.25fr) minmax(225px, .75fr); gap: clamp(18px, 4vw, 68px); padding: clamp(14px, 3vw, 36px); }
+.experience-stage .flight-chart { max-width: clamp(370px, calc(100svh - 306px), 540px); margin-inline: auto; background: #0d0b12; color: #efe8f4; min-width: 0; }
+.experience-stage .flight-cell { min-width: 0; min-height: 0; gap: 3px; padding: clamp(5px, 1vw, 14px); background: #15111c; color: inherit; text-align: start; transition: none; }
+.experience-stage .flight-cell > span { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1px 3px; color: #d2c3dc; font-size: clamp(8px, 1vw, 13px); line-height: 1.3; }
+.experience-stage .flight-cell small { color: #b7a7c4; font-size: .8em; }
+.experience-stage .flight-cell strong { display: flex; flex-wrap: wrap; gap: 1px 5px; margin-top: 5px; font: 650 clamp(10px, 1.35vw, 17px)/1.4 var(--product-serif); }
+.experience-stage .chart-star { white-space: nowrap; }
+.experience-stage .flight-cell:not(:disabled):hover { background: #281e32; }
+[data-view='exhibit-flight'] .flight-cell:is([aria-pressed='true'], .is-target) { background: #2d203a; }
+.experience-stage .flight-center { position: absolute; inset: 25%; display: grid; align-content: center; justify-items: center; gap: 7px; color: #c0b1c9; font-size: 11px; pointer-events: none; }
+.experience-stage .flight-center strong { color: inherit; font: 550 clamp(25px, 4.5vw, 58px)/1.1 var(--product-serif); }
+.experience-stage .flight-overlay { color: #d7b2f8; }
+[data-view]:not([data-view='exhibit-flight']) .flight-overlay,
+[data-view='self-transformations'] .flight-center, [data-view='chart-annotation'][data-marks] .flight-center,
+[data-view='chart-outputs'][data-marks] .flight-center { visibility: hidden; }
+.experience-stage .flight-aside { min-width: 0; }
+.experience-pane h3, .experience-pane h4 { color: #f6eefb; font: 650 clamp(22px, 3.2vw, 41px)/1.25 var(--product-serif); letter-spacing: -.025em; }
+.experience-pane .product-link { margin-top: 14px; color: #d7bce8; }
+.experience-pane > p { color: #cfc3d6; margin-top: 10px; font-size: 14px; }
+.experience-pane .flight-origin-label { font-size: 12px; }
+.experience-pane .flight-stem, .experience-pane .flight-result { font-size: 13px; }
+.experience-pane .flight-controls { margin-top: 17px; }
+.experience-pane .flight-choice > span { min-height: 47px; padding: 6px 9px; grid-template-columns: 25px 1fr auto; }
+.experience-pane .flight-choice b { font-size: 20px; }
+.experience-pane .flight-choice strong { font-size: 13px; }
+.experience-pane .flight-result { min-height: 24px; margin-top: 12px; }
+.experience-pane .flight-play { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 36px; padding-inline: 9px; border-radius: 4px; color: #e5cff4; font-size: 12px; }
+.experience-pane .flight-play svg { width: 15px; height: 15px; }
+.experience-pane .flight-play[aria-pressed="false"] .flight-stop-icon, .experience-pane .flight-play[aria-pressed="true"] .flight-play-icon { display: none; }
+.experience-options { display: flex; flex-wrap: wrap; gap: 6px 9px; margin-block: 19px 7px; }
+.experience-options button { min-width: 56px; min-height: 44px; padding-inline: 10px; border-radius: 4px; color: #cbbdd5; font-size: 13px; }
+.experience-options button[aria-pressed='true'] { color: #f5e8ff; background: #3a284b; }
+.experience-pane .experience-readout { padding: 10px 12px; background: #b28fc110; }
+.experience-foot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px 12px; padding: 12px clamp(12px, 3vw, 38px); color: #bdafca; font-size: 11px; }
+
+.experience-stage .flight-cell .flight-reading-layers { display: none; margin-top: auto; font-size: clamp(8px, .83vw, 11px); }
+[data-view='chart-reading'] .experience-stage .flight-cell .flight-reading-layers { display: flex; }
+[data-chart-experience]:not([data-decade]) [data-reading-layer='decade'],
+[data-chart-experience]:not([data-yearly]) [data-reading-layer='yearly'] { visibility: hidden; }
+.experience-self-overlay { position: absolute; z-index: 1; inset: 25%; display: none; grid-template-columns: .85fr 1.3fr .85fr; align-items: center; gap: 4px; pointer-events: none; }
+[data-view='self-transformations'] .experience-self-overlay { display: grid; }
+[data-view='self-transformations'] [data-palace='卯'] { background: #322240; }
+.self-center { display: grid; place-content: center; justify-items: center; gap: 9px; min-height: 60%; color: #ead8f6; text-align: center; }
+.self-center span { color: #c2adcf; font-size: clamp(8px, 1vw, 12px); }
+.self-center strong { font: 650 clamp(16px, 4vw, 48px)/1.1 var(--product-serif); }
+.self-orbit { position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px; color: #dab6f2; font-size: clamp(9px, 1.1vw, 14px); transition: opacity 180ms ease; }
+.self-orbit[data-muted] { opacity: 0; }
+.self-orbit b { font: 550 clamp(11px, 1.7vw, 23px)/1.15 var(--product-serif); }
+.experience-ink, .experience-ink-note { position: absolute; z-index: 2; display: none; pointer-events: none; }
+.experience-ink { inset: 0; width: 100%; height: 100%; stroke: #ddabf3; stroke-width: 1.5; }
+.experience-ink-note { inset: 25%; align-content: center; padding: 8px; color: #e4c8f3; font-size: clamp(9px, 1.15vw, 15px); line-height: 1.55; text-align: center; }
+[data-view='chart-annotation'][data-marks] .experience-ink, [data-view='chart-outputs'][data-marks] .experience-ink { display: block; }
+[data-view='chart-annotation'][data-marks] .experience-ink-note, [data-view='chart-outputs'][data-marks] .experience-ink-note { display: grid; }
+[data-view='chart-outputs'][data-format='png'] .flight-chart { background: #eae4ef; color: #30233a; }
+[data-view='chart-outputs'][data-format='png'] .flight-cell { background: #f3edf5; }
+[data-view='chart-outputs'][data-format='png'] .flight-cell :is(span, small), [data-view='chart-outputs'][data-format='png'] :is(.experience-ink-note, .flight-center) { color: #5e3972; }
+[data-view='chart-outputs'][data-format='png'] .experience-ink { stroke: #73468c; }
+
+.source-heading p, .desktop-section header p { max-width: 31em; }
+.source-heading > a { margin-top: 8px; }
+.source-entries summary { display: flex; align-items: center; justify-content: space-between; min-height: 60px; gap: 6px 12px; list-style: none; font-size: 16px; font-weight: 600; }
+.source-entries summary .ui-icon { width: 16px; color: var(--product-accent); }
+.source-entries details[open] summary .ui-icon { transform: rotate(180deg); }
+.source-entries details > div { padding-block: 3px 18px; }
+.source-entries p { color: #c3b9cc; font-size: 14px; }
+.source-entries p:first-child { margin-bottom: 5px; color: var(--product-accent); font-size: 12px; }
+
+.desktop-keys h3 { font-size: 15px; font-weight: 600; }
+.desktop-keys table { width: 100%; margin-top: 14px; border-collapse: collapse; text-align: left; color: #d2c5dc; font-size: 13px; }
+.desktop-keys th, .desktop-keys td { text-align: left; padding: 8px 3px 8px 0; font-weight: 450; }
+.desktop-keys kbd { display: inline-block; margin: 1px 3px 1px 0; padding: 0 5px; border-radius: 4px; background: #ab8bc528; font-size: 11px; }
+.desktop-keys a { margin-top: 6px; color: var(--product-accent); }
+.home-release { display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; align-items: center; gap: 9px 20px; margin-bottom: clamp(42px, 7vw, 96px); }
+.home-release img { border-radius: 12px; }
+.home-release h2 { font-size: clamp(24px, 3vw, 43px); }
+.home-release p { font-size: 12px; margin-top: 4px; }
+.home-release-actions { display: flex; flex-wrap: wrap; gap: 5px 18px; align-items: center; }
+
+@media (width < 760px) {
+  .product-cover { min-height: 0; }
+  .cover-layout { padding-top: 95px; grid-template-rows: auto clamp(270px, 83vw, 490px) auto; }
+  .cover-stage { position: relative; inset: auto; grid-row: 2; height: 100%; margin-inline: calc(-.5 * var(--product-gutter)); }
+  .cover-stage .hero-poster .poster-chart { width: min(72%, 328px); gap: 2px; }
+  .cover-stage .poster-cell { padding: 4px; font-size: 8px; }
+  .cover-stage .poster-cell strong, .cover-stage .poster-center { font-size: 9px; margin-top: 5px; gap: 4px; }
+  .cover-stage .poster-center > div { gap: 3px 6px; }
+  .cover-masthead { width: 100%; }
+  .cover-masthead h1 { font-size: clamp(50px, 12vw, 79px); }
+  .cover-masthead p { margin-top: 13px; font-size: 13px; }
+  .cover-actions { margin-top: 17px; }
+  .cover-platforms, .cover-caption { font-size: 11px; gap: 4px 8px; }
+  .experience-stage .flight-layout { grid-template-columns: minmax(0, 1fr); }
+  .experience-stage .flight-chart { max-width: 480px; }
+  .experience-stage .flight-aside { min-height: 184px; padding-top: 16px; }
+  .experience-heading p { font-size: 13px; }
+  .experience-modes a { min-height: 44px; font-size: 12px; }
+  .experience-foot { font-size: 10px; }
+  .home-release { grid-template-columns: 48px minmax(0, 1fr); }
+  .home-release img { width: 48px; height: 48px; }
+  .home-release-actions { grid-column: 1 / -1; margin-top: 7px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .self-orbit { transition: none; }
+}
+
+/* 三盘位于画面中心，功能可从四个同级入口进入。 */
+.cover-layout { grid-template-columns: minmax(230px, .9fr) minmax(0, 1.28fr) minmax(175px, .62fr); column-gap: clamp(14px, 3vw, 46px); }
+.cover-masthead { grid-column: 1; grid-row: 1; width: auto; }
+.cover-masthead h1 { font-size: clamp(48px, 6.3vw, 99px); }
+.cover-stage .poster-cell { border: 0; }
+.cover-stage .poster-cell-origin { background-color: #3c2950; }
+.cover-actions { gap: 4px 15px; }
+.cover-topics { position: relative; z-index: 1; grid-column: 3; grid-row: 1; display: grid; justify-items: start; gap: 10px; pointer-events: auto; }
+.cover-topics a { display: grid; gap: 5px; min-height: 48px; padding: 5px 0; }
+.cover-topics a:nth-child(even) { margin-inline-start: clamp(10px, 2.5vw, 40px); }
+.cover-topics strong { color: #eee6f6; font: 620 clamp(16px, 1.7vw, 25px)/1.25 var(--product-serif); transition: color 180ms ease; }
+.cover-topics span { color: #c3b6ce; font-size: 12px; }
+.cover-topics a:hover strong { color: #d7bbfa; }
+.cover-baseline { grid-column: 1 / -1; grid-row: 2; }
+.cover-motion:hover { color: white; background: #b292ce22; }
+
+/* 参照盘保留十二宫的空间位置，选中态与面板只用色阶提示。 */
+.experience-stage { background: transparent; overflow: visible; }
+.experience-modes { gap: 5px 7px; padding-inline: 0; background: transparent; }
+.experience-modes a { min-height: 44px; padding-inline: 12px; border-radius: 4px; }
+.experience-modes a[aria-current] { background: #ad89ca29; color: #f4e6fc; }
+.experience-modes a:hover { background: #c1a0d41a; }
+.experience-stage .flight-layout { padding-inline: 0; }
+.experience-stage .flight-chart { gap: 3px; background: transparent; }
+.experience-stage .flight-cell { background: #1d1726e8; border-radius: 3px; }
+.experience-stage .flight-cell.is-target { box-shadow: none; }
+[data-view='exhibit-flight'] .flight-cell[aria-pressed='true'] { background: #503966; }
+[data-view='exhibit-flight'] .flight-cell.is-target { background: #392947; }
+.experience-pane .flight-choice > span { border: 0; padding-inline: 8px; }
+.experience-pane .flight-play, .experience-options button { background: #a98ab320; }
+.experience-pane .flight-play:hover, .experience-options button:hover { background: #a98ab339; }
+.experience-foot { padding-inline: 0; }
+.self-orbit .ui-icon { width: 14px; height: 14px; }
+[data-view='chart-outputs'][data-format='png'] .flight-chart { background: transparent; }
+[data-view='chart-outputs'][data-format='png'] :is(.experience-ink-note, .flight-center) { border-radius: 3px; background: #f3edf5; }
+.desktop-details { display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(0, .88fr); gap: clamp(32px, 9vw, 128px); margin-top: clamp(70px, 10vw, 140px); }
+.source-entries { margin-top: 18px; }
+.source-entries summary { min-height: 52px; }
+.desktop-keys { margin-top: 24px; }
+.home-release { margin-top: clamp(64px, 10vw, 136px); }
+@media (width >= 1150px) {
+  .cover-layout { grid-template-columns: minmax(270px, .9fr) minmax(0, 1.27fr) minmax(250px, .83fr); }
+  .cover-topics { grid-template-columns: minmax(0, .88fr) minmax(0, 1fr); gap: 32px 14px; }
+  .cover-topics a:nth-child(even) { margin-inline-start: 0; translate: 0 25px; }
+}
+@media (760px <= width < 980px) {
+  .cover-layout { grid-template-columns: minmax(200px, .9fr) minmax(0, 1.2fr) minmax(145px, .6fr); }
+  .cover-masthead h1 { font-size: clamp(44px, 6vw, 62px); }
+}
+@media (width < 760px) {
+  .cover-layout { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto clamp(265px, 76vw, 458px) auto auto; }
+  .cover-masthead h1 { font-size: clamp(47px, 12vw, 76px); }
+  .cover-topics { grid-column: 1; grid-row: 3; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 5px 20px; margin-block: 3px 17px; }
+  .cover-topics a:nth-child(even) { margin-inline-start: 0; }
+  .cover-baseline { grid-row: 4; }
+  .experience-modes { gap: 2px 4px; }
+  .experience-modes a { padding-inline: 6px; }
+  .desktop-details { grid-template-columns: minmax(0, 1fr); gap: 42px; }
+}

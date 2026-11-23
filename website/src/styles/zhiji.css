@@ -15,7 +15,7 @@
 }
 :root {
  color-scheme: dark;
- --page: #08080a; --panel: #111115; --ink: #f4f3f5; --muted: #b0adb8; --accent: #c6b4ed; --line: #303036;
+ --page: #08080a; --ink: #f4f3f5; --muted: #b0adb8; --accent: #c6b4ed;
  --display-font: "Zhiji Display", "Songti SC", serif;
  font-family: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
  color: var(--ink); background: var(--page); font-synthesis: none;
@@ -36,83 +36,13 @@ p { line-height: 1.85; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
 [hidden] { display: none !important; }
 .ui-icon { width: 20px; height: 20px; flex: none; display: inline-block; }
-.wrap { width: calc(100% - 128px); max-width: 1280px; margin-inline: auto; }
 .skip-link { position: fixed; top: 8px; left: 12px; z-index: 100; background: white; color: black; padding: 12px; transform: translateY(-150%); }
 .skip-link:focus { transform: translateY(0); }
-/* 导航使用独立实色表面，避免星空透入影响文字辨识。 */
-.site-header { padding: 20px 0 0; transition: padding 180ms ease; }
-.site-header-inner { display: grid; grid-template-columns: 1fr auto 1fr; min-height: 62px; padding: 0 18px; border: 1px solid var(--line); border-radius: 12px; background: #101013; }
-.site-header.is-scrolled { padding-top: 10px; }
-.brand { gap: 10px; width: fit-content; font-size: 19px; font-weight: 600; }
-.brand img { width: 28px; height: 28px; }
-.brand small { margin-left: 2px; color: #b9b5bf; font-size: 13px; font-weight: 400; }
-.main-nav { gap: 30px; font-size: 13px; color: var(--muted); }
-.main-nav a { padding: 20px 0; }
-.main-nav a:hover,.main-nav a[aria-current] { color: white; }
-.nav-action { justify-self: end; min-height: 36px; padding: 0 16px; gap: 14px; border-radius: 7px; color: #161418; background: #eeeaf3; font-size: 13px; font-weight: 600; }
-.nav-action .ui-icon { width: 16px; height: 16px; }
-.mobile-menu { justify-self: end; }
-.mobile-menu .menu-close,.mobile-menu[open] .menu-open { display: none; }
-.mobile-menu[open] .menu-close { display: inline-block; }
-.mobile-menu summary { display: flex; align-items: center; gap: 6px; min-height: 44px; font-size: 13px; list-style: none; }
 summary::-webkit-details-marker { display: none; }
-.mobile-menu-panel { position: absolute; top: 52px; right: 0; width: 180px; border: 1px solid var(--line); border-radius: 10px; padding: 8px; background: #151519; }
-.mobile-menu-panel a { display: block; padding: 13px 12px; font-size: 14px; border-radius: 6px; }
-.mobile-menu-panel a:hover { background: #28242f; }
-.action { display: inline-flex; justify-content: space-between; align-items: center; gap: 32px; min-height: 50px; padding: 0 22px; background: #f0edf4; color: #1b1620; border-radius: 8px; font-weight: 600; font-size: 14px; transition: background 180ms ease; }
-.action:hover,.nav-action:hover { background: #d7c6f3; }
-.text-link,.quiet-link,.back-link { display: inline-flex; align-items: center; gap: 12px; font-size: 14px; color: #d1c8df; }
-.text-link:hover,.quiet-link:hover,.back-link:hover { color: white; }
-.text-link .ui-icon,.quiet-link .ui-icon,.back-link .ui-icon { width: 16px; height: 16px; }
-.site-footer { padding-block: 68px 32px; border-top: 1px solid var(--line); }
-.footer-top { display: flex; justify-content: space-between; gap: 48px; }
-.footer-name { font: 500 66px/1 var(--display-font); }
-.footer-name span { display: block; margin-top: 22px; font: 14px/1.7 "PingFang SC",sans-serif; color: var(--muted); }
-.footer-links { display: flex; gap: 80px; }
-.footer-links div { display: flex; flex-direction: column; gap: 14px; font-size: 13px; }
-.footer-links strong { color: var(--muted); font-weight: 400; margin-bottom: 4px; }
-.footer-links a:hover { color: var(--accent); }
-.footer-bottom { margin-top: 64px; display: flex; justify-content: space-between; gap: 20px; color: #aaa4b4; font-size: 12px; }
-.footer-bottom a { display: inline-flex; align-items: center; gap: 8px; }
-.footer-bottom .ui-icon { width: 14px; height: 14px; }
-/* 下载页按平台形成独立选择区，状态与真实发布源统一。 */
-.download-main { padding-block: 150px 96px; }
-.download-intro { margin: 42px 0 48px; display: flex; align-items: center; justify-content: space-between; gap: 40px; }
-.download-intro h1 { font: 500 clamp(44px,5vw,64px)/1.3 var(--display-font); }
-.download-intro p { margin-top: 20px; color: var(--muted); font-size: 16px; }
-.download-intro img { width: 100px; height: 100px; border-radius: 24px; }
-.release-status { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; padding-block: 22px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
-.release-status a { display: inline-flex; align-items: center; gap: 8px; color: var(--ink); }
-.release-status .ui-icon { width: 15px; height: 15px; }
-.platform-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 18px; }
-.platform-card { display: flex; flex-direction: column; min-height: 290px; padding: 30px 26px; background: #131217; border: 1px solid var(--line); border-radius: 12px; }
-.platform-icon { width: 36px; height: 36px; color: #d7c4f0; margin-bottom: 24px; }
-.platform-card h2 { font-size: 25px; font-weight: 500; }
-.platform-card > p { margin-top: 10px; font-size: 13px; color: var(--muted); }
-.platform-card [data-assets] { margin-top: auto; padding-top: 30px; font-size: 13px; color: #c6bdcf; overflow-wrap: anywhere; }
 .asset-fallback { display: inline-block; text-decoration: underline; text-underline-offset: 5px; }
 .download-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
 .download-list a { display: block; padding: 12px; background: #e2d5f2; color: #21182a; border-radius: 6px; line-height: 1.6; }
 .download-list a:hover { background: white; }
-.platform-note { margin-top: 20px; font-size: 12px; color: var(--muted); }
-.download-support { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; margin-top: 80px; }
-.download-support h2 { font-size: 22px; margin-bottom: 24px; font-weight: 500; }
-.download-support p { font-size: 14px; color: var(--muted); margin-bottom: 20px; }
-.download-support details { padding: 18px 0; border-top: 1px solid var(--line); }
-.download-support summary { display: flex; justify-content: space-between; gap: 16px; list-style: none; font-size: 14px; }
-.download-support details p { margin: 14px 0 0; }
-@media (max-width: 1000px) { .wrap { width: calc(100% - 64px); } .main-nav { gap: 22px; } .platform-card { padding: 24px 20px; } }
-@media (max-width: 700px) {
- .wrap { width: calc(100% - 44px); }
- .site-header { padding-top: 12px; }.site-header-inner { padding-inline: 12px; grid-template-columns: 1fr auto auto; gap: 16px; min-height: 58px; }
- .brand { font-size: 17px; gap: 8px; }.brand small { display: none; }.brand img { width: 25px; height: 25px; }
- .nav-action { padding-inline: 12px; }.nav-action .ui-icon { display: none; }
- .footer-top { flex-direction: column; }.footer-links { gap: 72px; }.footer-name { font-size: 54px; }.footer-bottom { margin-top: 42px; }
- .download-main { padding-top: 120px; }.download-intro { margin-block: 32px; gap: 20px; }.download-intro img { width: 64px; height: 64px; border-radius: 15px; }
- .download-intro h1 { font-size: 40px; }.download-intro p { font-size: 14px; }
- .platform-grid,.download-support { grid-template-columns: 1fr; }.platform-card { min-height: 240px; }.platform-icon { margin-bottom: 18px; }
- .download-support { gap: 40px; margin-top: 56px; }
-}
 @media (prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }
 .cosmos {
     position: fixed;

@@ -11,8 +11,15 @@ export const selfTransformationExample: { branch: Branch; palace: string; star: 
     branch: "卯", palace: "父母", star: "巨门", inward: "权", outward: "忌",
 };
 
-export const readingDecadeRanges: Partial<Record<Branch, readonly [number, number]>> = {
-    辰: [26, 35], 卯: [16, 25], 寅: [6, 15],
+export const readingDecadeRanges: Record<Branch, readonly [number, number]> = {
+    寅: [6, 15], 卯: [16, 25], 辰: [26, 35], 巳: [36, 45],
+    午: [46, 55], 未: [56, 65], 申: [66, 75], 酉: [76, 85],
+    戌: [86, 95], 亥: [96, 105], 子: [106, 115], 丑: [116, 125],
+};
+
+// 参考盘未选定流年，仅列出样例基准实际提供的流年年龄。
+export const readingYearlyAges: Partial<Record<Branch, number>> = {
+    巳: 6, 午: 7, 未: 8, 申: 9, 酉: 10, 戌: 11, 亥: 12, 子: 13, 丑: 14, 寅: 15,
 };
 
 const flyingStarsByPalace: Record<Branch, readonly string[]> = {

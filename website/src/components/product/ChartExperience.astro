@@ -1,0 +1,90 @@
+---
+import FlightDemo from '../site/FlightDemo.astro';
+import FlightControls from '../site/FlightControls.astro';
+import Icon from '../Icon.astro';
+import { chartExample } from '../../data/chart-example.ts';
+import { palaceStems, selfTransformationExample } from '../../data/flight-example.ts';
+
+const self = selfTransformationExample;
+const first = chartExample.transformations[0];
+const landing = chartExample.cells.findIndex(cell => cell?.branch === first.branch);
+const noteX = (landing % 4) * 100 + 50;
+const noteY = Math.floor(landing / 4) * 100 + 55;
+const observation = `${chartExample.origin}宫化${first.kind}，落入${first.branch}宫${first.star}。`;
+const modes = [
+  { id: 'exhibit-flight', name: '飞宫' },
+  { id: 'chart-reading', name: '大限与流年' },
+  { id: 'self-transformations', name: '自化' },
+  { id: 'chart-annotation', name: '标注' },
+  { id: 'chart-outputs', name: '保存与导出' },
+];
+---
+<section class="chart-experience product-wrap" id="workspace" aria-labelledby="experience-title" data-workspace data-chart-experience data-view="exhibit-flight" data-decade data-yearly data-marks data-format="draft">
+  <div class="experience-anchor" aria-hidden="true">
+    {modes.map(mode => <span id={mode.id} data-experience-anchor />)}
+    <span id="annotation"></span><span id="save-and-export"></span>
+  </div>
+  <header class="experience-heading">
+    <div><h2 id="experience-title">甲子年参考盘</h2><p>在同一张盘上追踪飞化、调整显示和预览标注。</p></div>
+    <a class="product-link" href="/features/#flight">功能说明 <Icon name="arrow-up-right" /></a>
+  </header>
+  <div class="experience-stage">
+    <nav class="experience-modes" aria-label="参考盘操作" data-experience-navigation hidden>
+      {modes.map((mode, index) => <a href={`#${mode.id}`} data-experience-mode={mode.id} aria-controls={`experience-${mode.id}`} aria-current={index === 0 ? 'true' : undefined}>{mode.name}</a>)}
+    </nav>
+    <FlightDemo>
+      <Fragment slot="chart-overlay">
+        <div class="experience-self-overlay" aria-hidden="true">
+          <div class="self-orbit self-orbit-in" data-self-mark="inward"><span>向心</span><Icon name="arrow-right" /><b>{self.inward}</b></div>
+          <div class="self-center"><span>{self.palace}宫 · {palaceStems[self.branch]}{self.branch}</span><strong>{self.star}</strong></div>
+          <div class="self-orbit self-orbit-out" data-self-mark="outward"><b>{self.outward}</b><Icon name="arrow-right" /><span>离心</span></div>
+        </div>
+        <svg class="experience-ink" viewBox="0 0 400 400" fill="none" aria-hidden="true">
+          <ellipse data-experience-ring cx={noteX} cy={noteY} rx="39" ry="23" />
+        </svg>
+        <span class="experience-ink-note" data-experience-observation aria-hidden="true">{observation}</span>
+      </Fragment>
+      <Fragment slot="inspector">
+        <section class="experience-pane" id="experience-exhibit-flight" data-experience-pane="exhibit-flight" aria-label="飞宫四化">
+          <FlightControls />
+        </section>
+        <section class="experience-pane" id="experience-chart-reading" data-experience-pane="chart-reading" aria-labelledby="experience-reading-title" hidden>
+          <h3 id="experience-reading-title">大限与流年</h3>
+          <p>从本命星曜出发，按需补充大限区间和流年年龄。</p>
+          <div class="experience-options" role="group" aria-label="盘面显示筛选">
+            <button type="button" data-experience-toggle="decade" aria-pressed="true">大限</button>
+            <button type="button" data-experience-toggle="yearly" aria-pressed="true">流年</button>
+          </div>
+          <a class="product-link" href="/guide/#view">盘面显示设置 <Icon name="arrow-up-right" /></a>
+        </section>
+        <section class="experience-pane" id="experience-self-transformations" data-experience-pane="self-transformations" aria-labelledby="experience-self-title" hidden>
+          <h3 id="experience-self-title">向心与离心</h3>
+          <p>{self.palace}宫的{self.star}同时出现向心化{self.inward}与离心化{self.outward}，可分别显示。</p>
+          <div class="experience-options" role="group" aria-label="显示自化方向">
+            <button type="button" data-experience-direction="inward" aria-pressed="true">向心 · {self.inward}</button>
+            <button type="button" data-experience-direction="outward" aria-pressed="true">离心 · {self.outward}</button>
+          </div>
+          <a class="product-link" href="/features/#flight">飞宫与自化功能 <Icon name="arrow-up-right" /></a>
+        </section>
+        <section class="experience-pane" id="experience-chart-annotation" data-experience-pane="chart-annotation" aria-labelledby="experience-mark-title" hidden>
+          <h3 id="experience-mark-title">盘面标注</h3>
+          <p>圈出当前四化的落宫，并把观察写在盘面上。</p>
+          <p class="experience-readout" data-experience-observation>{observation}</p>
+          <div class="experience-options"><button type="button" data-experience-toggle="marks" aria-pressed="true">显示标注</button></div>
+          <a class="product-link" href="/guide/#annotate">标注工具 <Icon name="arrow-up-right" /></a>
+        </section>
+        <section class="experience-pane" id="experience-chart-outputs" data-experience-pane="chart-outputs" aria-labelledby="experience-output-title" hidden>
+          <h3 id="experience-output-title">保存与导出</h3>
+          <div class="experience-options" role="group" aria-label="输出预览格式">
+            <button type="button" data-experience-format="draft" aria-pressed="true">.ziwei</button>
+            <button type="button" data-experience-format="png" aria-pressed="false">.png</button>
+          </div>
+          <p data-experience-format-description="draft">草稿保留命盘参数、显示状态与标注，可以重新打开编辑。</p>
+          <p data-experience-format-description="png" hidden>图片包含导出时可见的盘面和标注，可选 1×、2×、3×。左侧为日间外观示意。</p>
+          <a class="product-link" href="/guide/#save" data-experience-file-guide>草稿操作 <Icon name="arrow-up-right" /></a>
+        </section>
+      </Fragment>
+    </FlightDemo>
+    <div class="experience-foot"><span>固定参考盘</span><span>公历取数与文件操作在桌面应用中完成</span></div>
+  </div>
+</section>
