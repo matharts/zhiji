@@ -91,6 +91,45 @@ fn contains(drawing: &Drawing, value: &str, x: f32, y: f32) -> bool {
 }
 
 #[test]
+/// 验证选中流年时流命与自化同色，清除选择后恢复年龄。
+fn yearly_selection_highlights_only_yearly_life_palace() {
+    let mut input = crate::scenes::sample_input(false);
+    let display = Display::default();
+    let palette = Palette::default();
+    for night in [false, true] {
+        for branch in ["辰", "巳"] {
+            let branch = branch.parse().unwrap();
+            input.yearly = Some(branch);
+            let chart = zhiji_core::calculate(&input);
+            let drawing = chart_drawing_with_mode(&chart, None, &display, &palette, 1.0, night);
+            let mut names = 0;
+            for label in &drawing.labels {
+                if let motion::LabelMotion::Palace(palace, "yearly", _) = label.motion {
+                    names += 1;
+                    if palace == branch {
+                        assert_eq!(label.value, "流命");
+                        assert_eq!(label.ink, TRANSFORM_INK.resolve(night));
+                    } else {
+                        assert_eq!(label.ink, BLACK.resolve(night));
+                    }
+                }
+            }
+            assert_eq!(names, 12);
+        }
+        input.yearly = None;
+        let chart = zhiji_core::calculate(&input);
+        let drawing = chart_drawing_with_mode(&chart, None, &display, &palette, 1.0, night);
+        assert!(drawing.labels.iter().all(|label| label.value != "流命"));
+        assert!(
+            drawing
+                .labels
+                .iter()
+                .any(|label| label.value.ends_with('岁') && label.ink == BLACK.resolve(night))
+        );
+    }
+}
+
+#[test]
 /// 验证天相与天府使用相同默认灰色。
 fn tianxiang_and_tianfu_share_default_gray_ink() {
     let chart = zhiji_core::calculate(&crate::scenes::sample_input(false));

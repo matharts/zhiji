@@ -297,7 +297,13 @@ impl<'a> Painter<'a> {
                 .map(|age| crate::i18n::chart_t(format!("{age} 歲")))
         });
         if let Some(yearly) = yearly.filter(|_| display.yearly && display.palace) {
-            let label = out.label(yearly, [x + 75.0, y + 86.0], 10.0, 600.0, BLACK, true);
+            // 流命只在选中流年时生成，并复用自化颜色。
+            let ink = if palace.yearly_name == Some("流命") {
+                TRANSFORM_INK
+            } else {
+                BLACK
+            };
+            let label = out.label(yearly, [x + 75.0, y + 86.0], 10.0, 600.0, ink, true);
             if let Some(name) = palace.yearly_name {
                 label.identify(
                     format!("yearly-name-{}", palace.branch.index()),
