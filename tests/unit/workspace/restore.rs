@@ -27,6 +27,7 @@ fn content(marks: Vec<Mark>, flying: Option<Flying>) -> WorkspaceContent<Validat
         flying,
         marks: ValidatedMarks::try_from(marks).unwrap(),
         visible: false,
+        comments: Vec::new(),
     }
 }
 

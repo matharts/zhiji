@@ -14,10 +14,14 @@ pub(super) enum WorkspaceMenu {
     Divination {
         failed: bool,
     },
-    MarkingContext(rune::PointerPress),
-    PalaceContext {
-        index: usize,
+    MarkingContext {
         point: rune::PointerPress,
+        position: [f32; 2],
+    },
+    ChartContext {
+        index: Option<usize>,
+        point: rune::PointerPress,
+        position: [f32; 2],
     },
 }
 
@@ -67,17 +71,22 @@ impl Workspace {
     /// 将无障碍对象动作转为选择、右键菜单或文字编辑。
     pub(super) fn selection_action(&mut self, action: SelectionAction) -> bool {
         match action {
-            SelectionAction::Select(index) => self.marking.select_index(index),
+            SelectionAction::Select(index) => self.marking_mut().select_index(index),
             SelectionAction::Context(index, point) => {
-                if self.marking.select_index(index) {
-                    self.open_marking_context_menu(point);
+                if self.marking_mut().select_index(index)
+                    && let Some(mark) = self.marking().selected()
+                {
+                    let bounds = crate::annotation::geometry::bounds(mark);
+                    let position =
+                        std::array::from_fn(|axis| (bounds.min[axis] + bounds.max[axis]) / 2.0);
+                    self.open_marking_context_menu(point, position);
                     true
                 } else {
                     false
                 }
             }
             SelectionAction::Edit(index) => {
-                self.marking.select_index(index) && self.marking.edit_selected_text()
+                self.marking_mut().select_index(index) && self.marking_mut().edit_selected_text()
             }
         }
     }
@@ -86,47 +95,47 @@ impl Workspace {
     pub(crate) fn toolbar_action(&mut self, action: ToolbarAction) {
         match action {
             ToolbarAction::Select(tool) => self.select_marking_tool(tool),
-            ToolbarAction::Weight(weight) => self.marking.set_weight(weight),
+            ToolbarAction::Weight(weight) => self.marking_mut().set_weight(weight),
             ToolbarAction::Ink(ink) => {
-                self.marking.custom_color.open = false;
-                self.marking.set_ink(ink);
+                self.marking_mut().custom_color.open = false;
+                self.marking_mut().set_ink(ink);
             }
             ToolbarAction::CustomToggle => {
-                let color = self.marking.ink().rgb();
-                let picker = &mut self.marking.custom_color;
+                let color = self.marking().ink().rgb();
+                let picker = &mut self.marking_mut().custom_color;
                 picker.open = !picker.open;
                 if picker.open {
                     picker.set_rgb(color);
                 }
             }
             ToolbarAction::CustomHue(hue) => {
-                self.marking.custom_color.set_hue(hue);
-                self.marking.custom_color.sync_text();
+                self.marking_mut().custom_color.set_hue(hue);
+                self.marking_mut().custom_color.sync_text();
             }
             ToolbarAction::CustomHueStep(delta) => {
-                let picker = &mut self.marking.custom_color;
+                let picker = &mut self.marking_mut().custom_color;
                 picker.set_hue(picker.hue + delta as f32 / 360.0);
                 picker.sync_text();
             }
             ToolbarAction::CustomPlane(saturation, value) => {
-                let picker = &mut self.marking.custom_color;
+                let picker = &mut self.marking_mut().custom_color;
                 picker.saturation = saturation.clamp(0.0, 1.0);
                 picker.value = value.clamp(0.0, 1.0);
                 picker.sync_text();
             }
-            ToolbarAction::CustomText => self.marking.custom_color.read_text(),
+            ToolbarAction::CustomText => self.marking_mut().custom_color.read_text(),
             ToolbarAction::CustomApply => {
-                if !self.marking.custom_color.valid {
+                if !self.marking().custom_color.valid {
                     return;
                 }
-                let crate::color::Rgb(r, g, b) = self.marking.custom_color.rgb();
-                self.marking.custom_color.open = false;
-                self.marking
+                let crate::color::Rgb(r, g, b) = self.marking().custom_color.rgb();
+                self.marking_mut().custom_color.open = false;
+                self.marking_mut()
                     .set_ink(crate::annotation::Ink::Custom(r, g, b));
             }
-            ToolbarAction::Undo => self.marking.undo(),
-            ToolbarAction::Redo => self.marking.redo(),
-            ToolbarAction::Clear => self.marking.clear(),
+            ToolbarAction::Undo => self.marking_mut().undo(),
+            ToolbarAction::Redo => self.marking_mut().redo(),
+            ToolbarAction::Clear => self.marking_mut().clear(),
             ToolbarAction::More => self.toggle_marking_menu(),
         }
     }
@@ -135,16 +144,16 @@ impl Workspace {
     pub(crate) fn marking_context_action(&mut self, action: ContextAction) {
         self.dismiss_menus();
         match action {
-            ContextAction::Duplicate => self.marking.duplicate_selected(),
-            ContextAction::Forward => self.marking.move_layer(true),
-            ContextAction::Backward => self.marking.move_layer(false),
-            ContextAction::Delete => self.marking.delete_selected(),
+            ContextAction::Duplicate => self.marking_mut().duplicate_selected(),
+            ContextAction::Forward => self.marking_mut().move_layer(true),
+            ContextAction::Backward => self.marking_mut().move_layer(false),
+            ContextAction::Delete => self.marking_mut().delete_selected(),
         };
     }
 
     /// 关闭工具调色板并切换更多菜单，与右键菜单保持互斥。
     pub(super) fn toggle_marking_menu(&mut self) {
-        self.marking.close_palette();
+        self.marking_mut().close_palette();
         self.ui.menu = if self.marking_menu_open() {
             WorkspaceMenu::Closed
         } else {
@@ -157,31 +166,50 @@ impl Workspace {
         matches!(self.ui.menu, WorkspaceMenu::More)
     }
 
-    /// 返回右键菜单的原始指针定位信息。
-    pub(crate) fn marking_context_menu(&self) -> Option<rune::PointerPress> {
+    /// 返回标注右键的窗口位置与盘面位置。
+    pub(crate) fn marking_context_menu(&self) -> Option<(rune::PointerPress, [f32; 2])> {
         match self.ui.menu {
-            WorkspaceMenu::MarkingContext(point) => Some(point),
+            WorkspaceMenu::MarkingContext { point, position } => Some((point, position)),
             _ => None,
         }
     }
 
     /// 打开标注右键菜单并替换当前菜单。
-    pub(super) fn open_marking_context_menu(&mut self, point: rune::PointerPress) {
-        self.ui.menu = WorkspaceMenu::MarkingContext(point);
+    pub(super) fn open_marking_context_menu(
+        &mut self,
+        point: rune::PointerPress,
+        position: [f32; 2],
+    ) {
+        self.ui.menu = WorkspaceMenu::MarkingContext { point, position };
     }
 
-    /// 返回右键命中的宫位下标及窗口坐标。
-    pub(super) fn palace_context_menu(&self) -> Option<(usize, rune::PointerPress)> {
+    /// 返回右键命中的宫位、窗口坐标与命盘坐标。
+    pub(super) fn chart_context_menu(
+        &self,
+    ) -> Option<(Option<usize>, rune::PointerPress, [f32; 2])> {
         match self.ui.menu {
-            WorkspaceMenu::PalaceContext { index, point } => Some((index, point)),
+            WorkspaceMenu::ChartContext {
+                index,
+                point,
+                position,
+            } => Some((index, point, position)),
             _ => None,
         }
     }
 
-    /// 打开宫位菜单前先结束暂存编辑，使菜单接管焦点。
-    pub(super) fn open_palace_context_menu(&mut self, index: usize, point: rune::PointerPress) {
+    /// 打开盘面菜单前先结束暂存编辑，使菜单接管焦点。
+    pub(super) fn open_chart_context_menu(
+        &mut self,
+        index: Option<usize>,
+        point: rune::PointerPress,
+        position: [f32; 2],
+    ) {
         self.finish_transient_edits();
-        self.ui.menu = WorkspaceMenu::PalaceContext { index, point };
+        self.ui.menu = WorkspaceMenu::ChartContext {
+            index,
+            point,
+            position,
+        };
     }
 
     /// 判断工作区当前是否有菜单打开。
@@ -206,7 +234,7 @@ impl Workspace {
     /// 关闭标注菜单后切换标注整体可见性。
     pub(crate) fn toggle_marking_visibility(&mut self) {
         self.dismiss_menus();
-        self.marking.toggle_visibility();
+        self.marking_mut().toggle_visibility();
     }
 
     /// 收尾相关编辑后切换侧栏，并启用此次命盘尺寸过渡。
@@ -214,8 +242,8 @@ impl Workspace {
         if self.divination_menu().is_some() {
             self.dismiss_menus();
         }
-        self.marking.commit_text();
-        self.marking.close_palette();
+        self.marking_mut().commit_text();
+        self.marking_mut().close_palette();
         if !self.layout.sidebar_collapsed {
             self.edit_colors().close_color();
         }

@@ -23,6 +23,23 @@ pub(super) fn render(
         chrome.leading
     };
     let mut actions = row().gap(3.0).center_y();
+    if workspace.has_comments() {
+        actions = actions.child(
+            IconButton::new(
+                super::comments::TOGGLE,
+                t("草稿批注"),
+                icon(Icon::List, 16.0, ColorToken::InkNavigation),
+            )
+            .size(27.0)
+            .on_press_tx(|state: &mut AppState, tx| {
+                state.workspace.toggle_comments();
+                tx.instant();
+            })
+            .build()
+            .tab_index(1)
+            .expanded(workspace.comments_visible()),
+        );
+    }
     if !workspace.presentation().sidebar_collapsed() {
         actions = actions
             .child(

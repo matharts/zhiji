@@ -18,6 +18,7 @@ mod keyboard;
 mod snapshot;
 mod state;
 use state::{WorkspaceLayout, WorkspaceUi};
+pub(crate) mod comments;
 pub(crate) mod view;
 pub(crate) use snapshot::{
     DraftSnapshot, ImageSnapshot, RestoreError, RestoredWorkspace, WorkspaceContent,
@@ -26,6 +27,7 @@ pub(crate) use snapshot::{
 pub(crate) struct Workspace {
     session: Session,
     marking: Marking,
+    comments: comments::Comments,
     color_editor: ColorEditor,
     input_editor: crate::workspace::input::InputEditor,
     preferences: WorkspacePreferences,
@@ -85,14 +87,23 @@ impl Workspace {
         self.ui.animate_chart_scale = false;
     }
 
-    /// 借用标注供应用组合工具栏和反馈，不开放整个编辑状态的写入口。
+    /// 借用当前主题标注，未选主题时沿用原有通用标注。
     pub(crate) fn marking(&self) -> &Marking {
-        &self.marking
+        self.comments
+            .active()
+            .map_or(&self.marking, |entry| &entry.marking)
+    }
+
+    /// 让盘面、工具栏和快捷键共享当前主题的编辑器。
+    fn marking_mut(&mut self) -> &mut Marking {
+        self.comments
+            .active_mut()
+            .map_or(&mut self.marking, |entry| &mut entry.marking)
     }
 
     /// 只开放自定义颜色文本框的受控编辑入口。
     pub(crate) fn marking_color_edit(&mut self) -> &mut rune::TextEdit {
-        &mut self.marking.custom_color.edit
+        &mut self.marking_mut().custom_color.edit
     }
 
     /// 返回视图构建时解析后的实际昼夜模式。
@@ -284,6 +295,7 @@ impl Workspace {
         Self {
             session: Session::with_input(input),
             marking: Marking::default(),
+            comments: comments::Comments::default(),
             color_editor: ColorEditor::default(),
             input_editor,
             preferences: WorkspacePreferences::default(),
@@ -301,7 +313,7 @@ impl Workspace {
     fn image_snapshot(&self) -> ImageSnapshot {
         ImageSnapshot::new(
             self.session.snapshot(),
-            self.marking.visible_marks().to_vec(),
+            self.marking().visible_marks().to_vec(),
             self.ui.night.get(),
             self.preferences.chinese_variant,
             self.preferences.chart_chinese_variant,
@@ -316,8 +328,8 @@ impl Workspace {
 
     /// 提交文字并关闭标注面板后冻结复制图片，保留颜色编辑器状态。
     pub(crate) fn capture_copy_image(&mut self) -> ImageSnapshot {
-        self.marking.commit_text();
-        self.marking.close_palette();
+        self.marking_mut().commit_text();
+        self.marking_mut().close_palette();
         self.image_snapshot()
     }
 
@@ -328,18 +340,19 @@ impl Workspace {
 
     /// 捕获当前文档内容，不主动结束临时编辑。
     pub(crate) fn draft_snapshot(&self) -> DraftSnapshot {
-        DraftSnapshot::capture(&self.session, &self.marking)
+        DraftSnapshot::capture(&self.session, &self.marking, self.comments.entries())
     }
 
     /// 比较当前文档和快照，未提交文字变化也视为未保存修改。
     pub(crate) fn matches_draft(&self, snapshot: &DraftSnapshot) -> bool {
-        !self.marking.has_pending_text_changes() && snapshot.matches(&self.session, &self.marking)
+        !self.marking().has_pending_text_changes()
+            && snapshot.matches(&self.session, &self.marking, self.comments.entries())
     }
 
     /// 结束临时编辑并冻结包含隐藏标注在内的完整草稿。
     pub(crate) fn capture_draft(&mut self) -> DraftSnapshot {
         self.finish_transient_edits();
-        DraftSnapshot::capture(&self.session, &self.marking)
+        self.draft_snapshot()
     }
 
     /// 同时借用颜色编辑状态和会话配色，组成一次编辑事务。
@@ -364,12 +377,13 @@ impl Workspace {
     /// 将窗口唤醒能力分发给标注历史和日期后台任务。
     pub(crate) fn set_waker(&mut self, waker: rune::Waker) {
         self.marking.set_waker(waker.clone());
+        self.comments.set_waker(waker.clone());
         self.input_editor.set_waker(waker);
     }
 
     /// 接收标注历史转存结果，返回是否需要刷新。
     pub(crate) fn poll_history(&mut self) -> bool {
-        self.marking.poll_history()
+        self.marking.poll_history() | self.comments.poll_history()
     }
 
     /// 接收日期反推结果，过期请求由编辑器拒绝提交。
@@ -385,33 +399,34 @@ impl Workspace {
     #[cfg(test)]
     /// 为单元测试借用标注状态。
     pub(crate) fn marking_for_test(&self) -> &Marking {
-        &self.marking
+        self.marking()
     }
 
     #[cfg(test)]
     /// 为单元测试提供标注编辑入口。
     pub(crate) fn marking_mut_for_test(&mut self) -> &mut Marking {
-        &mut self.marking
+        self.marking_mut()
     }
 
     /// 按命盘变更顺序提交文字、关闭标注面板并提交颜色编辑。
     fn commit_edits_for_chart_change(&mut self) {
-        self.marking.commit_text();
-        self.marking.close_palette();
+        self.marking_mut().commit_text();
+        self.marking_mut().close_palette();
         self.edit_colors().close_color();
     }
 
     /// 在文件捕获或帮助入口先提交颜色，再提交文字并关闭标注面板。
     pub(crate) fn finish_transient_edits(&mut self) {
         self.edit_colors().close_color();
-        self.marking.commit_text();
-        self.marking.close_palette();
+        self.marking_mut().commit_text();
+        self.marking_mut().close_palette();
     }
 
     /// 结束颜色编辑后切换标注工具。
     fn select_marking_tool(&mut self, tool: crate::annotation::Tool) {
         self.edit_colors().close_color();
-        self.marking.select(tool);
+        self.comments.preview = None;
+        self.marking_mut().select(tool);
     }
 
     /// 提交临时编辑后应用单个排盘或显示动作。
@@ -426,7 +441,7 @@ impl Workspace {
         self.session.apply_date_input(value);
     }
 
-    /// 清空当前排盘、飞宫和标注，保留全局配色、显示与工作区偏好。
+    /// 清空当前排盘、飞宫、标注和批注，保留配色、显示与工作区偏好。
     pub(crate) fn start_new_document(&mut self) -> DraftSnapshot {
         self.finish_transient_edits();
         self.dismiss_menus();
@@ -440,7 +455,8 @@ impl Workspace {
         session.set_palette(palette);
         session.set_display(display);
         self.session = session;
-        self.marking = Marking::default();
+        self.marking.restore(Vec::new(), true);
+        self.comments.restore(Vec::new());
         self.color_editor = ColorEditor::default();
         let mut input_editor = crate::workspace::input::InputEditor::new(
             crate::workspace::input::clock::today(),
@@ -450,7 +466,7 @@ impl Workspace {
         input_editor.set_pillar_day_start_zi(pillar_day_start_zi);
         self.input_editor = input_editor;
         self.ui.reset_confirmation = false;
-        DraftSnapshot::capture(&self.session, &self.marking)
+        self.draft_snapshot()
     }
 
     /// 清空排盘选项，保留配色和标注。
@@ -461,7 +477,7 @@ impl Workspace {
 
     /// 提交文字和颜色后切换飞宫，避免暂存编辑与盘面动作交错。
     pub(crate) fn toggle_flying(&mut self, branch: Branch) {
-        self.marking.commit_text();
+        self.marking_mut().commit_text();
         self.edit_colors().close_color();
         self.session.toggle_flying(branch);
     }
@@ -506,8 +522,8 @@ impl Workspace {
     #[cfg(any(test, feature = "visual-test"))]
     /// 用测试输入替换会话并清理相关临时编辑，不重建整个工作区。
     pub(crate) fn reset_chart(&mut self, input: Input) {
-        self.marking.commit_text();
-        self.marking.close_palette();
+        self.marking_mut().commit_text();
+        self.marking_mut().close_palette();
         self.session = Session::with_input(input);
         self.color_editor = ColorEditor::default();
     }
@@ -515,11 +531,47 @@ impl Workspace {
     /// 一次性安装已校验草稿，并清理旧会话的编辑器和设置面板状态。
     pub(crate) fn restore(&mut self, restored: RestoredWorkspace) {
         self.dismiss_menus();
-        let (session, marks, visible) = restored.into_parts();
+        let (session, marks, visible, comments) = restored.into_parts();
         self.session = session;
         self.marking.restore(marks, visible);
+        self.comments.restore(comments);
         self.color_editor = ColorEditor::default();
         self.ui.settings_open = false;
+    }
+
+    /// 批注存在时保留索引入口，关闭索引只影响查看状态。
+    pub(crate) fn has_comments(&self) -> bool {
+        !self.comments.entries().is_empty()
+    }
+
+    /// 判断是否在盘面左侧显示批注索引。
+    pub(crate) fn comments_visible(&self) -> bool {
+        self.comments.visible
+    }
+
+    /// 收起索引时回到通用标注，重新展开时恢复上次选中的主题。
+    pub(crate) fn toggle_comments(&mut self) {
+        self.marking_mut().finish_layer_edit();
+        self.comments.visible = self.has_comments() && !self.comments.visible;
+        self.comments.preview = None;
+    }
+
+    /// 提交原组的文字，再切换到指定主题或通用标注。
+    fn select_comment(&mut self, index: Option<usize>) {
+        if index.is_some_and(|index| index >= self.comments.entries().len()) {
+            return;
+        }
+        if self.comments.selected != index {
+            self.marking_mut().finish_layer_edit();
+            self.dismiss_menus();
+            self.comments.selected = index;
+        }
+        self.comments.preview = None;
+    }
+
+    /// 文档快捷键与外部文件操作应等待批注对话框结束。
+    pub(crate) fn comment_dialog_open(&self) -> bool {
+        self.comments.editor.is_some() || self.comments.deleting.is_some()
     }
 }
 

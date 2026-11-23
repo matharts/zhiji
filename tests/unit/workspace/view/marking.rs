@@ -108,13 +108,13 @@ fn tool_palette_moves_between_tools_and_retargets_without_delaying_selection() {
 }
 
 /// 将命盘局部坐标映射到当前缩放后的窗口坐标。
-fn chart_point(runtime: &Runtime<AppState>, x: f32, y: f32) -> (f32, f32) {
+pub(super) fn chart_point(runtime: &Runtime<AppState>, x: f32, y: f32) -> (f32, f32) {
     let ([left, top, width, height], _) = runtime.presented("chart").unwrap();
     (left + x / 660.0 * width, top + y / 660.0 * height)
 }
 
 /// 模拟从起点到终点的完整绘制手势。
-fn draw(runtime: &mut Runtime<AppState>, start: (f32, f32), end: (f32, f32)) {
+pub(super) fn draw(runtime: &mut Runtime<AppState>, start: (f32, f32), end: (f32, f32)) {
     let (x1, y1) = chart_point(runtime, start.0, start.1);
     let (x2, y2) = chart_point(runtime, end.0, end.1);
     runtime.pointer_down(x1, y1);
@@ -126,7 +126,7 @@ fn draw(runtime: &mut Runtime<AppState>, start: (f32, f32), end: (f32, f32)) {
 }
 
 /// 点击命盘指定局部位置。
-fn click_chart(runtime: &mut Runtime<AppState>, position: (f32, f32)) {
+pub(super) fn click_chart(runtime: &mut Runtime<AppState>, position: (f32, f32)) {
     let (x, y) = chart_point(runtime, position.0, position.1);
     runtime.pointer_down(x, y);
     runtime.pointer_up(x, y);
@@ -134,7 +134,7 @@ fn click_chart(runtime: &mut Runtime<AppState>, position: (f32, f32)) {
 }
 
 /// 定位缩放柄并按指定窗口位移拖动。
-fn drag_handle(runtime: &mut Runtime<AppState>, key: &str, dx: f32, dy: f32) {
+pub(super) fn drag_handle(runtime: &mut Runtime<AppState>, key: &str, dx: f32, dy: f32) {
     let ([x, y, width, height], _) = runtime.presented(key).expect("selection handle");
     let (x, y) = (x + width / 2.0, y + height / 2.0);
     runtime.pointer_down(x, y);
@@ -859,12 +859,19 @@ fn palace_context_respects_incomplete_input_and_keyboard_focus() {
         (1300.0, 800.0),
         Env::new(false, 1.0),
     );
+    incomplete.on_key = Some(on_key);
     incomplete.frame(0.0);
     let (x, y) = chart_point(&incomplete, 330.0, 330.0);
     incomplete.secondary_down(x, y);
     incomplete.secondary_up(x, y);
     incomplete.frame(0.0);
     assert!(incomplete.presented("palace-context-menu").is_none());
+    assert!(incomplete.presented("chart-context-menu").is_some());
+    incomplete.key(KeyEvent {
+        key: Key::Escape,
+        mods: Mods::default(),
+    });
+    incomplete.frame(0.0);
     let (x, y) = incomplete.find("palace-0").unwrap();
     incomplete.secondary_down(x, y);
     incomplete.secondary_up(x, y);

@@ -18,6 +18,7 @@ impl MenuState {
     fn capture(state: &AppState) -> Self {
         let available = state.closing.is_none()
             && !state.workspace.input_editor_open()
+            && !state.workspace.comment_dialog_open()
             && !state.launch.active()
             && state.help.is_none()
             && !state.preferences_prompt_active()

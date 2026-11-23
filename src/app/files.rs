@@ -123,6 +123,7 @@ impl AppState {
             || self.preferences_prompt_active()
             || self.file_prompt_active()
             || self.workspace.input_editor_open()
+            || self.workspace.comment_dialog_open()
             || self.document.is_busy()
             || self.tasks.export.is_busy()
             || self.document.feedback().is_some_and(|(ok, _)| !ok)
