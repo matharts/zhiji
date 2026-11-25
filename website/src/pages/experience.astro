@@ -1,0 +1,115 @@
+---
+import ProductLayout from '../layouts/ProductLayout.astro';
+import SceneArt from '../components/site/SceneArt.astro';
+import ChartExperience from '../components/product/ChartExperience.astro';
+import Icon from '../components/Icon.astro';
+import { shortcuts } from '../data/product.ts';
+import '../styles/scene.css';
+import '../styles/demos.css';
+import '../styles/product-home.css';
+
+const platforms = [
+  { id: 'macos', name: 'macOS' },
+  { id: 'windows', name: 'Windows' },
+  { id: 'linux', name: 'Linux' },
+];
+const sources = [
+  { title: '公历日期', fields: '日期 / 钟表时间 / 出生地', detail: '出生地可选。填写后依时区、经度和真太阳时校正，留空时按固定北京时间取数。' },
+  { title: '农历生日', fields: '农历日期 / 平月、闰月 / 时辰', detail: '直接按所选农历生日与十二时辰取数。' },
+  { title: '干支反推', fields: '年、月、日、时四柱 / 查询年份', detail: '按固定北京时间查询候选时刻，选中结果后回填参数。' },
+];
+const commonKeys = shortcuts.filter(item => ['保存草稿', '导出图片', '撤销标注'].includes(item.action));
+const repository = 'https://github.com/matharts/zhiji';
+const topics = [
+  { id: 'exhibit-flight', name: '飞宫四化', detail: '查禄、权、科、忌落宫' },
+  { id: 'date-workflow', name: '取数校时', detail: '公历、农历、干支反推' },
+  { id: 'self-transformations', name: '向心与离心', detail: '分别观察自化方向' },
+  { id: 'chart-annotation', name: '标注与输出', detail: '留存观察，导出盘面' },
+];
+---
+<ProductLayout title="体验参考盘 — 知几" description="在知几的甲子年参考盘上体验飞宫四化、查看大限流年，并预览盘面标注及导出。">
+  <main id="main">
+    <section class="product-cover" aria-labelledby="cover-title">
+      <div class="cover-layout product-wrap">
+        <div class="cover-masthead hero-copy">
+          <h1 id="cover-title"><span>紫微斗数</span><span>专业排盘</span></h1>
+          <p>面向命理师的开源桌面软件。</p>
+          <div class="cover-actions flex flex-wrap items-center">
+            <a class="product-primary" href="/download/">下载知几 <Icon name="arrow-down" /></a>
+            <a class="product-link" href="#workspace">试一张参考盘 <Icon name="arrow-down-right" /></a>
+          </div>
+        </div>
+        <div class="cover-stage" data-centered-scene><SceneArt /></div>
+        <nav class="cover-topics" aria-label="探索知几功能">
+          {topics.map(({ id, name, detail }) => (
+            <a href={`#${id}`}><strong>{name}</strong><span>{detail}</span></a>
+          ))}
+        </nav>
+        <div class="cover-baseline">
+          <div class="cover-platforms" aria-label="选择桌面平台">
+            {platforms.map(platform => <a href={`/download/#platform-${platform.id}`}>{platform.name}</a>)}
+          </div>
+          <div class="cover-caption">
+            <span>天地人三盘</span>
+            <button class="cover-motion" type="button" data-scene-replay aria-label="重播混沌开场" title="重播混沌开场" hidden><Icon name="replay" /></button>
+            <button class="cover-motion" type="button" data-motion-toggle hidden>
+              <span class="cover-motion-icon" data-motion-icon data-state="playing" aria-hidden="true"><Icon name="pause" class="cover-pause" /><Icon name="play" class="cover-play" /></span>
+              <span data-motion-label>暂停动画</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <ChartExperience />
+
+    <div class="desktop-details product-wrap">
+    <section id="date-workflow" class="source-section" aria-labelledby="sources-title">
+      <header class="source-heading">
+        <h2 id="sources-title">取数与校时</h2>
+        <p>取数确认后，生年、月份和时辰仍可手动调整。也可以用紫占起随机盘或此刻时间盘。</p>
+        <a class="product-link" href="/guide/#start">排盘操作 <Icon name="arrow-up-right" /></a>
+      </header>
+      <div class="source-entries">
+        {sources.map(({ title, fields, detail }, index) => (
+          <details open={index === 0}>
+            <summary><span>{title}</span><Icon name="chevron-down" /></summary>
+            <div><p>{fields}</p><p>{detail}</p></div>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <section id="desktop-tools-title" class="desktop-section" aria-labelledby="desktop-title">
+      <header>
+        <h2 id="desktop-title">桌面工作区</h2>
+        <p>盘面的日间、夜晚外观可切换，界面与命盘可分别使用简体或繁体。侧栏支持单双列，也可直接收起。</p>
+      </header>
+      <div class="desktop-keys">
+        <h3>常用快捷键</h3>
+        <table>
+          <thead><tr><th scope="col">操作</th><th scope="col">macOS</th><th scope="col">Windows / Linux</th></tr></thead>
+          <tbody>{commonKeys.map(item => <tr><th scope="row">{item.action}</th><td>{item.mac.map(key => <kbd>{key}</kbd>)}</td><td>{item.other.map(key => <kbd>{key}</kbd>)}</td></tr>)}</tbody>
+        </table>
+        <a class="product-link" href="/guide/#shortcuts">完整快捷键表 <Icon name="arrow-up-right" /></a>
+      </div>
+    </section>
+    </div>
+
+    <section id="resources-title" class="home-release product-wrap" aria-labelledby="home-download-title">
+      <img src="/images/app.png" width="64" height="64" alt="" />
+      <div>
+        <h2 id="home-download-title">下载知几</h2>
+        <p data-release-summary role="status">查看最新版本与安装包</p>
+      </div>
+      <div class="home-release-actions">
+        <a class="product-primary" href="/download/">选择桌面系统 <Icon name="arrow-down" /></a>
+        <a class="product-link" href={repository}>查看源码 <Icon name="arrow-up-right" /></a>
+      </div>
+    </section>
+  </main>
+  <script>
+    import '../scripts/home.ts';
+    import '../scripts/product-home.ts';
+  </script>
+</ProductLayout>

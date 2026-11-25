@@ -122,7 +122,7 @@ jobs:
         shell: bash
         run: |
           # 从公开域名校验首页和子目录路由，确保返回本次构建的页面。
-          for route in / /download/; do
+          for route in / /download/ /experience/; do
             curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' \
               --retry 3 --max-time 30 --header 'Cache-Control: no-cache' \
               --output "$RUNNER_TEMP/zhiji-page.html" "$WEBSITE_URL$route"
