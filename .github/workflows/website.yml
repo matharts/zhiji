@@ -87,6 +87,7 @@ jobs:
           : "${TENCENT_SECRET_KEY:?请在 website-production 环境配置 TENCENT_SECRET_KEY}"
           test -s dist/index.html
           test -s dist/download/index.html
+          test -s dist/experience/index.html
 
           # 只在当前步骤把密钥写入权限受限的临时配置，避免作为命令行参数传递。
           umask 077
@@ -115,14 +116,18 @@ jobs:
             --meta 'Content-Type:text/javascript; charset=utf-8'
           "${coscli[@]}" cp ./dist/ "$destination" --recursive --skip-dir --include '\.css$' \
             --meta 'Content-Type:text/css; charset=utf-8'
+          html_meta='Cache-Control:no-cache#Content-Type:text/html; charset=utf-8'
+          # 参考盘页面使用对象级公开读取。每次覆盖时声明该权限，并先发布首页所链接的页面。
+          "${coscli[@]}" cp ./dist/experience/index.html "${destination}experience/index.html" \
+            --acl public-read --meta "$html_meta"
           "${coscli[@]}" cp ./dist/ "$destination" --recursive --skip-dir --include '\.html$' \
-            --meta 'Cache-Control:no-cache#Content-Type:text/html; charset=utf-8'
+            --exclude '(^|/)experience/index\.html$' --meta "$html_meta"
       - name: Verify public website
         if: steps.revision.outputs.current == 'true'
         shell: bash
         run: |
           # 从公开域名校验首页和子目录路由，确保返回本次构建的页面。
-          for route in / /download/; do
+          for route in / /download/ /experience/; do
             curl --fail --silent --show-error --location --proto '=https' --proto-redir '=https' \
               --retry 3 --max-time 30 --header 'Cache-Control: no-cache' \
               --output "$RUNNER_TEMP/zhiji-page.html" "$WEBSITE_URL$route"
