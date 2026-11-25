@@ -66,6 +66,8 @@ mise exec -- node tools/verify.ts updates
 2. 为 CI 创建专用 CAM 凭据，授权写入工作流指定的存储桶。当前官网产物只需对象上传权限 `name/cos:PutObject`。将 SecretId 和 SecretKey 分别存入 GitHub 的 `website-production` 环境 Secrets，名称为 `TENCENT_SECRET_ID` 和 `TENCENT_SECRET_KEY`。该环境仅允许 `main` 部署。[CAM 用户策略](https://cloud.tencent.com/document/product/436/68280)
 3. 到 GitHub Actions 的 [Website 工作流](https://github.com/matharts/zhiji/actions/workflows/website.yml) 选择 `Run workflow`，使用 `main` 执行首次部署并查看结果。域名或证书修复后也可从这里重新运行。
 
+存储桶策略允许访客读取已有官网页面与资源目录。参考盘的 `experience/index.html` 在上传时单独设置公开读取权限。
+
 ## 数据格式与诊断
 
 当前草稿格式不支持旧版本，见[领域规则](domain.md)。不自动删除用户配置目录或已有草稿。
