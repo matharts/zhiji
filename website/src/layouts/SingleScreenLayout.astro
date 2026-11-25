@@ -52,9 +52,9 @@ const features = [
         <div class="screen-copy relative z-10">
           <h1 id="screen-title">知几</h1>
           <p class="screen-subtitle">紫微斗数专业排盘软件</p>
-          <div class="screen-actions flex flex-wrap items-center gap-x-6 gap-y-2">
-            <a class="screen-primary inline-flex items-center justify-between gap-6" href="/experience/#workspace">体验参考盘 <Icon name="arrow-right" /></a>
-            <a class="screen-link" href="/download/" data-download hidden>下载知几 <Icon name="download" /></a>
+          <p class="screen-release-status" data-release-unpublished hidden>桌面版开发中</p>
+          <div class="screen-actions" data-download hidden>
+            <a class="screen-primary inline-flex items-center justify-between gap-6" href="/download/">下载知几 <Icon name="download" /></a>
           </div>
           <nav class="screen-platforms flex flex-wrap items-center gap-x-4" aria-label="按桌面系统下载" data-download hidden>
             {platforms.map(({ id, name, icon }) => (
@@ -138,6 +138,7 @@ const features = [
     font-weight: 500;
     line-height: 1.5;
   }
+  .screen-release-status { margin-top: 14px; color: var(--screen-copy); font-size: 13px; }
   .screen-actions { margin-top: clamp(22px, 3.2vw, 45px); }
   .screen-primary {
     min-height: 51px;

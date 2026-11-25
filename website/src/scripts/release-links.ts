@@ -1,7 +1,7 @@
 import { isPlatform } from "./download-data.ts";
 import { fetchLatestRelease, type ReleaseResult } from "./release.ts";
 
-/** 只有确认存在可用安装包时，才显示对应的下载入口。 */
+/** 根据查询结果显示发布状态及实际可用的下载入口。 */
 export function updateReleaseLinks(release: ReleaseResult): void {
     const groups = release.state === "published" ? release.groups : null;
     const hasDownloads = groups !== null && Object.values(groups).some(assets => assets.length > 0);
@@ -9,6 +9,8 @@ export function updateReleaseLinks(release: ReleaseResult): void {
         const platform = element.dataset.download;
         element.hidden = isPlatform(platform) ? !groups?.[platform].length : !hasDownloads;
     });
+    const unpublished = document.querySelector<HTMLElement>("[data-release-unpublished]");
+    if (unpublished) unpublished.hidden = release.state !== "unpublished";
 
     const summary = document.querySelector("[data-release-summary]");
     if (!summary) return;
