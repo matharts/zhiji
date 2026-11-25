@@ -11,10 +11,10 @@ const platforms = [
   { id: 'linux', name: 'Linux', format: 'AppImage / DEB', instructions: '选择 AppImage，或用系统包管理器安装 DEB。' },
 ];
 ---
-<ProductLayout title="下载知几 — macOS、Windows 与 Linux" description="按桌面系统查看知几正式版、安装方式和项目源码。">
+<ProductLayout title="版本与下载 — 知几" description="查看知几正式版发布状态、安装包和项目源码。">
   <main id="main" class="product-document product-wrap download-document">
     <header class="document-title download-heading">
-      <h1>下载知几</h1>
+      <h1>版本与下载</h1>
       <div>
         <p>紫微斗数专业排盘软件</p>
         <a class="product-link" href={`${repository}/blob/main/CONTRIBUTING.md`}>从源码构建 <Icon name="arrow-up-right" /></a>
@@ -23,33 +23,36 @@ const platforms = [
     <section class="install-section" aria-labelledby="install-title">
       <header class="install-header">
         <div>
-          <h2 id="install-title">选择桌面系统</h2>
-          <p data-release-status role="status">请查看 GitHub 发布页获取版本信息。</p>
+          <h2 id="install-title" data-install-title>发布状态</h2>
+          <p data-release-status role="status">版本信息见 GitHub。</p>
         </div>
         <button type="button" class="install-retry" data-release-retry hidden>重新查询 <Icon name="replay" /></button>
       </header>
-      <div class="install-platforms" role="group" aria-label="选择操作系统" data-platform-picker hidden>
-        {platforms.map(platform => <button type="button" data-select-platform={platform.id} aria-pressed="false" aria-controls={`download-${platform.id}`}>{platform.name}</button>)}
+      <div data-install-options hidden>
+        <div class="install-platforms" role="group" aria-label="选择操作系统">
+          {platforms.map(platform => <button type="button" data-select-platform={platform.id} aria-pressed="false" aria-controls={`download-${platform.id}`} hidden>{platform.name}</button>)}
+        </div>
+        <div class="install-panels">{platforms.map(platform => (
+          <section class="install-panel" data-platform={platform.id} id={`download-${platform.id}`} aria-labelledby={`platform-${platform.id}`} hidden>
+            <div class="install-format">
+              <h3 id={`platform-${platform.id}`}>{platform.name}</h3>
+              <code>{platform.format}</code>
+              <p>{platform.instructions}</p>
+            </div>
+            <div class="install-files">
+              <h4>安装包</h4>
+              <div data-assets></div>
+            </div>
+          </section>
+        ))}</div>
       </div>
-      <div class="install-panels">{platforms.map(platform => (
-        <section class="install-panel" data-platform={platform.id} id={`download-${platform.id}`} aria-labelledby={`platform-${platform.id}`}>
-          <div class="install-format">
-            <h3 id={`platform-${platform.id}`}>{platform.name}</h3>
-            <code>{platform.format}</code>
-            <p>{platform.instructions}</p>
-          </div>
-          <div class="install-files">
-            <h4>安装包</h4>
-            <div data-assets><a class="asset-fallback" href={`${repository}/releases`}>查看 GitHub 发布页</a></div>
-          </div>
-        </section>
-      ))}</div>
       <footer class="install-footer">
-        <p>支持架构和系统要求以对应版本的发布说明为准。</p>
-        <a class="product-link" href={`${repository}/releases`}>查看发布说明 <Icon name="arrow-up-right" /></a>
+        <a class="product-primary" href="/experience/#workspace" data-download-fallback>体验参考盘 <Icon name="arrow-up-right" /></a>
+        <p data-download hidden>支持架构和系统要求以对应版本的发布说明为准。</p>
+        <a class="product-link" href={`${repository}/releases`}>GitHub 发布页 <Icon name="arrow-up-right" /></a>
       </footer>
     </section>
-    <section class="download-help" id="installation" aria-labelledby="download-help-title">
+    <section class="download-help" id="installation" aria-labelledby="download-help-title" data-download hidden>
       <h2 id="download-help-title" class="product-subheading">安装与使用</h2>
       <div>
         <details><summary>如何选择安装包？<Icon name="chevron-down" /></summary><p>选择与你的操作系统和处理器架构一致的安装包。具体架构标记请查看该版本的发布说明。</p></details>

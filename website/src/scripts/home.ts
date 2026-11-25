@@ -2,32 +2,15 @@ import { gsap } from "gsap";
 import Lenis from "lenis";
 import "lenis/dist/lenis.css";
 import { mountScene } from "./scene.ts";
-import { fetchLatestRelease } from "./release.ts";
 import "./flight-demo.ts";
 
 const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
 const finePointer = window.matchMedia("(pointer: fine)");
-const releaseSummaries = document.querySelectorAll("[data-release-summary]");
 // 功能尚未挂载时使用空回调，允许偏好变化和页面退出统一执行清理。
 let cleanMotion = () => {};
 // 异步场景挂载成功后替换为实际 GPU 资源清理函数。
 let cleanScene = () => {};
 let sceneRevision = 0;
-
-/** 将发布状态同步到首页所有版本摘要，不把失败显示为已有安装包。 */
-async function updateReleaseSummary() {
-    releaseSummaries.forEach((item) => { item.textContent = "正在查询版本…"; });
-    const release = await fetchLatestRelease();
-    let message = "版本信息暂不可用，请查看下载页";
-    if (release.state === "unpublished") message = "正式版尚未发布";
-    if (release.state === "published") {
-        const hasAssets = Object.values(release.groups).some((assets) => assets.length);
-        message = hasAssets
-            ? `最新正式版 ${release.tag} · 查看安装包`
-            : `最新正式版 ${release.tag} · 安装包信息见下载页`;
-    }
-    releaseSummaries.forEach((item) => { item.textContent = message; });
-}
 
 /** 清理旧动画后按动效和指针偏好安装滚动效果，并保留可逆清理入口。 */
 function setupMotion() {
@@ -86,4 +69,3 @@ window.addEventListener("pageshow", (event) => {
     if (event.persisted) updatePreferences();
 });
 updatePreferences();
-updateReleaseSummary();
