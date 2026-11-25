@@ -11,6 +11,7 @@
 .cover-actions { gap: 8px 18px; margin-top: 22px; }
 .cover-baseline { position: relative; z-index: 1; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px 14px; min-height: 58px; padding-block: 7px; }
 .cover-platforms, .cover-caption { display: flex; flex-wrap: wrap; align-items: center; gap: 7px 14px; color: #c6bdcf; font-size: 12px; pointer-events: auto; }
+.cover-caption { margin-inline-start: auto; }
 .cover-platforms a { min-height: 37px; display: inline-flex; align-items: center; }
 .cover-platforms a:hover { color: white; }
 .cover-motion { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-width: 39px; min-height: 40px; padding-inline: 8px; color: #e7dff0; background: transparent; border-radius: 4px; font-size: 12px; }

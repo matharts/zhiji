@@ -8,6 +8,7 @@
 .function-item-heading .product-link { color: var(--product-accent); }
 .function-item ul { display: grid; gap: 9px; margin: 10px 0 0; padding-inline-start: 1.1em; color: var(--product-soft); font-size: 14px; list-style: disc; }
 .function-item li::marker { color: var(--product-accent); }
+.function-item > .product-link { margin-top: 4px; color: var(--product-accent); }
 
 /* 指南依靠标题与留白定位，提示只用一层底色。 */
 .guide-sheets { max-width: 760px; }

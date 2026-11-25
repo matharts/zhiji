@@ -35,8 +35,8 @@ const topics = [
           <h1 id="cover-title"><span>紫微斗数</span><span>专业排盘</span></h1>
           <p>面向命理师的开源桌面软件。</p>
           <div class="cover-actions flex flex-wrap items-center">
-            <a class="product-primary" href="/download/">下载知几 <Icon name="arrow-down" /></a>
-            <a class="product-link" href="#workspace">试一张参考盘 <Icon name="arrow-down-right" /></a>
+            <a class="product-primary" href="#workspace">试一张参考盘 <Icon name="arrow-down-right" /></a>
+            <a class="product-link" href="/download/" data-download hidden>下载知几 <Icon name="arrow-down" /></a>
           </div>
         </div>
         <div class="cover-stage" data-centered-scene><SceneArt /></div>
@@ -46,9 +46,9 @@ const topics = [
           ))}
         </nav>
         <div class="cover-baseline">
-          <div class="cover-platforms" aria-label="选择桌面平台">
-            {platforms.map(platform => <a href={`/download/#platform-${platform.id}`}>{platform.name}</a>)}
-          </div>
+          <nav class="cover-platforms" aria-label="按桌面系统下载" data-download hidden>
+            {platforms.map(platform => <a href={`/download/#platform-${platform.id}`} data-download={platform.id} hidden>{platform.name}</a>)}
+          </nav>
           <div class="cover-caption">
             <span>天地人三盘</span>
             <button class="cover-motion" type="button" data-scene-replay aria-label="重播混沌开场" title="重播混沌开场" hidden><Icon name="replay" /></button>
@@ -96,15 +96,15 @@ const topics = [
     </section>
     </div>
 
-    <section id="resources-title" class="home-release product-wrap" aria-labelledby="home-download-title">
+    <section id="resources-title" class="home-release product-wrap" aria-labelledby="home-release-title">
       <img src="/images/app.png" width="64" height="64" alt="" />
       <div>
-        <h2 id="home-download-title">下载知几</h2>
-        <p data-release-summary role="status">查看最新版本与安装包</p>
+        <h2 id="home-release-title">版本发布</h2>
+        <p data-release-summary role="status">版本信息见 GitHub</p>
       </div>
       <div class="home-release-actions">
-        <a class="product-primary" href="/download/">选择桌面系统 <Icon name="arrow-down" /></a>
-        <a class="product-link" href={repository}>查看源码 <Icon name="arrow-up-right" /></a>
+        <a class="product-primary" href="/download/" data-download hidden>下载知几 <Icon name="arrow-down" /></a>
+        <a class="product-link" href={`${repository}/releases`}>GitHub 发布页 <Icon name="arrow-up-right" /></a>
       </div>
     </section>
   </main>

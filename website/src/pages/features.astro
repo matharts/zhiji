@@ -15,7 +15,7 @@ const groups = [
   <main id="main" class="product-document product-wrap features-document">
     <header class="document-title">
       <h1>功能</h1>
-      <div><p>从出生资料取数，到飞化、盘面标注和文件留存。</p><a class="product-link" href="/experience/#exhibit-flight">打开四化演示 <Icon name="arrow-up-right" /></a></div>
+      <p>从出生资料取数，到飞化、盘面标注和文件留存。</p>
     </header>
     <div class="document-layout">
       <nav class="document-nav" aria-label="功能目录">
@@ -33,12 +33,13 @@ const groups = [
                   <a class="product-link" href={`/guide/#${feature.guide}`}>操作方法 <Icon name="arrow-up-right" /></a>
                 </div>
                 <ul>{feature.items.map(item => <li>{item}</li>)}</ul>
+                {feature.id === 'flight' && <a class="product-link" href="/experience/#exhibit-flight">体验参考盘 <Icon name="arrow-up-right" /></a>}
               </section>
             ))}
           </div>
         ))}
         </div>
-        <div class="document-end"><p>适用于 macOS、Windows 和 Linux。</p><a class="product-primary" href="/download/">下载知几 <Icon name="arrow-down" /></a></div>
+        <div class="document-end"><p>适用于 macOS、Windows 和 Linux。</p></div>
       </div>
     </div>
   </main>

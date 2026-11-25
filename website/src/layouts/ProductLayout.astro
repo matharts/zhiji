@@ -41,7 +41,7 @@ const repository = 'https://github.com/matharts/zhiji';
         <nav class="product-nav hidden min-[701px]:flex items-center" aria-label="主导航">
           {links.map(({ href, label }) => <a href={href} aria-current={pathname === href ? 'page' : undefined}>{label}</a>)}
         </nav>
-        <a class="product-header-download" href="/download/" aria-current={pathname === '/download/' ? 'page' : undefined}>下载 <Icon name="arrow-down" /></a>
+        <a class="product-header-download" href="/download/" aria-current={pathname === '/download/' ? 'page' : undefined} data-download hidden>下载 <Icon name="arrow-down" /></a>
         <details class="product-mobile-menu min-[701px]:hidden" data-product-menu>
           <summary aria-label="导航菜单"><Icon name="menu" class="menu-open" /><Icon name="close" class="menu-close" /></summary>
           <nav class="product-mobile-links" aria-label="移动导航">
@@ -59,7 +59,7 @@ const repository = 'https://github.com/matharts/zhiji';
       <nav aria-label="页脚导航">
         <a href="/features/">功能</a>
         <a href="/guide/">使用指南</a>
-        <a href="/download/">下载</a>
+        <a href="/download/" data-download hidden>下载</a>
         <a href={`${repository}/releases`}>版本记录</a>
         <a href={`${repository}/issues`}>问题反馈</a>
         <a href={repository}>GitHub <Icon name="arrow-up-right" /></a>
@@ -68,6 +68,9 @@ const repository = 'https://github.com/matharts/zhiji';
   </body>
 </html>
 <script>
+  import { loadReleaseLinks } from '../scripts/release-links.ts';
+
+  void loadReleaseLinks();
   const header = document.querySelector<HTMLElement>('[data-product-header]');
   const menu = header?.querySelector<HTMLDetailsElement>('[data-product-menu]');
   if (header) {
