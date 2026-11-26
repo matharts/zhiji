@@ -18,7 +18,7 @@ pub(crate) enum HelpPage {
 impl AppState {
     /// 显示离线帮助，收尾临时编辑并保留当前文档。
     pub(crate) fn show_help(&mut self, tx: &mut Tx) {
-        if self.closing.is_some()
+        if self.is_closing()
             || self.launch.active()
             || self.file_prompt_active()
             || self.workspace.input_editor_open()

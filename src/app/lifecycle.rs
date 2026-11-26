@@ -1,8 +1,10 @@
-//! 应用关闭与重开协调，各功能继续持有自己的任务状态。
+//! 文档决策完成后的关闭与重开，各功能继续持有自己的任务状态。
 
 use std::time::{Duration, Instant};
 
 use rune::Tx;
+
+use crate::workspace::{DraftSnapshot, Workspace};
 
 use super::AppState;
 
@@ -10,38 +12,87 @@ use super::AppState;
 const CLOSE_GRACE: Duration = Duration::from_secs(2);
 const CLOSE_POLL: Duration = Duration::from_millis(100);
 
+/// 普通退出和更新重启共享草稿保护，完成动作及设置保存要求不同。
+#[derive(Clone, Copy, PartialEq, Eq)]
+pub(super) enum ExitIntent {
+    Quit,
+    Update,
+}
+
+enum ClosePurpose {
+    Hide,
+    Exit {
+        intent: ExitIntent,
+        approved: DraftSnapshot,
+    },
+}
+
+#[derive(Default)]
+enum CloseStage {
+    #[default]
+    Draining,
+    WaitingPreferences,
+    DiscardingPreferences,
+    Installing,
+}
+
+enum CloseDecision {
+    Reopen,
+    RecoverPreferences,
+    RejectUpdate,
+    RetryExit(ExitIntent),
+    Exit(ExitIntent),
+    Hide,
+}
+
+/// 已通过草稿确认的关闭阶段，与等待用户决定的文件意图同属文件流程。
 pub(super) struct Closing {
     deadline: Instant,
     copy_completed: bool,
-    quit: bool,
-    update: bool,
-    handed_off: bool,
-    approved: Option<crate::workspace::DraftSnapshot>,
-    waiting_preferences: bool,
-    discard_preferences: bool,
+    purpose: ClosePurpose,
+    stage: CloseStage,
 }
 
 impl Closing {
-    /// 创建带两秒图片任务宽限期的退出状态。
-    fn new() -> Self {
+    /// 创建带两秒图片任务宽限期的关闭状态。
+    fn new(purpose: ClosePurpose) -> Self {
         Self {
             deadline: Instant::now() + CLOSE_GRACE,
             copy_completed: false,
-            quit: true,
-            update: false,
-            handed_off: false,
-            approved: None,
-            waiting_preferences: false,
-            discard_preferences: false,
+            purpose,
+            stage: CloseStage::default(),
         }
     }
 
-    #[cfg(test)]
-    /// 创建宽限期已经到期的状态，避免测试依赖实际等待。
-    pub(super) fn expired() -> Self {
-        Self {
-            deadline: Instant::now(),
-            ..Self::new()
+    /// 保存故障等待用户作出明确决定期间，保留本次关闭上下文。
+    fn waiting_preferences(&self) -> bool {
+        matches!(self.stage, CloseStage::WaitingPreferences)
+    }
+
+    /// 决定收尾完成后的动作；最后复核用户批准的草稿内容。
+    fn after_drain(&mut self, preferences_error: bool, workspace: &Workspace) -> CloseDecision {
+        if self.copy_completed {
+            return CloseDecision::Reopen;
+        }
+        if preferences_error && !matches!(self.stage, CloseStage::DiscardingPreferences) {
+            if matches!(
+                self.purpose,
+                ClosePurpose::Exit {
+                    intent: ExitIntent::Update,
+                    ..
+                }
+            ) {
+                return CloseDecision::RejectUpdate;
+            }
+            self.stage = CloseStage::WaitingPreferences;
+            return CloseDecision::RecoverPreferences;
+        }
+        match &self.purpose {
+            ClosePurpose::Exit { intent, approved } if !workspace.matches_draft(approved) => {
+                CloseDecision::RetryExit(*intent)
+            }
+            ClosePurpose::Exit { intent, .. } => CloseDecision::Exit(*intent),
+            ClosePurpose::Hide => CloseDecision::Hide,
         }
     }
 }
@@ -52,29 +103,47 @@ pub(super) struct CloseEvents {
 }
 
 impl AppState {
+    /// 返回窗口或应用是否正在收尾，供菜单和交互入口统一选择可用状态。
+    pub(super) fn is_closing(&self) -> bool {
+        self.file_flow.closing.is_some()
+    }
+
     /// 设置故障确认属于当前退出尝试，重复退出命令不能跳过它。
     pub(crate) fn preferences_close_waiting(&self) -> bool {
-        self.closing
+        self.file_flow
+            .closing
             .as_ref()
-            .is_some_and(|closing| closing.waiting_preferences)
+            .is_some_and(Closing::waiting_preferences)
     }
 
-    /// 更新安装不允许放弃设置保存；普通退出须由用户明确选择。
+    /// 只有普通退出允许用户明确放弃本次设置写入。
     pub(crate) fn preferences_close_can_discard(&self) -> bool {
-        self.closing
-            .as_ref()
-            .is_some_and(|closing| closing.waiting_preferences && closing.quit && !closing.update)
+        self.file_flow.closing.as_ref().is_some_and(|closing| {
+            closing.waiting_preferences()
+                && matches!(
+                    closing.purpose,
+                    ClosePurpose::Exit {
+                        intent: ExitIntent::Quit,
+                        ..
+                    }
+                )
+        })
     }
 
-    /// 只恢复当前关闭意图，原文档批准快照仍在最终退出前复核。
+    /// 恢复当前收尾阶段并保留文档批准快照，供最终关闭前复核。
     pub(super) fn resume_preferences_close(&mut self, discard: bool) {
-        if let Some(closing) = &mut self.closing {
-            closing.waiting_preferences = false;
-            closing.discard_preferences = discard;
+        if let Some(closing) = &mut self.file_flow.closing
+            && !matches!(closing.stage, CloseStage::Installing)
+        {
+            closing.stage = if discard {
+                CloseStage::DiscardingPreferences
+            } else {
+                CloseStage::Draining
+            };
         }
     }
 
-    /// 明确放弃的是本次设置写入，不绕过草稿保存或新增编辑的确认。
+    /// 明确放弃的是本次设置写入，之后仍复核草稿批准快照。
     pub(crate) fn discard_preferences_on_exit(&mut self, tx: &mut Tx) {
         if !self.preferences_close_can_discard() {
             return;
@@ -86,22 +155,23 @@ impl AppState {
 
     /// 中止关闭并重开窗口，供失败反馈或必须继续的操作使用。
     fn reopen_after_close(&mut self, tx: &mut Tx) {
-        self.closing = None;
+        self.file_flow.closing = None;
         if let Some(handle) = &self.app_handle {
             handle.open();
         }
         tx.instant();
     }
 
-    /// 等待必须完成的保存并限时收尾图片任务，退出前再次比较用户批准的快照。
+    /// 等待必须完成的保存并限时收尾图片任务，随后执行关闭决策。
     pub(super) fn poll_closing(&mut self, tx: &mut Tx, events: CloseEvents) -> bool {
-        let Some(closing) = &mut self.closing else {
+        let waiting_for_draft_save = self.saving_before_action();
+        let Some(closing) = &mut self.file_flow.closing else {
             return false;
         };
-        if closing.waiting_preferences {
+        if closing.waiting_preferences() {
             return false;
         }
-        if closing.handed_off {
+        if matches!(closing.stage, CloseStage::Installing) {
             return match self.updates.take_install_result() {
                 Some(true) => {
                     tx.quit();
@@ -149,7 +219,7 @@ impl AppState {
             tx.wake_after(Duration::from_secs(3));
             return true;
         }
-        if self.saving_before_action()
+        if waiting_for_draft_save
             || self.document.is_saving()
             || self.preference_writer.is_busy()
             || ((self.tasks.export.is_busy()
@@ -162,67 +232,45 @@ impl AppState {
             } else {
                 remaining.min(CLOSE_POLL)
             });
-        } else if self
-            .closing
-            .as_ref()
-            .is_some_and(|closing| closing.copy_completed)
-        {
-            self.reopen_after_close(tx);
-            return true;
-        } else if self.preferences_error
-            && self
-                .closing
-                .as_ref()
-                .is_some_and(|closing| !closing.discard_preferences)
-        {
-            if let Some(closing) = &mut self.closing {
-                if closing.update {
-                    self.updates.save_failed();
-                    self.reopen_after_close(tx);
-                    self.preferences_dialog = true;
-                    return true;
+            return false;
+        }
+        match closing.after_drain(self.preferences_error, &self.workspace) {
+            CloseDecision::Reopen => self.reopen_after_close(tx),
+            CloseDecision::RecoverPreferences => {
+                if let Some(handle) = &self.app_handle {
+                    handle.open();
                 }
-                closing.waiting_preferences = true;
+                tx.instant();
             }
-            if let Some(handle) = &self.app_handle {
-                handle.open();
-            }
-            tx.instant();
-            return true;
-        } else if self.closing.as_ref().is_some_and(|closing| closing.quit) {
-            let changed = self
-                .closing
-                .as_ref()
-                .and_then(|closing| closing.approved.as_ref())
-                .is_some_and(|approved| !self.workspace.matches_draft(approved));
-            if changed {
-                let update = self.closing.as_ref().is_some_and(|closing| closing.update);
+            CloseDecision::RejectUpdate => {
+                self.updates.save_failed();
                 self.reopen_after_close(tx);
-                if update {
-                    self.request_update_restart(tx);
-                } else {
-                    self.request_quit(tx);
-                }
-                return true;
+                self.preferences_dialog = true;
             }
-            if self.closing.as_ref().is_some_and(|closing| closing.update) {
-                if !self.updates.resume_install() {
-                    self.reopen_after_close(tx);
-                    return true;
+            CloseDecision::RetryExit(intent) => {
+                self.reopen_after_close(tx);
+                self.request_exit(intent, tx);
+            }
+            CloseDecision::Exit(ExitIntent::Update) => {
+                if self.updates.resume_install() {
+                    closing.stage = CloseStage::Installing;
+                    return false;
                 }
-                if let Some(closing) = &mut self.closing {
-                    closing.handed_off = true;
-                }
-            } else {
+                self.reopen_after_close(tx);
+            }
+            CloseDecision::Exit(ExitIntent::Quit) => {
                 tx.quit();
+                return false;
             }
-        } else {
-            self.closing = None;
-            if let Some(handle) = &self.app_handle {
-                handle.hide();
+            CloseDecision::Hide => {
+                self.file_flow.closing = None;
+                if let Some(handle) = &self.app_handle {
+                    handle.hide();
+                }
+                return false;
             }
         }
-        false
+        true
     }
 
     /// 响应窗口关闭；macOS 保留会话，其余平台进入完整退出流程。
@@ -247,10 +295,10 @@ impl AppState {
         self.launch.finish();
         if cfg!(target_os = "macos") {
             self.save_preferences_on_close();
-            let closing = self.closing.get_or_insert_with(|| Closing {
-                quit: false,
-                ..Closing::new()
-            });
+            let closing = self
+                .file_flow
+                .closing
+                .get_or_insert_with(|| Closing::new(ClosePurpose::Hide));
             closing.copy_completed = false;
             self.tasks.export.request_close(self.waker.clone());
             self.poll(0.0, tx);
@@ -259,32 +307,37 @@ impl AppState {
         }
     }
 
-    /// 冻结已批准文档并进入退出收尾，后续编辑必须重新确认。
-    pub(super) fn finish_quit(&mut self, tx: &mut Tx) {
-        self.finish_exit(false, tx);
-    }
-
-    /// 设置保存失败时保留当前窗口，不将更新安装视为普通退出。
-    pub(super) fn finish_update(&mut self, tx: &mut Tx) {
-        self.finish_exit(true, tx);
-    }
-
     /// 冻结用户批准的文档及退出目的，异步收尾后再次确认内容未变化。
-    fn finish_exit(&mut self, update: bool, tx: &mut Tx) {
+    pub(super) fn finish_exit(&mut self, intent: ExitIntent, tx: &mut Tx) {
         self.launch.finish();
         let approved = self.workspace.capture_draft();
         self.save_preferences_on_close();
-        let closing = self.closing.get_or_insert_with(Closing::new);
-        closing.quit = true;
-        closing.update = update;
-        closing.copy_completed = false;
-        closing.approved = Some(approved);
+        let purpose = ClosePurpose::Exit { intent, approved };
+        if let Some(closing) = &mut self.file_flow.closing {
+            // 已在收尾时沿用原宽限期和设置处理决定。
+            closing.purpose = purpose;
+            closing.copy_completed = false;
+        } else {
+            self.file_flow.closing = Some(Closing::new(purpose));
+        }
         self.tasks.export.request_close(self.waker.clone());
         self.poll(0.0, tx);
     }
 
     /// 关闭收尾期间阻止普通重开行为，避免绕过任务协调。
     pub(crate) fn on_reopen(&mut self, _: bool, _: &mut Tx) -> bool {
-        self.closing.is_some() && !self.preferences_close_waiting()
+        self.is_closing() && !self.preferences_close_waiting()
+    }
+
+    #[cfg(test)]
+    /// 直接推进图片任务宽限期，用现有阶段验证关闭而无需实际等待。
+    pub(super) fn expire_close_grace(&mut self) {
+        let closing = self.file_flow.closing.get_or_insert_with(|| {
+            Closing::new(ClosePurpose::Exit {
+                intent: ExitIntent::Quit,
+                approved: self.workspace.draft_snapshot(),
+            })
+        });
+        closing.deadline = Instant::now();
     }
 }

@@ -223,7 +223,7 @@ fn preferences_recovery_dialog_fits_small_windows_and_escape_cancels_exit() {
             tx,
         );
     });
-    assert!(runtime.state.closing.is_none());
+    assert!(!runtime.state.is_closing());
     assert!(runtime.shell_request.is_none());
     assert_eq!(std::fs::read(path).unwrap(), b"{invalid");
 }
@@ -259,7 +259,7 @@ fn quit_waits_for_latest_preferences_without_blocking_ui_updates() {
     let release = runtime.state.preference_writer.hold_write_for_test();
     runtime.update(AppState::request_quit);
     runtime.update(|state, _| state.change_preference(PreferenceChange::UiScale(UiScale::Large)));
-    assert!(runtime.state.closing.is_some());
+    assert!(runtime.state.is_closing());
     assert!(runtime.shell_request.is_none());
     assert!(!path.exists());
     release.send(()).unwrap();
@@ -342,7 +342,7 @@ fn installation_blocks_quit_requests_until_the_worker_finishes() {
         ));
     });
     assert!(runtime.shell_request.is_none());
-    assert!(runtime.state.closing.is_none());
+    assert!(!runtime.state.is_closing());
 }
 
 #[test]
@@ -359,7 +359,7 @@ fn update_restart_can_be_cancelled_without_losing_the_document() {
     runtime.update(|state, tx| state.resolve_unsaved(crate::app::files::UnsavedChoice::Cancel, tx));
     assert!(!runtime.state.unsaved_prompt());
     assert!(runtime.state.document_modified());
-    assert!(runtime.state.closing.is_none());
+    assert!(!runtime.state.is_closing());
     runtime.update(AppState::request_quit);
     runtime
         .update(|state, tx| state.resolve_unsaved(crate::app::files::UnsavedChoice::Discard, tx));
@@ -389,7 +389,7 @@ fn failed_document_save_cancels_update_restart() {
     assert!(!runtime.state.file_prompt_active());
     assert!(runtime.shell_request.is_none());
     assert!(runtime.state.document_modified());
-    assert!(runtime.state.closing.is_none());
+    assert!(!runtime.state.is_closing());
     assert_eq!(runtime.state.document.path(), Some(path.as_path()));
     assert_eq!(runtime.state.session().input().gender, Gender::Female);
 }
@@ -409,7 +409,7 @@ fn failed_preferences_save_blocks_update_restart() {
         &crate::updates::UpdateStatus::Failed(crate::updates::UpdateError::Save)
     );
     assert!(runtime.shell_request.is_none());
-    assert!(runtime.state.closing.is_none());
+    assert!(!runtime.state.is_closing());
 }
 
 #[test]
@@ -918,7 +918,7 @@ fn closing_waits_for_an_in_flight_worker_before_quitting() {
     runtime.poll = Some(AppState::poll);
     runtime.update(AppState::request_quit);
     assert!(runtime.shell_request.is_none());
-    assert!(runtime.state.closing.is_some());
+    assert!(runtime.state.is_closing());
     runtime.update(|state, tx| assert!(state.on_reopen(false, tx)));
     sender.send(Ok(crate::export::TestOutcome::Saved)).unwrap();
     runtime.frame(0.0);
@@ -948,7 +948,7 @@ fn closing_eventually_quits_even_if_the_export_worker_stalls() {
     assert!(runtime.state.tasks.export.is_busy());
 
     // 直接推进截止时间，避免休眠及调度时序影响断言。
-    runtime.state.closing = Some(Closing::expired());
+    runtime.state.expire_close_grace();
     runtime.frame(0.0);
     assert!(matches!(runtime.shell_request, Some(rune::Shell::Quit)));
     assert!(!runtime.state.tasks.export.is_busy());
@@ -970,7 +970,7 @@ fn closing_waits_for_pending_draft_save() {
     );
     runtime.poll = Some(AppState::poll);
     runtime.update(AppState::request_quit);
-    runtime.state.closing = Some(Closing::expired());
+    runtime.state.expire_close_grace();
     runtime.frame(0.0);
     assert!(runtime.shell_request.is_none());
     assert!(runtime.state.document.is_saving());
@@ -1034,10 +1034,10 @@ fn closing_reopens_after_a_pending_copy_instead_of_discarding_it() {
     );
     runtime.poll = Some(AppState::poll);
     runtime.update(AppState::request_quit);
-    assert!(runtime.state.closing.is_some());
+    assert!(runtime.state.is_closing());
     sender.send(()).unwrap();
     let deadline = Instant::now() + Duration::from_secs(5);
-    while runtime.state.closing.is_some() {
+    while runtime.state.is_closing() {
         assert!(Instant::now() < deadline);
         std::thread::yield_now();
         runtime.frame(0.0);
@@ -1077,7 +1077,7 @@ fn closing_after_copy_hands_the_image_to_the_clipboard() {
     runtime.update(AppState::request_quit);
     sender.send(()).unwrap();
     let deadline = Instant::now() + Duration::from_secs(5);
-    while runtime.state.closing.is_some() {
+    while runtime.state.is_closing() {
         assert!(Instant::now() < deadline);
         std::thread::yield_now();
         runtime.frame(0.0);
@@ -1106,7 +1106,7 @@ fn closing_deadline_also_covers_a_stalled_commit() {
     runtime.poll = Some(AppState::poll);
     runtime.update(AppState::request_quit);
     assert!(runtime.shell_request.is_none());
-    runtime.state.closing = Some(Closing::expired());
+    runtime.state.expire_close_grace();
     runtime.frame(0.0);
     assert!(matches!(runtime.shell_request, Some(rune::Shell::Quit)));
     assert!(!runtime.state.tasks.export.is_busy());
@@ -1156,7 +1156,7 @@ fn closing_a_mac_window_keeps_the_session_available_for_dock_reopen() {
     );
     runtime.update(AppState::on_close);
     assert!(runtime.shell_request.is_none());
-    assert!(runtime.state.closing.is_none());
+    assert!(!runtime.state.is_closing());
     runtime.update(|state, tx| assert!(!state.on_reopen(false, tx)));
     runtime.update(AppState::request_quit);
     assert!(matches!(runtime.shell_request, Some(rune::Shell::Quit)));
@@ -1205,11 +1205,11 @@ fn closing_a_mac_window_drains_a_save_without_quitting() {
     );
     runtime.poll = Some(AppState::poll);
     runtime.update(AppState::on_close);
-    assert!(runtime.state.closing.is_some());
+    assert!(runtime.state.is_closing());
     assert!(runtime.shell_request.is_none());
     sender.send(()).unwrap();
     let deadline = Instant::now() + Duration::from_secs(5);
-    while runtime.state.closing.is_some() {
+    while runtime.state.is_closing() {
         assert!(Instant::now() < deadline);
         runtime.frame(0.0);
         std::thread::yield_now();

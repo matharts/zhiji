@@ -25,7 +25,7 @@ impl AppState {
     pub(crate) fn dismiss_preferences_prompt(&mut self) {
         self.preferences_dialog = false;
         if self.preferences_close_waiting() {
-            self.closing = None;
+            self.file_flow.closing = None;
         }
     }
 

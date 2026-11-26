@@ -12,7 +12,7 @@ use crate::preferences::settings::{
 use crate::session::Session;
 use crate::workspace::Workspace;
 
-use super::lifecycle::{CloseEvents, Closing};
+use super::lifecycle::CloseEvents;
 
 pub(crate) struct AppState {
     pub(super) file_flow: super::files::FileFlow,
@@ -38,7 +38,6 @@ pub(crate) struct AppState {
     pub(crate) text_copy: super::text_copy::TextCopyFeedback,
     pub(super) waker: Option<Waker>,
     pub(super) app_handle: Option<rune::AppHandle<AppState>>,
-    pub(super) closing: Option<Closing>,
     pub(super) menu_state: Option<super::menu::MenuState>,
 }
 
@@ -114,7 +113,7 @@ impl crate::preferences::AboutHost for AppState {
 
     /// 仅在未播放开场且未关闭时启动重播，保留当前会话。
     fn replay_launch(&mut self, tx: &mut Tx) {
-        if self.launch.active() || self.closing.is_some() {
+        if self.launch.active() || self.is_closing() {
             return;
         }
         if let Some(wake) = self.waker.clone() {
@@ -457,7 +456,6 @@ impl AppState {
             text_copy: super::text_copy::TextCopyFeedback::default(),
             waker: None,
             app_handle: None,
-            closing: None,
             menu_state: None,
         }
     }
@@ -471,7 +469,7 @@ impl AppState {
 
     /// 空闲时冻结图片及倍率并打开保存面板，回调只处理匹配请求。
     pub(crate) fn request_export(&mut self, tx: &mut Tx) {
-        if self.closing.is_some() || self.tasks.export.is_busy() || self.document.is_busy() {
+        if self.is_closing() || self.tasks.export.is_busy() || self.document.is_busy() {
             return;
         }
         let _locale = crate::i18n::scope(self.workspace.chinese_variant());
@@ -495,7 +493,7 @@ impl AppState {
 
     /// 发起冻结图片的后台复制，关闭相关菜单并协调反馈显示。
     pub(crate) fn request_copy_image(&mut self, tx: &mut Tx) {
-        if self.closing.is_some() || self.tasks.copy_image.is_busy() {
+        if self.is_closing() || self.tasks.copy_image.is_busy() {
             return;
         }
         self.workspace.close_marking_more_menu();
@@ -522,7 +520,7 @@ impl AppState {
 
     /// 冻结草稿后选择直接保存或另存为，并协调保存后的待执行动作。
     pub(super) fn save_draft_with_path(&mut self, save_as: bool, tx: &mut Tx) {
-        if self.closing.is_some()
+        if self.is_closing()
             || self.document.is_busy()
             || (self.tasks.export.is_busy() && !self.saving_before_action())
         {
@@ -565,7 +563,7 @@ impl AppState {
 
     /// 空闲时打开系统文件面板，选定后由草稿模块后台读取和校验。
     pub(crate) fn request_open_draft(&mut self, tx: &mut Tx) {
-        if self.closing.is_some() || self.document.is_busy() || self.tasks.export.is_busy() {
+        if self.is_closing() || self.document.is_busy() || self.tasks.export.is_busy() {
             return;
         }
         let _locale = crate::i18n::scope(self.workspace.chinese_variant());
@@ -683,7 +681,7 @@ impl AppState {
         if self.preference_writer.is_busy() || self.workspace.input_working() {
             tx.wake_after(Duration::from_millis(20));
         }
-        if self.closing.is_some() {
+        if self.is_closing() {
             return self.poll_closing(
                 tx,
                 CloseEvents {

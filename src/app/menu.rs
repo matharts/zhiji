@@ -16,7 +16,7 @@ pub(super) struct MenuState {
 impl MenuState {
     /// 捕获菜单可用性和勾选值，作为最小菜单更新依据。
     fn capture(state: &AppState) -> Self {
-        let available = state.closing.is_none()
+        let available = !state.is_closing()
             && !state.workspace.input_editor_open()
             && !state.workspace.comment_dialog_open()
             && !state.launch.active()

@@ -5,13 +5,13 @@ use std::{collections::VecDeque, path::PathBuf};
 use zhiji_ui::{ColorToken, ConfirmationDialog, dialog_button};
 
 use super::AppState;
+use super::lifecycle::{Closing, ExitIntent};
 use crate::draft::OpenedDraft;
 
 enum Intent {
     New,
     Open(Box<OpenedDraft>),
-    Quit,
-    Update,
+    Exit(ExitIntent),
 }
 
 #[derive(Clone, Copy, PartialEq, Eq)]
@@ -26,9 +26,20 @@ pub(super) struct FileFlow {
     pending: Option<(Intent, Stage)>,
     title: Option<String>,
     copy_completed: bool,
+    pub(super) closing: Option<Closing>,
     external: VecDeque<PathBuf>,
     external_active: Option<PathBuf>,
     external_error: Option<String>,
+}
+
+impl FileFlow {
+    /// 系统打开或激活可取代尚未完成的退出，保留当前文档和在途保存。
+    fn cancel_exit(&mut self) {
+        self.closing = None;
+        if matches!(self.pending, Some((Intent::Exit(_), _))) {
+            self.pending = None;
+        }
+    }
 }
 
 pub(crate) enum UnsavedChoice {
@@ -54,13 +65,7 @@ impl AppState {
             crate::platform::documents::reveal();
         }
         // 新的明确打开操作取代退出意图，在途保存仍由草稿任务完成。
-        self.closing = None;
-        if matches!(
-            self.file_flow.pending,
-            Some((Intent::Quit | Intent::Update, _))
-        ) {
-            self.file_flow.pending = None;
-        }
+        self.file_flow.cancel_exit();
         match paths {
             Ok(mut paths) if paths.len() == 1 => {
                 let path = paths.remove(0);
@@ -100,13 +105,7 @@ impl AppState {
         ) {
             return;
         }
-        self.closing = None;
-        if matches!(
-            self.file_flow.pending,
-            Some((Intent::Quit | Intent::Update, _))
-        ) {
-            self.file_flow.pending = None;
-        }
+        self.file_flow.cancel_exit();
         if let Some(handle) = &self.app_handle {
             handle.open();
         }
@@ -119,7 +118,7 @@ impl AppState {
         if !self.document.is_busy() && self.file_flow.pending.is_none() {
             self.file_flow.external_active = None;
         }
-        if self.closing.is_some()
+        if self.is_closing()
             || self.preferences_prompt_active()
             || self.file_prompt_active()
             || self.workspace.input_editor_open()
@@ -175,16 +174,16 @@ impl AppState {
 
     /// 结束临时编辑并排队退出意图，由文件流程处理未保存保护。
     pub(crate) fn request_quit(&mut self, tx: &mut Tx) {
-        self.request_exit(false, tx);
+        self.request_exit(ExitIntent::Quit, tx);
     }
 
     /// 更新重启拥有独立意图，取消不能影响下一次普通退出。
     pub(crate) fn request_update_restart(&mut self, tx: &mut Tx) {
-        self.request_exit(true, tx);
+        self.request_exit(ExitIntent::Update, tx);
     }
 
-    /// 普通退出和更新重启共享未保存决策，但保留各自的完成动作。
-    fn request_exit(&mut self, update: bool, tx: &mut Tx) {
+    /// 普通退出和更新重启共用未保存决策，再按意图执行完成动作。
+    pub(super) fn request_exit(&mut self, intent: ExitIntent, tx: &mut Tx) {
         if self.preferences_prompt_active() {
             if let Some(handle) = &self.app_handle {
                 handle.open();
@@ -204,16 +203,13 @@ impl AppState {
         self.workspace.commit_document_edits();
         self.tasks.export.request_close(self.waker.clone());
         self.file_flow.copy_completed = false;
-        self.file_flow.pending = Some((
-            if update { Intent::Update } else { Intent::Quit },
-            Stage::Waiting,
-        ));
+        self.file_flow.pending = Some((Intent::Exit(intent), Stage::Waiting));
         self.poll_files(tx);
     }
 
     /// 结束临时编辑并新建空白草稿；有未保存修改时先进入保存决策。
     pub(crate) fn request_new_draft(&mut self, tx: &mut Tx) {
-        if self.closing.is_some()
+        if self.is_closing()
             || self.file_prompt_active()
             || self.document.is_busy()
             || self.tasks.export.is_busy()
@@ -294,17 +290,14 @@ impl AppState {
                 self.tasks.export.clear_finished();
                 tx.animated();
             }
-            intent @ (Intent::Quit | Intent::Update) => {
-                if self.file_flow.copy_completed {
-                    self.file_flow.copy_completed = false;
+            Intent::Exit(intent) => {
+                if std::mem::take(&mut self.file_flow.copy_completed) {
                     if let Some(handle) = &self.app_handle {
                         handle.open();
                     }
                     tx.instant();
-                } else if matches!(intent, Intent::Update) {
-                    self.finish_update(tx);
                 } else {
-                    self.finish_quit(tx);
+                    self.finish_exit(intent, tx);
                 }
             }
         }
@@ -312,10 +305,7 @@ impl AppState {
 
     /// 退出等待期间记住复制完成事件，避免反馈尚未展示就结束进程。
     pub(super) fn note_copy_completion(&mut self, completed: bool) {
-        if matches!(
-            self.file_flow.pending,
-            Some((Intent::Quit | Intent::Update, _))
-        ) {
+        if matches!(self.file_flow.pending, Some((Intent::Exit(_), _))) {
             self.file_flow.copy_completed |= completed;
         }
     }
@@ -324,17 +314,11 @@ impl AppState {
     pub(super) fn poll_files(&mut self, tx: &mut Tx) -> bool {
         let _locale = crate::i18n::scope(self.workspace.chinese_variant());
         let mut changed = false;
-        if matches!(
-            self.file_flow.pending,
-            Some((Intent::Quit | Intent::Update, _))
-        ) {
+        if matches!(self.file_flow.pending, Some((Intent::Exit(_), _))) {
             let _ = self.document.take_opened();
         }
         if let Some(opened) = self.document.take_opened()
-            && !matches!(
-                self.file_flow.pending,
-                Some((Intent::Quit | Intent::Update, _))
-            )
+            && !matches!(self.file_flow.pending, Some((Intent::Exit(_), _)))
         {
             self.workspace.commit_document_edits();
             self.file_flow.pending = Some((Intent::Open(Box::new(opened)), Stage::Waiting));
