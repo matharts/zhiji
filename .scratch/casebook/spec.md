@@ -1,5 +1,7 @@
 # 命例库整页与大数据存储
 
+> 历史规格。桌面实现已撤出，当前项目保留 [HTML 交互原型](prototypes/README.md)。下文记录此前探索的范围与结果。
+
 Status: ready-for-agent
 Progress: claimed
 Blocked by: none

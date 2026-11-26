@@ -12,17 +12,17 @@
 
 ## 按任务阅读
 
-| 修改内容 | 先读 |
-| --- | --- |
-| 开发环境、依赖、贡献流程 | [CONTRIBUTING.md](CONTRIBUTING.md) |
-| Git 提交、提交信息、提交前检查 | [Git 提交规范](CONTRIBUTING.md#git-提交规范) |
-| Rust 接口、错误、并发、平台代码 | [代码规范](docs/coding.md) |
-| 界面布局、交互、文案、无障碍 | [界面规范](docs/interface.md) |
-| 通用控件接口、状态、无障碍 | [zhiji_ui 说明](crates/zhiji_ui/README.md) |
-| 模块职责、状态、异步任务、绘制 | [架构](docs/architecture.md) |
-| 排盘联动、标注、草稿格式 | [领域规则](docs/domain.md) |
-| 测试、视觉基准、性能 | [测试约定](docs/testing.md) |
-| 打包、资源或发布 | [发布约定](docs/releasing.md)及相应资源目录的说明 |
+| 修改内容                        | 先读                                              |
+| ------------------------------- | ------------------------------------------------- |
+| 开发环境、依赖、贡献流程        | [CONTRIBUTING.md](CONTRIBUTING.md)                |
+| Git 提交、提交信息、提交前检查  | [Git 提交规范](CONTRIBUTING.md#git-提交规范)      |
+| Rust 接口、错误、并发、平台代码 | [代码规范](docs/coding.md)                        |
+| 界面布局、交互、文案、无障碍    | [界面规范](docs/interface.md)                     |
+| 通用控件接口、状态、无障碍      | [zhiji_ui 说明](crates/zhiji_ui/README.md)        |
+| 模块职责、状态、异步任务、绘制  | [架构](docs/architecture.md)                      |
+| 排盘联动、标注、草稿格式        | [领域规则](docs/domain.md)                        |
+| 测试、视觉基准、性能            | [测试约定](docs/testing.md)                       |
+| 打包、资源或发布                | [发布约定](docs/releasing.md)及相应资源目录的说明 |
 
 ## 完成条件
 
@@ -34,10 +34,13 @@
 ## Agent skills
 
 ### Issue tracker
-任务与规格使用 `.scratch/<feature>/` 下的本地 Markdown。见 [任务跟踪约定](docs/agents/issue-tracker.md)。
+
+任务、规格和验收进度使用 [GitHub Issues](https://github.com/matharts/zhiji/issues)。见 [任务跟踪约定](docs/agents/issue-tracker.md)。
 
 ### Triage labels
-使用五个标准分流标签，记录在本地任务的 `Status:` 字段。见 [分流标签](docs/agents/triage-labels.md)。
+
+使用 GitHub Issue 的五个标准分流标签。见 [分流标签](docs/agents/triage-labels.md)。
 
 ### Domain docs
+
 采用单一术语表及决策目录，按需创建；现有主题文档继续负责各自规范。见 [领域文档读取约定](docs/agents/domain.md)。

@@ -1,5 +1,7 @@
 # 开发约定
 
+本页说明如何搭建开发环境、验证修改并准备提交。按任务查找其他说明见[文档目录](docs/README.md)。
+
 ## 环境
 
 从仓库根目录执行文中的命令。Rust 和 cargo-packager 由 `mise.toml` 固定，开发任务另使用 sccache；提交应用依赖变化时同步维护 `Cargo.lock`。
@@ -18,7 +20,7 @@ sudo apt-get install -y libxkbcommon-dev libwayland-dev libssl-dev pkg-config
 
 图形运行与原生自动化还有平台依赖，以 [.github/workflows/desktop.yml](.github/workflows/desktop.yml) 为准。
 
-Node.js 用于项目验证与部分基准工具；历史基准采集另需 Bun 和 Playwright CLI。这些工具不加入应用运行依赖。工具脚本的静态类型检查需要先执行 `mise exec -- pnpm install`，再运行 `mise exec -- node tools/verify.ts types`。字体资源的来源和维护限制见[字体说明](assets/fonts/README.md)。
+Node.js 用于项目验证与部分基准工具，历史基准采集另需 Bun 和 Playwright CLI。工具依赖和运行方式见[开发工具](tools/README.md)，检查命令见[测试与验收](docs/testing.md#检查入口)。
 
 ## 修改流程
 
@@ -70,12 +72,12 @@ docs: 补充 Git 提交规范
 
 实现时遵循[代码规范](docs/coding.md)和[架构](docs/architecture.md)；界面修改遵循[界面规范](docs/interface.md)。格式使用 rustfmt，静态检查使用严格 Clippy；共享命令以 `tools/verify.ts` 为入口。
 
-开发工具使用 Node 26。脚本以可直接执行的 TypeScript 编写，不生成转译产物，运行时仍由 Node 擦除类型。根级 `package.json` 只固定静态检查工具；`pnpm install` 后的 `tools/verify.ts types` 按 `tsconfig.json` 对 `tools/` 和 `tests/` 执行严格类型检查。资源读写统一经过 `tools/birthplaces/catalog.ts`，批次顺序统一由 `tools/birthplaces/pipeline.ts` 维护。工具职责、命名约定和命令见 [tools/README.md](tools/README.md)。
-
 ## 文档维护
 
 根 README 负责使用入口，本文负责贡献流程，`AGENTS.md` 负责代理工作约束，`docs/` 按代码、界面、架构、领域、测试、发布分工。资源与测试样例的来源说明就近存放。
 
 同一规则只维护一处，其他文件引用。版本、依赖列表和脚本参数优先引用配置，不维护手工副本。当前规范只描述仍有效的约束；临时计划、逐轮日志和已经完成的迁移清单留在对应任务或变更记录中。
+
+桌面应用会编译内嵌[使用帮助](docs/user-guide.md)，按二级标题和文本行显示正文，并从「快捷键」下的表格读取当前平台列。修改时保持这套结构，核对可见文案、帮助面板布局和官网对应操作。
 
 出现影响长期演进、且无法仅由当前代码解释的决策时，在 `docs/adr/` 新建编号记录，写清背景、选择、备选方案、代价与状态；新决定替代旧决定时相互链接。无需为没有实际决策的主题预建占位文件。

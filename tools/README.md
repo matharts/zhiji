@@ -6,7 +6,7 @@
 
 | 路径 | 用途 |
 | --- | --- |
-| `verify.ts` | 项目级资源、类型、Rust、GPU、原生和更新检查入口 |
+| `verify.ts` | 资源、类型、Rust、GPU、原生、更新和官网检查入口 |
 | `checks/` | 各检查模式的实现；`verify.ts` 只负责参数解析、资源前置检查和分派 |
 | `cli.ts` | 统一脚本入口判断、错误输出和退出码 |
 | `birthplaces/` | 国内与海外出生地目录的生成、迁移、补名和审计 |
@@ -15,6 +15,8 @@
 | `fonts/sfnt.ts` | OpenType/TrueType 字体表读取、名称改写和字符覆盖检查 |
 | `release/updates.ts` | 三端更新密钥、签名包和发布元数据准备 |
 | `calendar-validation/` | 独立、固定 `tyme4rs` 版本的历法验证工程 |
+
+各模式的运行命令及适用范围见[测试与验收](../docs/testing.md#检查入口)。
 
 ## 命名约定
 

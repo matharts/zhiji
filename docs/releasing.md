@@ -1,5 +1,7 @@
 # 构建与发布
 
+本页用于构建和验收安装包、准备签名更新，以及部署官网。三端首发的安排和进度见[发布里程碑](https://github.com/matharts/zhiji/issues/9)。
+
 ## 本地打包
 
 工具版本来自 [mise.toml](../mise.toml)，包名、图标、资源与平台依赖来自 [desktop Cargo.toml](../Cargo.toml)。先构建，再在对应系统选择格式：
@@ -21,7 +23,7 @@ codesign --verify --deep --strict 'target/release/知几.app'
 
 macOS 文档类型声明来自 [Info.plist](../assets/macos/Info.plist)，打包时合并到最终配置，资源约定见[说明](../assets/macos/README.md)。Windows 使用[自定义 NSIS 模板](../packaging/windows/README.md)注册 `OpenWithProgids`、专属 ProgID、文档图标及单选打开命令；卸载先核对打开命令是否仍属于当前安装位置。Linux DEB 使用 [desktop 模板](../packaging/linux/zhiji.desktop)及 [MIME 声明](../packaging/linux/zhiji.xml)，通过 `%F` 传入文件。Windows/Linux 使用进程锁和本机通道把后续打开交给已有实例；Linux 的启动失败系统提示由 DEB 依赖 `zenity` 提供。安装包不主动覆盖用户默认应用。
 
-三平台的安装、覆盖安装、卸载、文件管理器发现与双击须分别验收。Linux 还需确认安装和卸载后 `shared-mime-info`、`desktop-file-utils` 的数据库触发器结果；包内存在声明不等于系统缓存已经更新。本轮实际结果与缺口记录在[跨平台任务](../.scratch/file-integration/issues/03-windows-linux.md)。
+分别验收三平台的安装、覆盖安装、卸载、文件管理器发现与双击。Linux 还需在安装和卸载后检查 `shared-mime-info`、`desktop-file-utils` 的数据库触发器是否更新系统缓存。已有实现和当时的验收缺口见[跨平台文件集成记录](../.scratch/file-integration/issues/03-windows-linux.md)。
 
 ## 发布检查
 
@@ -39,9 +41,11 @@ macOS 文档类型声明来自 [Info.plist](../assets/macos/Info.plist)，打包
 
 切换应用标识后，首次使用前应将原配置目录中的设置复制到新的配置目录，不覆盖已有新配置。系统辅助功能授权可能需要重新授予。
 
-帮助、反馈和官网下载链接统一指向 `matharts/zhiji`；远端仓库创建并发布版本后，官网下载查询才会返回发布资产。
+应用内使用帮助可离线打开，问题反馈和公开发布资产通过 `matharts/zhiji` 提供。官网下载入口跟随[公开发布状态](../website/README.md#下载与发布状态)显示。
 
-三端共用 Rust 更新实现及 cargo-packager 的资产协议，不打开发布页。macOS 使用应用包、Windows 使用 NSIS、Linux 使用 AppImage；DEB 保留给系统包管理渠道。自动检查默认开启，间隔一天，允许后台下载；重启由用户确认，并执行文档保存保护。自动偏好与其他设置统一保存，关闭后仍可手动检查。
+## 签名更新
+
+三端共用 Rust 更新实现及 cargo-packager 的资产协议。macOS 使用应用包，Windows 使用 NSIS，Linux 使用 AppImage。Linux DEB 通过包管理渠道更新。检查、下载和重启操作见[使用帮助](user-guide.md#设置与退出)。
 
 更新元数据和更新包均要求 Minisign/Ed25519 签名，公钥位于 `packaging/updates/public-key.txt` 并编入客户端。本机私钥在仓库外的 `~/.config/zhiji-updater/updater.key`；macOS/Linux 文件权限为 0600，Windows 须核对用户目录的 ACL。CI 使用 `CARGO_PACKAGER_SIGN_PRIVATE_KEY` 及可选密码 secret；没有密钥或密钥与应用公钥不匹配时，版本 tag 构建失败，不产出伪签名更新。
 
@@ -68,7 +72,7 @@ mise exec -- node tools/verify.ts updates
 
 存储桶策略允许访客读取已有官网页面与资源目录。参考盘的 `experience/index.html` 在上传时单独设置公开读取权限。
 
-## 数据格式与诊断
+## 草稿兼容与诊断
 
 当前草稿格式不支持旧版本，见[领域规则](domain.md)。不自动删除用户配置目录或已有草稿。
 

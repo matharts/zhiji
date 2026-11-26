@@ -1,15 +1,24 @@
 # 架构
 
+本页说明一次用户操作如何进入桌面应用，以及排盘、编辑、文件和后台任务分别由谁负责。
+
 ## 工作区与依赖方向
 
-项目仅面向桌面应用。`crates/zhiji_core` 是供桌面应用使用的排盘计算模块，输入为可能不完整的模拟参数，输出为命盘；`crates/zhiji_ui` 提供基于 Rune 的通用控件。两者均为内部模块。仓库根目录是桌面应用包，负责组合窗口、业务交互和绘制。
+仓库根目录是桌面应用包，负责组合窗口、业务交互和绘制。
+
+| 内部包 | 职责 |
+| --- | --- |
+| `zhiji_core` | 把可能不完整的排盘参数计算为命盘 |
+| `zhiji_calendar` | 换算历法、解析时区、估算真太阳时并反推干支候选 |
+| `zhiji_ui` | 提供基于 Rune 的通用桌面控件 |
 
 ```text
 Rune 事件 → app/view 与功能视图 → AppState（窗口、组合、生命周期）
                                   ├─ Workspace
                                   │  ├─ Session → zhiji_core、ChartView
                                   │  ├─ Marking（标注与历史）
-                                  │  ├─ ColorEditor、InputEditor
+                                  │  ├─ ColorEditor
+                                  │  ├─ InputEditor → zhiji_calendar
                                   │  └─ 持久偏好、布局、临时交互状态
                                   ├─ document（文档身份、保存基线与文件操作）
                                   ├─ Tasks（图片导出、复制）、设置保存队列

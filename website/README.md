@@ -1,8 +1,10 @@
-# 知几 · Zhiji 官网
+# 知几官网
 
-基于 Astro、TypeScript 和 Tailwind CSS 的静态网站，独立于桌面应用构建。
-Node.js 和 pnpm 版本由仓库根目录的 `mise.toml` 管理。
-Tailwind CSS 4 使用 Astro 官方 `astro add tailwind` 所配置的 Vite 插件，公共布局从 `src/styles/global.css` 引入 Tailwind。
+官网使用 Astro、TypeScript 和 Tailwind CSS 生成静态站点。页面结构、三盘动效与回退约定见[官网设计](DESIGN.md)。
+
+## 本地开发与检查
+
+从仓库根目录安装工具，再进入 `website/` 启动服务。Node.js 和 pnpm 版本由 [mise.toml](../mise.toml) 管理。
 
 ```sh
 mise install
@@ -11,13 +13,25 @@ pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-运行 `pnpm check` 检查 Astro 与 TypeScript 类型，`pnpm test` 运行示例数据和下载状态测试，`pnpm build` 生成 `dist/`，`pnpm preview` 预览构建结果。全站星空由本地 Canvas 绘制，首屏使用 Three.js WebGPU 将同一张固定示例命盘表现为上下展开、转动并合拢的三层，并展示寅宫飞化；这三层是视觉示意，不是三套独立计算的命盘。示例可暂停；浏览器不支持 WebGPU 或系统开启减少动态效果时显示静态示例。首页飞宫示例可选择十二宫及四化，均取自 `tests/fixtures/simulator-oracle.json` 的 `jiazi-male-month-hour` 用例，`pnpm test` 会核对示例与数据来源。页面动效使用 GSAP，精确指针设备的平滑滚动使用 Lenis；减少动态效果时使用原生滚动。
+在 `website/` 中运行 `pnpm test` 检查示例数据和下载状态，运行 `pnpm check` 检查 Astro 和 TypeScript，运行 `pnpm build` 生成 `dist/`。用 `pnpm preview` 预览构建结果。
 
-从仓库根目录运行 `mise exec -- node tools/verify.ts website` 会依次执行依赖安装、测试、类型检查和构建；CI 通过 `.github/workflows/website.yml` 复用同一入口。浏览器内的 WebGPU、动效与无 WebGPU 回退仍需按上文单独验收。
+从仓库根目录运行 `mise exec -- node tools/verify.ts website`，可依次执行依赖安装、测试、类型检查和构建。[官网 CI](../.github/workflows/website.yml)使用同一入口，部署流程见[构建与发布](../docs/releasing.md#官网部署)。
 
-三维依赖从 Three.js 核心与 WebGPU 渲染器的源码入口按需加载，由构建器分块并保持循环依赖的初始化顺序；保留默认 500 kB 分块告警。修改这部分构建配置时，除类型检查和构建外，还须在浏览器检查真实 WebGPU 渲染、暂停与恢复、动态效果偏好切换，以及无 WebGPU 时的静态回退。减少动态效果或不支持 WebGPU 时不加载三维模块。
+修改三盘场景或构建分块后，在浏览器检查 WebGPU 渲染、首页重播、完整版暂停与恢复、系统动效偏好切换，以及无 WebGPU 的静态回退。检查桌面与窄屏下导航和画面是否可用。
 
-官网读取 GitHub 最新正式版的公开发布信息。首发前，单屏首页展示产品及开发状态，可从「飞宫与自化」功能介绍打开参考盘。下载入口只在确认有安装包后显示。下载页按文件名识别 macOS、Windows 和 Linux 安装包，仅展示有可用安装包的系统及本项目发布资产链接。直接访问下载页仍可查看发布状态和 GitHub 发布页。页面区分查询中、尚未发布、暂无安装包和查询失败。
+## 下载与发布状态
+
+官网读取 GitHub 最新正式版的公开发布信息。首发前，首页显示开发状态。确认有安装包后才显示下载入口；下载页按文件名识别 macOS、Windows 和 Linux 的安装包，仅为有可用资产的平台提供下载。直接访问下载页可查看查询中、尚未发布、暂无安装包和查询失败等状态，以及 GitHub 发布页入口。
+
+## 参考盘与依赖
+
+参考盘来自固定用例 `jiazi-male-month-hour`。测试核对官网数据与[模拟器样例](../tests/fixtures/simulator-oracle.json)一致。网页版使用指南和快捷键由 `src/data/product.ts` 提供，调整桌面操作文案时一并核对编译进应用的[离线帮助](../docs/user-guide.md)。
+
+全站星空使用本地 Canvas。首屏用 Three.js WebGPU 绘制三盘，按需加载核心与 WebGPU 渲染器；减少动态效果或不支持 WebGPU 时使用静态示例。分块需保持循环依赖的初始化顺序，沿用默认 500 kB 告警。GSAP 驱动页面动效，Lenis 在支持精准指针的设备上处理平滑滚动；减少动态效果时使用原生滚动。
+
+Tailwind CSS 4 通过 Astro 配置的 Vite 插件使用，公共布局从 `src/styles/global.css` 引入 Tailwind。
+
+## 标题字体
 
 标题使用项目已有 Source Han Serif 衍生字体的站点文字子集，许可见 [`public/fonts/OFL-Source-Han-Serif.txt`](public/fonts/OFL-Source-Han-Serif.txt)。未覆盖的字符使用系统衬线字体回退。
 
