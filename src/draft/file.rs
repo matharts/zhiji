@@ -3,7 +3,7 @@
 use std::io::{self, Read, Write};
 use std::path::{Path, PathBuf};
 
-use super::{RestoredWorkspace, document::Draft};
+use super::{RestoredWorkspace, document::Draft, error::DraftError};
 
 const MAX_BYTES: u64 = 16 * 1024 * 1024;
 
@@ -61,7 +61,7 @@ impl OpenedDraft {
 }
 
 /// 保存到新路径；已有目标返回冲突结果，等待覆盖确认。
-pub(super) fn save_file(draft: Draft, path: PathBuf) -> Result<WorkOutcome, String> {
+pub(super) fn save_file(draft: Draft, path: PathBuf) -> Result<WorkOutcome, DraftError> {
     save_checked(draft, path, None)
 }
 
@@ -70,8 +70,9 @@ pub(super) fn save_checked(
     draft: Draft,
     document_path: PathBuf,
     expected: Option<blake3::Hash>,
-) -> Result<WorkOutcome, String> {
-    let document_path = std::path::absolute(document_path).map_err(|e| e.to_string())?;
+) -> Result<WorkOutcome, DraftError> {
+    let document_path =
+        std::path::absolute(document_path).map_err(|error| DraftError::Path(error.kind()))?;
     let path = write_target(&document_path)?;
     draft.validate_for_save()?;
     let mut output = BoundedBuffer {
@@ -81,19 +82,20 @@ pub(super) fn save_checked(
     };
     let encoded = serde_json::to_writer_pretty(&mut output, &draft);
     if output.exceeded {
-        return Err("草稿过大".into());
+        return Err(DraftError::TooLarge);
     }
-    encoded.map_err(|error| format!("无法生成草稿：{error}"))?;
+    encoded.map_err(DraftError::Encode)?;
     let parent = path
         .parent()
         .filter(|parent| !parent.as_os_str().is_empty())
         .unwrap_or(Path::new("."));
     // 临时文件与目标放在同一文件系统，发生冲突时也无需重新序列化。
-    let mut file = tempfile::NamedTempFile::new_in(parent).map_err(|error| error.to_string())?;
+    let mut file =
+        tempfile::NamedTempFile::new_in(parent).map_err(|error| DraftError::Write(error.kind()))?;
     file.write_all(&output.bytes)
         .and_then(|_| file.flush())
         .and_then(|_| file.as_file().sync_all())
-        .map_err(|error| error.to_string())?;
+        .map_err(|error| DraftError::Write(error.kind()))?;
     let fingerprint = blake3::hash(&output.bytes);
     if let Some(expected) = expected {
         // 替换前比较上次打开或保存的内容；目标缺失或不可读也须确认。
@@ -122,7 +124,7 @@ pub(super) fn save_checked(
                 external: false,
             })
         }
-        Err(error) => Err(error.error.to_string()),
+        Err(error) => Err(DraftError::Write(error.error.kind())),
     }
 }
 
@@ -131,14 +133,14 @@ pub(super) fn persist_confirmed(
     file: tempfile::NamedTempFile,
     document_path: PathBuf,
     fingerprint: blake3::Hash,
-) -> Result<WorkOutcome, String> {
+) -> Result<WorkOutcome, DraftError> {
     let path = write_target(&document_path)?;
     // 已确认覆盖的临时文件也必须先落盘，再原子替换目标。
     file.as_file()
         .sync_all()
-        .map_err(|error| error.to_string())?;
+        .map_err(|error| DraftError::Write(error.kind()))?;
     file.persist(&path)
-        .map_err(|error| error.error.to_string())?;
+        .map_err(|error| DraftError::Write(error.error.kind()))?;
     Ok(WorkOutcome::Saved {
         path: document_path,
         fingerprint,
@@ -146,7 +148,7 @@ pub(super) fn persist_confirmed(
 }
 
 /// 将有效符号链接解析为写入目标，拒绝目标不可用的链接。
-fn write_target(path: &Path) -> Result<PathBuf, String> {
+fn write_target(path: &Path) -> Result<PathBuf, DraftError> {
     // 替换符号链接的目标以保留链接本身；目标不可用时拒绝保存。
     match std::fs::canonicalize(path) {
         Ok(target) => Ok(target),
@@ -154,31 +156,30 @@ fn write_target(path: &Path) -> Result<PathBuf, String> {
             if std::fs::symlink_metadata(path)
                 .is_ok_and(|entry| entry.file_type().is_symlink()) =>
         {
-            Err("草稿链接的目标不可用，请使用另存为保存。".into())
+            Err(DraftError::UnavailableLink)
         }
         Err(_) => Ok(path.to_path_buf()),
     }
 }
 
 /// 最多读取上限加一字节，以识别超大文件且避免无限制分配内存。
-fn read_bytes(path: &Path) -> Result<Vec<u8>, String> {
-    let file = std::fs::File::open(path).map_err(|error| error.to_string())?;
+fn read_bytes(path: &Path) -> Result<Vec<u8>, DraftError> {
+    let file = std::fs::File::open(path).map_err(|error| DraftError::Read(error.kind()))?;
     let mut bytes = Vec::new();
     file.take(MAX_BYTES + 1)
         .read_to_end(&mut bytes)
-        .map_err(|error| error.to_string())?;
+        .map_err(|error| DraftError::Read(error.kind()))?;
     if bytes.len() > MAX_BYTES as usize {
-        return Err("草稿过大".into());
+        return Err(DraftError::TooLarge);
     }
     Ok(bytes)
 }
 
 /// 有界读取、解析并还原草稿；全部成功后才返回可应用的工作区。
-pub(super) fn open_file(path: PathBuf) -> Result<WorkOutcome, String> {
-    let path = std::path::absolute(path).map_err(|e| e.to_string())?;
+pub(super) fn open_file(path: PathBuf) -> Result<WorkOutcome, DraftError> {
+    let path = std::path::absolute(path).map_err(|error| DraftError::Path(error.kind()))?;
     let bytes = read_bytes(&path)?;
-    let draft: Draft =
-        serde_json::from_slice(&bytes).map_err(|error| format!("无效的草稿：{error}"))?;
+    let draft: Draft = serde_json::from_slice(&bytes).map_err(DraftError::Decode)?;
     Ok(WorkOutcome::Opened(Box::new(OpenedDraft {
         workspace: draft.restore()?,
         path,

@@ -11,9 +11,11 @@ use rune::{FileDialogError, Waker};
 use crate::workspace::{DraftSnapshot, RestoredWorkspace};
 
 mod document;
+mod error;
 mod file;
 
 use document::Draft;
+use error::DraftError;
 pub(crate) use file::OpenedDraft;
 use file::{WorkOutcome, open_file, save_file};
 
@@ -29,7 +31,7 @@ enum WorkKind {
 enum Pending {
     SaveDialog(Box<Draft>),
     OpenDialog,
-    Working(WorkKind, mpsc::Receiver<Result<WorkOutcome, String>>),
+    Working(WorkKind, mpsc::Receiver<Result<WorkOutcome, DraftError>>),
     ReplaceFile {
         file: tempfile::NamedTempFile,
         path: PathBuf,
@@ -46,6 +48,14 @@ pub(crate) enum Confirmation<'a> {
     ExternalChange(&'a Path),
 }
 
+/// 一次草稿保存的最终结果；等待覆盖确认时仍未完成。
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub(crate) enum SaveOutcome {
+    Saved,
+    Cancelled,
+    Failed,
+}
+
 #[derive(Default)]
 pub(crate) struct DraftState {
     pending: Option<Pending>,
@@ -53,7 +63,7 @@ pub(crate) struct DraftState {
     fingerprint: Option<blake3::Hash>,
     baseline: Option<DraftSnapshot>,
     saving_snapshot: Option<DraftSnapshot>,
-    save_result: Option<bool>,
+    save_outcome: Option<SaveOutcome>,
     feedback: Option<(bool, String, Instant)>,
 }
 
@@ -74,7 +84,7 @@ impl DraftState {
         self.path = None;
         self.fingerprint = None;
         self.saving_snapshot = None;
-        self.save_result = None;
+        self.save_outcome = None;
         self.feedback = None;
         self.baseline = Some(snapshot);
     }
@@ -87,8 +97,8 @@ impl DraftState {
     }
 
     /// 单次消费保存结果，供等待保存的打开或退出意图推进。
-    pub(crate) fn take_save_result(&mut self) -> Option<bool> {
-        self.save_result.take()
+    pub(crate) fn take_save_outcome(&mut self) -> Option<SaveOutcome> {
+        self.save_outcome.take()
     }
 
     /// 有路径和指纹且空闲时直接保存冻结快照，并检查磁盘外部变化。
@@ -100,7 +110,7 @@ impl DraftState {
             return false;
         };
         self.feedback = None;
-        self.save_result = None;
+        self.save_outcome = None;
         self.saving_snapshot = Some(snapshot.clone());
         self.start_work(WorkKind::Save, wake, move || {
             file::save_checked(Draft::from_snapshot(snapshot), path, Some(expected))
@@ -204,7 +214,7 @@ impl DraftState {
         &mut self,
         kind: WorkKind,
         wake: Option<Waker>,
-        work: impl FnOnce() -> Result<WorkOutcome, String> + Send + 'static,
+        work: impl FnOnce() -> Result<WorkOutcome, DraftError> + Send + 'static,
     ) {
         let (sender, receiver) = mpsc::channel();
         let wake = wake.unwrap_or_else(|| Arc::new(|| {}));
@@ -212,25 +222,25 @@ impl DraftState {
             .name("chart-draft".into())
             .spawn(move || {
                 let result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(work))
-                    .unwrap_or_else(|_| Err("草稿处理任务异常".into()));
+                    .unwrap_or(Err(DraftError::Panicked));
                 let _ = sender.send(result);
                 wake();
             }) {
             Ok(_) => self.pending = Some(Pending::Working(kind, receiver)),
-            Err(error) => self.fail(format!("无法启动草稿处理：{error}")),
+            Err(error) => self.fail(kind, DraftError::Start(error.kind())),
         }
     }
     /// 轮询后台结果；仅成功保存对应的冻结快照成为新基线，不清除之后的新编辑。
     pub(crate) fn poll(&mut self) -> bool {
-        let Some(Pending::Working(_, receiver)) = &self.pending else {
+        let Some(Pending::Working(kind, receiver)) = &self.pending else {
             return false;
         };
         let result = match receiver.try_recv() {
             Ok(result) => result,
             Err(mpsc::TryRecvError::Empty) => return false,
-            Err(mpsc::TryRecvError::Disconnected) => Err("草稿处理任务已中断".into()),
+            Err(mpsc::TryRecvError::Disconnected) => Err(DraftError::Disconnected),
         };
-        let was_save = self.is_saving();
+        let kind = *kind;
         self.pending = None;
         match result {
             Ok(WorkOutcome::Saved { path, fingerprint }) => {
@@ -239,7 +249,7 @@ impl DraftState {
                 if let Some(snapshot) = self.saving_snapshot.take() {
                     self.baseline = Some(snapshot);
                 }
-                self.save_result = Some(true);
+                self.save_outcome = Some(SaveOutcome::Saved);
                 self.set_feedback(true, "草稿已保存".into());
             }
             Ok(WorkOutcome::Conflict {
@@ -256,20 +266,7 @@ impl DraftState {
                 })
             }
             Ok(WorkOutcome::Opened(draft)) => self.pending = Some(Pending::OpenDraft(draft)),
-            Err(error) => {
-                crate::diagnostics::record(
-                    if was_save {
-                        "draft save failed"
-                    } else {
-                        "draft open failed"
-                    }
-                    .into(),
-                );
-                if was_save {
-                    self.save_result = Some(false);
-                }
-                self.fail(format!("草稿处理失败：{error}"));
-            }
+            Err(error) => self.fail(kind, error),
         }
         true
     }
@@ -292,7 +289,7 @@ impl DraftState {
             return false;
         }
         self.feedback = None;
-        self.save_result = None;
+        self.save_outcome = None;
         self.saving_snapshot = Some(snapshot.clone());
         self.pending = Some(Pending::SaveDialog(Box::new(Draft::from_snapshot(
             snapshot,
@@ -333,7 +330,7 @@ impl DraftState {
                 return;
             }
             Err(error) => {
-                self.fail(format!("保存草稿失败：{error}"));
+                self.fail(WorkKind::Save, DraftError::Dialog(error));
                 return;
             }
         };
@@ -353,7 +350,7 @@ impl DraftState {
             Ok(Some(path)) => path,
             Ok(None) => return,
             Err(error) => {
-                self.fail(format!("打开草稿失败：{error}"));
+                self.fail(WorkKind::Open, DraftError::Dialog(error));
                 return;
             }
         };
@@ -390,16 +387,27 @@ impl DraftState {
             }
         }
     }
-    /// 放弃保存快照，并向等待保存的应用流程报告未完成。
+    /// 放弃保存快照，并向等待保存的应用流程报告取消。
     fn cancel_save(&mut self) {
         if self.saving_snapshot.take().is_some() {
-            self.save_result = Some(false);
+            self.save_outcome = Some(SaveOutcome::Cancelled);
         }
     }
-    /// 撤回待保存快照并显示失败反馈。
-    fn fail(&mut self, message: String) {
-        self.cancel_save();
-        self.set_feedback(false, message);
+    /// 保留最终失败类别，分别生成操作反馈和脱敏诊断。
+    fn fail(&mut self, kind: WorkKind, error: DraftError) {
+        let operation = match kind {
+            WorkKind::Save => {
+                self.saving_snapshot = None;
+                self.save_outcome = Some(SaveOutcome::Failed);
+                "save"
+            }
+            WorkKind::Open => "open",
+        };
+        crate::diagnostics::record(format!(
+            "draft {operation} failed reason={}",
+            error.diagnostic()
+        ));
+        self.set_feedback(false, error.message(kind));
     }
 
     #[cfg(test)]
@@ -407,7 +415,7 @@ impl DraftState {
     pub(crate) fn saving_until(signal: mpsc::Receiver<()>) -> Self {
         let mut state = Self::default();
         state.start_work(WorkKind::Save, None, move || {
-            signal.recv().map_err(|error| error.to_string())?;
+            signal.recv().map_err(|_| DraftError::Disconnected)?;
             Ok(WorkOutcome::Saved {
                 path: PathBuf::from("test.ziwei"),
                 fingerprint: blake3::hash(b"test"),

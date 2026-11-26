@@ -643,7 +643,6 @@ impl AppState {
         let text_copy_changed = self.text_copy.expire();
         let launch_changed = self.launch.poll(clock, tx);
         self.sync_menu();
-        let was_saving = self.document.is_saving();
         let draft_changed = self.document.poll();
         if draft_changed && self.document.feedback().is_some() {
             self.wake_draft_feedback(tx);
@@ -657,9 +656,9 @@ impl AppState {
         {
             handle.open();
         }
-        let files_changed = self.poll_files(tx);
+        let files = self.poll_files(tx);
         let mut changed = preferences_changed
-            | files_changed
+            | files.changed
             | updates_changed
             | text_copy_changed
             | diagnostics_changed
@@ -685,9 +684,8 @@ impl AppState {
             return self.poll_closing(
                 tx,
                 CloseEvents {
-                    draft_failed: was_saving
-                        && draft_changed
-                        && self.document.feedback().is_some_and(|(ok, _)| !ok),
+                    draft_failed: draft_changed
+                        && files.save_outcome == Some(crate::draft::SaveOutcome::Failed),
                     copy_completed: copy_changed,
                 },
             ) || changed;

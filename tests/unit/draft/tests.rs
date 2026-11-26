@@ -1,6 +1,6 @@
 use super::document::VERSION;
 use super::*;
-use crate::annotation::{Ink, Marking, Tool};
+use crate::annotation::{Ink, Marking, Tool, ValidationError};
 use crate::color::Rgb;
 use crate::session::{Action, Session, Visibility};
 use crate::workspace::Workspace;
@@ -184,13 +184,17 @@ fn save_does_not_overwrite_until_confirmed_and_open_is_confirmed() {
         Some(Confirmation::ReplaceFile(_))
     ));
     assert_eq!(std::fs::read(&path).unwrap(), b"original");
+    assert!(store.take_save_outcome().is_none());
     store.confirm(false, None);
+    assert_eq!(store.take_save_outcome(), Some(SaveOutcome::Cancelled));
+    assert!(store.feedback().is_none());
     assert_eq!(std::fs::read(&path).unwrap(), b"original");
     assert!(store.begin_save(DraftSnapshot::for_test(&session, &marking)));
     store.save_answer(Ok(Some(path.clone())), None);
     wait(&mut store);
     store.confirm(true, None);
     wait(&mut store);
+    assert_eq!(store.take_save_outcome(), Some(SaveOutcome::Saved));
     assert_ne!(std::fs::read(&path).unwrap(), b"original");
     assert!(store.begin_open());
     store.open_answer(Ok(Some(path)), None);
@@ -235,34 +239,41 @@ fn invalid_or_future_drafts_are_rejected_before_session_replacement() {
     for version in [1, 2, 3] {
         let mut old = Draft::capture(&session, &marking);
         old.version = version;
-        assert!(old.restore().is_err());
+        assert!(
+            matches!(old.restore(), Err(DraftError::UnsupportedVersion(value)) if value == version)
+        );
     }
     let mut unknown = serde_json::to_value(Draft::capture(&session, &marking)).unwrap();
     unknown["birth"] = serde_json::json!({});
     assert!(serde_json::from_value::<Draft>(unknown).is_err());
     let mut future = Draft::capture(&session, &marking);
     future.version = VERSION + 1;
-    assert!(future.restore().is_err());
+    assert!(
+        matches!(future.restore(), Err(DraftError::UnsupportedVersion(value)) if value == VERSION + 1)
+    );
     let mut invalid = Draft::capture(&session, &marking);
     invalid.input.month = Some(99);
-    assert!(invalid.restore().is_err());
+    assert!(matches!(invalid.restore(), Err(DraftError::InvalidInput)));
     let mut invalid = Draft::capture(&session, &marking);
     invalid.input.branch = Some(1);
-    assert_eq!(
-        invalid.validate_for_save().unwrap_err(),
-        "请选择匹配的天干和地支后重试"
-    );
-    assert_eq!(invalid.restore().err().unwrap(), "草稿中的排盘参数无效");
+    assert!(matches!(
+        invalid.validate_for_save(),
+        Err(DraftError::BirthPair)
+    ));
+    assert!(matches!(invalid.restore(), Err(DraftError::BirthPair)));
     let mut invalid = Draft::capture(&session, &marking);
     invalid.input.stem = None;
-    assert_eq!(invalid.restore().err().unwrap(), "草稿中的排盘参数无效");
+    assert!(matches!(invalid.restore(), Err(DraftError::BirthPair)));
     let mut invalid = Draft::capture(&session, &marking);
     invalid.marks[0].stroke_width = f32::INFINITY;
     assert!(invalid.restore().is_err());
     let mut invalid = Draft::capture(&session, &marking);
     invalid.input.month = Some(99);
     invalid.marks[0].stroke_width = f32::INFINITY;
-    assert_eq!(invalid.restore().err().unwrap(), "草稿中的标注粗细无效");
+    assert!(matches!(
+        invalid.restore(),
+        Err(DraftError::Annotations(ValidationError::InvalidStroke))
+    ));
     let dir = tempfile::tempdir().unwrap();
     let path = dir.path().join("bad.ziwei");
     std::fs::write(&path, b"not json").unwrap();
@@ -271,7 +282,11 @@ fn invalid_or_future_drafts_are_rejected_before_session_replacement() {
     store.open_answer(Ok(Some(path)), None);
     wait(&mut store);
     assert!(store.confirmation().is_none());
-    assert!(matches!(store.feedback(), Some((false, _))));
+    let (ok, message) = store.feedback().unwrap();
+    assert!(!ok);
+    assert!(message.contains("无效的草稿"));
+    let _locale = crate::i18n::scope(crate::i18n::ChineseVariant::Traditional);
+    assert!(crate::i18n::message(message).contains("無效的草稿"));
 }
 
 #[test]
@@ -338,6 +353,7 @@ fn saving_unreadable_annotations_fails_without_touching_the_target() {
             store.feedback(),
             Some((false, message)) if message.contains("单条文字标注过长") && message.contains("缩短")
         ));
+        assert_eq!(store.take_save_outcome(), Some(SaveOutcome::Failed));
         assert!(store.confirmation().is_none());
         if existing {
             assert_eq!(std::fs::read(path).unwrap(), b"existing");
@@ -382,18 +398,18 @@ fn save_reports_exceeded_annotation_limits() {
     let mut draft = Draft::capture(&session, &marking);
     let mark = draft.marks[0].clone();
     draft.marks = vec![mark.clone(); 10_001];
-    assert_eq!(
-        draft.validate_for_save().unwrap_err(),
-        "标注数量过多，请减少标注后重试"
-    );
+    assert!(matches!(
+        draft.validate_for_save(),
+        Err(DraftError::Annotations(ValidationError::TooManyMarks))
+    ));
 
     let mut excessive_path = mark;
     excessive_path.kind = crate::annotation::MarkKind::Pen(vec![[1.0, 1.0]; 1_000_001]);
     draft.marks = vec![excessive_path];
-    assert_eq!(
-        draft.validate_for_save().unwrap_err(),
-        "标注笔画点数过多，请减少标注后重试"
-    );
+    assert!(matches!(
+        draft.validate_for_save(),
+        Err(DraftError::Annotations(ValidationError::TooManyPoints))
+    ));
 }
 
 #[test]
@@ -413,7 +429,7 @@ fn oversized_valid_draft_is_rejected_without_touching_the_target() {
 
     assert!(matches!(
         save_file(draft, path.clone()),
-        Err(error) if error == "草稿过大"
+        Err(DraftError::TooLarge)
     ));
     assert_eq!(std::fs::read(path).unwrap(), b"existing");
     assert_eq!(std::fs::read_dir(directory.path()).unwrap().count(), 1);

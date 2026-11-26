@@ -6,7 +6,7 @@ use zhiji_ui::{ColorToken, ConfirmationDialog, dialog_button};
 
 use super::AppState;
 use super::lifecycle::{Closing, ExitIntent};
-use crate::draft::OpenedDraft;
+use crate::draft::{OpenedDraft, SaveOutcome};
 
 enum Intent {
     New,
@@ -46,6 +46,12 @@ pub(crate) enum UnsavedChoice {
     Save,
     Discard,
     Cancel,
+}
+
+/// 文件轮询的可见变化及本次消费的保存结果，供关闭收尾直接使用。
+pub(super) struct FileProgress {
+    pub(super) changed: bool,
+    pub(super) save_outcome: Option<SaveOutcome>,
 }
 
 impl AppState {
@@ -311,12 +317,10 @@ impl AppState {
     }
 
     /// 接收保存和打开结果、重查修改状态、执行文件意图并同步窗口标题。
-    pub(super) fn poll_files(&mut self, tx: &mut Tx) -> bool {
+    pub(super) fn poll_files(&mut self, tx: &mut Tx) -> FileProgress {
         let _locale = crate::i18n::scope(self.workspace.chinese_variant());
         let mut changed = false;
-        if matches!(self.file_flow.pending, Some((Intent::Exit(_), _))) {
-            let _ = self.document.take_opened();
-        }
+        // 退出等待期间取走迟到的读取结果，由退出意图继续占用文件流程。
         if let Some(opened) = self.document.take_opened()
             && !matches!(self.file_flow.pending, Some((Intent::Exit(_), _)))
         {
@@ -324,13 +328,14 @@ impl AppState {
             self.file_flow.pending = Some((Intent::Open(Box::new(opened)), Stage::Waiting));
             changed = true;
         }
-        if let Some(saved) = self.document.take_save_result()
+        let save_outcome = self.document.take_save_outcome();
+        if let Some(outcome) = save_outcome
             && matches!(
                 self.file_flow.pending,
                 Some((_, Stage::Saving | Stage::Waiting))
             )
         {
-            if saved {
+            if outcome == SaveOutcome::Saved {
                 if let Some((_, stage)) = &mut self.file_flow.pending {
                     *stage = Stage::Waiting;
                 }
@@ -367,7 +372,10 @@ impl AppState {
             self.file_flow.title = Some(title);
             changed = true;
         }
-        self.poll_external_files(tx) || changed
+        FileProgress {
+            changed: self.poll_external_files(tx) || changed,
+            save_outcome,
+        }
     }
 
     /// 强制打开保存面板选择新路径。
@@ -381,7 +389,7 @@ impl AppState {
             return;
         }
         self.document.confirm(false, self.waker.clone());
-        self.document.take_save_result();
+        self.document.take_save_outcome();
         self.request_save_as(tx);
     }
 }

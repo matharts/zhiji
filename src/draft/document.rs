@@ -5,13 +5,15 @@ use zhiji_core::{Branch, Gender, Input, Month, Stem};
 
 #[cfg(test)]
 use crate::annotation::Marking;
-use crate::annotation::{Mark, ValidatedMarks, ValidationError};
+use crate::annotation::{Mark, ValidatedMarks};
 use crate::color::Palette;
 #[cfg(test)]
 use crate::session::Session;
 use crate::session::{Display, Flying};
 use crate::workspace::comments::{self, Comment};
 use crate::workspace::{DraftSnapshot, RestoreError, RestoredWorkspace, WorkspaceContent};
+
+use super::error::DraftError;
 
 pub(super) const VERSION: u32 = 4;
 
@@ -51,38 +53,13 @@ pub(super) struct DraftInput {
     pub(super) show_location_stars: bool,
 }
 
-/// 将标注校验错误转换为草稿读取失败说明。
-fn annotation_read_error(error: ValidationError) -> &'static str {
-    match error {
-        ValidationError::TooManyMarks => "草稿标注过多",
-        ValidationError::InvalidStroke => "草稿中的标注粗细无效",
-        ValidationError::TooManyPoints
-        | ValidationError::TextTooLong
-        | ValidationError::InvalidMark => "草稿中的标注数据无效",
-    }
-}
-
-/// 将标注校验错误转换为保存前可采取行动的提示。
-fn annotation_save_error(error: ValidationError) -> &'static str {
-    match error {
-        ValidationError::TooManyMarks => "标注数量过多，请减少标注后重试",
-        ValidationError::TooManyPoints => "标注笔画点数过多，请减少标注后重试",
-        ValidationError::TextTooLong => "单条文字标注过长，请缩短后重试",
-        ValidationError::InvalidStroke | ValidationError::InvalidMark => {
-            "标注数据无效，请调整标注后重试"
-        }
-    }
-}
-
 impl DraftFlying {
     /// 校验飞宫地支及四化星名，归一到内部静态星名。
-    fn decode(&self) -> Result<Flying, String> {
-        let branch =
-            Branch::from_index(self.branch).ok_or_else(|| "草稿中的飞宫无效".to_owned())?;
+    fn decode(&self) -> Result<Flying, DraftError> {
+        let branch = Branch::from_index(self.branch).ok_or(DraftError::InvalidFlyingBranch)?;
         let mut stars = [""; 4];
         for (index, name) in self.stars.iter().enumerate() {
-            stars[index] =
-                Flying::known_star(name).ok_or_else(|| "草稿中的飞宫星曜无效".to_owned())?;
+            stars[index] = Flying::known_star(name).ok_or(DraftError::InvalidFlyingStars)?;
         }
         Ok(Flying { branch, stars })
     }
@@ -107,14 +84,17 @@ impl From<&Input> for DraftInput {
 }
 
 /// 保留未选字段，对已选但无法解码的数值返回格式错误。
-fn optional<T>(index: Option<u8>, decode: impl Fn(u8) -> Option<T>) -> Result<Option<T>, String> {
+fn optional<T>(
+    index: Option<u8>,
+    decode: impl Fn(u8) -> Option<T>,
+) -> Result<Option<T>, DraftError> {
     index
-        .map(|index| decode(index).ok_or_else(|| "草稿中的排盘参数无效".to_owned()))
+        .map(|index| decode(index).ok_or(DraftError::InvalidInput))
         .transpose()
 }
 
 impl TryFrom<DraftInput> for Input {
-    type Error = String;
+    type Error = DraftError;
     /// 将草稿各数值还原为有范围保证的领域类型。
     fn try_from(value: DraftInput) -> Result<Self, Self::Error> {
         Ok(Self {
@@ -170,19 +150,19 @@ impl Draft {
     }
 
     /// 保存前校验版本、标注、批注、年干支及飞宫，避免写出无法恢复的草稿。
-    pub(super) fn validate_for_save(&self) -> Result<(), String> {
+    pub(super) fn validate_for_save(&self) -> Result<(), DraftError> {
         if self.version != VERSION {
-            return Err("不支持此草稿版本".into());
+            return Err(DraftError::UnsupportedVersion(self.version));
         }
-        comments::validate(&self.comments)?;
+        comments::validate(&self.comments).map_err(DraftError::Comments)?;
         crate::annotation::validate_layers(
             std::iter::once(self.marks.as_slice())
                 .chain(self.comments.iter().map(|comment| comment.marks.as_slice())),
         )
-        .map_err(annotation_save_error)?;
+        .map_err(DraftError::Annotations)?;
         let input: Input = self.input.try_into()?;
         if !crate::session::valid_birth_branch(&input) {
-            return Err("请选择匹配的天干和地支后重试".into());
+            return Err(DraftError::BirthPair);
         }
         if let Some(flying) = &self.flying {
             flying.decode()?;
@@ -191,11 +171,11 @@ impl Draft {
     }
 
     /// 完成全部格式与领域校验后生成可安装工作区，失败不影响当前会话。
-    pub(super) fn restore(self) -> Result<RestoredWorkspace, String> {
+    pub(super) fn restore(self) -> Result<RestoredWorkspace, DraftError> {
         if self.version != VERSION {
-            return Err("不支持此草稿版本".into());
+            return Err(DraftError::UnsupportedVersion(self.version));
         }
-        let marks = ValidatedMarks::try_from(self.marks).map_err(annotation_read_error)?;
+        let marks = ValidatedMarks::try_from(self.marks).map_err(DraftError::Annotations)?;
         let input = self.input.try_into()?;
         let flying = self.flying.as_ref().map(DraftFlying::decode).transpose()?;
         RestoredWorkspace::try_from_content(WorkspaceContent {
@@ -208,10 +188,10 @@ impl Draft {
             comments: self.comments,
         })
         .map_err(|error| match error {
-            RestoreError::InvalidBirthPair => "草稿中的排盘参数无效".to_owned(),
-            RestoreError::InvalidFlying => "草稿中的飞宫星曜无效".to_owned(),
-            RestoreError::Comments(message) => message.to_owned(),
-            RestoreError::Annotations(error) => annotation_read_error(error).to_owned(),
+            RestoreError::InvalidBirthPair => DraftError::BirthPair,
+            RestoreError::InvalidFlying => DraftError::InvalidFlyingStars,
+            RestoreError::Comments(message) => DraftError::Comments(message),
+            RestoreError::Annotations(error) => DraftError::Annotations(error),
         })
     }
 }
