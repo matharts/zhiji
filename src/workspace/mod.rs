@@ -10,7 +10,7 @@ use crate::preferences::settings::{
     WindowLayout, WorkspacePreferences,
 };
 use crate::session::Display;
-use crate::session::{Action, Session};
+use crate::session::{Action, DateChartInput, Session};
 
 mod actions;
 pub(crate) mod input;
@@ -436,7 +436,7 @@ impl Workspace {
     }
 
     /// 结束临时编辑并一次性安装日期计算得到的排盘输入。
-    pub(crate) fn apply_date_input(&mut self, value: Input) {
+    pub(crate) fn apply_date_input(&mut self, value: DateChartInput) {
         self.commit_edits_for_chart_change();
         self.session.apply_date_input(value);
     }

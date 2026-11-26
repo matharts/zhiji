@@ -3,7 +3,9 @@
 use std::collections::BTreeMap;
 
 use rune::{TextEdit, Waker};
-use zhiji_core::{Gender, Input};
+use zhiji_core::Gender;
+
+use crate::session::DateChartInput;
 
 use super::reverse::{ReverseOutcome, ReverseRequest, ReverseSearch};
 use super::solar_menu::SolarMenu;
@@ -30,10 +32,17 @@ pub(super) enum InputStep {
 /// 一次提交的可见结果；校验失败由视图决定焦点目标。
 #[derive(Debug, PartialEq, Eq)]
 pub(crate) enum SubmitOutcome {
-    Applied(Input),
+    Applied(DateChartInput),
     NeedsFocus(model::DateValidation),
     Pending,
     Failed,
+}
+
+/// 分别记录紫微取数的生日规则和四柱反推的日柱规则。
+#[derive(Default)]
+struct DateRules {
+    late_zi_next: bool,
+    pillar_day_start_zi: bool,
 }
 
 /// 确认状态与后台请求私有持有，仅表单草稿和局部视图状态在输入模块内共享。
@@ -43,7 +52,7 @@ pub(crate) struct InputEditor {
     solar_menu: SolarMenu,
     pub(super) today: CivilDate,
     pub(super) focus_versions: BTreeMap<String, u64>,
-    rules: calculation::DateRules,
+    rules: DateRules,
     zone_choice: Option<(places::PlaceSelection, String)>,
     fold_choice: Option<(
         Option<places::PlaceSelection>,
@@ -86,7 +95,7 @@ impl InputEditor {
             solar_menu: SolarMenu::default(),
             today,
             focus_versions: BTreeMap::new(),
-            rules: calculation::DateRules::default(),
+            rules: DateRules::default(),
             zone_choice: None,
             fold_choice: None,
             last_result: None,
@@ -502,7 +511,6 @@ impl InputEditor {
             Ok(date) => self.finish(calculation::lunar_input(
                 date,
                 lunar.shichen().index(),
-                self.rules,
                 self.draft.gender,
             )),
             Err(_) => {
@@ -527,7 +535,7 @@ impl InputEditor {
             return self.finish(calculation::solar_input(
                 resolved,
                 None,
-                self.rules,
+                self.rules.late_zi_next,
                 self.draft.gender,
             ));
         }
@@ -619,7 +627,7 @@ impl InputEditor {
         self.finish(calculation::solar_input(
             resolved,
             longitude,
-            self.rules,
+            self.rules.late_zi_next,
             self.draft.gender,
         ))
     }
@@ -631,7 +639,7 @@ impl InputEditor {
     ) -> SubmitOutcome {
         match result {
             Ok(value) => {
-                let input = value.input.clone();
+                let input = value.input;
                 self.last_result = Some(value);
                 self.close();
                 SubmitOutcome::Applied(input)

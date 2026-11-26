@@ -1,4 +1,5 @@
 use super::*;
+use crate::session::DateChartInput;
 use crate::workspace::input::{
     InputEditor,
     model::{CivilDate, DateMode, DatePopup, InputStatus, LunarPage, SolarSelect},
@@ -9,7 +10,7 @@ use std::time::{Duration, Instant};
 
 struct State {
     source: InputEditor,
-    applied: Option<zhiji_core::Input>,
+    applied: Option<DateChartInput>,
 }
 impl InputEditorHost for State {
     /// 借用独立测试宿主的取数编辑器。
@@ -21,7 +22,7 @@ impl InputEditorHost for State {
         &mut self.source
     }
     /// 捕获已确认取数结果供断言。
-    fn apply_date_input(&mut self, input: zhiji_core::Input) {
+    fn apply_date_input(&mut self, input: DateChartInput) {
         self.applied = Some(input);
     }
 }
@@ -304,9 +305,11 @@ fn date_input_applies_solar_result_and_preserves_original_clock() {
     tap(&mut runtime, "date-source-submit");
     assert!(!runtime.state.source.is_open());
     let input = runtime.state.applied.as_ref().unwrap();
-    assert_eq!(input.stem.unwrap().name(), "癸");
-    assert_eq!(input.branch.unwrap().name(), "卯");
-    assert!(input.ziwei.is_some() && input.month.is_some() && input.hour.is_some());
+    assert_eq!(input.stem.name(), "癸");
+    assert_eq!(input.branch.name(), "卯");
+    assert_eq!(input.month.value(), 12);
+    assert_eq!(input.hour.name(), "午");
+    assert_eq!(input, &runtime.state.source.last_result().unwrap().input);
     assert_eq!(
         runtime
             .state
@@ -1197,7 +1200,7 @@ fn date_input_without_place_uses_fixed_beijing_clock_without_solar_correction() 
     tap(&mut runtime, "date-source-submit");
     let result = runtime.state.source.last_result().unwrap();
     assert_eq!(result.original.unwrap().offset.seconds(), 8 * 3600);
-    assert_eq!(result.input.hour.unwrap().index(), 1);
+    assert_eq!(result.input.hour.index(), 1);
     assert!(runtime.state.applied.is_some());
 }
 

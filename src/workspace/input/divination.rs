@@ -1,7 +1,9 @@
 //! 紫占的随机取数和本地时钟取数。
 
 use zhiji_calendar::{CivilCalendar, CivilDateTime, SolarDate, TimeOfDay};
-use zhiji_core::{Gender, Input};
+use zhiji_core::Gender;
+
+use crate::session::DateChartInput;
 
 use super::{calculation, clock};
 
@@ -14,7 +16,7 @@ pub(crate) enum Divination {
 
 impl Divination {
     /// 获取本次起盘的时刻并复用公历安星规则，失败时不生成新输入。
-    pub(crate) fn input(self, gender: Gender, late_zi_next: bool) -> Option<Input> {
+    pub(crate) fn input(self, gender: Gender, late_zi_next: bool) -> Option<DateChartInput> {
         let clock = match self {
             Self::Random => random_clock()?,
             Self::Now => {

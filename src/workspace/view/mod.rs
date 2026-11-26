@@ -5,6 +5,7 @@ pub(crate) mod chart_workspace;
 pub(crate) mod comments;
 
 use super::Workspace;
+use crate::session::DateChartInput;
 
 pub(crate) const SIDEBAR_MOTION: rune::Spring = rune::tok::motion::SETTLE_EXIT;
 
@@ -25,7 +26,7 @@ impl<S: WorkspaceHost> crate::workspace::input::InputEditorHost for S {
         &mut self.workspace_mut().input_editor
     }
     /// 将取数结果一次性应用到当前工作区。
-    fn apply_date_input(&mut self, input: zhiji_core::Input) {
+    fn apply_date_input(&mut self, input: DateChartInput) {
         self.workspace_mut().apply_date_input(input);
     }
 }

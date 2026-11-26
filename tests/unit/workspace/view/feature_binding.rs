@@ -75,6 +75,7 @@ fn root() -> OtherRoot {
 #[test]
 /// 日期宿主跟随活动工作区，编辑和应用结果不会写入另一份会话。
 fn date_input_host_binds_to_the_active_workspace_without_app_state() {
+    use crate::session::DateChartInput;
     use crate::workspace::input::InputEditorHost;
 
     let mut state = root();
@@ -82,7 +83,14 @@ fn date_input_host_binds_to_the_active_workspace_without_app_state() {
     state.active = 1;
     state.workspace_mut().open_input_editor();
     assert!(state.input_editor().is_open());
-    state.apply_date_input(crate::scenes::sample_input(true));
+    state.apply_date_input(DateChartInput {
+        gender: zhiji_core::Gender::Female,
+        stem: "甲".parse().unwrap(),
+        branch: "子".parse().unwrap(),
+        ziwei: "辰".parse().unwrap(),
+        month: zhiji_core::Month::new(1).unwrap(),
+        hour: "子".parse().unwrap(),
+    });
     assert_eq!(
         state.workspaces[1].session().input().gender,
         zhiji_core::Gender::Female

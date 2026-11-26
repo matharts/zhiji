@@ -94,7 +94,7 @@ fn candidate_selection_checks_range_and_preserves_the_confirmed_input() {
             offset: candidate.offset,
         },
         None,
-        editor.rules,
+        editor.rules.late_zi_next,
         Gender::Male,
     )
     .unwrap();

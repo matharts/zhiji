@@ -11,7 +11,8 @@ mod solar_menu;
 mod view;
 
 use rune::{Cx, El};
-use zhiji_core::Input;
+
+use crate::session::DateChartInput;
 
 use editor::InputStep;
 pub(crate) use editor::{InputEditor, SubmitOutcome};
@@ -23,7 +24,7 @@ pub(crate) trait InputEditorHost: 'static {
     /// 返回与只读访问器对应的同一编辑器。
     fn input_editor_mut(&mut self) -> &mut InputEditor;
     /// 将已完成校验和确认的结果一次性应用到会话。
-    fn apply_date_input(&mut self, input: Input);
+    fn apply_date_input(&mut self, input: DateChartInput);
 }
 
 /// 通过宿主接口绘制取数面板，不直接依赖根应用类型。

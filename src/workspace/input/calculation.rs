@@ -7,6 +7,8 @@ use zhiji_calendar::{
 };
 use zhiji_core::{Branch, Gender, Input, Month, Stem, calculate};
 
+use crate::session::DateChartInput;
+
 /// 日期输入换算失败的原因；保留历法错误类别，供界面选择对应反馈。
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub(crate) enum DateInputError {
@@ -30,17 +32,10 @@ impl fmt::Display for DateInputError {
 
 impl std::error::Error for DateInputError {}
 
-/// 日期取数采用的换日选项，区分排盘日期与四柱日界。
-#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
-pub(crate) struct DateRules {
-    pub(crate) late_zi_next: bool,
-    pub(crate) pillar_day_start_zi: bool,
-}
-
 /// 可提交的排盘参数及用于显示、追溯的原始日期信息。
 #[derive(Clone, Debug)]
 pub(crate) struct DerivedInput {
-    pub(crate) input: Input,
+    pub(crate) input: DateChartInput,
     pub(crate) actual_lunar: LunarDate,
     pub(crate) original: Option<ResolvedLocalTime>,
 }
@@ -62,12 +57,17 @@ fn build(
     if lunar.month().is_leap() && lunar.day() >= 16 {
         month = month % 12 + 1;
     }
-    let mut input = Input {
+    // 取模限定干支编号；历法校验与上面的闰月进位均保证月份在 1 至 12。
+    let stem = Stem::from_index(year_index % 10).expect("year stem index is in 0..10");
+    let branch = Branch::from_index(year_index % 12).expect("year branch index is in 0..12");
+    let month = Month::new(month).expect("derived lunar month is in 1..=12");
+    let hour = Branch::from_index(hour).ok_or(DateInputError::InvalidHour)?;
+    let input = Input {
         gender,
-        stem: Stem::from_index(year_index % 10),
-        branch: Branch::from_index(year_index % 12),
-        month: Month::new(month),
-        hour: Branch::from_index(hour),
+        stem: Some(stem),
+        branch: Some(branch),
+        month: Some(month),
+        hour: Some(hour),
         ..Input::default()
     };
     let bureau = calculate(&input)
@@ -84,9 +84,16 @@ fn build(
         -i32::from(extra)
     };
     let index = (i32::from(quotient) - 1 + step + 2).rem_euclid(12) as u8;
-    input.ziwei = Branch::from_index(index);
+    let ziwei = Branch::from_index(index).expect("ziwei index is in 0..12");
     Ok(DerivedInput {
-        input,
+        input: DateChartInput {
+            gender,
+            stem,
+            branch,
+            ziwei,
+            month,
+            hour,
+        },
         actual_lunar: lunar,
         original: None,
     })
@@ -97,7 +104,7 @@ fn build(
 pub(crate) fn solar_input(
     resolved: ResolvedLocalTime,
     longitude: impl Into<Option<Longitude>>,
-    rules: DateRules,
+    late_zi_next: bool,
     gender: Gender,
 ) -> Result<DerivedInput, DateInputError> {
     let clock = match longitude.into() {
@@ -108,7 +115,7 @@ pub(crate) fn solar_input(
         }
         None => resolved.local,
     };
-    let mut derived = civil_input(clock, rules.late_zi_next, gender)?;
+    let mut derived = civil_input(clock, late_zi_next, gender)?;
     derived.original = Some(resolved);
     Ok(derived)
 }
@@ -146,7 +153,6 @@ pub(super) fn civil_input(
 pub(crate) fn lunar_input(
     lunar: LunarDate,
     hour: u8,
-    _rules: DateRules,
     gender: Gender,
 ) -> Result<DerivedInput, DateInputError> {
     if hour >= 12 {

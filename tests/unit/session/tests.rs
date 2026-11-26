@@ -45,26 +45,35 @@ fn resetting_input_clears_the_chart_and_flying_but_preserves_preferences() {
 }
 
 #[test]
-/// 验证日期结果整体更新参数并保留显示和配色。
+/// 验证日期结果整体更新参数，重新定命宫并保留流年、显示和配色。
 fn date_result_updates_parameters_together_and_preserves_display_and_palette() {
     let mut session = Session::with_input(crate::scenes::sample_input(true));
     session.apply(Action::Toggle(Visibility::LocationStars));
     session.apply(Action::Toggle(Visibility::Stem));
+    session.apply(Action::Main(branch("午")));
+    session.apply(Action::Yearly(branch("辰")));
+    assert_eq!(session.input.main, Some(branch("午")));
+    assert_eq!(session.input.yearly, Some(branch("辰")));
     let display = session.display.clone();
     let palette = session.palette.clone();
-    let next = Input {
+    let next = DateChartInput {
         gender: Gender::Male,
-        stem: Some(stem("癸")),
-        branch: Some(branch("卯")),
-        ziwei: Some(branch("丑")),
-        month: Month::new(3),
-        hour: Some(branch("午")),
-        ..Input::default()
+        stem: stem("癸"),
+        branch: branch("卯"),
+        ziwei: branch("丑"),
+        month: Month::new(3).unwrap(),
+        hour: branch("午"),
     };
     session.apply_date_input(next);
     assert_eq!(session.input.gender, Gender::Male);
     assert_eq!(session.input.stem, Some(stem("癸")));
     assert_eq!(session.input.branch, Some(branch("卯")));
+    assert_eq!(session.input.ziwei, Some(next.ziwei));
+    assert_eq!(session.input.month, Some(next.month));
+    assert_eq!(session.input.hour, Some(next.hour));
+    assert!(session.input.main.is_none());
+    assert_eq!(session.input.decade, session.chart.main);
+    assert_eq!(session.input.yearly, Some(branch("辰")));
     assert!(!session.input.show_location_stars);
     assert_eq!(session.chart, calculate(&session.input));
     assert_eq!(session.display, display);

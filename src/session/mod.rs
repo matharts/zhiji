@@ -29,6 +29,17 @@ pub(crate) enum Action {
     SetSelfDirection(SelfDirection),
 }
 
+/// 日期取数及紫占实际回填的六项参数，全部由取数入口确定。
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub(crate) struct DateChartInput {
+    pub(crate) gender: Gender,
+    pub(crate) stem: Stem,
+    pub(crate) branch: Branch,
+    pub(crate) ziwei: Branch,
+    pub(crate) month: Month,
+    pub(crate) hour: Branch,
+}
+
 pub(crate) struct Session {
     input: Input,
     chart: Chart,
@@ -68,14 +79,14 @@ impl Default for Session {
 
 impl Session {
     /// 一次性应用已校验的日期取数结果，保留显示偏好和标注所属的外层状态。
-    pub(crate) fn apply_date_input(&mut self, value: Input) {
+    pub(crate) fn apply_date_input(&mut self, value: DateChartInput) {
         let previous_main = self.chart.main;
         self.input.gender = value.gender;
-        self.input.stem = value.stem;
-        self.input.branch = value.branch;
-        self.input.ziwei = value.ziwei;
-        self.input.month = value.month;
-        self.input.hour = value.hour;
+        self.input.stem = Some(value.stem);
+        self.input.branch = Some(value.branch);
+        self.input.ziwei = Some(value.ziwei);
+        self.input.month = Some(value.month);
+        self.input.hour = Some(value.hour);
         self.input.main = None;
         self.chart = calculate_after_input_change(&mut self.input, previous_main);
         self.refresh_flying();
