@@ -1,4 +1,4 @@
-//! 版本化草稿数据、格式校验及可恢复工作区转换。
+//! 版本化草稿数据、格式校验及工作区内容转换。
 
 use serde::{Deserialize, Serialize};
 use zhiji_core::{Branch, Gender, Input, Month, Stem};
@@ -11,7 +11,7 @@ use crate::color::Palette;
 use crate::session::Session;
 use crate::session::{Display, Flying};
 use crate::workspace::comments::{self, Comment};
-use crate::workspace::{DraftSnapshot, RestoreError, RestoredWorkspace, WorkspaceContent};
+use crate::workspace::{DraftSnapshot, RestoreError, ValidatedWorkspaceContent, WorkspaceContent};
 
 use super::error::DraftError;
 
@@ -170,15 +170,15 @@ impl Draft {
         Ok(())
     }
 
-    /// 完成全部格式与领域校验后生成可安装工作区，失败不影响当前会话。
-    pub(super) fn restore(self) -> Result<RestoredWorkspace, DraftError> {
+    /// 解码并校验完整的文档内容，供工作区在用户确认后应用。
+    pub(super) fn decode_content(self) -> Result<ValidatedWorkspaceContent, DraftError> {
         if self.version != VERSION {
             return Err(DraftError::UnsupportedVersion(self.version));
         }
         let marks = ValidatedMarks::try_from(self.marks).map_err(DraftError::Annotations)?;
         let input = self.input.try_into()?;
         let flying = self.flying.as_ref().map(DraftFlying::decode).transpose()?;
-        RestoredWorkspace::try_from_content(WorkspaceContent {
+        ValidatedWorkspaceContent::try_from_content(WorkspaceContent {
             input,
             display: self.display,
             palette: self.palette,

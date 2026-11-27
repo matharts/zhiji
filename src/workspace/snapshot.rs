@@ -1,5 +1,6 @@
 //! 拥有独立数据的工作区快照及经过校验的恢复结果。
 
+use std::sync::Arc;
 use zhiji_core::Input;
 
 use super::comments::{self, Comment, Entry};
@@ -8,10 +9,10 @@ use crate::color::Palette;
 use crate::preferences::settings::ChineseVariant;
 use crate::session::{ChartSnapshot, ChartView, Display, Flying, Session};
 
-/// 转换为版本化草稿之前冻结的完整工作区内容。
+/// 草稿保存任务与修改基线共享的只读工作区快照。
 #[derive(Clone)]
 pub(crate) struct DraftSnapshot {
-    content: WorkspaceContent<Vec<Mark>>,
+    content: Arc<WorkspaceContent<Vec<Mark>>>,
 }
 
 /// 快照可持有普通标注，恢复入口则要求已校验的 `ValidatedMarks`。
@@ -26,15 +27,10 @@ pub(crate) struct WorkspaceContent<Marks> {
     pub(crate) comments: Vec<Comment>,
 }
 
-/// 导入操作准备的已校验工作区，只在完整成功后安装。
-pub(crate) struct RestoredWorkspace {
-    session: Session,
-    marks: Vec<Mark>,
-    visible: bool,
-    comments: Vec<Comment>,
-}
+/// 已通过导入校验的文档内容，由工作区在确认后重建会话。
+pub(crate) struct ValidatedWorkspaceContent(WorkspaceContent<ValidatedMarks>);
 
-impl RestoredWorkspace {
+impl ValidatedWorkspaceContent {
     /// 仅接受已校验标注、有效年干支配对及已知飞宫星曜。
     pub(crate) fn try_from_content(
         content: WorkspaceContent<ValidatedMarks>,
@@ -60,37 +56,12 @@ impl RestoredWorkspace {
             )
             .map_err(RestoreError::Annotations)?;
         }
-        Ok(Self {
-            session: Session::restore(
-                content.input,
-                content.display,
-                content.palette,
-                content.flying,
-            ),
-            marks: content.marks.into_inner(),
-            visible: content.visible,
-            comments: content.comments,
-        })
+        Ok(Self(content))
     }
 
-    /// 从已准备恢复的数据生成保存基线，不读取当前活动工作区。
-    pub(crate) fn snapshot(&self) -> DraftSnapshot {
-        DraftSnapshot {
-            content: WorkspaceContent {
-                input: self.session.input().clone(),
-                display: self.session.display().clone(),
-                palette: self.session.palette().clone(),
-                flying: self.session.view().flying,
-                marks: self.marks.clone(),
-                visible: self.visible,
-                comments: self.comments.clone(),
-            },
-        }
-    }
-
-    /// 消费恢复结果，将会话、标注和批注交给工作区一次性安装。
-    pub(super) fn into_parts(self) -> (Session, Vec<Mark>, bool, Vec<Comment>) {
-        (self.session, self.marks, self.visible, self.comments)
+    /// 将已校验的数据交给工作区，排盘和编辑状态由工作区构建。
+    pub(super) fn into_content(self) -> WorkspaceContent<ValidatedMarks> {
+        self.0
     }
 }
 
@@ -106,7 +77,7 @@ impl DraftSnapshot {
     /// 冻结会话、全部标注及批注，不包含窗口偏好。
     pub(super) fn capture(session: &Session, marking: &Marking, comments: &[Entry]) -> Self {
         Self {
-            content: WorkspaceContent {
+            content: Arc::new(WorkspaceContent {
                 input: session.input().clone(),
                 display: session.display().clone(),
                 palette: session.palette().clone(),
@@ -114,7 +85,7 @@ impl DraftSnapshot {
                 marks: marking.marks().to_vec(),
                 visible: marking.visible(),
                 comments: comments.iter().map(Entry::snapshot).collect(),
-            },
+            }),
         }
     }
 
@@ -133,9 +104,9 @@ impl DraftSnapshot {
                 .all(|(entry, saved)| entry.matches(saved))
     }
 
-    /// 消费快照并转移原始内容，避免序列化前重复克隆。
+    /// 后台编码需要拥有文件模型；快照仍作为基线时只在后台复制内容。
     pub(crate) fn into_content(self) -> WorkspaceContent<Vec<Mark>> {
-        self.content
+        Arc::unwrap_or_clone(self.content)
     }
 
     #[cfg(test)]

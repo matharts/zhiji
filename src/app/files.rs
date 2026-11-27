@@ -265,6 +265,18 @@ impl AppState {
         matches!(self.file_flow.pending, Some((_, Stage::Saving)))
     }
 
+    /// 草稿写入已启动时并行保存设置，最终退出前仍检查最新快照。
+    pub(super) fn save_preferences_during_exit_save(&mut self) {
+        if self.document.is_saving()
+            && matches!(
+                self.file_flow.pending,
+                Some((Intent::Exit(_), Stage::Saving))
+            )
+        {
+            self.save_preferences_on_close();
+        }
+    }
+
     /// Escape 优先取消草稿确认，再取消未保存提示。
     pub(crate) fn escape_file_operation(&mut self, tx: &mut Tx) {
         if self.document.confirmation().is_some() {
@@ -290,12 +302,7 @@ impl AppState {
                 self.tasks.export.clear_finished();
                 tx.animated();
             }
-            Intent::Open(draft) => {
-                let workspace = self.document.accept_opened(*draft);
-                self.workspace.restore(workspace);
-                self.tasks.export.clear_finished();
-                tx.animated();
-            }
+            Intent::Open(draft) => self.install_opened_draft(*draft, tx),
             Intent::Exit(intent) => {
                 if std::mem::take(&mut self.file_flow.copy_completed) {
                     if let Some(handle) = &self.app_handle {
@@ -307,6 +314,16 @@ impl AppState {
                 }
             }
         }
+    }
+
+    /// 确认打开后先安装文档，再提交与实际工作区一致的文件身份和保存基线。
+    pub(super) fn install_opened_draft(&mut self, draft: OpenedDraft, tx: &mut Tx) {
+        let (content, path, fingerprint) = draft.into_parts();
+        self.workspace.restore(content);
+        self.document
+            .accept_opened(path, fingerprint, self.workspace.draft_snapshot());
+        self.tasks.export.clear_finished();
+        tx.animated();
     }
 
     /// 退出等待期间记住复制完成事件，避免反馈尚未展示就结束进程。

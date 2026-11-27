@@ -532,6 +532,7 @@ impl AppState {
         let snapshot = self.workspace.capture_draft();
         if !save_as && self.document.path().is_some() {
             self.document.save_current(snapshot, self.waker.clone());
+            self.save_preferences_during_exit_save();
             tx.instant();
             return;
         }
@@ -554,6 +555,7 @@ impl AppState {
         .filter(crate::i18n::t("命盘草稿"), &["ziwei"]);
         tx.save_file(options, |state: &mut Self, answer, tx| {
             state.document.save_answer(answer, state.waker.clone());
+            state.save_preferences_during_exit_save();
             state.poll_files(tx);
             state.wake_draft_feedback(tx);
             tx.instant();
@@ -587,10 +589,8 @@ impl AppState {
 
     /// 接受或取消草稿确认，仅在返回已校验恢复数据时替换工作区。
     pub(crate) fn confirm_draft(&mut self, accept: bool, tx: &mut Tx) {
-        if let Some(restored) = self.document.confirm(accept, self.waker.clone()) {
-            self.workspace.restore(restored);
-            self.tasks.export.clear_finished();
-            tx.animated();
+        if let Some(draft) = self.document.confirm(accept, self.waker.clone()) {
+            self.install_opened_draft(draft, tx);
         } else {
             tx.instant();
         }

@@ -3,7 +3,8 @@
 use std::io::{self, Read, Write};
 use std::path::{Path, PathBuf};
 
-use super::{RestoredWorkspace, document::Draft, error::DraftError};
+use super::{document::Draft, error::DraftError};
+use crate::workspace::ValidatedWorkspaceContent;
 
 const MAX_BYTES: u64 = 16 * 1024 * 1024;
 
@@ -46,17 +47,17 @@ pub(super) enum WorkOutcome {
     Opened(Box<OpenedDraft>),
 }
 
-/// 完成还原校验的草稿及其原始文件指纹。
+/// 已校验的草稿内容、文档路径及原始文件指纹。
 pub(crate) struct OpenedDraft {
-    pub(crate) workspace: RestoredWorkspace,
+    content: ValidatedWorkspaceContent,
     path: PathBuf,
     fingerprint: blake3::Hash,
 }
 
 impl OpenedDraft {
-    /// 转移工作区、文档路径和指纹，供 UI 线程一次性提交打开结果。
-    pub(super) fn into_parts(self) -> (RestoredWorkspace, PathBuf, blake3::Hash) {
-        (self.workspace, self.path, self.fingerprint)
+    /// 移交已校验内容和磁盘身份，由应用层协调工作区及文件状态的提交。
+    pub(crate) fn into_parts(self) -> (ValidatedWorkspaceContent, PathBuf, blake3::Hash) {
+        (self.content, self.path, self.fingerprint)
     }
 }
 
@@ -175,13 +176,13 @@ fn read_bytes(path: &Path) -> Result<Vec<u8>, DraftError> {
     Ok(bytes)
 }
 
-/// 有界读取、解析并还原草稿；全部成功后才返回可应用的工作区。
+/// 有界读取、解析并校验草稿；后台任务只返回文档内容和磁盘身份。
 pub(super) fn open_file(path: PathBuf) -> Result<WorkOutcome, DraftError> {
     let path = std::path::absolute(path).map_err(|error| DraftError::Path(error.kind()))?;
     let bytes = read_bytes(&path)?;
     let draft: Draft = serde_json::from_slice(&bytes).map_err(DraftError::Decode)?;
     Ok(WorkOutcome::Opened(Box::new(OpenedDraft {
-        workspace: draft.restore()?,
+        content: draft.decode_content()?,
         path,
         fingerprint: blake3::hash(&bytes),
     })))
