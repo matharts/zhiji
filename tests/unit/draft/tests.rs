@@ -3,7 +3,7 @@ use super::*;
 use crate::annotation::{Ink, Marking, Tool, ValidationError};
 use crate::color::Rgb;
 use crate::session::{Action, Session, Visibility};
-use crate::workspace::Workspace;
+use crate::workspace::{ValidatedWorkspaceContent, Workspace};
 use rune::Phase;
 use zhiji_core::Stem;
 use zhiji_core::Transformation;
@@ -43,10 +43,17 @@ fn example() -> (Session, Marking) {
 }
 
 /// 将已校验恢复结果安装到测试工作区。
-fn install(restored: RestoredWorkspace) -> Workspace {
+fn install(content: ValidatedWorkspaceContent) -> Workspace {
     let mut workspace = Workspace::with_input(Default::default());
-    workspace.restore(restored);
+    workspace.restore(content);
     workspace
+}
+
+/// 模拟应用层先恢复工作区，再提交对应的文件身份。
+fn apply_opened(store: &mut DraftState, workspace: &mut Workspace, draft: OpenedDraft) {
+    let (content, path, fingerprint) = draft.into_parts();
+    workspace.restore(content);
+    store.accept_opened(path, fingerprint, workspace.draft_snapshot());
 }
 
 #[test]
@@ -57,7 +64,7 @@ fn draft_round_trip_preserves_chart_display_flying_and_editable_marks() {
     let mut restored = install(
         serde_json::from_slice::<Draft>(&bytes)
             .unwrap()
-            .restore()
+            .decode_content()
             .unwrap(),
     );
     assert_eq!(restored.session().chart(), session.chart());
@@ -81,7 +88,7 @@ fn previously_saved_v4_draft_remains_readable_and_round_trips() {
     let expected: serde_json::Value = serde_json::from_slice(bytes).unwrap();
     let restored = serde_json::from_slice::<Draft>(bytes)
         .unwrap()
-        .restore()
+        .decode_content()
         .unwrap();
     let mut workspace = install(restored);
     assert_eq!(
@@ -118,7 +125,7 @@ fn draft_rejects_invalid_comment_data_on_read_and_save() {
         data["comments"] = serde_json::json!([comment]);
         let invalid = serde_json::from_value::<Draft>(data).unwrap();
         assert!(invalid.validate_for_save().is_err());
-        assert!(invalid.restore().is_err());
+        assert!(invalid.decode_content().is_err());
     }
     let mut data = serde_json::to_value(Draft::capture(&session, &marking)).unwrap();
     data["comments"] = serde_json::json!([
@@ -157,7 +164,7 @@ fn saved_flying_is_preserved_until_input_changes() {
         let WorkOutcome::Opened(restored) = open_file(path.clone()).unwrap() else {
             panic!("expected an opened draft");
         };
-        let mut restored = install(restored.workspace);
+        let mut restored = install(restored.into_parts().0);
         assert_eq!(restored.session().view().flying.unwrap().stars, saved_stars);
         restored.apply(Action::Stem(restored.session().input().stem.unwrap()));
         restored.apply(Action::Toggle(Visibility::Palace));
@@ -203,9 +210,13 @@ fn save_does_not_overwrite_until_confirmed_and_open_is_confirmed() {
         store.confirmation(),
         Some(Confirmation::ReplaceSession)
     ));
-    let restored = install(store.confirm(true, None).unwrap());
+    let opened = store.confirm(true, None).unwrap();
+    assert!(store.feedback().is_none());
+    let mut restored = Workspace::with_input(Default::default());
+    apply_opened(&mut store, &mut restored, opened);
     assert_eq!(restored.marking_for_test().marks(), marking.marks());
     assert_eq!(restored.session().chart(), session.chart());
+    assert!(!store.is_modified(&restored));
 }
 
 #[test]
@@ -240,7 +251,7 @@ fn invalid_or_future_drafts_are_rejected_before_session_replacement() {
         let mut old = Draft::capture(&session, &marking);
         old.version = version;
         assert!(
-            matches!(old.restore(), Err(DraftError::UnsupportedVersion(value)) if value == version)
+            matches!(old.decode_content(), Err(DraftError::UnsupportedVersion(value)) if value == version)
         );
     }
     let mut unknown = serde_json::to_value(Draft::capture(&session, &marking)).unwrap();
@@ -249,29 +260,38 @@ fn invalid_or_future_drafts_are_rejected_before_session_replacement() {
     let mut future = Draft::capture(&session, &marking);
     future.version = VERSION + 1;
     assert!(
-        matches!(future.restore(), Err(DraftError::UnsupportedVersion(value)) if value == VERSION + 1)
+        matches!(future.decode_content(), Err(DraftError::UnsupportedVersion(value)) if value == VERSION + 1)
     );
     let mut invalid = Draft::capture(&session, &marking);
     invalid.input.month = Some(99);
-    assert!(matches!(invalid.restore(), Err(DraftError::InvalidInput)));
+    assert!(matches!(
+        invalid.decode_content(),
+        Err(DraftError::InvalidInput)
+    ));
     let mut invalid = Draft::capture(&session, &marking);
     invalid.input.branch = Some(1);
     assert!(matches!(
         invalid.validate_for_save(),
         Err(DraftError::BirthPair)
     ));
-    assert!(matches!(invalid.restore(), Err(DraftError::BirthPair)));
+    assert!(matches!(
+        invalid.decode_content(),
+        Err(DraftError::BirthPair)
+    ));
     let mut invalid = Draft::capture(&session, &marking);
     invalid.input.stem = None;
-    assert!(matches!(invalid.restore(), Err(DraftError::BirthPair)));
+    assert!(matches!(
+        invalid.decode_content(),
+        Err(DraftError::BirthPair)
+    ));
     let mut invalid = Draft::capture(&session, &marking);
     invalid.marks[0].stroke_width = f32::INFINITY;
-    assert!(invalid.restore().is_err());
+    assert!(invalid.decode_content().is_err());
     let mut invalid = Draft::capture(&session, &marking);
     invalid.input.month = Some(99);
     invalid.marks[0].stroke_width = f32::INFINITY;
     assert!(matches!(
-        invalid.restore(),
+        invalid.decode_content(),
         Err(DraftError::Annotations(ValidationError::InvalidStroke))
     ));
     let dir = tempfile::tempdir().unwrap();
@@ -321,7 +341,7 @@ fn save_captures_content_before_the_user_finishes_the_dialog() {
     store.save_answer(Ok(Some(path.clone())), None);
     wait(&mut store);
     let restored: Draft = serde_json::from_slice(&std::fs::read(path).unwrap()).unwrap();
-    let restored = install(restored.restore().unwrap());
+    let restored = install(restored.decode_content().unwrap());
     assert_eq!(restored.marking_for_test().marks(), saved_marks);
     assert!(marking.marks().is_empty());
 }
@@ -387,7 +407,7 @@ fn text_at_the_draft_limit_saves_and_restores() {
     let WorkOutcome::Opened(restored) = open_file(path).unwrap() else {
         panic!("expected an opened draft");
     };
-    let workspace = install(restored.workspace);
+    let workspace = install(restored.into_parts().0);
     assert_eq!(workspace.marking_for_test().marks(), marking.marks());
 }
 
@@ -551,7 +571,8 @@ fn saving_an_opened_symlink_updates_the_target_without_replacing_the_link() {
     assert!(store.begin_open());
     store.open_answer(Ok(Some(link.clone())), None);
     wait(&mut store);
-    workspace.restore(store.confirm(true, None).unwrap());
+    let opened = store.confirm(true, None).unwrap();
+    apply_opened(&mut store, &mut workspace, opened);
     workspace.apply(Action::Toggle(Visibility::Palace));
     assert!(store.save_current(workspace.capture_draft(), None));
     wait(&mut store);
@@ -579,7 +600,8 @@ fn losing_a_symlink_target_during_confirmation_never_replaces_the_link() {
     assert!(store.begin_open());
     store.open_answer(Ok(Some(link.clone())), None);
     wait(&mut store);
-    workspace.restore(store.confirm(true, None).unwrap());
+    let opened = store.confirm(true, None).unwrap();
+    apply_opened(&mut store, &mut workspace, opened);
     std::fs::write(&target, b"external").unwrap();
     assert!(store.save_current(workspace.capture_draft(), None));
     wait(&mut store);

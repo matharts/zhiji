@@ -1382,6 +1382,30 @@ fn startup_document_request_opens_without_running_the_launch_animation() {
 }
 
 #[test]
+/// 草稿未保存大限时由工作区补齐，干净基线采用实际恢复的值。
+fn opening_a_draft_sets_the_baseline_after_workspace_normalization() {
+    let dir = tempfile::tempdir().unwrap();
+    let path = dir.path().join("未指定大限.ziwei");
+    let mut source = document_runtime();
+    source.state.reset_chart(crate::scenes::sample_input(false));
+    save_document_at(&mut source, path.clone());
+    let mut draft: serde_json::Value =
+        serde_json::from_slice(&std::fs::read(&path).unwrap()).unwrap();
+    draft["input"]["decade"] = serde_json::Value::Null;
+    std::fs::write(&path, serde_json::to_vec(&draft).unwrap()).unwrap();
+
+    let mut runtime = document_runtime();
+    runtime.update(|state, tx| state.open_external_files(Ok(vec![path.clone()]), tx));
+    settle_document_work(&mut runtime);
+
+    let main = runtime.state.session().chart().main;
+    assert!(main.is_some());
+    assert_eq!(runtime.state.session().input().decade, main);
+    assert_eq!(runtime.state.document.path(), Some(path.as_path()));
+    assert!(!runtime.state.document_modified());
+}
+
+#[test]
 /// 第二次启动恢复当前工作区时，取消待决退出但保留编辑。
 fn activating_the_existing_instance_keeps_unsaved_edits() {
     let mut runtime = document_runtime();
@@ -1539,6 +1563,58 @@ fn save_document_at(runtime: &mut rune::Runtime<AppState>, path: std::path::Path
     assert!(runtime.state.document.begin_save(snapshot));
     runtime.state.document.save_answer(Ok(Some(path)), None);
     settle_document_work(runtime);
+}
+
+#[test]
+/// 直接保存和首次另存均在草稿完成前启动设置保存，取消选址不触发设置写入。
+fn quit_saves_preferences_without_waiting_for_the_draft_result() {
+    for existing_draft in [false, true] {
+        let dir = tempfile::tempdir().unwrap();
+        let draft = dir.path().join("document.ziwei");
+        let settings = dir.path().join("settings.json");
+        let mut runtime = document_runtime();
+        if existing_draft {
+            save_document_at(&mut runtime, draft.clone());
+        }
+        runtime.state.apply_preferences(Preferences::default());
+        runtime.state.preferences_path = Some(settings.clone());
+        runtime.state.workspace.set_ui_scale(UiScale::Large);
+        runtime
+            .state
+            .workspace
+            .apply(Action::Gender(Gender::Female));
+
+        runtime.update(AppState::request_quit);
+        assert!(runtime.state.unsaved_prompt());
+        runtime.update(|s, tx| s.resolve_unsaved(crate::app::files::UnsavedChoice::Save, tx));
+        if !existing_draft {
+            assert!(!runtime.state.preference_writer.is_busy());
+            runtime.resolve_file_dialog(None).unwrap();
+            runtime.frame(0.0);
+            assert!(!settings.exists());
+            assert!(runtime.state.document_modified());
+            runtime.update(AppState::request_quit);
+            runtime.update(|s, tx| s.resolve_unsaved(crate::app::files::UnsavedChoice::Save, tx));
+            runtime.resolve_file_dialog(Some(draft.clone())).unwrap();
+            // 先交付文件面板回调，暂不消费任何后台完成结果。
+            runtime.poll = None;
+            runtime.frame(0.0);
+            runtime.poll = Some(AppState::poll);
+        }
+
+        // 只轮询设置队列，不允许应用先消费草稿完成结果。
+        assert!(runtime.state.document.is_saving());
+        settle_preferences(&mut runtime.state);
+        assert!(runtime.state.document.is_saving());
+        assert!(runtime.shell_request.is_none());
+        let saved = crate::preferences::settings::read(&settings).unwrap();
+        assert_eq!(saved.values.workspace.ui_scale, UiScale::Large);
+
+        settle_document_work(&mut runtime);
+        assert!(matches!(runtime.shell_request, Some(rune::Shell::Quit)));
+        assert_eq!(runtime.state.document.path(), Some(draft.as_path()));
+        assert!(!runtime.state.document_modified());
+    }
 }
 
 #[test]

@@ -8,7 +8,7 @@ use std::time::{Duration, Instant};
 
 use rune::{FileDialogError, Waker};
 
-use crate::workspace::{DraftSnapshot, RestoredWorkspace};
+use crate::workspace::DraftSnapshot;
 
 mod document;
 mod error;
@@ -29,7 +29,7 @@ enum WorkKind {
 }
 
 enum Pending {
-    SaveDialog(Box<Draft>),
+    SaveDialog(DraftSnapshot),
     OpenDialog,
     Working(WorkKind, mpsc::Receiver<Result<WorkOutcome, DraftError>>),
     ReplaceFile {
@@ -129,14 +129,17 @@ impl DraftState {
         Some(*draft)
     }
 
-    /// 接受已校验文档，更新路径、指纹和保存基线。
-    pub(crate) fn accept_opened(&mut self, draft: OpenedDraft) -> RestoredWorkspace {
-        let (workspace, path, fingerprint) = draft.into_parts();
-        self.baseline = Some(workspace.snapshot());
+    /// 工作区应用成功后提交文件身份，并以实际安装的内容作为干净基线。
+    pub(crate) fn accept_opened(
+        &mut self,
+        path: PathBuf,
+        fingerprint: blake3::Hash,
+        baseline: DraftSnapshot,
+    ) {
+        self.baseline = Some(baseline);
         self.path = Some(path);
         self.fingerprint = Some(fingerprint);
         self.set_feedback(true, "草稿已打开".into());
-        workspace
     }
 
     /// 空闲时直接启动指定路径的后台读取，不立即替换当前工作区。
@@ -283,7 +286,7 @@ impl DraftState {
             _ => None,
         }
     }
-    /// 冻结保存快照并进入系统保存面板阶段，忙碌时拒绝。
+    /// 持有发起时的共享快照，用户选定路径后才启动后台编码。
     pub(crate) fn begin_save(&mut self, snapshot: DraftSnapshot) -> bool {
         if self.is_busy() {
             return false;
@@ -291,9 +294,7 @@ impl DraftState {
         self.feedback = None;
         self.save_outcome = None;
         self.saving_snapshot = Some(snapshot.clone());
-        self.pending = Some(Pending::SaveDialog(Box::new(Draft::from_snapshot(
-            snapshot,
-        ))));
+        self.pending = Some(Pending::SaveDialog(snapshot));
         true
     }
 
@@ -315,7 +316,7 @@ impl DraftState {
         if !matches!(self.pending, Some(Pending::SaveDialog(_))) {
             return;
         }
-        let Some(Pending::SaveDialog(draft)) = self.pending.take() else {
+        let Some(Pending::SaveDialog(snapshot)) = self.pending.take() else {
             return;
         };
         let path = match answer {
@@ -334,7 +335,9 @@ impl DraftState {
                 return;
             }
         };
-        self.start_work(WorkKind::Save, wake, move || save_file(*draft, path));
+        self.start_work(WorkKind::Save, wake, move || {
+            save_file(Draft::from_snapshot(snapshot), path)
+        });
     }
     /// 处理当前打开面板结果，读取和校验成功前保留原会话。
     pub(crate) fn open_answer(
@@ -356,12 +359,8 @@ impl DraftState {
         };
         self.start_work(WorkKind::Open, wake, move || open_file(path));
     }
-    /// 执行当前确认：覆盖交给后台，接受已校验文档时返回恢复结果。
-    pub(crate) fn confirm(
-        &mut self,
-        accept: bool,
-        wake: Option<Waker>,
-    ) -> Option<RestoredWorkspace> {
+    /// 执行当前确认：覆盖交给后台，接受已校验文档时移交打开结果。
+    pub(crate) fn confirm(&mut self, accept: bool, wake: Option<Waker>) -> Option<OpenedDraft> {
         if !matches!(
             self.pending,
             Some(Pending::ReplaceFile { .. } | Pending::OpenDraft(_))
@@ -380,7 +379,7 @@ impl DraftState {
                 });
                 None
             }
-            Pending::OpenDraft(draft) if accept => Some(self.accept_opened(*draft)),
+            Pending::OpenDraft(draft) if accept => Some(*draft),
             _ => {
                 self.cancel_save();
                 None

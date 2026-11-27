@@ -46,7 +46,8 @@ fn document_restore_preserves_preferences_and_layout() {
     });
     workspace.set_settings_open(true);
     let restored =
-        RestoredWorkspace::try_from_content(content(vec![text("新文档".into())], None)).unwrap();
+        ValidatedWorkspaceContent::try_from_content(content(vec![text("新文档".into())], None))
+            .unwrap();
 
     workspace.restore(restored);
 
@@ -114,7 +115,7 @@ fn restoration_rejects_unknown_flying_stars_and_preserves_valid_saved_values() {
         stars: ["未知星曜"; 4],
     };
     assert!(matches!(
-        RestoredWorkspace::try_from_content(content(Vec::new(), Some(invalid))),
+        ValidatedWorkspaceContent::try_from_content(content(Vec::new(), Some(invalid))),
         Err(RestoreError::InvalidFlying)
     ));
 
@@ -124,7 +125,8 @@ fn restoration_rejects_unknown_flying_stars_and_preserves_valid_saved_values() {
     };
     let mark = text("保留标注".into());
     let restored =
-        RestoredWorkspace::try_from_content(content(vec![mark.clone()], Some(saved))).unwrap();
+        ValidatedWorkspaceContent::try_from_content(content(vec![mark.clone()], Some(saved)))
+            .unwrap();
     let mut workspace = Workspace::with_input(Input::default());
     workspace.restore(restored);
     assert_eq!(workspace.session().view().flying, Some(saved));
@@ -137,7 +139,7 @@ fn restoration_rejects_unknown_flying_stars_and_preserves_valid_saved_values() {
 fn restoration_rejects_an_invalid_birth_stem_and_branch_pair() {
     let mut missing_stem = content(Vec::new(), None);
     missing_stem.input.branch = Branch::from_index(0);
-    assert!(RestoredWorkspace::try_from_content(missing_stem).is_err());
+    assert!(ValidatedWorkspaceContent::try_from_content(missing_stem).is_err());
 
     for stem in 0..10 {
         for branch in 0..12 {
@@ -145,7 +147,7 @@ fn restoration_rejects_an_invalid_birth_stem_and_branch_pair() {
             restored.input.stem = Stem::from_index(stem);
             restored.input.branch = Branch::from_index(branch);
             assert_eq!(
-                RestoredWorkspace::try_from_content(restored).is_ok(),
+                ValidatedWorkspaceContent::try_from_content(restored).is_ok(),
                 stem % 2 == branch % 2,
                 "stem={stem}, branch={branch}"
             );
@@ -154,6 +156,6 @@ fn restoration_rejects_an_invalid_birth_stem_and_branch_pair() {
 
     let mut no_branch = content(Vec::new(), None);
     no_branch.input.stem = Stem::from_index(0);
-    assert!(RestoredWorkspace::try_from_content(no_branch).is_ok());
-    assert!(RestoredWorkspace::try_from_content(content(Vec::new(), None)).is_ok());
+    assert!(ValidatedWorkspaceContent::try_from_content(no_branch).is_ok());
+    assert!(ValidatedWorkspaceContent::try_from_content(content(Vec::new(), None)).is_ok());
 }

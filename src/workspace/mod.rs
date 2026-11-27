@@ -21,7 +21,7 @@ use state::{WorkspaceLayout, WorkspaceUi};
 pub(crate) mod comments;
 pub(crate) mod view;
 pub(crate) use snapshot::{
-    DraftSnapshot, ImageSnapshot, RestoreError, RestoredWorkspace, WorkspaceContent,
+    DraftSnapshot, ImageSnapshot, RestoreError, ValidatedWorkspaceContent, WorkspaceContent,
 };
 
 pub(crate) struct Workspace {
@@ -528,12 +528,21 @@ impl Workspace {
         self.color_editor = ColorEditor::default();
     }
 
-    /// 一次性安装已校验草稿，并清理旧会话的编辑器和设置面板状态。
-    pub(crate) fn restore(&mut self, restored: RestoredWorkspace) {
+    /// 从已校验草稿重建会话并一次性替换内容，保留当前偏好和布局。
+    pub(crate) fn restore(&mut self, validated: ValidatedWorkspaceContent) {
+        let WorkspaceContent {
+            input,
+            display,
+            palette,
+            flying,
+            marks,
+            visible,
+            comments,
+        } = validated.into_content();
+        let session = Session::restore(input, display, palette, flying);
         self.dismiss_menus();
-        let (session, marks, visible, comments) = restored.into_parts();
         self.session = session;
-        self.marking.restore(marks, visible);
+        self.marking.restore(marks.into_inner(), visible);
         self.comments.restore(comments);
         self.color_editor = ColorEditor::default();
         self.ui.settings_open = false;
